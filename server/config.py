@@ -1,0 +1,30 @@
+import os
+from dotenv import load_dotenv
+import redis
+
+load_dotenv()
+
+class Config:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    CELERY_BROKER_URL='amqp://admin:1290@localhost:5672/',
+    CELERY_RESULT_BACKEND='db+postgresql://postgres:1290@localhost:5432/instalock_workers'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:1290@localhost:5432/instalock'
+
+    SESSION_TYPE = 'redis'
+    SESSION_PERMANENT = False
+    PERMANENT_SESSION_LIFETIME = 30
+    SESSION_USE_SIGNER = True
+    SESSION_REDIS = redis.from_url('redis://localhost:6379')
+
+
+class ProductionConfig(Config):
+    Config
+    SESSION_COOKIE_SECURE = True
+    MODE = "prod"
+
+class DevelopmentConfig(Config):
+    Config
+    SESSION_COOKIE_SECURE = False
+    MODE = "test"
