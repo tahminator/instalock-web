@@ -6,3 +6,6 @@ python-dotenv
 flask-session
 redis
 flask-mail
+jwt
+datetime
+time
