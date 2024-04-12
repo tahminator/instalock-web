@@ -3,10 +3,11 @@ from flask_bcrypt import Bcrypt
 from flask_login import login_user, login_required, current_user, logout_user
 
 import datetime
+import jwt
 
 from app_maker import create_app
-from model import User, Video
-from extension import db, sesh, login_manager
+from model import User, Video, get_reset_token
+from extension import db, sesh, login_manager, mail, Message
 
 app = create_app()
 
@@ -91,6 +92,59 @@ def get_profile():
             'email': current_user.email
         }
     )
+
+@app.route("/api/resetpassword", methods = ['POST'])
+def iforgot():
+    email = request.json['email']
+
+    existing_user = User.query.filter_by(email = email).first()
+
+    if existing_user:
+        token = get_reset_token(existing_user.email, expires=30)
+        message = Message(recipients=[email], subject = "Instalock password reset", body = f"Click the link to reset your password: {"http://localhost:5173" if MODE == "test" else "https://instalock.midhat.io"}/resetpassword?token={token}")
+        mail.send(message)
+        return jsonify({'code': '200', 'success': 'true'}), 200
+    
+    return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+
+@app.route("/api/checkpasswordtoken", methods = ['POST'])
+def checkpwtoken():
+    token = request.args.get('token')
+    if not token:
+        return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+    try:
+        email = jwt.decode(token, app.config['SECRET_KEY'], algorithms="HS256")['reset_password']
+    except Exception as E:
+        return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+
+    existing_user = User.query.filter_by(email = email).first()
+
+    if existing_user:
+        return jsonify({'code': '200', 'email': existing_user.email, 'success': 'true'}), 200
+    
+    return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+
+@app.route("/api/changepassword", methods = ['POST'])
+def changepassword():
+    token = request.args.get('token')
+    if not token:
+        return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+    try:
+        email = jwt.decode(token, app.config['SECRET_KEY'], algorithms="HS256")['reset_password']
+    except Exception as E:
+        return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+
+    existing_user = User.query.filter_by(email = email).first()
+
+    if existing_user:
+        password = request.json['password']
+        hashed_password = Bcrypt().generate_password_hash(password).decode('utf-8')
+        existing_user.password = hashed_password
+        db.session.commit()
+        return jsonify({'code': '200', 'success': 'true'}), 200
+    
+    return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+
 
 @app.route("/api/logout", methods = ['POST'])
 def logout():

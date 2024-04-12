@@ -18,6 +18,13 @@ class Config:
     SESSION_USE_SIGNER = True
     SESSION_REDIS = redis.from_url('redis://localhost:6379')
 
+    MAIL_SERVER = os.environ['MAIL_SERVER']
+    MAIL_PORT = os.environ['MAIL_PORT']
+    MAIL_USE_SSL = os.environ['MAIL_USE_SSL']
+    MAIL_USERNAME = os.environ['MAIL_USERNAME']
+    MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
+    MAIL_DEFAULT_SENDER = os.environ['MAIL_DEFAULT_SENDER']
+
 
 class ProductionConfig(Config):
     Config

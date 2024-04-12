@@ -5,3 +5,4 @@ flask_bcrypt
 python-dotenv
 flask-session
 redis
+flask-mail

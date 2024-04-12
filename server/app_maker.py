@@ -1,7 +1,7 @@
 from flask import Flask
 # from celery import Celery
 
-from extension import db, sesh, login_manager
+from extension import db, sesh, login_manager, mail
 from config import DevelopmentConfig, ProductionConfig
 
 def create_app():
@@ -12,6 +12,7 @@ def create_app():
     db.init_app(app)
     sesh.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)
 
     # migrate.init_app(app, db)
     # # talisman.init_app(app)
