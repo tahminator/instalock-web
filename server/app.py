@@ -9,6 +9,13 @@ from app_maker import create_app
 from model import User, Video, get_reset_token
 from extension import db, sesh, login_manager, mail, Message
 
+"""
+TODO - Implement types into API
+TODO - Move API routes into separate folder
+TODO - Set server-side guidelines for email and password
+TODO - Try HCaptcha Solver on Riot's API
+"""
+
 app = create_app()
 
 MODE = app.config['MODE']
