@@ -10,17 +10,20 @@ import {
   Center,
   Stack,
 } from '@mantine/core';
-import classes from './Welcome.module.css';
-import { Navbar } from '../Navbar/Navbar';
 import { IconBrandGithub, IconBrandGithubFilled, IconBrandValorant } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import classes from './Welcome.module.css';
+import { Navbar } from '../Navbar/Navbar';
 import { Features } from '../Features/Features';
+import isAuth from '../isAuth/isAuth';
 
-export function Welcome() {
+export function Welcome({ authenticated, setAuthenticated }) {
   const navigate = useNavigate();
+
   return (
     <>
-      <Navbar />
+      <Navbar authenticated={authenticated} setAuthenticated={setAuthenticated} />
       <div className={classes.wrapper} style={{ paddingTop: '120px' }}>
         <Container
           mx={20}
@@ -56,19 +59,35 @@ export function Welcome() {
           </Center>
           <Center>
             <Group className={classes.controls}>
-              <Button
-                size="xl"
-                className={classes.control}
-                variant="gradient"
-                gradient={{ from: 'purple', to: 'red' }}
-                leftSection={<IconBrandValorant size={30} />}
-                visibleFrom="md"
-                onClick={() => {
-                  openLoginModal();
-                }}
-              >
-                Log In With Riot Credentials
-              </Button>
+              {authenticated ? (
+                <Button
+                  size="xl"
+                  className={classes.control}
+                  variant="gradient"
+                  gradient={{ from: 'purple', to: 'red' }}
+                  leftSection={<IconBrandValorant size={30} />}
+                  visibleFrom="md"
+                  onClick={() => {
+                    navigate('/dashboard');
+                  }}
+                >
+                  Go To Dashboard
+                </Button>
+              ) : (
+                <Button
+                  size="xl"
+                  className={classes.control}
+                  variant="gradient"
+                  gradient={{ from: 'purple', to: 'red' }}
+                  leftSection={<IconBrandValorant size={30} />}
+                  visibleFrom="md"
+                  onClick={() => {
+                    navigate('/login');
+                  }}
+                >
+                  Log In With Riot Credentials
+                </Button>
+              )}
               <Button
                 component="a"
                 href="https://github.com/0pengu/instalock-web"
@@ -82,19 +101,35 @@ export function Welcome() {
               </Button>
             </Group>
             <Stack className={classes.control}>
-              <Button
-                size="xl"
-                className={classes.control}
-                variant="gradient"
-                gradient={{ from: 'purple', to: 'red' }}
-                leftSection={<IconBrandValorant size={30} />}
-                hiddenFrom="md"
-                onClick={() => {
-                  openLoginModal();
-                }}
-              >
-                Log In With Riot Credentials
-              </Button>
+              {authenticated ? (
+                <Button
+                  size="xl"
+                  className={classes.control}
+                  variant="gradient"
+                  gradient={{ from: 'purple', to: 'red' }}
+                  leftSection={<IconBrandValorant size={30} />}
+                  hiddenFrom="md"
+                  onClick={() => {
+                    navigate('/dashboard');
+                  }}
+                >
+                  Go To Dashboard
+                </Button>
+              ) : (
+                <Button
+                  size="xl"
+                  className={classes.control}
+                  variant="gradient"
+                  gradient={{ from: 'purple', to: 'red' }}
+                  leftSection={<IconBrandValorant size={30} />}
+                  hiddenFrom="md"
+                  onClick={() => {
+                    navigate('/login');
+                  }}
+                >
+                  Log In With Riot Credentials
+                </Button>
+              )}
               <Button
                 component="a"
                 href="https://github.com/0pengu/instalock-web"

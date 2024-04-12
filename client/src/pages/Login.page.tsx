@@ -1,9 +1,9 @@
 import { Login } from '@/components/Login/Login';
 
-export function LoginPage() {
+export function LoginPage({ authenticated, setAuthenticated }) {
   return (
     <>
-      <Login />
+      <Login authenticated={authenticated} setAuthenticated={setAuthenticated} />
     </>
   );
 }

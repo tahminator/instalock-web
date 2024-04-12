@@ -1,11 +1,11 @@
 from flask import request, jsonify, session
 from flask_bcrypt import Bcrypt
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required, current_user, logout_user
 
 import datetime
 
 from app_maker import create_app
-from models import User, Video
+from model import User, Video
 from extension import db, sesh, login_manager
 
 app = create_app()
@@ -24,7 +24,7 @@ with app.app_context():
         db.create_all()
 
 
-@app.route("/register", methods = ['POST'])
+@app.route("/api/register", methods = ['POST'])
 def register():
     email = request.json['email']
     password = request.json['password']
@@ -48,20 +48,26 @@ def register():
 }
     )
 
-@app.route("/login", methods = ['POST'])
+@app.route("/api/login", methods = ['POST'])
 def login():
+    import time
+    time.sleep(1)
     email = request.json['email']
     password = request.json['password']
+    remember_me = request.json['rememberMe']
+
+    if type(email) != str or type(password) != str or type(remember_me) != bool:
+        return {'code': '400', 'message': 'Bad Request'}, 400
 
     user = User.query.filter_by(email = email).first()
 
     if not user:
-        return {'code': '401', 'type': '1', 'message': 'Unauthorized'}, 401
+        return jsonify({'code': '401', 'type': '1', 'message': 'Unauthorized', 'success': 'false'}), 401
     
     if not Bcrypt().check_password_hash(user.password, password):
-        return {'code': '401', 'type': '2', 'message': 'Unauthorized'}, 401
+        return {'code': '401', 'type': '2', 'message': 'Unauthorized', 'success': 'false'}, 401
     
-    login_user(user, duration=datetime.timedelta(minutes=1))
+    login_user(user, duration=datetime.timedelta(minutes=1), remember=remember_me)
 
     return jsonify(
 {
@@ -72,26 +78,27 @@ def login():
 }
     )
 
-@app.route("/profile", methods = ['GET'])
-@login_required
+@app.route("/api/profile", methods = ['GET'])
 def get_profile():
     if not current_user.is_authenticated:
         return {'code': '401', 'message': 'Unauthorized'}, 401
     
-    user = User.query.filter_by(id = current_user.id).first()
-
-    if not user:
-        session.pop("user_id")
-        return {'code': '409', 'message': 'Session ID removed, please login', 'redirect': 'login'}, 404
-    
     return jsonify(
         {
             'code': '200',
-            'id': user.id,
-            'email': user.email
+            'success': 'true',
+            'id': current_user.id,
+            'email': current_user.email
         }
     )
 
+@app.route("/api/logout", methods = ['POST'])
+def logout():
+    if not current_user.is_authenticated:
+        return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
+    
+    logout_user()
+    return jsonify({'code': '200', 'success': 'true'}), 200
 
 
 if __name__ == '__main__':

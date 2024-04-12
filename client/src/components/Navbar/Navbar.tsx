@@ -30,10 +30,13 @@ import {
   IconCoin,
   IconChevronDown,
 } from '@tabler/icons-react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { notifications } from '@mantine/notifications';
 import classes from './Navbar.module.css';
 import LogoImg from './logo.png';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
+import isAuth from '../isAuth/isAuth';
 
 const mockdata = [
   {
@@ -68,10 +71,37 @@ const mockdata = [
   },
 ];
 
-export function Navbar() {
+export function Navbar({ authenticated, setAuthenticated }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
+
+  useEffect(() => {
+    isAuth().then((isAuthenticated) => {
+      setAuthenticated(isAuthenticated);
+    });
+  });
+
+  const handleLogout = async () => {
+    const response = await fetch('/api/logout', { method: 'POST' }); // Assuming POST is the correct method
+    const data = await response.json();
+
+    if (data.success) {
+      notifications.show({
+        title: 'Logged Out',
+        message: 'You have been logged out.',
+        color: 'green',
+      });
+
+      setAuthenticated(false);
+    } else {
+      notifications.show({
+        title: 'Error',
+        message: 'An error occurred while logging out, please try again later.',
+        color: 'red',
+      });
+    }
+  };
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
@@ -125,7 +155,7 @@ export function Navbar() {
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <NavLink to="/" className={classes.link}>
-              <Text>Home</Text>
+              <text className={classes.link}>Home</text>
             </NavLink>
             <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
               <HoverCard.Target>
@@ -180,16 +210,25 @@ export function Navbar() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button
-              variant="gradient"
-              gradient={{ from: 'purple', to: 'red' }}
-              onClick={() => {
-                navigate('/login');
-              }}
-            >
-              Log in
-            </Button>
-            {/* <ColorSchemeToggle /> */}
+            {authenticated ? (
+              <Button
+                variant="gradient"
+                gradient={{ from: 'red', to: 'purple' }}
+                onClick={handleLogout}
+              >
+                Log Out
+              </Button>
+            ) : (
+              <Button
+                variant="gradient"
+                gradient={{ from: 'red', to: 'purple' }}
+                onClick={() => {
+                  navigate('/login');
+                }}
+              >
+                Log In
+              </Button>
+            )}
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
