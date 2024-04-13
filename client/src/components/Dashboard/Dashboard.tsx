@@ -24,11 +24,27 @@ import isAuth from '../isAuth/isAuth';
 import { Navbar } from '../Navbar/Navbar';
 import classes from './Dashboard.module.css';
 import AuthModal from '../AuthModal/AuthModal';
+import UserNavbar from '../UserNavbar/UserNavbar';
 
 export default function Dashboard({ authenticated, setAuthenticated }) {
   const navigate = useNavigate();
   const [authToken, setAuthToken] = useState('');
   const [entitlementToken, setEntitlementToken] = useState('');
+  const [mmr, setMmr] = useState('');
+  const [name, setName] = useState('');
+
+  function logOut() {
+    setAuthToken('');
+    setEntitlementToken('');
+    setMmr('');
+    setName('');
+    notifications.show({
+      title: 'Logged out',
+      message: 'Your Riot account has been successfully logged out',
+      color: 'green',
+    });
+  }
+
   useEffect(() => {
     isAuth().then((isAuthenticated) => {
       setAuthenticated(isAuthenticated);
@@ -43,7 +59,15 @@ export default function Dashboard({ authenticated, setAuthenticated }) {
       <Navbar authenticated={authenticated} setAuthenticated={setAuthenticated} />
       {authToken && entitlementToken ? (
         <Text>
-          {authToken} and {entitlementToken}
+          <UserNavbar
+            authToken={authToken}
+            entitlementToken={entitlementToken}
+            mmr={mmr}
+            setMmr={setMmr}
+            name={name}
+            setName={setName}
+            logOut={logOut}
+          />
         </Text>
       ) : (
         <AuthModal

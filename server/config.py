@@ -28,10 +28,12 @@ class Config:
 
 class ProductionConfig(Config):
     Config
+    INTERNAL_URL = os.environ['INTERNAL_URL_PROD']
     SESSION_COOKIE_SECURE = True
     MODE = "prod"
 
 class DevelopmentConfig(Config):
     Config
+    INTERNAL_URL = os.environ['INTERNAL_URL_DEV']
     SESSION_COOKIE_SECURE = False
     MODE = "test"

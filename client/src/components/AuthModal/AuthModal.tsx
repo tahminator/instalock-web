@@ -59,9 +59,9 @@ export default function AuthModal({
 
     if (response.status === 200) {
       const data = await response.json(); // Extract JSON from the response
-      if (data.entitlements && data.access_token) {
-        setEntitlementToken(data.entitlements); // Set the entitlements token
-        setAuthToken(data.access_token); // Set the auth token
+      if (data.entitlementToken && data.authToken) {
+        setEntitlementToken(data.entitlementToken.trim()); // Set the entitlements token
+        setAuthToken(data.authToken.trim()); // Set the auth token
         notifications.show({
           title: 'Success',
           message: 'You have received the authentication token and entitlement token.',
@@ -97,8 +97,8 @@ export default function AuthModal({
                 <Divider />
                 <Text ta="center" size="sm">
                   Click the button below to authenticate with Riot through the special link. Once
-                  complete, copy the <Code>https://playvalorant.com</Code> into the box and click
-                  Authenticate.
+                  complete, copy the <Code>https://playvalorant.com</Code> link into the box and
+                  click Authenticate.
                 </Text>
                 <Button
                   color="red"

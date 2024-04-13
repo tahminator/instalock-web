@@ -27,7 +27,7 @@ export function Welcome({ authenticated, setAuthenticated }) {
       <div className={classes.wrapper} style={{ paddingTop: '120px' }}>
         <Container
           mx={20}
-          py="md"
+          py={'135px'}
           px={5}
           mt={-100}
           fluid
