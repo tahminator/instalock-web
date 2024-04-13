@@ -69,7 +69,7 @@ export function Login({ authenticated, setAuthenticated }) {
 
   const handleLogin = async () => {
     setIsSubmitting(true);
-    const response = await fetch('/api/login', {
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export function Login({ authenticated, setAuthenticated }) {
                     c="dimmed"
                     size="sm"
                     className={classes.control}
-                    onClick={() => history.back()}
+                    onClick={() => navigate(-1)}
                   >
                     <Center inline>
                       <IconArrowLeft style={{ width: rem(12), height: rem(12) }} stroke={1.5} />

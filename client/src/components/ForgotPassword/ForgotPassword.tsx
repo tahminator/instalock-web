@@ -42,7 +42,7 @@ export function ForgotPassword({ authenticated, setAuthenticated }) {
 
   const handlePasswordRest = async () => {
     setIsSubmitting(true);
-    const response = await fetch('/api/resetpassword', {
+    const response = await fetch('/api/auth/resetpassword', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export function ForgotPassword({ authenticated, setAuthenticated }) {
                   c="dimmed"
                   size="sm"
                   className={classes.control}
-                  onClick={() => history.back()}
+                  onClick={() => navigate(-1)}
                 >
                   <Center inline>
                     <IconArrowLeft style={{ width: rem(12), height: rem(12) }} stroke={1.5} />

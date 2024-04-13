@@ -1,5 +1,5 @@
 export default async function checkToken(token: string | null) {
-    return fetch(`/api/checkpasswordtoken?token=${token}`, {
+    return fetch(`/api/auth/checkpasswordtoken?token=${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
     })

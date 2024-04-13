@@ -83,10 +83,10 @@ export function Navbar({ authenticated, setAuthenticated }) {
   });
 
   const handleLogout = async () => {
-    const response = await fetch('/api/logout', { method: 'POST' }); // Assuming POST is the correct method
+    const response = await fetch('/api/auth/logout', { method: 'POST' }); // Assuming POST is the correct method
     const data = await response.json();
 
-    if (data.success) {
+    if (response.ok) {
       notifications.show({
         title: 'Logged Out',
         message: 'You have been logged out.',

@@ -51,7 +51,7 @@ export function ResetPassword({ authenticated, setAuthenticated }) {
 
   const handlePasswordReset = async () => {
     setIsSubmitting(true);
-    const response = await fetch(`/api/changepassword?token=${token}`, {
+    const response = await fetch(`/api/auth/changepassword?token=${token}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
