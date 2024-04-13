@@ -32,6 +32,11 @@ export default function Dashboard({ authenticated, setAuthenticated }) {
   const [entitlementToken, setEntitlementToken] = useState('');
   const [mmr, setMmr] = useState('');
   const [name, setName] = useState('');
+  const [rankImage, setRankImage] = useState('');
+
+  function getImageUrl(name) {
+    return new URL(`../../${name}.png`, import.meta.url).href;
+  }
 
   function logOut() {
     setAuthToken('');
@@ -67,6 +72,9 @@ export default function Dashboard({ authenticated, setAuthenticated }) {
             name={name}
             setName={setName}
             logOut={logOut}
+            rankImage={rankImage}
+            setRankImage={setRankImage}
+            getImageUrl={getImageUrl}
           />
         </Text>
       ) : (

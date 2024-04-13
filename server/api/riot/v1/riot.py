@@ -127,7 +127,7 @@ def getmmr():
 
     RR = res.json()['Matches'][0]['RankedRatingAfterUpdate']
 
-    return jsonify({'code': '200', 'success': 'true', 'rank': f'{tier} {RR}/100', 'name': f'{name}', 'success': 'true'}), 200
+    return jsonify({'code': '200', 'success': 'true', 'rank': f'{tier} {RR}/100', 'name': f'{name}', 'type': f'{rank}', 'success': 'true'}), 200
 
 
     

@@ -10,6 +10,7 @@ import {
   Tabs,
   Burger,
   rem,
+  Image,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -35,6 +36,9 @@ export default function UserNavbar({
   mmr,
   setMmr,
   logOut,
+  rankImage,
+  setRankImage,
+  getImageUrl,
 }) {
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
@@ -62,6 +66,7 @@ export default function UserNavbar({
         if (data.success === 'true') {
           setMmr(data.rank);
           setName(data.name);
+          setRankImage(getImageUrl(data.type));
         } else {
           notifications.show({
             title: 'Failed to fetch MMR',
@@ -84,6 +89,7 @@ export default function UserNavbar({
     <div className={classes.header}>
       <Container className={classes.mainSection} size="md">
         <Group justify="space-between">
+          <Image src={rankImage} alt={`${mmr}`} width={40} height={40} />
           <Text>{mmr}</Text>
 
           <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
