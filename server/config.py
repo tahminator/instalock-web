@@ -31,6 +31,9 @@ class ProductionConfig(Config):
     INTERNAL_URL = os.environ['INTERNAL_URL_PROD']
     SESSION_COOKIE_SECURE = True
     MODE = "prod"
+    static_folder = 'build'
+    template_folder = 'build'
+    static_url_path=''
 
 class DevelopmentConfig(Config):
     Config

@@ -24,14 +24,13 @@ export function Welcome({ authenticated, setAuthenticated }) {
   return (
     <>
       <Navbar authenticated={authenticated} setAuthenticated={setAuthenticated} />
-      <div className={classes.wrapper} style={{ paddingTop: '120px' }}>
+      <div style={{ paddingTop: '120px' }}>
         <Container
-          mx={20}
-          py={'135px'}
-          px={5}
+          mx={30}
+          py="100px"
+          px={10}
           mt={-100}
           fluid
-          className={classes.inner}
           style={{
             borderRadius: '10px',
             background: 'radial-gradient(at left top, #151981, #47346D)',

@@ -5,7 +5,8 @@
   "proxy": "http://127.0.0.1:4999",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && npm run copy dist ../server/public",
+    "build:force": "tsc --ignore && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "npm run lint:eslint && npm run lint:stylelint",
@@ -26,6 +27,8 @@
     "@mantine/notifications": "^7.7.2",
     "@mantinex/mantine-logo": "^1.0.1",
     "@tabler/icons-react": "^3.1.0",
+    "copy": "^0.3.2",
+    "copyfiles": "^2.4.1",
     "http-proxy-middleware": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

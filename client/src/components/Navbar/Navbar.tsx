@@ -153,9 +153,9 @@ export function Navbar({ authenticated, setAuthenticated }) {
             </Group>
           </header>
 
-          <Group h="100%" gap={0} visibleFrom="sm">
+          <Group justify="center" h="100%" gap={0} visibleFrom="sm">
             <NavLink to="/" className={classes.link}>
-              <text className={classes.link}>Home</text>
+              <Text className={classes.link}>Home</Text>
             </NavLink>
             {/* <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
               <HoverCard.Target>
@@ -203,11 +203,11 @@ export function Navbar({ authenticated, setAuthenticated }) {
             </HoverCard> */}
             {authenticated ? (
               <NavLink to="/dashboard" className={classes.link}>
-                <text className={classes.link}>Dashboard</text>
+                <Text className={classes.link}>Matches</Text>
               </NavLink>
             ) : (
               <NavLink to="/login" className={classes.link}>
-                <text className={classes.link}>Dashboard</text>
+                <Text className={classes.link}>Matches</Text>
               </NavLink>
             )}
           </Group>
@@ -251,15 +251,15 @@ export function Navbar({ authenticated, setAuthenticated }) {
           <Divider my="sm" />
 
           <NavLink to="/" className={classes.link}>
-            <text className={classes.link}>Home</text>
+            <Text className={classes.link}>Home</Text>
           </NavLink>
           {authenticated ? (
             <NavLink to="/dashboard" className={classes.link}>
-              <text className={classes.link}>Dashboard</text>
+              <Text className={classes.link}>Matches</Text>
             </NavLink>
           ) : (
             <NavLink to="/login" className={classes.link}>
-              <text className={classes.link}>Dashboard</text>
+              <Text className={classes.link}>Matches</Text>
             </NavLink>
           )}
           {/* <UnstyledButton className={classes.link} onClick={toggleLinks}>

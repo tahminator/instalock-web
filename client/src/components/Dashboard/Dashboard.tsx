@@ -5,10 +5,13 @@ import {
   Code,
   Container,
   Divider,
+  Grid,
   Group,
   HoverCard,
+  LoadingOverlay,
   Modal,
   NavLink,
+  ScrollArea,
   Space,
   Stack,
   Text,
@@ -25,14 +28,19 @@ import { Navbar } from '../Navbar/Navbar';
 import classes from './Dashboard.module.css';
 import AuthModal from '../AuthModal/AuthModal';
 import UserNavbar from '../UserNavbar/UserNavbar';
+import CardComponent from '../CardComponent/CardComponent';
+import Matches from '../Matches/Matches';
 
 export default function Dashboard({ authenticated, setAuthenticated }) {
   const navigate = useNavigate();
   const [authToken, setAuthToken] = useState('');
   const [entitlementToken, setEntitlementToken] = useState('');
-  const [mmr, setMmr] = useState('');
-  const [name, setName] = useState('');
+  const [rank, setRank] = useState('');
+  const [rr, setRr] = useState('');
+  const [username, setUsername] = useState('');
   const [rankImage, setRankImage] = useState('');
+  const [count, setCount] = useState(0);
+  const [matches, setMatches] = useState([]);
 
   function getImageUrl(name) {
     return new URL(`../../${name}.png`, import.meta.url).href;
@@ -41,8 +49,12 @@ export default function Dashboard({ authenticated, setAuthenticated }) {
   function logOut() {
     setAuthToken('');
     setEntitlementToken('');
-    setMmr('');
-    setName('');
+    setRank('');
+    setRr('');
+    setUsername('');
+    setRankImage('');
+    setCount(0);
+    setMatches([]);
     notifications.show({
       title: 'Logged out',
       message: 'Your Riot account has been successfully logged out',
@@ -63,20 +75,33 @@ export default function Dashboard({ authenticated, setAuthenticated }) {
     <>
       <Navbar authenticated={authenticated} setAuthenticated={setAuthenticated} />
       {authToken && entitlementToken ? (
-        <Text>
+        <>
           <UserNavbar
             authToken={authToken}
             entitlementToken={entitlementToken}
-            mmr={mmr}
-            setMmr={setMmr}
-            name={name}
-            setName={setName}
+            rank={rank}
+            setRank={setRank}
+            rr={rr}
+            setRr={setRr}
+            username={username}
+            setUsername={setUsername}
             logOut={logOut}
             rankImage={rankImage}
             setRankImage={setRankImage}
             getImageUrl={getImageUrl}
+            count={count}
+            setCount={setCount}
+            matches={matches}
+            setMatches={setMatches}
           />
-        </Text>
+          <Matches
+            authToken={authToken}
+            entitlementToken={entitlementToken}
+            count={count}
+            matches={matches}
+            setMatches={setMatches}
+          />
+        </>
       ) : (
         <AuthModal
           authenticated={authenticated}

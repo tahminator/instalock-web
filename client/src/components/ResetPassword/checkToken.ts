@@ -8,7 +8,7 @@ export default async function checkToken(token: string | null) {
         if (data.code === '200') {
             return { isValid: true, email: data.email };
         }
-            return { isValid: false };
+            return { isValid: false, email: '' };
     })
     .catch(error => {
         console.error('Error checking token:', error);

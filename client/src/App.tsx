@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, ScrollArea } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { Router } from './Router';
 

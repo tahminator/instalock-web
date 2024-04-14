@@ -6,6 +6,8 @@ import requests
 import re
 import json
 
+import api.riot.v1.Functionx as Functionx
+
 riot_route = Blueprint('riot', __name__, url_prefix='/riot')
 
 def find_access_token(text):
@@ -62,7 +64,6 @@ def getmmr():
     resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}"})
     user_info = resp.json()
     puuid = user_info['sub']
-    print(puuid)
     name = f"{user_info['acct']['game_name']}#{user_info['acct']['tag_line']}"
 
     if puuid is None or name is None:
@@ -70,67 +71,11 @@ def getmmr():
     
     res= requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=20&queue=competitive", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
     rank = res.json()['Matches'][0]['TierAfterUpdate']
-    tier = ""
-    match rank:
-        case 3:
-            tier = "Iron 1"
-        case 4:
-            tier = "Iron 2"
-        case 5:
-            tier = "Iron 3"
-        case 6:
-            tier = "Bronze 1"
-        case 7:
-            tier = "Bronze 2"
-        case 8:
-            tier = "Bronze 3"
-        case 9:
-            tier = "Silver 1"
-        case 10:
-            tier = "Silver 2"
-        case 11:
-            tier = "Silver 3"
-        case 12:
-            tier = "Gold 1"
-        case 13:
-            tier = "Gold 2"
-        case 14:
-            tier = "Gold 3"
-        case 15:
-            tier = "Platinum 1"
-        case 16:
-            tier = "Platinum 2"
-        case 17:
-            tier = "Platinum 3"
-        case 18:
-            tier = "Diamond 1"
-        case 19:
-            tier = "Diamond 2"
-        case 20:
-            tier = "Diamond 3"
-        case 21:
-            tier = "Ascendant 1"
-        case 22:
-            tier = "Ascendant 2"
-        case 23:
-            tier = "Ascendant 3"
-        case 24:
-            tier = "Immortal 1"
-        case 25:
-            tier = "Immortal 2"
-        case 26:
-            tier = "Immortal 3"
-        case 27:
-            tier = "Radiant"
-        case default:
-            tier = "Unknown"
+    tier = Functionx.number_to_rank(rank)
 
     RR = res.json()['Matches'][0]['RankedRatingAfterUpdate']
 
-    return jsonify({'code': '200', 'success': 'true', 'rank': f'{tier} {RR}/100', 'name': f'{name}', 'type': f'{rank}', 'success': 'true'}), 200
-
-
-    
+    return jsonify({'code': '200', 'success': 'true', 'rank': f'{tier}', 'rr': f'{RR}', 'name': f'{name}', 'type': f'{rank}', 'success': 'true'}), 200
 
 @riot_route.route('/getversion', methods = ['GET'])
 def getversion():
@@ -154,6 +99,78 @@ def getuserinfo():
     user_info = response.json()
 
     return jsonify({'code': '200', 'success': 'true', 'puuid': user_info['sub'], 'name': f'{user_info['acct']['game_name']}#{user_info['acct']['tag_line']}', 'success': 'true'}), 200
+
+@riot_route.route('/getmatches', methods = ['POST'])
+def get_matches():
+    if not current_user.is_authenticated:
+        return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
+    
+    eT = request.json['entitlementToken']
+    aT = request.json['authToken']
+
+    resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}"})
+    user_info = resp.json()
+    puuid = user_info['sub']
+
+    res= requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
+    matches = res.json()['Matches']
+    # json.dump(matches, open('matches.json', 'w'))
+    new_js = {}
+    new_js['data'] = []
+    for i in range(len(matches)):
+        new_js['data'].append({})
+        new_js['data'][i]['matchid'] = matches[i]['MatchID']
+        new_js['data'][i]['pretier'] = matches[i]['TierBeforeUpdate']
+        new_js['data'][i]['posttier'] = matches[i]['TierAfterUpdate']
+        new_js['data'][i]['prerr'] = matches[i]['RankedRatingBeforeUpdate']
+        new_js['data'][i]['postrr'] = matches[i]['RankedRatingAfterUpdate']
+        new_js['data'][i]['rrdiff'] = matches[i]['RankedRatingEarned']
+        new_js['data'][i]['map'] = matches[i]['MapID']
+        new_js['data'][i]['realmapname'] = Functionx.map_id_to_map(matches[i]['MapID'])
+        new_js['data'][i]['mapcode'] = Functionx.map_id_to_code(matches[i]['MapID'])
+        new_js['data'][i]['date'] = matches[i]['MatchStartTime']
+        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{new_js['data'][i]['matchid']}", headers={"Authorization": "Bearer " + aT, "X-Riot-Entitlements-JWT": eT})
+        match_deets = respo.json()
+        new_js['data'][i]['duration'] = match_deets['matchInfo']['gameLengthMillis']
+        new_js['data'][i]['completed'] = match_deets['matchInfo']['isCompleted']
+        new_js['data'][i]['gamemode'] = Functionx.check_game_mode(match_deets['matchInfo']['queueID'])
+        new_js['data'][i]['players'] = []
+        for j in range(len(match_deets['players'])):
+            new_js['data'][i]['players'].append({})
+            if match_deets['players'][j]['subject'] != puuid:
+                new_js['data'][i]['players'][j]['name'] = match_deets['players'][j]['gameName'] + "#" + match_deets['players'][j]['tagLine']
+                new_js['data'][i]['players'][j]['puuid'] = match_deets['players'][j]['subject']
+                new_js['data'][i]['players'][j]['teamid'] = match_deets['players'][j]['teamId']
+                new_js['data'][i]['players'][j]['character'] = match_deets['players'][j]['characterId']
+                new_js['data'][i]['players'][j]['kills'] = match_deets['players'][j]['stats']['kills']
+                new_js['data'][i]['players'][j]['deaths'] = match_deets['players'][j]['stats']['deaths']
+                new_js['data'][i]['players'][j]['tier'] = match_deets['players'][j]['competitiveTier']
+            else:
+                new_js['data'][i]['players'][j]['name'] = match_deets['players'][j]['gameName'] + "#" + match_deets['players'][j]['tagLine']
+                new_js['data'][i]['players'][j]['puuid'] = match_deets['players'][j]['subject']
+                new_js['data'][i]['players'][j]['teamid'] = match_deets['players'][j]['teamId']
+                new_js['data'][i]['players'][j]['character'] = match_deets['players'][j]['characterId']
+                new_js['data'][i]['players'][j]['kills'] = match_deets['players'][j]['stats']['kills']
+                new_js['data'][i]['players'][j]['deaths'] = match_deets['players'][j]['stats']['deaths']
+                new_js['data'][i]['players'][j]['tier'] = match_deets['players'][j]['competitiveTier']
+                new_js['data'][i]['players'][j]['me'] = 'true'
+                new_js['data'][i]['me'] = {}
+                new_js['data'][i]['me']['name'] = match_deets['players'][j]['gameName'] + "#" + match_deets['players'][j]['tagLine']
+                new_js['data'][i]['me']['puuid'] = match_deets['players'][j]['subject']
+                new_js['data'][i]['me']['teamid'] = match_deets['players'][j]['teamId']
+                new_js['data'][i]['me']['characterid'] = match_deets['players'][j]['characterId']
+                new_js['data'][i]['me']['kills'] = match_deets['players'][j]['stats']['kills']
+                new_js['data'][i]['me']['deaths'] = match_deets['players'][j]['stats']['deaths']
+                new_js['data'][i]['me']['tier'] = match_deets['players'][j]['competitiveTier']
+    
+    # json.dump(new_js, open('new_js.json', 'w'))
+    new_js['success'] = 'true'
+    new_js['code'] = '200'
+    return jsonify(new_js), 200
+        
+
+
+    
 
 # @riot_route.route('/getnameservice', methods = ['POST'])
 # def getnameservice():

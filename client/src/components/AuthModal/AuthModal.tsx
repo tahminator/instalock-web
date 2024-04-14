@@ -14,13 +14,15 @@ import {
   Text,
 } from '@mantine/core';
 import { IconBrandValorant } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Navbar } from '../Navbar/Navbar';
 import { useDisclosure } from '@mantine/hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import classes from './AuthModal.module.css';
+import isAuth from '../isAuth/isAuth';
+import { PasteButton } from '../PasteButton/PasteButton';
 
 export default function AuthModal({
   authenticated,
@@ -46,6 +48,8 @@ export default function AuthModal({
 
   const [opened, { open, close }] = useDisclosure(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const [highlighted, setHighlighted] = useState(false);
 
   const handleLogin = async () => {
     setIsSubmitting(true);
@@ -80,8 +84,8 @@ export default function AuthModal({
         message: 'Could not receive tokens. Please try again later.',
         color: 'red',
       });
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
   return (
     <>
@@ -90,30 +94,19 @@ export default function AuthModal({
           <Box>
             <Center>
               <Stack>
-                <Text size="sm">
+                <Text size="sm" ta="center">
                   Riot Authentication is required to access this page. Please log in to your Riot
                   account.
                 </Text>
                 <Divider />
                 <Text ta="center" size="sm">
                   Click the button below to authenticate with Riot through the special link. Once
-                  complete, copy the <Code>https://playvalorant.com</Code> link into the box and
+                  you log in, copy the <Code>https://playvalorant.com</Code> link into the box and
                   click Authenticate.
                 </Text>
-                <Button
-                  color="red"
-                  onClick={() =>
-                    window.open(
-                      'https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid'
-                    )
-                  }
-                >
-                  Open Riot Login Page
-                </Button>
-                <Divider />
                 <HoverCard width={280}>
                   <HoverCard.Target>
-                    <Button>Why?</Button>
+                    <Button color="gray">Why?</Button>
                   </HoverCard.Target>
                   <HoverCard.Dropdown>
                     <Text size="sm">
@@ -131,10 +124,29 @@ export default function AuthModal({
                     </Text>
                   </HoverCard.Dropdown>
                 </HoverCard>
+                <Divider />
+                <Button
+                  color="red"
+                  onClick={() =>
+                    window.open(
+                      'https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid'
+                    )
+                  }
+                >
+                  Open Riot Login Page
+                </Button>
               </Stack>
             </Center>
             <Space h="lg" />
-            <form onSubmit={form.onSubmit(handleLogin)}>
+            <form
+              onSubmit={form.onSubmit(handleLogin)}
+              onFocus={() => {
+                setHighlighted(true);
+              }}
+              onBlur={() => {
+                setHighlighted(false);
+              }}
+            >
               <TextInput
                 label="Valorant Return URL"
                 placeholder="https://playvalorant.com"
@@ -143,9 +155,12 @@ export default function AuthModal({
                 onChange={(event) => form.setFieldValue('url', event.currentTarget.value)}
                 error={form.errors.url}
                 disabled={isSubmitting}
+                rightSection={<PasteButton form={form} highlighted={highlighted} />}
               />
-              <Text size="sm" c="gray">
-                This data is not saved to any database on the server.
+              <Text size="sm" c="dimmed">
+                This data is not stored on the server at all and is only used to interact with Riot
+                Games. This URL does not give me access to your password, email, or any financial
+                information.
               </Text>
               <Group justify="space-between" mt="lg" className={classes.controls}>
                 <Button onClick={close}>Close</Button>

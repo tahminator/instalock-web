@@ -1,4 +1,4 @@
-from flask import request, jsonify, session, redirect, url_for
+from flask import request, jsonify, session, redirect, url_for, render_template
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, login_required, current_user, logout_user
 
@@ -51,9 +51,10 @@ def internal_server_error(e):
 def bad_request(e):
     return jsonify({'code': 400, 'message': 'Bad request', 'success': 'false'}), 400
 
-@app.route('/')
-def index():
-    return redirect(url_for("api.index"))
+# @app.route('/', defaults={'path': ''})
+# @app.route('/<path:path>')
+# def catch_all(path):
+#     return render_template("index.html")
 
 if __name__ == '__main__':
     if MODE == 'test':

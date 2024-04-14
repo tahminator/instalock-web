@@ -11,6 +11,13 @@ import {
   Burger,
   rem,
   Image,
+  Loader,
+  Center,
+  Progress,
+  Drawer,
+  ScrollArea,
+  Button,
+  Divider,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -23,29 +30,41 @@ import {
   IconTrash,
   IconSwitchHorizontal,
   IconChevronDown,
+  IconRefresh,
+  IconRefreshAlert,
+  IconRefreshDot,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantinex/mantine-logo';
-import classes from './UserNavbar.module.css';
 import { notifications } from '@mantine/notifications';
+import classes from './UserNavbar.module.css';
 
 export default function UserNavbar({
   authToken,
   entitlementToken,
-  name,
-  setName,
-  mmr,
-  setMmr,
+  username,
+  setUsername,
+  rank,
+  setRank,
+  rr,
+  setRr,
   logOut,
   rankImage,
   setRankImage,
   getImageUrl,
+  count,
+  setCount,
+  matches,
+  setMatches,
 }) {
   const [opened, { toggle }] = useDisclosure(false);
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchMmr() {
       try {
+        setIsLoading(true);
         const response = await fetch('/api/riot/getmmr', {
           method: 'POST',
           headers: {
@@ -64,9 +83,10 @@ export default function UserNavbar({
 
         const data = await response.json();
         if (data.success === 'true') {
-          setMmr(data.rank);
-          setName(data.name);
-          setRankImage(getImageUrl(data.type));
+          setRank(data.rank);
+          setRr(data.rr);
+          setUsername(data.name);
+          setRankImage(`${data.type}.png`);
         } else {
           notifications.show({
             title: 'Failed to fetch MMR',
@@ -81,66 +101,111 @@ export default function UserNavbar({
           color: 'red',
         });
       }
+      setIsLoading(false);
     }
     fetchMmr();
-  }, [authToken, entitlementToken]);
+  }, [authToken, entitlementToken, count]);
 
   return (
     <div className={classes.header}>
       <Container className={classes.mainSection} size="md">
-        <Group justify="space-between">
-          <Image src={rankImage} alt={`${mmr}`} width={40} height={40} />
-          <Text>{mmr}</Text>
-
-          <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
-
-          <Menu
-            width={260}
-            position="bottom-end"
-            transitionProps={{ transition: 'pop-top-right' }}
-            onClose={() => setUserMenuOpened(false)}
-            onOpen={() => setUserMenuOpened(true)}
-            withinPortal
-          >
-            <Menu.Target>
-              <UnstyledButton
-                className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+        {isLoading ? (
+          <Center h={58}>
+            <Loader color="red.7" />
+          </Center>
+        ) : (
+          <Group justify="space-between">
+            <Group justify="left" gap={10}>
+              <Image src={rankImage} alt={`${rank} ${rr}`} width={40} height={40} />
+              <Text>
+                {rank} <Progress value={rr} color="red" /> {rr}/100
+              </Text>
+            </Group>
+            <Group justify="right" gap={10}>
+              <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="xs" size="sm" />
+            </Group>
+            <Drawer
+              opened={drawerOpened}
+              onClose={closeDrawer}
+              size="80%"
+              padding="md"
+              title={username}
+              hiddenFrom="sm"
+              zIndex={1000000}
+            >
+              <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
+                <Divider my="sm" />
+                <Group justify="center" grow pb="xl" px="md">
+                  <Button
+                    color="red"
+                    leftSection={
+                      <IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+                    }
+                    onClick={logOut}
+                  >
+                    Disconnect from user
+                  </Button>
+                </Group>
+                <Group justify="center" grow pb="xl" px="md">
+                  <Button
+                    onClick={() => {
+                      setCount(count + 1);
+                      toggleDrawer();
+                    }}
+                  >
+                    <IconRefresh /> Refresh
+                  </Button>
+                </Group>
+              </ScrollArea>
+            </Drawer>
+            <Group gap={10}>
+              <Menu
+                width={260}
+                position="bottom-end"
+                transitionProps={{ transition: 'pop-top-right' }}
+                opened={userMenuOpened}
+                onChange={setUserMenuOpened}
+                withinPortal
               >
-                <Group gap={7}>
-                  <Text>{name}</Text>
-                  {/* <Avatar src={user.image} alt={user.name} radius="xl" size={20} /> */}
-                  {/* <Text fw={500} size="sm" lh={1} mr={3}>
+                <Menu.Target>
+                  <UnstyledButton
+                    className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+                  >
+                    <Group gap={7}>
+                      <Text>{username}</Text>
+                      {/* <Avatar src={user.image} alt={user.name} radius="xl" size={20} /> */}
+                      {/* <Text fw={500} size="sm" lh={1} mr={3}>
                     {user.name}
                   </Text> */}
-                  <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
-                </Group>
-              </UnstyledButton>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item
-                color="red"
-                leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                onClick={logOut}
+                      <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
+                    </Group>
+                  </UnstyledButton>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item
+                    color="red"
+                    leftSection={
+                      <IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+                    }
+                    onClick={logOut}
+                  >
+                    Disconnect from user
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+              <UnstyledButton
+                className={cx(classes.user)}
+                onClick={() => {
+                  setCount(count + 1);
+                }}
               >
-                Disconnect from user
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-        </Group>
-      </Container>
-      <Container size="md">
-        <Tabs
-          defaultValue="Home"
-          variant="outline"
-          visibleFrom="sm"
-          classNames={{
-            root: classes.tabs,
-            list: classes.tabsList,
-            tab: classes.tab,
-          }}
-        >
-          {/* <Tabs.List>{items}</Tabs.List> */}
-        </Tabs>
+                <Center>
+                  <IconRefresh />
+                </Center>
+              </UnstyledButton>
+            </Group>
+          </Group>
+        )}
       </Container>
     </div>
   );
