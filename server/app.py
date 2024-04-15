@@ -51,10 +51,15 @@ def internal_server_error(e):
 def bad_request(e):
     return jsonify({'code': 400, 'message': 'Bad request', 'success': 'false'}), 400
 
-# @app.route('/', defaults={'path': ''})
-# @app.route('/<path:path>')
-# def catch_all(path):
-#     return render_template("index.html")
+if MODE == 'test':
+    @app.route('/')
+    def index():
+        return redirect(url_for('api.index'))
+else:
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def catch_all(path):
+        return render_template("index.html")
 
 if __name__ == '__main__':
     if MODE == 'test':

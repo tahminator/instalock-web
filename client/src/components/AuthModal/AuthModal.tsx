@@ -78,6 +78,8 @@ export default function AuthModal({
           color: 'orange',
         });
       }
+    } else if (response.status === 401) {
+      setAuthenticated(false);
     } else {
       notifications.show({
         title: 'Error',
@@ -149,7 +151,7 @@ export default function AuthModal({
             >
               <TextInput
                 label="Valorant Return URL"
-                placeholder="https://playvalorant.com"
+                placeholder="https://playvalorant.com/opt_in#access_token..."
                 required
                 value={form.values.url}
                 onChange={(event) => form.setFieldValue('url', event.currentTarget.value)}

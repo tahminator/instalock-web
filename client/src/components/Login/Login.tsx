@@ -131,7 +131,9 @@ export function Login({ authenticated, setAuthenticated }) {
                   placeholder="stargalaxy687@gmail.com"
                   required
                   value={form.values.email}
-                  onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+                  onChange={(event) => {
+                    form.setFieldValue('email', event.currentTarget.value);
+                  }}
                   error={form.errors.email}
                   disabled={isSubmitting}
                 />

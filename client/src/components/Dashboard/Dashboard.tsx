@@ -43,7 +43,7 @@ export default function Dashboard({ authenticated, setAuthenticated }) {
   const [matches, setMatches] = useState([]);
 
   function getImageUrl(name) {
-    return new URL(`../../${name}.png`, import.meta.url).href;
+    return new URL(`/${name}.png`, import.meta.url).href;
   }
 
   function logOut() {
@@ -100,6 +100,7 @@ export default function Dashboard({ authenticated, setAuthenticated }) {
             count={count}
             matches={matches}
             setMatches={setMatches}
+            setAuthenticated={setAuthenticated}
           />
         </>
       ) : (

@@ -128,34 +128,30 @@ export function Navbar({ authenticated, setAuthenticated }) {
       style={{
         position: 'sticky',
         top: 0,
-        zIndex: 1000,
+        zIndex: 10,
         background: '#242424',
         backgroundClip: 'padding-box',
       }}
     >
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <header className={classes.header}>
-            <Group justify="space-between" h="100%">
-              <Group>
-                <Image src={LogoImg} w={30} mr={-15} ml={-20} pt={5} />
-                <Title className={classes.title} order={1}>
-                  <Text
-                    inherit
-                    variant="gradient"
-                    component="span"
-                    gradient={{ from: 'deep-red.4', to: 'deep-red' }}
-                  >
-                    Instalock
-                  </Text>
-                </Title>
-              </Group>
-            </Group>
-          </header>
+          <Group pl="10">
+            <Image src={LogoImg} w={30} mr={-15} ml={-20} pt={5} />
+            <Title className={classes.title} order={1}>
+              <Text
+                inherit
+                variant="gradient"
+                component="span"
+                gradient={{ from: 'deep-red.4', to: 'deep-red' }}
+              >
+                Instalock
+              </Text>
+            </Title>
+          </Group>
 
-          <Group justify="center" h="100%" gap={0} visibleFrom="sm">
+          <Group justify="center" h="100%" gap={0} visibleFrom="sm" mr="50">
             <NavLink to="/" className={classes.link}>
-              <Text className={classes.link}>Home</Text>
+              <Text inherit>Home</Text>
             </NavLink>
             {/* <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
               <HoverCard.Target>
@@ -203,11 +199,11 @@ export function Navbar({ authenticated, setAuthenticated }) {
             </HoverCard> */}
             {authenticated ? (
               <NavLink to="/dashboard" className={classes.link}>
-                <Text className={classes.link}>Matches</Text>
+                <Text inherit>Matches</Text>
               </NavLink>
             ) : (
-              <NavLink to="/login" className={classes.link}>
-                <Text className={classes.link}>Matches</Text>
+              <NavLink to="/login">
+                <Text inherit>Matches</Text>
               </NavLink>
             )}
           </Group>
@@ -245,7 +241,7 @@ export function Navbar({ authenticated, setAuthenticated }) {
         padding="md"
         title="Instalock"
         hiddenFrom="sm"
-        zIndex={1000000}
+        zIndex={0}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />

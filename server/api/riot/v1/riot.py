@@ -112,7 +112,7 @@ def get_matches():
     user_info = resp.json()
     puuid = user_info['sub']
 
-    res= requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
+    res= requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=20", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
     matches = res.json()['Matches']
     # json.dump(matches, open('matches.json', 'w'))
     new_js = {}
@@ -142,6 +142,8 @@ def get_matches():
                 new_js['data'][i]['players'][j]['puuid'] = match_deets['players'][j]['subject']
                 new_js['data'][i]['players'][j]['teamid'] = match_deets['players'][j]['teamId']
                 new_js['data'][i]['players'][j]['character'] = match_deets['players'][j]['characterId']
+                new_js['data'][i]['players'][j]['charactertype'] = Functionx.agent_id_to_picture(match_deets['players'][j]['characterId'])
+                new_js['data'][i]['players'][j]['charactername'] = Functionx.agent_id_to_name(match_deets['players'][j]['characterId'])
                 new_js['data'][i]['players'][j]['kills'] = match_deets['players'][j]['stats']['kills']
                 new_js['data'][i]['players'][j]['deaths'] = match_deets['players'][j]['stats']['deaths']
                 new_js['data'][i]['players'][j]['tier'] = match_deets['players'][j]['competitiveTier']
@@ -150,6 +152,8 @@ def get_matches():
                 new_js['data'][i]['players'][j]['puuid'] = match_deets['players'][j]['subject']
                 new_js['data'][i]['players'][j]['teamid'] = match_deets['players'][j]['teamId']
                 new_js['data'][i]['players'][j]['character'] = match_deets['players'][j]['characterId']
+                new_js['data'][i]['players'][j]['charactertype'] = Functionx.agent_id_to_picture(match_deets['players'][j]['characterId'])
+                new_js['data'][i]['players'][j]['charactername'] = Functionx.agent_id_to_name(match_deets['players'][j]['characterId'])
                 new_js['data'][i]['players'][j]['kills'] = match_deets['players'][j]['stats']['kills']
                 new_js['data'][i]['players'][j]['deaths'] = match_deets['players'][j]['stats']['deaths']
                 new_js['data'][i]['players'][j]['tier'] = match_deets['players'][j]['competitiveTier']
@@ -159,6 +163,8 @@ def get_matches():
                 new_js['data'][i]['me']['puuid'] = match_deets['players'][j]['subject']
                 new_js['data'][i]['me']['teamid'] = match_deets['players'][j]['teamId']
                 new_js['data'][i]['me']['characterid'] = match_deets['players'][j]['characterId']
+                new_js['data'][i]['me']['charactertype'] = Functionx.agent_id_to_picture(match_deets['players'][j]['characterId'])
+                new_js['data'][i]['me']['charactername'] = Functionx.agent_id_to_name(match_deets['players'][j]['characterId'])
                 new_js['data'][i]['me']['kills'] = match_deets['players'][j]['stats']['kills']
                 new_js['data'][i]['me']['deaths'] = match_deets['players'][j]['stats']['deaths']
                 new_js['data'][i]['me']['tier'] = match_deets['players'][j]['competitiveTier']
@@ -167,10 +173,73 @@ def get_matches():
     new_js['success'] = 'true'
     new_js['code'] = '200'
     return jsonify(new_js), 200
-        
 
-
+@riot_route.route('/checkpregame', methods = ['POST'])
+def checkpregame():
+    if not current_user.is_authenticated:
+        return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
     
+    eT = request.json['entitlementToken']
+    aT = request.json['authToken']
+
+    resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}"})
+    user_info = resp.json()
+    puuid = user_info['sub']
+
+    res = requests.get(f"https://glz-na-1.na.a.pvp.net/pregame/v1/players/{puuid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})
+    pregame = res.json()
+    print(pregame)
+    try:
+        return jsonify({'code': '200', 'success': 'true', 'matchid': pregame['MatchID'], 'success': 'true'}), 200
+    except:
+        return '', 400
+    
+@riot_route.route('/pregame/data', methods = ['POST'])
+def datapregame():
+    if not current_user.is_authenticated:
+        return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
+    
+    eT = request.json['entitlementToken']
+    aT = request.json['authToken']
+    matchid = request.json['matchId']
+
+    resp = requests.get(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})
+    pregame = resp.json()
+    print(pregame)
+    new_json = {}
+    new_json['data'] = {}
+    new_json['data']['mapid'] = Functionx.map_id_to_code(pregame['MapID'])
+    new_json['data']['mapname'] = Functionx.map_id_to_map(pregame['MapID'])
+    return jsonify(new_json), 200
+
+@riot_route.route('/pregame/select', methods = ['POST'])
+def selectpregame():
+    if not current_user.is_authenticated:
+        return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
+    
+    eT = request.json['entitlementToken']
+    aT = request.json['authToken']
+    matchid = request.json['matchId']
+    agentid = request.json['agentId']
+
+    resp = requests.post(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}/select/{agentid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})   
+    json.dump(resp.json(), open('new_js.json', 'w'))
+    return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
+
+@riot_route.route('/pregame/lock', methods = ['POST'])
+def lockpregame():
+    if not current_user.is_authenticated:
+        return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
+    
+    eT = request.json['entitlementToken']
+    aT = request.json['authToken']
+    matchid = request.json['matchId']
+    agentid = request.json['agentId']
+
+    resp = requests.post(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}/lock/{agentid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})   
+    json.dump(resp.json(), open('new_js.json', 'w'))
+    return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
+
 
 # @riot_route.route('/getnameservice', methods = ['POST'])
 # def getnameservice():

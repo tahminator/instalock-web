@@ -70,6 +70,8 @@ export function ResetPassword({ authenticated, setAuthenticated }) {
         color: 'green',
       });
       navigate('/login');
+    } else if (response.status === 401) {
+      setAuthenticated(false);
     } else {
       setIsSubmitting(false);
       notifications.show({
