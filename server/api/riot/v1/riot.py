@@ -114,60 +114,48 @@ def get_matches():
 
     res= requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=20", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
     matches = res.json()['Matches']
+    # print(matches)
     # json.dump(matches, open('matches.json', 'w'))
     new_js = {}
     new_js['data'] = []
     for i in range(len(matches)):
-        new_js['data'].append({})
-        new_js['data'][i]['matchid'] = matches[i]['MatchID']
-        new_js['data'][i]['pretier'] = matches[i]['TierBeforeUpdate']
-        new_js['data'][i]['posttier'] = matches[i]['TierAfterUpdate']
-        new_js['data'][i]['prerr'] = matches[i]['RankedRatingBeforeUpdate']
-        new_js['data'][i]['postrr'] = matches[i]['RankedRatingAfterUpdate']
-        new_js['data'][i]['rrdiff'] = matches[i]['RankedRatingEarned']
-        new_js['data'][i]['map'] = matches[i]['MapID']
-        new_js['data'][i]['realmapname'] = Functionx.map_id_to_map(matches[i]['MapID'])
-        new_js['data'][i]['mapcode'] = Functionx.map_id_to_code(matches[i]['MapID'])
-        new_js['data'][i]['date'] = matches[i]['MatchStartTime']
-        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{new_js['data'][i]['matchid']}", headers={"Authorization": "Bearer " + aT, "X-Riot-Entitlements-JWT": eT})
+        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{matches[i]['MatchID']}", headers={"Authorization": "Bearer " + aT, "X-Riot-Entitlements-JWT": eT})
         match_deets = respo.json()
-        new_js['data'][i]['duration'] = match_deets['matchInfo']['gameLengthMillis']
-        new_js['data'][i]['completed'] = match_deets['matchInfo']['isCompleted']
-        new_js['data'][i]['gamemode'] = Functionx.check_game_mode(match_deets['matchInfo']['queueID'])
-        new_js['data'][i]['players'] = []
-        for j in range(len(match_deets['players'])):
-            new_js['data'][i]['players'].append({})
-            if match_deets['players'][j]['subject'] != puuid:
-                new_js['data'][i]['players'][j]['name'] = match_deets['players'][j]['gameName'] + "#" + match_deets['players'][j]['tagLine']
-                new_js['data'][i]['players'][j]['puuid'] = match_deets['players'][j]['subject']
-                new_js['data'][i]['players'][j]['teamid'] = match_deets['players'][j]['teamId']
-                new_js['data'][i]['players'][j]['character'] = match_deets['players'][j]['characterId']
-                new_js['data'][i]['players'][j]['charactertype'] = Functionx.agent_id_to_picture(match_deets['players'][j]['characterId'])
-                new_js['data'][i]['players'][j]['charactername'] = Functionx.agent_id_to_name(match_deets['players'][j]['characterId'])
-                new_js['data'][i]['players'][j]['kills'] = match_deets['players'][j]['stats']['kills']
-                new_js['data'][i]['players'][j]['deaths'] = match_deets['players'][j]['stats']['deaths']
-                new_js['data'][i]['players'][j]['tier'] = match_deets['players'][j]['competitiveTier']
-            else:
-                new_js['data'][i]['players'][j]['name'] = match_deets['players'][j]['gameName'] + "#" + match_deets['players'][j]['tagLine']
-                new_js['data'][i]['players'][j]['puuid'] = match_deets['players'][j]['subject']
-                new_js['data'][i]['players'][j]['teamid'] = match_deets['players'][j]['teamId']
-                new_js['data'][i]['players'][j]['character'] = match_deets['players'][j]['characterId']
-                new_js['data'][i]['players'][j]['charactertype'] = Functionx.agent_id_to_picture(match_deets['players'][j]['characterId'])
-                new_js['data'][i]['players'][j]['charactername'] = Functionx.agent_id_to_name(match_deets['players'][j]['characterId'])
-                new_js['data'][i]['players'][j]['kills'] = match_deets['players'][j]['stats']['kills']
-                new_js['data'][i]['players'][j]['deaths'] = match_deets['players'][j]['stats']['deaths']
-                new_js['data'][i]['players'][j]['tier'] = match_deets['players'][j]['competitiveTier']
-                new_js['data'][i]['players'][j]['me'] = 'true'
-                new_js['data'][i]['me'] = {}
-                new_js['data'][i]['me']['name'] = match_deets['players'][j]['gameName'] + "#" + match_deets['players'][j]['tagLine']
-                new_js['data'][i]['me']['puuid'] = match_deets['players'][j]['subject']
-                new_js['data'][i]['me']['teamid'] = match_deets['players'][j]['teamId']
-                new_js['data'][i]['me']['characterid'] = match_deets['players'][j]['characterId']
-                new_js['data'][i]['me']['charactertype'] = Functionx.agent_id_to_picture(match_deets['players'][j]['characterId'])
-                new_js['data'][i]['me']['charactername'] = Functionx.agent_id_to_name(match_deets['players'][j]['characterId'])
-                new_js['data'][i]['me']['kills'] = match_deets['players'][j]['stats']['kills']
-                new_js['data'][i]['me']['deaths'] = match_deets['players'][j]['stats']['deaths']
-                new_js['data'][i]['me']['tier'] = match_deets['players'][j]['competitiveTier']
+        if respo.status_code != 200:
+            pass
+        else:
+            new_js['data'].append({})
+            new_js['data'][i]['matchid'] = matches[i].get('MatchID', None)
+            new_js['data'][i]['pretier'] = matches[i].get('TierBeforeUpdate', None)
+            new_js['data'][i]['posttier'] = matches[i].get('TierAfterUpdate', None)
+            new_js['data'][i]['prerr'] = matches[i].get('RankedRatingBeforeUpdate', None)
+            new_js['data'][i]['postrr'] = matches[i].get('RankedRatingAfterUpdate', None)
+            new_js['data'][i]['rrdiff'] = matches[i].get('RankedRatingEarned', None)
+            new_js['data'][i]['map'] = matches[i].get('MapID', None)
+            new_js['data'][i]['realmapname'] = Functionx.map_id_to_map(matches[i].get('MapID')) or None
+            new_js['data'][i]['mapcode'] = Functionx.map_id_to_code(matches[i].get('MapID')) or None
+            new_js['data'][i]['date'] = matches[i].get('MatchStartTime', None)
+            # json.dump(match_deets, open(f'matches{i}.json', 'w'))
+            match_info = match_deets.get('matchInfo', {})
+            new_js['data'][i]['duration'] = match_info.get('gameLengthMillis', None)
+            new_js['data'][i]['completed'] = match_info.get('isCompleted', None)
+            new_js['data'][i]['gamemode'] = Functionx.check_game_mode(match_info.get('queueID')) or None
+            new_js['data'][i]['players'] = []
+            for j in range(len(match_deets.get('players', []))):
+                player_info = match_deets['players'][j]
+                new_js['data'][i]['players'].append({
+                    'name': player_info.get('gameName', '') + "#" + player_info.get('tagLine', ''),
+                    'puuid': player_info.get('subject', None),
+                    'teamid': player_info.get('teamId', None),
+                    'character': player_info.get('characterId', None),
+                    'charactertype': Functionx.agent_id_to_picture(player_info.get('characterId')) or None,
+                    'charactername': Functionx.agent_id_to_name(player_info.get('characterId')) or None,
+                    'kills': player_info.get('stats', {}).get('kills', None),
+                    'deaths': player_info.get('stats', {}).get('deaths', None),
+                    'tier': player_info.get('competitiveTier', None)
+                })
+                if player_info.get('subject') == puuid:
+                    new_js['data'][i]['me'] = new_js['data'][i]['players'][j]
     
     # json.dump(new_js, open('new_js.json', 'w'))
     new_js['success'] = 'true'

@@ -81,6 +81,7 @@ export default function Matches({
               authToken={authToken}
               height={height}
               width={width}
+              setAuthenticated={setAuthenticated}
             />
           </Grid.Col>
           {matches.map((match) => (
