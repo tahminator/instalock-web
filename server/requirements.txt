@@ -6,5 +6,7 @@ python-dotenv
 flask-session
 redis
 flask-mail
-jwt
+pyjwt
 datetime
+requests
+psycopg2-binary

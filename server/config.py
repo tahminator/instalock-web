@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
 import redis
+import sys
 
-load_dotenv()
+load_dotenv(dotenv_path = sys.path[0] + '/untracked/.env')
 
 class Config:
     SECRET_KEY = os.environ['SECRET_KEY']

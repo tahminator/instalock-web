@@ -72,6 +72,13 @@ export function ResetPassword({ authenticated, setAuthenticated }) {
       navigate('/login');
     } else if (response.status === 401) {
       setAuthenticated(false);
+    } else if (response.status === 403) {
+      setIsSubmitting(false);
+      notifications.show({
+        title: 'Error',
+        message: 'You cannot use the same password. Please try again.',
+        color: 'red',
+      });
     } else {
       setIsSubmitting(false);
       notifications.show({

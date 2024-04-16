@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_mail import Message
 
 from model import User
-from extension import db, mail
+from extension import db, mail, bcrypt
 from model import get_reset_token
 
 import jwt
@@ -22,19 +22,27 @@ def index():
 
 @auth_route.route("/changepassword", methods = ['POST'])
 def changepassword():
-    token = request.args.get('token')
-    if not token:
+    token: str = request.args.get('token')
+    if not token or type(token) != str:
         return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
     try:
-        email = jwt.decode(token, g.SECRET_KEY, algorithms="HS256")['reset_password']
+        email: str = jwt.decode(token, g.SECRET_KEY, algorithms = "HS256")['reset_password']
+    except jwt.DecodeError as E:
+        return jsonify({'code': '400', 'message': 'bad request', 'success': 'false'}), 400
     except Exception as E:
         return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
 
-    existing_user = User.query.filter_by(email = email).first()
+    existing_user: User | None = User.query.filter_by(email = email).first()
 
     if existing_user:
-        password = request.json['password']
-        hashed_password = Bcrypt().generate_password_hash(password).decode('utf-8')
+        password: str = request.json['password']
+        if type(password) != str:
+            return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+        hashed_password: str = bcrypt.generate_password_hash(password).decode('utf-8')
+        if bcrypt.check_password_hash(existing_user.password, password):
+            return jsonify({'code': '403', 'message': 'Cannot use same password', 'success': 'false'}), 403
+        if not hashed_password:
+            return jsonify({'code': '500', 'message': 'Internal server error', 'success': 'false'}), 500
         existing_user.password = hashed_password
         db.session.commit()
         return jsonify({'code': '200', 'success': 'true'}), 200
@@ -52,67 +60,62 @@ def logout():
 
 @auth_route.route("/register", methods = ['POST'])
 def register():
-    email = request.json['email']
-    password = request.json['password']
+    email: str = request.json['email']
+    password: str = request.json['password']
 
-    user = User.query.filter_by(email = email).first()
+    if type(email) != str or type(password) != str:
+        return {'code': '400', 'message': 'Bad Request'}, 400
+
+    user: User | None = User.query.filter_by(email = email).first()
 
     if user:
         return {'code': '409', 'message': 'User already exists'}, 404
     
-    hashed_password = Bcrypt().generate_password_hash(password).decode('utf-8')
-    new_user = User(email = email, password = hashed_password)
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    if not hashed_password:
+        return jsonify({'code': '500', 'message': 'Internal server error', 'success': 'false'}), 500
+    new_user: User = User(email = email, password = hashed_password)
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify(
-{
-    'code': '200',
-    'success': 'true',
-    'id': new_user.id,
-    'email': new_user.email
-}
-    )
+    return jsonify({'code': '200', 'success': 'true', 'id': new_user.id, 'email': new_user.email})
 
 @auth_route.route("/login", methods = ['POST'])
 def login():
-    import time
-    time.sleep(1)
-    email = request.json['email']
-    password = request.json['password']
-    remember_me = request.json['rememberMe']
+    if g.MODE == "test":
+        import time
+        time.sleep(1)
+    email: str = request.json['email']
+    password: str = request.json['password']
+    remember_me: bool = request.json['rememberMe']
     
     if type(email) != str or type(password) != str or type(remember_me) != bool:
         return {'code': '400', 'message': 'Bad Request'}, 400
 
-    user = User.query.filter_by(email = email).first()
+    user: User | None = User.query.filter_by(email = email).first()
 
     if not user:
         return jsonify({'code': '401', 'type': '1', 'message': 'Unauthorized', 'success': 'false'}), 401
     
-    if not Bcrypt().check_password_hash(user.password, password):
+    if not bcrypt.check_password_hash(user.password, password):
         return {'code': '401', 'type': '2', 'message': 'Unauthorized', 'success': 'false'}, 401
     
-    login_user(user, duration=datetime.timedelta(minutes=59), remember=remember_me)
+    login_user(user, duration = datetime.timedelta(hours = 3), remember = remember_me)
 
-    return jsonify(
-    {
-        'code': '200',
-        'success': 'true',
-        'id': user.id,
-        'email': user.email
-    }
-    )
+    return jsonify({'code': '200', 'success': 'true', 'id': user.id, 'email': user.email})
 
 @auth_route.route("/resetpassword", methods = ['POST'])
 def iforgot():
-    email = request.json['email']
+    email: str = request.json['email']
 
-    existing_user = User.query.filter_by(email = email).first()
+    if type(email) != str:
+        return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+
+    existing_user: User | None = User.query.filter_by(email = email).first()
 
     if existing_user:
-        token = get_reset_token(existing_user.email, expires=30)
-        message = Message(recipients=[email], subject = "Instalock password reset", body = f"Click the link to reset your password: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/resetpassword?token={token}")
+        token: str = get_reset_token(existing_user.email, expires=30)
+        message: Message = Message(recipients=[email], subject = "Instalock password reset", body = f"Click the link to reset your password: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/resetpassword?token={token}")
         mail.send(message)
         return jsonify({'code': '200', 'success': 'true'}), 200
     
@@ -120,15 +123,17 @@ def iforgot():
 
 @auth_route.route("/checkpasswordtoken", methods = ['POST'])
 def checkpwtoken():
-    token = request.args.get('token')
-    if not token:
+    token: str = request.args.get('token')
+    if not token or type(token) != str:
         return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
     try:
         email = jwt.decode(token, g.SECRET_KEY, algorithms="HS256")['reset_password']
+    except jwt.DecodeError as E:
+        return jsonify({'code': '400', 'message': 'bad request', 'success': 'false'}), 400
     except Exception as E:
         return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
 
-    existing_user = User.query.filter_by(email = email).first()
+    existing_user: User | None = User.query.filter_by(email = email).first()
 
     if existing_user:
         return jsonify({'code': '200', 'email': existing_user.email, 'success': 'true'}), 200
