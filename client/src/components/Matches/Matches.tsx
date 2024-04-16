@@ -7,7 +7,6 @@ import CardComponent from '../CardComponent/CardComponent';
 import LiveMatchCard from '../LiveMatch/InstalockCard';
 import InstalockCard from '../LiveMatch/InstalockCard';
 import { useElementSize } from '@mantine/hooks';
-import SkeletonMatchCardComponent from '../SkeletonMatchCardComponent/SkeletonMatchCardComponent';
 
 export default function Matches({
   authToken,
@@ -71,13 +70,9 @@ export default function Matches({
   return (
     <Container fluid>
       {isLoading ? (
-        <Grid grow>
-          {Array.from({ length: 8 }, (_, i) => (
-            <Grid.Col span={{ xs: 12, sm: 3 }} key={i}>
-              <SkeletonMatchCardComponent />
-            </Grid.Col>
-          ))}
-        </Grid>
+        <Center h={58}>
+          <Loader color="red.7" />
+        </Center>
       ) : (
         <Grid>
           <Grid.Col span={{ xs: 12, sm: 3 }} key="livematch">
