@@ -1,6 +1,6 @@
 from flask import request, jsonify, session, redirect, url_for, render_template
-from flask_bcrypt import Bcrypt
-from flask_login import login_user, login_required, current_user, logout_user
+from flask_bcrypt import Bcrypt # type: ignore
+from flask_login import login_user, login_required, current_user, logout_user # type: ignore
 
 import datetime
 import jwt

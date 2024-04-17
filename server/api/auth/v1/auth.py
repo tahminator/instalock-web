@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, current_app, g
-from flask_login import current_user, logout_user, login_user
-from flask_bcrypt import Bcrypt
-from flask_mail import Message
+from flask_login import current_user, logout_user, login_user # type: ignore
+from flask_bcrypt import Bcrypt # type: ignore
+from flask_mail import Message # type: ignore
 
 from model import User
 from extension import db, mail, bcrypt
@@ -9,6 +9,7 @@ from model import get_reset_token
 
 import jwt
 import datetime
+from typing import *
 
 auth_route = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -42,8 +43,9 @@ def logout():
 """
 @auth_route.route("/register", methods = ['POST'])
 def register():
-    email: str = request.json['email']
-    password: str = request.json['password']
+    request_json: Union[dict[str, str], None] = request.json
+    email: Union[str, None] = request_json.get('email') if request_json is not None else None
+    password: Union[str, None] = request_json.get('password') if request_json is not None else None
 
     if type(email) != str or type(password) != str:
         return {'code': '400', 'message': 'Bad Request'}, 400
@@ -77,11 +79,14 @@ def login():
     if g.MODE == "test":
         import time
         time.sleep(1)
-    email: str = request.json['email']
-    password: str = request.json['password']
-    remember_me: bool = request.json['rememberMe']
+
+    request_json: Union[dict[str, str], None] = request.json
+
+    email: Union[str, None] = request_json.get('email') if request_json is not None else None
+    password: Union[str, None] = request_json.get('password') if request_json is not None else None
+    remember_me: Union[bool, None] = bool(request_json.get('rememberMe')) if request_json is not None else None
     
-    if type(email) != str or type(password) != str or type(remember_me) != bool:
+    if type(email) != str or type(password) != str or type(remember_me) != bool or not email or not password or not remember_me:
         return {'code': '400', 'message': 'Bad Request'}, 400
 
     user: User | None = User.query.filter_by(email = email).first()
@@ -101,11 +106,13 @@ def login():
 """
 @auth_route.route("/password/checktoken", methods = ['POST'])
 def checkpwtoken():
-    token: str = request.args.get('token')
+    token: Union[str, None] = request.args.get('token')
+
     if not token or type(token) != str:
         return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+    
     try:
-        email = jwt.decode(token, g.SECRET_KEY, algorithms="HS256")['reset_password']
+        email: Union[str, None] = jwt.decode(token, g.SECRET_KEY, algorithms = "HS256")['reset_password'] # type: ignore
     except jwt.DecodeError as E:
         return jsonify({'code': '400', 'message': 'bad request', 'success': 'false'}), 400
     except Exception as E:
@@ -123,9 +130,10 @@ def checkpwtoken():
 """
 @auth_route.route("/password/reset", methods = ['POST'])
 def iforgot():
-    email: str = request.json['email']
+    request_json: Union[dict[str, str], None] = request.json
+    email: Union[str, None] = request_json.get('email') if request_json is not None else None
 
-    if type(email) != str:
+    if type(email) != str or not email:
         return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
 
     existing_user: User | None = User.query.filter_by(email = email).first()
@@ -143,11 +151,11 @@ def iforgot():
 """
 @auth_route.route("/password/change", methods = ['POST'])
 def changepassword():
-    token: str = request.args.get('token')
+    token: Union[str, None] = request.args.get('token')
     if not token or type(token) != str:
         return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
     try:
-        email: str = jwt.decode(token, g.SECRET_KEY, algorithms = "HS256")['reset_password']
+        email: Union[str, None] = jwt.decode(token, g.SECRET_KEY, algorithms = "HS256")['reset_password'] # type: ignore
     except jwt.DecodeError as E:
         return jsonify({'code': '400', 'message': 'bad request', 'success': 'false'}), 400
     except Exception as E:
@@ -156,8 +164,10 @@ def changepassword():
     existing_user: User | None = User.query.filter_by(email = email).first()
 
     if existing_user:
-        password: str = request.json['password']
-        if type(password) != str:
+        request_json: Union[dict[str, str], None] = request.json
+
+        password: Union[str, None] = request_json.get('password') if request_json is not None else None
+        if type(password) != str or not password:
             return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
         
         if len(password) < 8:
