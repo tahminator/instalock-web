@@ -34,8 +34,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "react-transition-group": "^4.4.5",
-    "tabler": "^1.0.0-alpha.8",
-    "tsc": "^2.0.4"
+    "tabler": "^1.0.0-alpha.8"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.0.0",

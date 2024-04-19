@@ -1,12 +1,8 @@
-import { Card, Center, Container, Grid, Loader, ScrollArea, Text } from '@mantine/core';
+import { Center, Container, Grid, Loader } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { M } from 'vite/dist/node/types.d-aGj9QkWt';
 import CardComponent from '../CardComponent/CardComponent';
-import LiveMatchCard from '../LiveMatch/InstalockCard';
 import InstalockCard from '../LiveMatch/InstalockCard';
-import { useElementSize } from '@mantine/hooks';
 
 export default function Matches({
   authToken,
@@ -15,6 +11,13 @@ export default function Matches({
   matches,
   setMatches,
   setAuthenticated,
+}: {
+  authToken: string;
+  entitlementToken: string;
+  count: number;
+  matches: Array<any>;
+  setMatches: React.Dispatch<React.SetStateAction<never[]>>;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [height, setHeight] = useState(300);

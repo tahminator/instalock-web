@@ -19,16 +19,27 @@ import {
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
-import { c } from 'vite/dist/node/types.d-aGj9QkWt';
 
-export default function InstalockModal({ opened, close, authToken, entitlementToken, matchId }) {
+export default function InstalockModal({
+  opened,
+  close,
+  authToken,
+  entitlementToken,
+  matchId,
+}: {
+  opened: boolean;
+  close: () => void;
+  authToken: string;
+  entitlementToken: string;
+  matchId: string;
+}) {
   const [matchLoading, setMatchLoading] = useState(false);
   const [map, setMap] = useState(51);
   const [mapName, setMapName] = useState('ascent');
   const [selectedAgentPicture, setSelectedAgentPicture] = useState(-1);
   const [selectedAgentName, setSelectedAgentName] = useState('');
   const [selectedAgentID, setSelectedAgentID] = useState('');
-  const [formLoading, setFormLoading] = useState(false);
+  const [, setFormLoading] = useState(false);
 
   async function getPreMatchData() {
     try {
@@ -56,7 +67,7 @@ export default function InstalockModal({ opened, close, authToken, entitlementTo
           message: 'Pregame data has been fetched!',
           color: 'green',
         });
-        console.log(data);
+        // console.log(data);
         setMap(data.data.mapid);
         setMapName(data.data.mapname);
       } else {
@@ -104,7 +115,6 @@ export default function InstalockModal({ opened, close, authToken, entitlementTo
         });
       }
 
-      const data = await response.json();
       if (response.status === 200) {
         notifications.show({
           title: 'Success',
@@ -155,7 +165,6 @@ export default function InstalockModal({ opened, close, authToken, entitlementTo
         });
       }
 
-      const data = await response.json();
       if (response.status === 200) {
         notifications.show({
           title: 'Success',
@@ -178,7 +187,11 @@ export default function InstalockModal({ opened, close, authToken, entitlementTo
     }
   }
 
-  const agentPictures = {
+  interface Agents {
+    [key: string]: { picture: number; name: string };
+  }
+
+  const agentPictures: Agents = {
     'e370fa57-4757-3604-3648-499e1f642d3f': { picture: 100, name: 'Gekko' },
     'dade69b4-4f5a-8528-247b-219e5a1facd6': { picture: 101, name: 'Fade' },
     '5f8d3a7f-467b-97f3-062c-13acf203c006': { picture: 102, name: 'Breach' },

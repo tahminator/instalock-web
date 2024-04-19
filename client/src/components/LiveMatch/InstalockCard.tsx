@@ -1,71 +1,9 @@
-import {
-  Card,
-  Image,
-  Text,
-  Badge,
-  Button,
-  Group,
-  ScrollArea,
-  Title,
-  Modal,
-  Stack,
-  Box,
-  Space,
-  Avatar,
-  Tooltip,
-  Center,
-  Loader,
-  Switch,
-  rem,
-  Grid,
-  AspectRatio,
-  Overlay,
-} from '@mantine/core';
+import { Card, Text, Button, Group, Stack, Center, Loader, Switch, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import InstalockModal from './InstalockModal';
-
-function millisToMinutesAndSeconds(millis) {
-  const minutes = Math.floor(millis / 60000);
-  const seconds = ((millis % 60000) / 1000).toFixed(0);
-  return `${minutes}:${Number(seconds) < 10 ? '0' : ''}${seconds}`;
-}
-
-function formatUnixTime(unixTime) {
-  const date = new Date(unixTime);
-
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  const dayOfWeek = days[date.getDay()];
-  const month = months[date.getMonth()];
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const timeZone = new Date()
-    .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' })
-    .substring(4)
-    .match(/\b(\w)/g)
-    .join('');
-
-  return `${dayOfWeek}, ${month} ${day} ${year} - ${hours}:${minutes} ${timeZone}`;
-}
 
 export default function InstalockCard({
   authToken,
@@ -73,15 +11,21 @@ export default function InstalockCard({
   width,
   height,
   setAuthenticated,
+}: {
+  authToken: string;
+  entitlementToken: string;
+  width: number;
+  height: number;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [pregameStatus, setPregameStatus] = useState(false);
   const [isLoadingLive, setIsLoadingLive] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [count, setCount] = useState(0);
+  const [count] = useState(0);
   const [matchId, setMatchId] = useState('');
-  const intervalRef = useRef(null);
+  const intervalRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   async function checkPregameFunc() {
     try {

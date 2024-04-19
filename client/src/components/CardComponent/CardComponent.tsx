@@ -15,15 +15,15 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure, useElementSize } from '@mantine/hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 
-function millisToMinutesAndSeconds(millis) {
+function millisToMinutesAndSeconds(millis: number) {
   const minutes = Math.floor(millis / 60000);
   const seconds = ((millis % 60000) / 1000).toFixed(0);
   return `${minutes}:${Number(seconds) < 10 ? '0' : ''}${seconds}`;
 }
 
-function formatUnixTime(unixTime) {
+function formatUnixTime(unixTime: number) {
   const date = new Date(unixTime);
 
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -51,17 +51,18 @@ function formatUnixTime(unixTime) {
   const minutes = date.getMinutes().toString().padStart(2, '0');
   const amPm = hours >= 12 ? 'PM' : 'AM';
 
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  hours = hours.toString().padStart(2, '0');
+  hours %= 12;
+  hours = hours || 12;
+  const hours_string = hours.toString().padStart(2, '0');
 
-  const timeZone = new Date()
-    .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' })
-    .substring(4)
-    .match(/\b(\w)/g)
-    .join('');
+  const timeZone =
+    (new Date()
+      .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' })
+      .substring(4)
+      .match(/\b(\w)/g),
+    []).join('') || null;
 
-  return { data: { dayOfWeek, month, day, year, hours, minutes, amPm, timeZone } };
+  return { data: { dayOfWeek, month, day, year, hours_string, minutes, amPm, timeZone } };
 }
 
 export default function CardComponent({
@@ -80,9 +81,24 @@ export default function CardComponent({
   meagentname,
   setWidth,
   setHeight,
+}: {
+  src: string;
+  alt: string;
+  title: string;
+  time: number;
+  duration: number;
+  completed: boolean;
+  gamemode: string;
+  realmapname: string;
+  players: any[];
+  me: any;
+  description: string;
+  mesrc: string;
+  meagentname: string;
+  setWidth: React.Dispatch<React.SetStateAction<number>>;
+  setHeight: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const [count, setCount] = useState(0);
 
   const { ref, width, height } = useElementSize();
 
@@ -90,13 +106,13 @@ export default function CardComponent({
   const redTeam = players.filter((player) => player.teamid === 'Red');
 
   const {
-    data: { dayOfWeek, month, day, year, hours, minutes, amPm, timeZone },
+    data: { dayOfWeek, month, day, year, hours_string, minutes, amPm, timeZone },
   } = formatUnixTime(time);
 
   useEffect(() => {
     setWidth(width);
     setHeight(height);
-  }, [width, height, count, ref]);
+  }, [width, height, ref]);
 
   return (
     <div ref={ref}>
@@ -135,7 +151,7 @@ export default function CardComponent({
               {dayOfWeek}
             </Text>
             <Text size="sm" c="dimmed">{`${month} ${day}, ${year}`}</Text>
-            <Text size="sm" c="dimmed">{`${hours}:${minutes} ${amPm} ${timeZone}`}</Text>
+            <Text size="sm" c="dimmed">{`${hours_string}:${minutes} ${amPm} ${timeZone}`}</Text>
 
             <Text size="sm" c="dimmed">
               {millisToMinutesAndSeconds(duration)}

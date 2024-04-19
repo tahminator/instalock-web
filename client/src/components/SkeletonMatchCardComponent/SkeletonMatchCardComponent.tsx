@@ -1,4 +1,4 @@
-import { Box, Card, Container, Skeleton } from '@mantine/core';
+import { Box, Card, Skeleton } from '@mantine/core';
 
 export default function SkeletonMatchCardComponent() {
   return (

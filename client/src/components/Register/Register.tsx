@@ -2,7 +2,6 @@
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Anchor,
   Paper,
   Title,
@@ -10,7 +9,6 @@ import {
   Container,
   Group,
   Button,
-  Loader,
   Box,
   rem,
   Center,
@@ -19,12 +17,16 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import { useEffect, useState } from 'react';
 import { notifications } from '@mantine/notifications';
-import { useTimeout } from '@mantine/hooks';
 import { IconArrowLeft } from '@tabler/icons-react';
 import classes from './Register.module.css';
 import isAuth from '../isAuth/isAuth';
 
-export function Register({ authenticated, setAuthenticated }) {
+export function Register({
+  setAuthenticated,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const form = useForm({
     initialValues: {
       email: '',

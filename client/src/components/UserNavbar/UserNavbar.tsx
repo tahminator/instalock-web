@@ -2,12 +2,10 @@ import cx from 'clsx';
 import { useEffect, useState } from 'react';
 import {
   Container,
-  Avatar,
   UnstyledButton,
   Group,
   Text,
   Menu,
-  Tabs,
   Burger,
   rem,
   Image,
@@ -20,21 +18,7 @@ import {
   Divider,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import {
-  IconLogout,
-  IconHeart,
-  IconStar,
-  IconMessage,
-  IconSettings,
-  IconPlayerPause,
-  IconTrash,
-  IconSwitchHorizontal,
-  IconChevronDown,
-  IconRefresh,
-  IconRefreshAlert,
-  IconRefreshDot,
-} from '@tabler/icons-react';
-import { MantineLogo } from '@mantinex/mantine-logo';
+import { IconTrash, IconChevronDown, IconRefresh } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import classes from './UserNavbar.module.css';
 
@@ -50,13 +34,27 @@ export default function UserNavbar({
   logOut,
   rankImage,
   setRankImage,
-  getImageUrl,
   count,
   setCount,
-  matches,
-  setMatches,
+}: {
+  authToken: string;
+  entitlementToken: string;
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  rank: string;
+  setRank: React.Dispatch<React.SetStateAction<string>>;
+  rr: string;
+  setRr: React.Dispatch<React.SetStateAction<string>>;
+  logOut: () => void;
+  rankImage: string;
+  setRankImage: React.Dispatch<React.SetStateAction<string>>;
+  getImageUrl: (id: string) => string;
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+  matches: Array<any>;
+  setMatches: React.Dispatch<React.SetStateAction<never[]>>;
 }) {
-  const [opened, { toggle }] = useDisclosure(false);
+  // const [] = useDisclosure(false);
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -118,7 +116,7 @@ export default function UserNavbar({
             <Group justify="left" gap={10}>
               <Image src={rankImage} alt={`${rank} ${rr}`} width={40} height={40} />
               <Text>
-                {rank} <Progress value={rr} color="red" /> {rr}/100
+                {rank} <Progress value={Number(rr)} color="red" /> {rr}/100
               </Text>
             </Group>
             <Group justify="right" gap={10}>

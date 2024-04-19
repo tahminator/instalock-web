@@ -1,37 +1,19 @@
-import {
-  Box,
-  Button,
-  Center,
-  Code,
-  Container,
-  Divider,
-  Grid,
-  Group,
-  HoverCard,
-  LoadingOverlay,
-  Modal,
-  NavLink,
-  ScrollArea,
-  Space,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDisclosure } from '@mantine/hooks';
-import { IconBrandValorant } from '@tabler/icons-react';
-import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import isAuth from '../isAuth/isAuth';
 import { Navbar } from '../Navbar/Navbar';
-import classes from './Dashboard.module.css';
 import AuthModal from '../AuthModal/AuthModal';
 import UserNavbar from '../UserNavbar/UserNavbar';
-import CardComponent from '../CardComponent/CardComponent';
 import Matches from '../Matches/Matches';
 
-export default function Dashboard({ authenticated, setAuthenticated }) {
+export default function Dashboard({
+  authenticated,
+  setAuthenticated,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const navigate = useNavigate();
   const [authToken, setAuthToken] = useState('');
   const [entitlementToken, setEntitlementToken] = useState('');
@@ -42,7 +24,7 @@ export default function Dashboard({ authenticated, setAuthenticated }) {
   const [count, setCount] = useState(0);
   const [matches, setMatches] = useState([]);
 
-  function getImageUrl(name) {
+  function getImageUrl(name: string) {
     return new URL(`/${name}.png`, import.meta.url).href;
   }
 

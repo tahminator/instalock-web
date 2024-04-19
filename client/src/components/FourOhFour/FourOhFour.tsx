@@ -1,6 +1,6 @@
 import { Title, Text, Button, Container, Group } from '@mantine/core';
-import classes from './FourOhFour.module.css';
 import { useNavigate } from 'react-router-dom';
+import classes from './FourOhFour.module.css';
 
 export default function FourOhFour() {
   const navigate = useNavigate();

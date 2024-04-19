@@ -1,14 +1,21 @@
 import { Button, Center, rem, MantineThemeProvider } from '@mantine/core';
+import { UseFormReturnType } from '@mantine/form/lib/types';
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 import { useState } from 'react';
 
-export function PasteButton({ form, highlighted }) {
+export function PasteButton({
+  form,
+  highlighted,
+}: {
+  form: UseFormReturnType<any>;
+  highlighted: boolean;
+}) {
   const [pasted, setPasted] = useState(false);
   return (
     <Center pb={0}>
       <MantineThemeProvider theme={{ activeClassName: '' }}>
         <Button
-          className={''}
+          className=""
           color={form.errors.url ? 'red' : pasted ? 'green' : highlighted ? 'blue' : 'gray'}
           size="sm"
           w={40}
