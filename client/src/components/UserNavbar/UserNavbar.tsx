@@ -65,7 +65,7 @@ export default function UserNavbar({
     async function fetchMmr() {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/riot/getmmr', {
+        const response = await fetch('/api/riot/get/mmr', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -1,41 +1,22 @@
 import {
-  HoverCard,
   Group,
   Button,
-  UnstyledButton,
   Text,
-  SimpleGrid,
-  ThemeIcon,
-  Anchor,
   Divider,
-  Center,
   Box,
   Burger,
   Drawer,
-  Collapse,
   ScrollArea,
   rem,
-  useMantineTheme,
   Title,
   Image,
 } from '@mantine/core';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
-import {
-  IconNotification,
-  IconCode,
-  IconBook,
-  IconChartPie3,
-  IconFingerprint,
-  IconCoin,
-  IconChevronDown,
-} from '@tabler/icons-react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { notifications } from '@mantine/notifications';
 import classes from './Navbar.module.css';
 import LogoImg from './logo.png';
-import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 import isAuth from '../isAuth/isAuth';
 
 // const mockdata = [
@@ -71,10 +52,14 @@ import isAuth from '../isAuth/isAuth';
 //   },
 // ];
 
-export function Navbar({ authenticated, setAuthenticated }) {
+export function Navbar({
+  authenticated,
+  setAuthenticated,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-  const theme = useMantineTheme();
 
   useEffect(() => {
     isAuth().then((isAuthenticated) => {
@@ -84,7 +69,6 @@ export function Navbar({ authenticated, setAuthenticated }) {
 
   const handleLogout = async () => {
     const response = await fetch('/api/auth/logout', { method: 'POST' }); // Assuming POST is the correct method
-    const data = await response.json();
 
     if (response.ok) {
       notifications.show({
@@ -202,7 +186,7 @@ export function Navbar({ authenticated, setAuthenticated }) {
                 <Text inherit>Matches</Text>
               </NavLink>
             ) : (
-              <NavLink to="/login">
+              <NavLink to="/login" className={classes.link}>
                 <Text inherit>Matches</Text>
               </NavLink>
             )}

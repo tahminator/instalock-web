@@ -1,9 +1,14 @@
 /* eslint-disable max-len */
-import { Welcome } from '@/components/Welcome/Welcome';
-import { ColorSchemeToggle } from '@/components/ColorSchemeToggle/ColorSchemeToggle';
 import { ScrollArea } from '@mantine/core';
+import { Welcome } from '@/components/Welcome/Welcome';
 
-export function HomePage({ authenticated, setAuthenticated }) {
+export function HomePage({
+  authenticated,
+  setAuthenticated,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <>
       <ScrollArea style={{ height: '100vh' }}>

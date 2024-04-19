@@ -1,24 +1,17 @@
-import {
-  Title,
-  Text,
-  Anchor,
-  Box,
-  Button,
-  Container,
-  Group,
-  Space,
-  Center,
-  Stack,
-} from '@mantine/core';
-import { IconBrandGithub, IconBrandGithubFilled, IconBrandValorant } from '@tabler/icons-react';
+import { Text, Button, Container, Group, Space, Center, Stack } from '@mantine/core';
+import { IconBrandGithubFilled, IconBrandValorant } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import classes from './Welcome.module.css';
 import { Navbar } from '../Navbar/Navbar';
 import { Features } from '../Features/Features';
-import isAuth from '../isAuth/isAuth';
 
-export function Welcome({ authenticated, setAuthenticated }) {
+export function Welcome({
+  authenticated,
+  setAuthenticated,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const navigate = useNavigate();
 
   return (

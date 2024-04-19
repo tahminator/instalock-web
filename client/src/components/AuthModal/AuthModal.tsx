@@ -14,23 +14,25 @@ import {
   Text,
 } from '@mantine/core';
 import { IconBrandValorant } from '@tabler/icons-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Navbar } from '../Navbar/Navbar';
+import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import classes from './AuthModal.module.css';
-import isAuth from '../isAuth/isAuth';
 import { PasteButton } from '../PasteButton/PasteButton';
 
 export default function AuthModal({
-  authenticated,
   setAuthenticated,
-  authToken,
   setAuthToken,
-  entitlementToken,
   setEntitlementToken,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  authToken: string;
+  setAuthToken: React.Dispatch<React.SetStateAction<string>>;
+  entitlementToken: string;
+  setEntitlementToken: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const form = useForm({
     initialValues: {
@@ -48,12 +50,11 @@ export default function AuthModal({
 
   const [opened, { open, close }] = useDisclosure(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
   const [highlighted, setHighlighted] = useState(false);
 
   const handleLogin = async () => {
     setIsSubmitting(true);
-    const response = await fetch('/api/riot/getentitlement', {
+    const response = await fetch('/api/riot/get/entitlements', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

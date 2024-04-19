@@ -1,10 +1,8 @@
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
-import { MantineProvider, ScrollArea } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { Router } from './Router';
-
-import { theme } from './theme';
 
 export default function App() {
   return (

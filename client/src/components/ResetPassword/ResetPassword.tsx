@@ -24,11 +24,16 @@ import { notifications } from '@mantine/notifications';
 import classes from './ResetPassword.module.css';
 import checkToken from './checkToken';
 
-export function ResetPassword({ authenticated, setAuthenticated }) {
+export function ResetPassword({
+  setAuthenticated,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const queryParameters = new URLSearchParams(window.location.search);
   const token = queryParameters.get('token');
   const [email, setEmail] = useState('');
-  const [validForReset, setValidForReset] = useState({ isValid: false, email: '' });
+  const [, setValidForReset] = useState({ isValid: false, email: '' });
 
   const form = useForm({
     initialValues: {
@@ -55,7 +60,7 @@ export function ResetPassword({ authenticated, setAuthenticated }) {
 
   const handlePasswordReset = async () => {
     setIsSubmitting(true);
-    const response = await fetch(`/api/auth/changepassword?token=${token}`, {
+    const response = await fetch(`/api/auth/password/change?token=${token}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -10,7 +10,6 @@ import {
   Container,
   Group,
   Button,
-  Loader,
   Box,
   rem,
   Center,
@@ -19,12 +18,16 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import { useEffect, useState } from 'react';
 import { notifications } from '@mantine/notifications';
-import { useTimeout } from '@mantine/hooks';
-import { IconArrowLeft, IconHome } from '@tabler/icons-react';
+import { IconArrowLeft } from '@tabler/icons-react';
 import classes from './Login.module.css';
 import isAuth from '../isAuth/isAuth';
 
-export function Login({ authenticated, setAuthenticated }) {
+export function Login({
+  setAuthenticated,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const form = useForm({
     initialValues: {
       email: '',

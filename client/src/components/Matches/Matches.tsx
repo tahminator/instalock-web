@@ -24,7 +24,7 @@ export default function Matches({
     async function fetchMatches() {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/riot/getmatches', {
+        const response = await fetch('/api/riot/get/matches', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

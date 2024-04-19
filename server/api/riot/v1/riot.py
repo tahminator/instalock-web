@@ -30,9 +30,6 @@ def getentitlement():
 
     url: str | None = request_json.get('url') if request_json is not None else None
 
-    if url is None or not isinstance(url, str) or "https://playvalorant.com/" not in url:
-        return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
-
     if url is None or ("https://playvalorant.com/" not in url) or (type(url) != str):
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
     
@@ -46,6 +43,7 @@ def getentitlement():
     # TODO: Look at the JSON files to figure out specific types instead of Any
     response = requests.post("https://entitlements.auth.riotgames.com/api/token/v1", headers = {"Authorization": f"Bearer {access_token}", "Content-Type": "application/json"})
     entitlements_json: Union[dict[Any, Any], None] = response.json()
+    print(entitlements_json)
 
     if entitlements_json is not None and 'entitlements_token' in entitlements_json:
         eT: str | None = entitlements_json['entitlements_token']
@@ -85,7 +83,7 @@ def getmmr():
     if puuid is None or name is None:
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
     
-    res = requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=20&queue=competitive", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
+    res = requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=1&queue=competitive", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
     # TODO: Look at the JSON files to figure out specific types instead of Any
     res_json: Union[dict[Any, Any], None] = res.json()
     matches: Union[dict[Any, Any], None] = res_json.get('Matches') if res_json is not None else None
@@ -181,6 +179,8 @@ def get_matches():
 
     if matches is not None and isinstance(matches, Sized):
         num_matches = len(matches)
+    else:
+        return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
     for i in range(num_matches):
         match_i: Union[dict[Any, Any], None] = matches[i] if matches is not None else None
         # For each match, get the match details from the Riot API and parse the data into a dict object that will then be sent as a JSON object.

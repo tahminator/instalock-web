@@ -86,7 +86,7 @@ export default function InstalockCard({
   async function checkPregameFunc() {
     try {
       setIsLoadingLive(true);
-      const response = await fetch('/api/riot/checkpregame', {
+      const response = await fetch('/api/riot/pregame/check', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

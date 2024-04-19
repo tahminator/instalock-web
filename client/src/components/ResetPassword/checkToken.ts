@@ -10,8 +10,5 @@ export default async function checkToken(token: string | null) {
         }
             return { isValid: false, email: '' };
     })
-    .catch(error => {
-        console.error('Error checking token:', error);
-        return { isValid: false };
-    });
+    .catch(() => ({ isValid: false }));
 }

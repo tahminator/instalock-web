@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useState, useEffect } from 'react';
 import { HomePage } from './pages/Home.page';
 import { LoginPage } from './pages/Login.page';
 import { ForgotPage } from './pages/Forgot.page';
@@ -7,7 +7,6 @@ import { ResetPage } from './pages/Reset.page';
 import { DashboardPage } from './pages/Dashboard.page';
 
 import FourOhFour from './components/FourOhFour/FourOhFour';
-import { useState, useEffect } from 'react';
 import isAuth from './components/isAuth/isAuth';
 import { RegisterPage } from './pages/Register.page';
 

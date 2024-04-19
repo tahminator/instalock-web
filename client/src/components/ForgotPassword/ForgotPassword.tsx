@@ -13,14 +13,21 @@ import {
   rem,
 } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
-import classes from './ForgotPassword.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
-import { useEffect, useState } from 'react';
-import isAuth from '../isAuth/isAuth';
+import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
+import classes from './ForgotPassword.module.css';
 
-export function ForgotPassword({ authenticated, setAuthenticated }) {
+export function ForgotPassword({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  authenticated,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setAuthenticated,
+}: {
+  authenticated: boolean;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const form = useForm({
     initialValues: {
       email: '',
@@ -42,7 +49,7 @@ export function ForgotPassword({ authenticated, setAuthenticated }) {
 
   const handlePasswordRest = async () => {
     setIsSubmitting(true);
-    const response = await fetch('/api/auth/resetpassword', {
+    const response = await fetch('/api/auth/password/reset', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

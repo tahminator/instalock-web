@@ -1,8 +1,6 @@
-import { Button, Center, rem, Tooltip, UnstyledButton } from '@mantine/core';
-import { useClipboard } from '@mantine/hooks';
+import { Button, Center, rem, MantineThemeProvider } from '@mantine/core';
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 import { useState } from 'react';
-import { MantineThemeProvider } from '@mantine/core';
 
 export function PasteButton({ form, highlighted }) {
   const [pasted, setPasted] = useState(false);
