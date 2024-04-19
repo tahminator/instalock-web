@@ -75,7 +75,7 @@ def getmmr():
         return {'code': '500', 'message': 'Internal server error', 'success': 'false'}, 500
 
     # Get PUUID and name of the user from Riot API
-    resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}"})
+    resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}", "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit", "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
     user_info: Union[dict[Any, Any], None] = resp.json()
     puuid: Union[str, None] = user_info['sub'] if user_info is not None else None
     name: Union[str, None] = f"{user_info['acct']['game_name']}#{user_info['acct']['tag_line']}" if user_info is not None else None
@@ -83,7 +83,9 @@ def getmmr():
     if puuid is None or name is None:
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
     
-    res = requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=1&queue=competitive", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
+    res = requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=1&queue=competitive", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+    "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+    "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})
     # TODO: Look at the JSON files to figure out specific types instead of Any
     res_json: Union[dict[Any, Any], None] = res.json()
     matches: Union[dict[Any, Any], None] = res_json.get('Matches') if res_json is not None else None
@@ -166,7 +168,7 @@ def get_matches():
     puuid: Union[str, None] = resp_json.get('sub') if resp_json is not None else None
 
     # Pull the last 20 matches from the Riot API
-    res = requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=20", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KICAgICJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KICAgICJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KICAgICJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCiAgICAicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"})
+    res = requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=20", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9", "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit", "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})
     res_json: Union[dict[Any, Any], None] = res.json() if res is not None else None
     
     matches: Union[dict[Any, Any], None] = res_json.get('Matches') if res_json is not None else None
@@ -187,7 +189,9 @@ def get_matches():
         match_id: Union[str, None] = match_i.get('MatchID', None) if match_i is not None else None
         if aT is None or eT is None or match_id is None:
             return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
-        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})
+        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+    "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+    "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
         match_deets_json: Union[dict[Any, Any], None] = respo.json() if respo is not None else None
         if respo.status_code != 200:
             # For some reason, Riot keeps the match_id on matches that don't exist. This is a workaround to avoid those matches.
@@ -240,6 +244,7 @@ def get_matches():
     # json.dump(new_js, open('new_js.json', 'w'))
     new_js['success'] = 'true'
     new_js['code'] = '200'
+    print(new_js)
     return jsonify(new_js), 200
 
 """
@@ -261,11 +266,14 @@ def checkpregame():
     puuid = user_info['sub']
 
     # Check pregame information
-    res = requests.get(f"https://glz-na-1.na.a.pvp.net/pregame/v1/players/{puuid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})
+    res = requests.get(f"https://glz-na-1.na.a.pvp.net/pregame/v1/players/{puuid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+    "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+    "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})
     pregame: Union[dict[Any, Any], None] = res.json()
-    try:
+    print(pregame)
+    if pregame is not None:
         return jsonify({'code': '200', 'success': 'true', 'matchid': pregame.get('MatchID') if pregame is not None else None, 'success': 'true'}), 200
-    except:
+    else:
         return '', 400
     
 """
@@ -305,7 +313,9 @@ def selectpregame():
     matchid: Union[str, None] = request_json.get('matchId') if request_json is not None else None
     agentid: Union[str, None] = request_json.get('agentId') if request_json is not None else None
 
-    resp = requests.post(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}/select/{agentid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})   
+    resp = requests.post(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}/select/{agentid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+    "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+    "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})   
     json.dump(resp.json(), open('new_js.json', 'w'))
     return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
 
@@ -324,7 +334,9 @@ def lockpregame():
     matchid: Union[str, None] = request_json.get('matchId') if request_json is not None else None
     agentid: Union[str, None] = request_json.get('agentId') if request_json is not None else None
 
-    resp = requests.post(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}/lock/{agentid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})   
+    resp = requests.post(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}/lock/{agentid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+    "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+    "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})   
     json.dump(resp.json(), open('new_js.json', 'w'))
     return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
 
