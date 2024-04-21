@@ -6,6 +6,7 @@ import requests
 import re
 import json
 from typing import *
+import concurrent.futures
 
 import api.riot.v1.Functionx as Functionx
 
@@ -148,6 +149,7 @@ def getuserinfo():
 
     return jsonify({'code': '200', 'success': 'true', 'puuid': PUUID, 'name': name, 'success': 'true'}), 200
 
+
 """
 /api/riot/get/matches - Gets the user's match history from the Riot API and returns it to the user. This is a doozy holy moly. Slowest part of the whole program.
 TODO - Do some research on whether it is better to just call the data directly from Riot's API on the client side and pull each bit out there. 
@@ -183,6 +185,7 @@ def get_matches():
         num_matches = len(matches)
     else:
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
+
     for i in range(num_matches):
         match_i: Union[dict[Any, Any], None] = matches[i] if matches is not None else None
         # For each match, get the match details from the Riot API and parse the data into a dict object that will then be sent as a JSON object.
@@ -271,7 +274,7 @@ def checkpregame():
     "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})
     pregame: Union[dict[Any, Any], None] = res.json()
     print(pregame)
-    if pregame is not None:
+    if pregame is not None and 'MatchID' in pregame:
         return jsonify({'code': '200', 'success': 'true', 'matchid': pregame.get('MatchID') if pregame is not None else None, 'success': 'true'}), 200
     else:
         return '', 400

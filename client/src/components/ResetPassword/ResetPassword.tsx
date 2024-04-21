@@ -15,8 +15,9 @@ import {
   Center,
   Box,
   rem,
+  UnstyledButton,
 } from '@mantine/core';
-import { IconArrowLeft } from '@tabler/icons-react';
+import { IconArrowLeft, IconHome } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import { useEffect, useState } from 'react';
@@ -112,6 +113,14 @@ export function ResetPassword({
   return (
     <Container size={500} my={40}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <UnstyledButton>
+          <IconHome
+            stroke={1.5}
+            onClick={() => {
+              navigate('/');
+            }}
+          />
+        </UnstyledButton>
         <Container size={460} my={30}>
           <Title className={classes.title} ta="center">
             {`Reset password for: ${email}`}

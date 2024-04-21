@@ -3,7 +3,6 @@ import { IconBrandGithubFilled, IconBrandValorant } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import classes from './Welcome.module.css';
 import { Navbar } from '../Navbar/Navbar';
-import { Features } from '../Features/Features';
 
 export function Welcome({
   authenticated,
@@ -77,7 +76,7 @@ export function Welcome({
                     navigate('/login');
                   }}
                 >
-                  Log In With Riot Credentials
+                  Log In
                 </Button>
               )}
               <Button
@@ -119,7 +118,7 @@ export function Welcome({
                     navigate('/login');
                   }}
                 >
-                  Log In With Riot Credentials
+                  Log In
                 </Button>
               )}
               <Button
@@ -138,9 +137,9 @@ export function Welcome({
         </Container>
       </div>
       <Space h={25}></Space>
-      <Container mx={20} pb={50} px={5} fluid style={{ borderRadius: '10px' }}>
+      {/* <Container mx={20} pb={50} px={5} fluid style={{ borderRadius: '10px' }}>
         <Features />
-      </Container>
+      </Container> */}
     </>
   );
 }

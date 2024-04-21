@@ -13,12 +13,13 @@ import {
   Box,
   rem,
   Center,
+  UnstyledButton,
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import { useEffect, useState } from 'react';
 import { notifications } from '@mantine/notifications';
-import { IconArrowLeft } from '@tabler/icons-react';
+import { IconArrowLeft, IconHome } from '@tabler/icons-react';
 import classes from './Login.module.css';
 import isAuth from '../isAuth/isAuth';
 
@@ -102,6 +103,14 @@ export function Login({
       {/* <IconHome style={{ width: rem(12), height: rem(12) }} stroke={1.5} /> */}
       <Container size={500} my={40}>
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <UnstyledButton>
+            <IconHome
+              stroke={1.5}
+              onClick={() => {
+                navigate('/');
+              }}
+            />
+          </UnstyledButton>
           <Container size={420} my={40}>
             <Title ta="center" className={classes.title}>
               <Text
