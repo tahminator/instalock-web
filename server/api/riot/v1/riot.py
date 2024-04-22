@@ -269,7 +269,7 @@ def checkpregame():
     puuid = user_info['sub']
 
     # Check pregame information
-    res = requests.get(f"https://glz-na-1.na.a.pvp.net/pregame/v1/players/{puuid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+    res = requests.get(f"https://glz-na-1.na.a.pvp.net/pregame/v1/players/{puuid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
     "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
     "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})
     pregame: Union[dict[Any, Any], None] = res.json()
@@ -292,7 +292,9 @@ def datapregame():
     aT: Union[str, None] = request_json.get('authToken') if request_json is not None else None
     matchid: Union[str, None] = request_json.get('matchId') if request_json is not None else None
 
-    resp = requests.get(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT})
+    resp = requests.get(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,  "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+    "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+    "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
     pregame = resp.json()
     print(pregame)
     new_json: dict[Any, Any] = {}
@@ -316,11 +318,21 @@ def selectpregame():
     matchid: Union[str, None] = request_json.get('matchId') if request_json is not None else None
     agentid: Union[str, None] = request_json.get('agentId') if request_json is not None else None
 
+    # TODO: Don't pull PUUID again, save I/O operations by resending from client.
+    respo = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}"})
+    resp_json: Union[dict[Any, Any], None] = respo.json()
+    puuid: Union[str, None] = resp_json.get('sub') if resp_json is not None else None
+
     resp = requests.post(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}/select/{agentid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
     "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
     "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})   
-    json.dump(resp.json(), open('new_js.json', 'w'))
-    return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
+    for player in resp.json()["AllyTeam"]["Players"]:
+        if player['Subject'] == str(puuid):
+            if player['CharacterSelectionState'] == "":
+                return jsonify({'code': '400', 'message': 'failed', 'success': 'false'}), 400
+            else:
+                return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
+    return jsonify({'code': '400', 'message': 'failed', 'success': 'false'}), 400
 
 """
 /api/riot/pregame/lock - Locks the agent for the user in the pregame lobby.
@@ -337,11 +349,22 @@ def lockpregame():
     matchid: Union[str, None] = request_json.get('matchId') if request_json is not None else None
     agentid: Union[str, None] = request_json.get('agentId') if request_json is not None else None
 
+    # TODO: Don't pull PUUID again, save I/O operations by resending from client.
+    resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}"})
+    resp_json: Union[dict[Any, Any], None] = resp.json()
+    puuid: Union[str, None] = resp_json.get('sub') if resp_json is not None else None
+
     resp = requests.post(f"https://glz-na-1.na.a.pvp.net/pregame/v1/matches/{matchid}/lock/{agentid}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
     "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-    "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})   
-    json.dump(resp.json(), open('new_js.json', 'w'))
-    return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
+    "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})
+    for player in resp.json()["AllyTeam"]["Players"]:
+        if player['Subject'] == str(puuid):
+            print("found player")
+            if player['CharacterSelectionState'] == 'locked':
+                return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
+            else:
+                return jsonify({'code': '400', 'message': 'failed', 'success': 'false'}), 400
+    return jsonify({'code': '400', 'message': 'failed', 'success': 'false'}), 400
 
 
 # @riot_route.route('/getnameservice', methods = ['POST'])
