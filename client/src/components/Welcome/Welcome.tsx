@@ -18,7 +18,7 @@ export function Welcome({
       <Navbar authenticated={authenticated} setAuthenticated={setAuthenticated} />
       <div style={{ paddingTop: '120px' }}>
         <Container
-          mx={30}
+          maw={'95vw'}
           py="100px"
           px={10}
           mt={-100}

@@ -73,50 +73,55 @@ export default function Matches({
 
   return (
     <Container fluid>
-      {isLoading ? (
-        <Grid grow>
-          {Array.from({ length: 8 }, (_, i) => (
-            <Grid.Col span={{ xs: 12, sm: 3 }} key={i}>
-              <SkeletonMatchCardComponent />
-            </Grid.Col>
-          ))}
-        </Grid>
-      ) : (
-        <Grid>
-          <Grid.Col span={{ xs: 12, sm: 3 }} key="livematch">
-            <InstalockCard
-              entitlementToken={entitlementToken}
-              authToken={authToken}
-              height={height}
-              width={width}
-              setAuthenticated={setAuthenticated}
-            />
-          </Grid.Col>
-          {matches.map((match) => (
-            <Grid.Col span={{ xs: 12, sm: 3 }} key={match.matchid}>
-              <CardComponent
-                src={`${match.mapcode}.png`}
-                alt={`${match.realmapname}`}
-                title={match.realmapname}
-                time={match.date}
-                duration={match.duration}
-                completed={match.completed}
-                realmapname={match.realmapname}
-                gamemode={match.gamemode}
-                players={match.players}
-                me={match.me}
-                setWidth={setWidth}
-                setHeight={setHeight}
-                description={
-                  match.rrdiff > 0 ? `Gained ${match.rrdiff} RR` : `Lost ${-match.rrdiff} RR`
-                }
-                mesrc={`${match.me.charactertype}.png`}
-                meagentname={match.me.charactername}
-              />
-            </Grid.Col>
-          ))}
-        </Grid>
-      )}
+      <Grid>
+        <Grid.Col span={{ xs: 12, sm: 3 }} key="livematch">
+          <InstalockCard
+            entitlementToken={entitlementToken}
+            authToken={authToken}
+            height={height}
+            width={width}
+            setAuthenticated={setAuthenticated}
+            setHeight={setHeight}
+            setWidth={setWidth}
+            count={count}
+          />
+        </Grid.Col>
+        {isLoading ? (
+          <>
+            {Array.from({ length: 7 }, (_, i) => (
+              <Grid.Col span={{ xs: 12, sm: 3 }} key={i}>
+                <SkeletonMatchCardComponent setHeight={setHeight} setWidth={setWidth} />
+              </Grid.Col>
+            ))}
+          </>
+        ) : (
+          <>
+            {matches.map((match) => (
+              <Grid.Col span={{ xs: 12, sm: 3 }} key={match.matchid}>
+                <CardComponent
+                  src={`${match.mapcode}.png`}
+                  alt={`${match.realmapname}`}
+                  title={match.realmapname}
+                  time={match.date}
+                  duration={match.duration}
+                  completed={match.completed}
+                  realmapname={match.realmapname}
+                  gamemode={match.gamemode}
+                  players={match.players}
+                  me={match.me}
+                  setWidth={setWidth}
+                  setHeight={setHeight}
+                  description={
+                    match.rrdiff > 0 ? `Gained ${match.rrdiff} RR` : `Lost ${-match.rrdiff} RR`
+                  }
+                  mesrc={`${match.me.charactertype}.png`}
+                  meagentname={match.me.charactername}
+                />
+              </Grid.Col>
+            ))}
+          </>
+        )}
+      </Grid>
     </Container>
   );
 }

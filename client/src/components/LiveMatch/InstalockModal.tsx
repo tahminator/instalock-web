@@ -236,7 +236,7 @@ export default function InstalockModal({
               <Center>
                 <Text fw={700}>{mapName}</Text>
               </Center>
-              <AspectRatio ratio={16 / 9} mah="300">
+              <AspectRatio ratio={16 / 9} mah="200">
                 <Image
                   src={`${map}.png`}
                   alt="test"
@@ -277,7 +277,7 @@ export default function InstalockModal({
                             src={`${agentPictures[key].picture}.png`}
                             alt={agentPictures[key].name}
                             radius="xs"
-                            size="sm"
+                            size="md"
                             color="red"
                             style={{ border: '1px dotted gray' }}
                             component="button"

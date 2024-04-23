@@ -11,19 +11,22 @@ export default function InstalockCard({
   width,
   height,
   setAuthenticated,
+  count,
 }: {
   authToken: string;
   entitlementToken: string;
   width: number;
   height: number;
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  setHeight: React.Dispatch<React.SetStateAction<number>>;
+  setWidth: React.Dispatch<React.SetStateAction<number>>;
+  count: number;
 }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [pregameStatus, setPregameStatus] = useState(false);
   const [isLoadingLive, setIsLoadingLive] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [count] = useState(0);
   const [matchId, setMatchId] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
