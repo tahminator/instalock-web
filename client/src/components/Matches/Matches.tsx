@@ -99,7 +99,7 @@ export default function Matches({
             {matches.map((match) => (
               <Grid.Col span={{ xs: 12, sm: 3 }} key={match.matchid}>
                 <CardComponent
-                  src={`${match.mapcode}.png`}
+                  src={`${match.mapcode}.jpeg`}
                   alt={`${match.realmapname}`}
                   title={match.realmapname}
                   time={match.date}

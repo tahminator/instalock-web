@@ -25,7 +25,7 @@ export default function Dashboard({
   const [matches, setMatches] = useState([]);
 
   function getImageUrl(name: string) {
-    return new URL(`/${name}.jpeg`, import.meta.url).href;
+    return new URL(`/${name}.png`, import.meta.url).href;
   }
 
   function logOut() {
