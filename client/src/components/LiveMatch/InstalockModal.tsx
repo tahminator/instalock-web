@@ -238,7 +238,7 @@ export default function InstalockModal({
               </Center>
               <AspectRatio ratio={16 / 9} mah="200">
                 <Image
-                  src={`${map}.png`}
+                  src={new URL(`/${map}.png`, import.meta.url).href}
                   alt="test"
                   radius="md"
                   color="red"
