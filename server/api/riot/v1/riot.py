@@ -164,8 +164,6 @@ def get_matches():
     eT: Union[str, None] = request_json.get('entitlementToken') if request_json is not None else None
     aT: Union[str, None] = request_json.get('authToken') if request_json is not None else None
 
-    print(request_json)
-
     # TODO: Don't pull PUUID again, save I/O operations by resending from client.
     resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}"})
     resp_json: Union[dict[Any, Any], None] = resp.json()
