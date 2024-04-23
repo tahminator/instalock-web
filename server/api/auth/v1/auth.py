@@ -10,6 +10,7 @@ from model import get_reset_token
 import jwt
 import datetime
 from typing import *
+import time
 
 auth_route = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -39,7 +40,7 @@ def logout():
     return jsonify({'code': '200', 'success': 'true'}), 200
 
 """
-/api/auth/register - Registers the user
+/api/auth/register - Registers the user in the database but doesn't verify the user yet.
 """
 @auth_route.route("/register", methods = ['POST'])
 def register():
@@ -60,8 +61,13 @@ def register():
     user: User | None = User.query.filter_by(email = email).first()
 
     if user:
-        return {'code': '409', 'message': 'User already exists'}, 404
-    
+        if user.verified is True:
+            return {'code': '409', 'message': 'User already exists'}, 404
+        else:
+            token: str = jwt.encode({'verify_email': email, 'exp': time.time() + 3600}, key = g.SECRET_KEY)
+            message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/verify?token={token}")
+            mail.send(message)
+            return jsonify({'code': '201', 'success': 'true'}), 201
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     if not hashed_password:
         return jsonify({'code': '500', 'message': 'Internal server error', 'success': 'false'}), 500
@@ -72,12 +78,60 @@ def register():
     return jsonify({'code': '200', 'success': 'true', 'id': new_user.id, 'email': new_user.email})
 
 """
+/api/auth/send - Sends the email to verify the user email
+"""
+@auth_route.route("/send", methods = ['POST'])
+def sendregistrationemail():
+    request_json: Union[dict[str, str], None] = request.json
+    email: Union[str, None] = request_json.get('email') if request_json is not None else None
+
+    if type(email) != str:
+        return {'code': '400', 'message': 'Bad Request'}, 400
+    
+    user: User | None = User.query.filter_by(email = email).first()
+
+    if not user:
+        return {'code': '404', 'message': 'User not found'}, 404
+    
+    token: str = jwt.encode({'verify_email': email, 'exp': time.time() + 3600}, key = g.SECRET_KEY)
+    message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/verify?token={token}")
+    mail.send(message)
+    return jsonify({'code': '200', 'success': 'true'}), 200
+
+"""
+/api/auth/verifyemail - Verifies the user email
+"""
+@auth_route.route("/verify", methods = ['POST'])
+def verifyemail():
+    if current_user.is_authenticated:
+        return jsonify({'code': '403', 'message': 'Already authenticated', 'success': 'false'}), 403
+    token: Union[str, None] = request.args.get('token')
+
+    if not token or type(token) != str:
+        return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+    
+    try:
+        email: Union[str, None] = jwt.decode(token, g.SECRET_KEY, algorithms = "HS256")['verify_email'] # type: ignore
+    except jwt.DecodeError as E:
+        return jsonify({'code': '400', 'message': 'bad request', 'success': 'false'}), 400
+    except Exception as E:
+        return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+
+    existing_user: User | None = User.query.filter_by(email = email).first()
+
+    if existing_user:
+        existing_user.verified = True
+        db.session.commit()
+        return jsonify({'code': '200', 'email': existing_user.email, 'success': 'true'}), 200
+    
+    return jsonify({'code': '400', 'message': 'Bad request', 'success': 'false'}), 400
+
+"""
 /api/auth/login - Logs in the user
 """
 @auth_route.route("/login", methods = ['POST'])
 def login():
     if g.MODE == "test":
-        import time
         time.sleep(1)
 
     request_json: Union[dict[str, str], None] = request.json
@@ -86,7 +140,7 @@ def login():
     password: Union[str, None] = request_json.get('password') if request_json is not None else None
     remember_me: Union[bool, None] = bool(request_json.get('rememberMe')) if request_json is not None else None
     
-    if type(email) != str or type(password) != str or type(remember_me) != bool or not email or not password or not remember_me:
+    if type(email) != str or type(password) != str or type(remember_me) != bool:
         return {'code': '400', 'message': 'Bad Request'}, 400
 
     user: User | None = User.query.filter_by(email = email).first()
@@ -96,6 +150,12 @@ def login():
     
     if not bcrypt.check_password_hash(user.password, password):
         return {'code': '401', 'type': '2', 'message': 'Unauthorized', 'success': 'false'}, 401
+    
+    if user.verified == False:
+        token: str = jwt.encode({'verify_email': email, 'exp': time.time() + 3600}, key = g.SECRET_KEY)
+        message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/verify?token={token}")
+        mail.send(message)
+        return jsonify({'code': '309', 'type': '3', 'message': 'resent email', 'success': 'false'}), 309
     
     login_user(user, duration = datetime.timedelta(hours = 3), remember = remember_me)
 
@@ -139,7 +199,7 @@ def iforgot():
     existing_user: User | None = User.query.filter_by(email = email).first()
 
     if existing_user:
-        token: str = get_reset_token(existing_user.email, expires=30)
+        token: str = get_reset_token(existing_user.email, expires = 3600)
         message: Message = Message(recipients=[email], subject = "Instalock password reset", body = f"Click the link to reset your password: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/resetpassword?token={token}")
         mail.send(message)
         return jsonify({'code': '200', 'success': 'true'}), 200

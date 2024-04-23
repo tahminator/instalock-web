@@ -1,4 +1,4 @@
-import { Center, Container, Grid, Loader } from '@mantine/core';
+import { Container, Grid } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import CardComponent from '../CardComponent/CardComponent';

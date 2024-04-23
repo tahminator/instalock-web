@@ -1,5 +1,5 @@
 export default async function checkToken(token: string | null) {
-  return fetch(`/api/auth/checkpasswordtoken?token=${token}`, {
+  return fetch(`/api/auth/password/checktoken?token=${token}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -10,5 +10,5 @@ export default async function checkToken(token: string | null) {
       }
       return { isValid: false, email: '' };
     })
-    .catch(() => ({ isValid: false }));
+    .catch(() => ({ isValid: false, email: '' }));
 }

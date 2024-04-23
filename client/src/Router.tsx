@@ -9,6 +9,7 @@ import { DashboardPage } from './pages/Dashboard.page';
 import FourOhFour from './components/FourOhFour/FourOhFour';
 import isAuth from './components/isAuth/isAuth';
 import { RegisterPage } from './pages/Register.page';
+import VerifyPage from './pages/Verify.page';
 
 export function Router() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -52,6 +53,11 @@ export function Router() {
           element: (
             <DashboardPage authenticated={authenticated} setAuthenticated={setAuthenticated} />
           ),
+          ErrorBoundary: () => <FourOhFour />,
+        },
+        {
+          path: '/verify',
+          element: <VerifyPage authenticated={authenticated} setAuthenticated={setAuthenticated} />,
           ErrorBoundary: () => <FourOhFour />,
         },
       ])}

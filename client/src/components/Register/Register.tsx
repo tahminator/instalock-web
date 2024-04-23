@@ -80,17 +80,49 @@ export function Register({
     });
 
     if (response.status === 200) {
+      const respo = await fetch('/api/auth/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: form.values.email }),
+      });
+      if (respo.status === 200) {
+        setIsSubmitting(false);
+        notifications.show({
+          title: 'Success',
+          message:
+            'You have successfully registered! Please check your email for a verification link.',
+          color: 'green',
+        });
+        navigate('/login');
+      } else if (respo.status === 201) {
+        setIsSubmitting(false);
+        notifications.show({
+          title: 'Success',
+          message: 'Email has been resent for verification. Please check your email',
+          color: 'green',
+        });
+      } else {
+        setIsSubmitting(false);
+        notifications.show({
+          title: 'Error',
+          message: 'Could not register. Please try again later.',
+          color: 'red',
+        });
+      }
+    } else if (response.status === 201) {
+      setIsSubmitting(false);
       notifications.show({
         title: 'Success',
-        message: 'You have successfully registered! Please login with your new account.',
+        message: 'Email has been resent for verification. Please check your email',
         color: 'green',
       });
-      navigate('/login');
     } else {
       setIsSubmitting(false);
       notifications.show({
         title: 'Error',
-        message: 'Could not login. Please try again later.',
+        message: 'Could not register. Please try again later.',
         color: 'red',
       });
     }

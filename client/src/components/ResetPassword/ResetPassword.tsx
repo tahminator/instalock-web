@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-restricted-globals */
 
-// @ts-nocheck
-
 import {
   Paper,
   Title,

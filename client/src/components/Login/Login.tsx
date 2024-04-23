@@ -88,11 +88,20 @@ export function Login({
         color: 'green',
       });
       navigate('/dashboard');
+    } else if (response.status === 309) {
+      setIsSubmitting(false);
+      notifications.show({
+        title: 'Error',
+        message:
+          'Please verify your email before logging in. A new link has been sent to your inbox.',
+        color: 'red',
+      });
     } else {
       setIsSubmitting(false);
       notifications.show({
         title: 'Error',
-        message: 'Could not login. Please try again later or register for an account above.',
+        message:
+          'Could not login. Please try again later or register for an account above. If you have not registered your email, please check your inbox for a verification email.',
         color: 'red',
       });
     }

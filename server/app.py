@@ -1,9 +1,10 @@
-from flask import request, jsonify, session, redirect, url_for, render_template
+from flask import request, jsonify, session, redirect, url_for, render_template, send_from_directory
 from flask_bcrypt import Bcrypt # type: ignore
 from flask_login import login_user, login_required, current_user, logout_user # type: ignore
 
 import datetime
 import jwt
+import os
 
 from app_maker import create_app
 from model import User, get_reset_token
@@ -29,9 +30,8 @@ def load_user(user_id):
     return User.query.get(str(user_id))
 
 with app.app_context():
-    # with app.test_request_context():
-    #     session.clear()
     # db.drop_all()
+    # db.create_all()
     if MODE == 'test':
         db.create_all()
 
@@ -56,10 +56,14 @@ if MODE == 'test':
     def index():
         return redirect(url_for('api.index'))
 else:
+    # Serve React App
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
-    def catch_all(path):
-        return render_template("index.html")
+    def serve(path):
+        if path != "" and os.path.exists(app.static_folder + '/' + path):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
     if MODE == 'test':

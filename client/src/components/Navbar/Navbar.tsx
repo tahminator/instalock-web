@@ -117,7 +117,7 @@ export function Navbar({
         backgroundClip: 'padding-box',
       }}
     >
-      <header className={classes.header}>
+      <header className={classes.header} style={{ cursor: 'default', userSelect: 'none' }}>
         <Group justify="space-between" h="100%">
           <Group pl="10">
             <Image src={LogoImg} w={30} mr={-15} ml={-20} pt={5} />

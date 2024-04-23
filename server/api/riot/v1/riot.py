@@ -44,7 +44,7 @@ def getentitlement():
     # TODO: Look at the JSON files to figure out specific types instead of Any
     response = requests.post("https://entitlements.auth.riotgames.com/api/token/v1", headers = {"Authorization": f"Bearer {access_token}", "Content-Type": "application/json"})
     entitlements_json: Union[dict[Any, Any], None] = response.json()
-    print(entitlements_json)
+    # print(entitlements_json)
 
     if entitlements_json is not None and 'entitlements_token' in entitlements_json:
         eT: str | None = entitlements_json['entitlements_token']
@@ -247,7 +247,7 @@ def get_matches():
     # json.dump(new_js, open('new_js.json', 'w'))
     new_js['success'] = 'true'
     new_js['code'] = '200'
-    print(new_js)
+    # print(new_js)
     return jsonify(new_js), 200
 
 """
@@ -273,7 +273,7 @@ def checkpregame():
     "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
     "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})
     pregame: Union[dict[Any, Any], None] = res.json()
-    print(pregame)
+    # print(pregame)
     if pregame is not None and 'MatchID' in pregame:
         return jsonify({'code': '200', 'success': 'true', 'matchid': pregame.get('MatchID') if pregame is not None else None, 'success': 'true'}), 200
     else:
@@ -296,7 +296,7 @@ def datapregame():
     "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
     "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
     pregame = resp.json()
-    print(pregame)
+    # print(pregame)
     new_json: dict[Any, Any] = {}
     new_json['data'] = {}
     new_json['data']['mapid'] = Functionx.map_id_to_code(pregame['MapID'])
@@ -359,7 +359,7 @@ def lockpregame():
     "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",})
     for player in resp.json()["AllyTeam"]["Players"]:
         if player['Subject'] == str(puuid):
-            print("found player")
+            # print("found player")
             if player['CharacterSelectionState'] == 'locked':
                 return jsonify({'code': '200', 'message': 'success', 'success': 'true'}), 200
             else:

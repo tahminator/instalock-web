@@ -10,3 +10,5 @@ pyjwt
 datetime
 requests
 psycopg2-binary
+waitress
+gunicorn

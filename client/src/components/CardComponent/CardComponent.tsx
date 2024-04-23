@@ -56,11 +56,11 @@ function formatUnixTime(unixTime: number) {
   const hours_string = hours.toString().padStart(2, '0');
 
   const timeZone =
-    (new Date()
+    new Date()
       .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' })
       .substring(4)
-      .match(/\b(\w)/g),
-    []).join('') || null;
+      .match(/\b(\w)/g)
+      ?.join('') || null;
 
   return { data: { dayOfWeek, month, day, year, hours_string, minutes, amPm, timeZone } };
 }
