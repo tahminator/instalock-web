@@ -164,6 +164,8 @@ def get_matches():
     eT: Union[str, None] = request_json.get('entitlementToken') if request_json is not None else None
     aT: Union[str, None] = request_json.get('authToken') if request_json is not None else None
 
+    print(request_json)
+
     # TODO: Don't pull PUUID again, save I/O operations by resending from client.
     resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}"})
     resp_json: Union[dict[Any, Any], None] = resp.json()
@@ -195,8 +197,13 @@ def get_matches():
         respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
     "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
     "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
-        match_deets_json: Union[dict[Any, Any], None] = respo.json() if respo is not None else None
-        if respo.status_code != 200:
+        try:
+            match_deets_json: Union[dict[Any, Any], None] = respo.json() if respo is not None else None
+        except: 
+            match_deets_json = None
+        if match_deets_json is None:
+            pass
+        if match_deets_json is not None and respo.status_code != 200:
             # For some reason, Riot keeps the match_id on matches that don't exist. This is a workaround to avoid those matches.
             pass
         else:
