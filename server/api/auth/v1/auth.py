@@ -65,7 +65,8 @@ def register():
             return {'code': '409', 'message': 'User already exists'}, 404
         else:
             token: str = jwt.encode({'verify_email': email, 'exp': time.time() + 3600}, key = g.SECRET_KEY)
-            message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/verify?token={token}")
+            URL = "http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"
+            message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {URL}/verify?token={token}")
             mail.send(message)
             return jsonify({'code': '201', 'success': 'true'}), 201
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -94,7 +95,8 @@ def sendregistrationemail():
         return {'code': '404', 'message': 'User not found'}, 404
     
     token: str = jwt.encode({'verify_email': email, 'exp': time.time() + 3600}, key = g.SECRET_KEY)
-    message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/verify?token={token}")
+    URL = "http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"
+    message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {URL}/verify?token={token}")
     mail.send(message)
     return jsonify({'code': '200', 'success': 'true'}), 200
 
@@ -153,7 +155,8 @@ def login():
     
     if user.verified == False:
         token: str = jwt.encode({'verify_email': email, 'exp': time.time() + 3600}, key = g.SECRET_KEY)
-        message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/verify?token={token}")
+        URL = "http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"
+        message: Message = Message(recipients=[email], subject = "Instalock email verification", body = f"Click the link to verify your email: {URL}/verify?token={token}")
         mail.send(message)
         return jsonify({'code': '309', 'type': '3', 'message': 'resent email', 'success': 'false'}), 309
     
@@ -200,7 +203,8 @@ def iforgot():
 
     if existing_user:
         token: str = get_reset_token(existing_user.email, expires = 3600)
-        message: Message = Message(recipients=[email], subject = "Instalock password reset", body = f"Click the link to reset your password: {"http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"}/resetpassword?token={token}")
+        URL = "http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"
+        message: Message = Message(recipients=[email], subject = "Instalock password reset", body = f"Click the link to reset your password: {URL}/resetpassword?token={token}")
         mail.send(message)
         return jsonify({'code': '200', 'success': 'true'}), 200
     
