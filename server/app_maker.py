@@ -6,8 +6,8 @@ from config import DevelopmentConfig, ProductionConfig
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(DevelopmentConfig)
-    # app.config.from_object(ProductionConfig)
+    # app.config.from_object(DevelopmentConfig)
+    app.config.from_object(ProductionConfig)
 
     db.init_app(app)
     sesh.init_app(app)
