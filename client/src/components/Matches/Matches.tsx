@@ -114,7 +114,7 @@ export default function Matches({
                   description={
                     match.rrdiff > 0 ? `Gained ${match.rrdiff} RR` : `Lost ${-match.rrdiff} RR`
                   }
-                  mesrc={`${match.me.charactertype}.png`}
+                  mesrc={`${match.me.charactertype}.jpeg`}
                   meagentname={match.me.charactername}
                 />
               </Grid.Col>
