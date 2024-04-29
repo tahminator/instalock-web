@@ -16,122 +16,120 @@ export function Welcome({
   return (
     <>
       <Navbar authenticated={authenticated} setAuthenticated={setAuthenticated} />
-      <div style={{ paddingTop: '120px' }}>
+      <div style={{ paddingTop: '30px' }}>
         <Container
-          maw={'95vw'}
-          py="100px"
-          px={10}
-          mt={-100}
-          fluid
+          maw="95vw"
+          h="80vh"
           style={{
             borderRadius: '10px',
             background: 'radial-gradient(at left top, #151981, #47346D)',
           }}
         >
-          <Center>
-            <h1
-              className={classes.title}
-              style={{
-                textAlign: 'center',
-                paddingInline: '20px',
-              }}
-            >
-              Welcome to{' '}
-              <Text
-                inherit
-                variant="gradient"
-                component="span"
-                gradient={{ from: 'deep-red.4', to: 'deep-red' }}
+          <Center h="95%">
+            <Stack>
+              <h1
+                className={classes.title}
+                style={{
+                  textAlign: 'center',
+                }}
               >
-                Instalock
-              </Text>
-              , the comprehensive Valorant companion.
-            </h1>
-          </Center>
-          <Center>
-            <Group className={classes.controls}>
-              {authenticated ? (
-                <Button
-                  size="xl"
-                  className={classes.control}
+                Welcome to{' '}
+                <Text
+                  inherit
                   variant="gradient"
-                  gradient={{ from: 'purple', to: 'red' }}
-                  leftSection={<IconBrandValorant size={30} />}
-                  visibleFrom="md"
-                  onClick={() => {
-                    navigate('/dashboard');
-                  }}
+                  component="span"
+                  gradient={{ from: 'deep-red.4', to: 'deep-red' }}
                 >
-                  Go To Dashboard
-                </Button>
-              ) : (
-                <Button
-                  size="xl"
-                  className={classes.control}
-                  variant="gradient"
-                  gradient={{ from: 'purple', to: 'red' }}
-                  leftSection={<IconBrandValorant size={30} />}
-                  visibleFrom="md"
-                  onClick={() => {
-                    navigate('/login');
-                  }}
-                >
-                  Log In
-                </Button>
-              )}
-              <Button
-                component="a"
-                href="https://github.com/0pengu/instalock-web"
-                size="xl"
-                visibleFrom="md"
-                variant="default"
-                className={classes.control}
-                leftSection={<IconBrandGithubFilled size={30} />}
-              >
-                GitHub
-              </Button>
-            </Group>
-            <Stack className={classes.control}>
-              {authenticated ? (
-                <Button
-                  size="xl"
-                  className={classes.control}
-                  variant="gradient"
-                  gradient={{ from: 'purple', to: 'red' }}
-                  leftSection={<IconBrandValorant size={30} />}
-                  hiddenFrom="md"
-                  onClick={() => {
-                    navigate('/dashboard');
-                  }}
-                >
-                  Go To Dashboard
-                </Button>
-              ) : (
-                <Button
-                  size="xl"
-                  className={classes.control}
-                  variant="gradient"
-                  gradient={{ from: 'purple', to: 'red' }}
-                  leftSection={<IconBrandValorant size={30} />}
-                  hiddenFrom="md"
-                  onClick={() => {
-                    navigate('/login');
-                  }}
-                >
-                  Log In
-                </Button>
-              )}
-              <Button
-                component="a"
-                href="https://github.com/0pengu/instalock-web"
-                size="xl"
-                hiddenFrom="md"
-                variant="default"
-                className={classes.control}
-                leftSection={<IconBrandGithubFilled size={30} />}
-              >
-                GitHub
-              </Button>
+                  Instalock
+                </Text>
+                , the comprehensive Valorant companion.
+              </h1>
+              <Center>
+                <Group className={classes.controls}>
+                  {authenticated ? (
+                    <Button
+                      size="xl"
+                      className={classes.control}
+                      variant="gradient"
+                      gradient={{ from: 'purple', to: 'red' }}
+                      leftSection={<IconBrandValorant size={30} />}
+                      visibleFrom="md"
+                      onClick={() => {
+                        navigate('/dashboard');
+                      }}
+                    >
+                      Go To Dashboard
+                    </Button>
+                  ) : (
+                    <Button
+                      size="xl"
+                      className={classes.control}
+                      variant="gradient"
+                      gradient={{ from: 'purple', to: 'red' }}
+                      leftSection={<IconBrandValorant size={30} />}
+                      visibleFrom="md"
+                      onClick={() => {
+                        navigate('/login');
+                      }}
+                    >
+                      Log In
+                    </Button>
+                  )}
+                  <Button
+                    component="a"
+                    href="https://github.com/0pengu/instalock-web"
+                    size="xl"
+                    visibleFrom="md"
+                    variant="default"
+                    className={classes.control}
+                    leftSection={<IconBrandGithubFilled size={30} />}
+                  >
+                    GitHub
+                  </Button>
+                </Group>
+                <Stack className={classes.control}>
+                  {authenticated ? (
+                    <Button
+                      size="xl"
+                      className={classes.control}
+                      variant="gradient"
+                      gradient={{ from: 'purple', to: 'red' }}
+                      leftSection={<IconBrandValorant size={30} />}
+                      hiddenFrom="md"
+                      onClick={() => {
+                        navigate('/dashboard');
+                      }}
+                    >
+                      Go To Dashboard
+                    </Button>
+                  ) : (
+                    <Button
+                      size="xl"
+                      className={classes.control}
+                      variant="gradient"
+                      gradient={{ from: 'purple', to: 'red' }}
+                      leftSection={<IconBrandValorant size={30} />}
+                      hiddenFrom="md"
+                      onClick={() => {
+                        navigate('/login');
+                      }}
+                    >
+                      Log In
+                    </Button>
+                  )}
+                  <Button
+                    component="a"
+                    href="https://github.com/0pengu/instalock-web"
+                    size="xl"
+                    hiddenFrom="md"
+                    variant="default"
+                    className={classes.control}
+                    leftSection={<IconBrandGithubFilled size={30} />}
+                  >
+                    GitHub
+                  </Button>
+                </Stack>
+              </Center>
             </Stack>
           </Center>
         </Container>
