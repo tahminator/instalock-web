@@ -37,6 +37,7 @@ export default function Dashboard({
     setRankImage('');
     setCount(0);
     setMatches([]);
+    setAuthenticated(false);
     notifications.show({
       title: 'Logged out',
       message: 'Your Riot account has been successfully logged out',

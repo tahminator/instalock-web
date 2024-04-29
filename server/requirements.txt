@@ -12,3 +12,4 @@ requests
 psycopg2-binary
 waitress
 gunicorn
+flask-migrate
