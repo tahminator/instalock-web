@@ -8,7 +8,6 @@ import requests
 import re
 import json
 from typing import *
-import concurrent.futures
 
 import api.api_routes.riot.v1.Functionx as Functionx
 

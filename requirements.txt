@@ -10,3 +10,5 @@ datetime
 requests
 psycopg2-binary
 flask-migrate
+asyncio
+aiohttp
