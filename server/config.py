@@ -3,21 +3,19 @@ from dotenv import load_dotenv
 import redis
 import sys
 
-load_dotenv(dotenv_path = sys.path[0] + '/untracked/.env')
+load_dotenv()
+
 
 class Config:
     SECRET_KEY = os.environ['SECRET_KEY']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    CELERY_BROKER_URL='amqp://admin:1290@localhost:5672/',
-    CELERY_RESULT_BACKEND='db+postgresql://postgres:1290@localhost:5432/instalock_workers'
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:1290@localhost:5432/instalock'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://ahmedt1:halalhustlers0405@ahmedt1.mysql.pythonanywhere-services.com/ahmedt1$instalock'
 
-    SESSION_TYPE = 'redis'
+    SESSION_TYPE = 'sqlalchemy'
     SESSION_PERMANENT = False
     PERMANENT_SESSION_LIFETIME = 30
     SESSION_USE_SIGNER = True
-    SESSION_REDIS = redis.from_url('redis://localhost:6379')
 
     MAIL_SERVER = os.environ['MAIL_SERVER']
     MAIL_PORT = os.environ['MAIL_PORT']
@@ -34,7 +32,8 @@ class ProductionConfig(Config):
     MODE = "prod"
     static_folder = 'static'
     template_folder = 'static'
-    static_url_path=''
+    static_url_path = ''
+
 
 class DevelopmentConfig(Config):
     Config
