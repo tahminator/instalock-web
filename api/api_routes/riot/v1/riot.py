@@ -1,3 +1,5 @@
+import asyncio
+import aiohttp
 from flask import Blueprint, request, jsonify, current_app, g
 from flask_login import current_user  # type: ignore
 
@@ -87,12 +89,10 @@ def getmmr():
         return {'code': '500', 'message': 'Internal server error', 'success': 'false'}, 500
 
     # Get PUUID and name of the user from Riot API
-    resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {
-                        aT}", "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit", "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
+    resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {aT}", "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit", "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})  # noqa
     user_info: Union[dict[Any, Any], None] = resp.json()
     puuid: Union[str, None] = user_info['sub'] if user_info is not None else None
-    name: Union[str, None] = f"{user_info['acct']['game_name']}#{
-        user_info['acct']['tag_line']}" if user_info is not None else None
+    name: Union[str, None] = f"{user_info['acct']['game_name']}#{user_info['acct']['tag_line']}" if user_info is not None else None  # noqa
 
     if puuid is None or name is None:
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
@@ -177,11 +177,25 @@ def getuserinfo():
     return jsonify({'code': '200', 'success': 'true', 'puuid': PUUID, 'name': name, 'success': 'true'}), 200
 
 
-"""
-/api/riot/get/matches - Gets the user's match history from the Riot API and returns it to the user. This is a doozy holy moly. Slowest part of the whole program.
-TODO - Do some research on whether it is better to just call the data directly from Riot's API on the client side and pull each bit out there. 
-TODO - If you keep this, please move this to a different file for the love of god.
-"""
+async def fetch_match_detail(session, match_id, aT, eT):
+    async with session.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={
+        "Authorization": f"Bearer {aT}",
+        "X-Riot-Entitlements-JWT": eT,
+        "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"
+    }) as respo:
+        return await respo.json()
+
+
+async def get_match_details(matches, aT, eT):
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        for match in matches:
+            match_id = match.get('MatchID')
+            if match_id:
+                tasks.append(fetch_match_detail(session, match_id, aT, eT))
+        return await asyncio.gather(*tasks)
 
 
 @riot_route.route('/get/matches', methods=['POST'])
@@ -189,130 +203,67 @@ def get_matches():
     if not current_user.is_authenticated:
         return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
 
-    request_json: Union[dict[Any, Any], None] = request.json if isinstance(
-        request.json, dict) else None
-    eT: Union[str, None] = request_json.get(
-        'entitlementToken') if request_json is not None else None
-    aT: Union[str, None] = request_json.get(
-        'authToken') if request_json is not None else None
+    request_json = request.json if isinstance(request.json, dict) else None
+    eT = request_json.get('entitlementToken') if request_json else None
+    aT = request_json.get('authToken') if request_json else None
 
-    # TODO: Don't pull PUUID again, save I/O operations by resending from client.
     resp = requests.get("https://auth.riotgames.com/userinfo",
                         headers={"Authorization": f"Bearer {aT}"})
-    resp_json: Union[dict[Any, Any], None] = resp.json()
-    puuid: Union[str, None] = resp_json.get(
-        'sub') if resp_json is not None else None
+    resp_json = resp.json()
+    puuid = resp_json.get('sub') if resp_json else None
 
-    # Pull the last 20 matches from the Riot API
-    res = requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=20", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,     "X-Riot-ClientPlatform":
-                       "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9", "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit", "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158", })
-    res_json: Union[dict[Any, Any], None] = res.json(
-    ) if res is not None else None
+    res = requests.get(f"https://pd.na.a.pvp.net/mmr/v1/players/{puuid}/competitiveupdates?startIndex=0&endIndex=20",
+                       headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT,
+                                "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+                                "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+                                "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
+    res_json = res.json() if res else None
 
-    matches: Union[dict[Any, Any], None] = res_json.get(
-        'Matches') if res_json is not None else None
-    # print(matches)
-    # json.dump(matches, open('matches.json', 'w'))
-
-    # Oh, boy...
-    new_js: dict = {}
-    new_js['data'] = []
-
-    if matches is not None and isinstance(matches, Sized):
-        num_matches = len(matches)
-    else:
+    matches = res_json.get('Matches') if res_json else None
+    if not matches or not isinstance(matches, list):
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
 
-    for i in range(num_matches):
-        match_i: Union[dict[Any, Any],
-                       None] = matches[i] if matches is not None else None
-        # For each match, get the match details from the Riot API and parse the data into a dict object that will then be sent as a JSON object.
-        match_id: Union[str, None] = match_i.get(
-            'MatchID', None) if match_i is not None else None
-        if aT is None or eT is None or match_id is None:
-            return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
-        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-                                                                                                      "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-                                                                                                      "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
-        try:
-            match_deets_json: Union[dict[Any, Any], None] = respo.json(
-            ) if respo is not None else None
-        except:
-            match_deets_json = None
-        if match_deets_json is None:
-            pass
-        if match_deets_json is not None and respo.status_code != 200:
-            # For some reason, Riot keeps the match_id on matches that don't exist. This is a workaround to avoid those matches.
-            pass
-        else:
-            new_js['data'].append({})
-            new_js['data'][i]['matchid'] = match_i.get(
-                'MatchID') if match_i is not None else None
-            new_js['data'][i]['pretier'] = match_i.get(
-                'TierBeforeUpdate') if match_i is not None else None
-            new_js['data'][i]['posttier'] = match_i.get(
-                'TierAfterUpdate') if match_i is not None else None
-            new_js['data'][i]['prerr'] = match_i.get(
-                'RankedRatingBeforeUpdate') if match_i is not None else None
-            new_js['data'][i]['postrr'] = match_i.get(
-                'RankedRatingAfterUpdate') if match_i is not None else None
-            new_js['data'][i]['rrdiff'] = match_i.get(
-                'RankedRatingEarned') if match_i is not None else None
-            new_js['data'][i]['map'] = match_i.get(
-                'MapID') if match_i is not None else None
+    new_js = {'data': []}
 
-            map_id: Union[str, None] = match_i.get(
-                'MapID') if match_i is not None else None
+    match_details = asyncio.run(get_match_details(matches, aT, eT))
 
-            new_js['data'][i]['realmapname'] = Functionx.map_id_to_map(
-                map_id) or None
-            new_js['data'][i]['mapcode'] = Functionx.map_id_to_code(
-                match_i.get('MapID') if match_i is not None else None) or None
-            new_js['data'][i]['date'] = match_i.get(
-                'MatchStartTime') if match_i is not None else None
-            # json.dump(match_deets_json, open(f'matches{i}.json', 'w'))
-            match_info: dict[Any, Any] = match_deets_json.get(
-                'matchInfo', {}) if match_deets_json is not None else {}
-            new_js['data'][i]['duration'] = match_info.get(
-                'gameLengthMillis', None)
-            new_js['data'][i]['completed'] = match_info.get(
-                'isCompleted', None)
+    for i, match_i in enumerate(matches):
+        if match_i:
+            match_detail = match_details[i]
+            new_js['data'].append({
+                'matchid': match_i.get('MatchID'),
+                'pretier': match_i.get('TierBeforeUpdate'),
+                'posttier': match_i.get('TierAfterUpdate'),
+                'prerr': match_i.get('RankedRatingBeforeUpdate'),
+                'postrr': match_i.get('RankedRatingAfterUpdate'),
+                'rrdiff': match_i.get('RankedRatingEarned'),
+                'map': match_i.get('MapID'),
+                'realmapname': Functionx.map_id_to_map(match_i.get('MapID')),
+                'mapcode': Functionx.map_id_to_code(match_i.get('MapID')),
+                'date': match_i.get('MatchStartTime'),
+                'duration': match_detail.get('matchInfo', {}).get('gameLengthMillis'),
+                'completed': match_detail.get('matchInfo', {}).get('isCompleted'),
+                'gamemode': Functionx.check_game_mode(match_detail.get('matchInfo', {}).get('queueID')),
+                'players': [
+                    {
+                        'name': player.get('gameName', '') + "#" + player.get('tagLine', '') if player else None,
+                        'puuid': player.get('subject'),
+                        'teamid': player.get('teamId'),
+                        'character': player.get('characterId'),
+                        'charactertype': Functionx.agent_id_to_picture(player.get('characterId')),
+                        'charactername': Functionx.agent_id_to_name(player.get('characterId')),
+                        'kills': player.get('stats', {}).get('kills'),
+                        'deaths': player.get('stats', {}).get('deaths'),
+                        'tier': player.get('competitiveTier'),
+                    }
+                    for player in match_detail.get('players', [])
+                ]
+            })
+            if match_i.get('MatchID') == puuid:
+                new_js['data'][i]['me'] = new_js['data'][i]['players'][i]
 
-            # TODO: is this a string or integer?
-            queue_id: Union[str, None] = match_info.get('queueID')
-            new_js['data'][i]['gamemode'] = Functionx.check_game_mode(
-                queue_id) or None
-            new_js['data'][i]['players'] = []
-            players: Union[list[Any], list] = match_deets_json.get(
-                'players', []) if match_deets_json is not None else []
-            for j in range(len(players)):
-                player_info: Union[dict[Any, Any],
-                                   None] = players[j] if players is not None else None
-                players_new: list = new_js['data'][i]['players']
-                character_id: Union[str, None] = player_info.get(
-                    'characterId') if player_info is not None else None
-                player_stats: Union[dict[Any, Any], None] = player_info.get(
-                    'stats') if player_info is not None else None
-                players_new.append({
-                    'name': player_info.get('gameName', '') + "#" + player_info.get('tagLine', '') if player_info is not None else None,
-                    'puuid': player_info.get('subject', None) if player_info is not None else None,
-                    'teamid': player_info.get('teamId', None) if player_info is not None else None,
-                    'character': player_info.get('characterId', None) if player_info is not None else None,
-                    'charactertype': Functionx.agent_id_to_picture(character_id) or None,
-                    'charactername': Functionx.agent_id_to_name(character_id) or None,
-                    'kills': player_stats.get('kills') if player_stats is not None else None,
-                    'deaths': player_stats.get('deaths') if player_stats is not None else None,
-                    'tier': player_info.get('competitiveTier') if player_info is not None else None,
-                })
-                player_subject = player_info.get(
-                    'subject') if player_info is not None else None
-                if player_subject == puuid:
-                    new_js['data'][i]['me'] = new_js['data'][i]['players'][j]
-
-    # json.dump(new_js, open('new_js.json', 'w'))
     new_js['success'] = 'true'
     new_js['code'] = '200'
-    # print(new_js)
     return jsonify(new_js), 200
 
 
