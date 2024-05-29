@@ -1,5 +1,3 @@
-import asyncio
-import aiohttp
 from flask import Blueprint, request, jsonify, current_app, g
 from flask_login import current_user  # type: ignore
 
@@ -8,6 +6,7 @@ import requests
 import re
 import json
 from typing import *
+import concurrent.futures
 
 import api.api_routes.riot.v1.Functionx as Functionx
 
@@ -176,25 +175,11 @@ def getuserinfo():
     return jsonify({'code': '200', 'success': 'true', 'puuid': PUUID, 'name': name, 'success': 'true'}), 200
 
 
-async def fetch_match_detail(session, match_id, aT, eT):
-    async with session.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={
-        "Authorization": f"Bearer {aT}",
-        "X-Riot-Entitlements-JWT": eT,
-        "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"
-    }) as respo:
-        return await respo.json()
-
-
-async def get_match_details(matches, aT, eT):
-    async with aiohttp.ClientSession() as session:
-        tasks = []
-        for match in matches:
-            match_id = match.get('MatchID')
-            if match_id:
-                tasks.append(fetch_match_detail(session, match_id, aT, eT))
-        return await asyncio.gather(*tasks)
+"""
+/api/riot/get/matches - Gets the user's match history from the Riot API and returns it to the user. This is a doozy holy moly. Slowest part of the whole program.
+TODO - Do some research on whether it is better to just call the data directly from Riot's API on the client side and pull each bit out there. 
+TODO - If you keep this, please move this to a different file for the love of god.
+"""
 
 
 @riot_route.route('/get/matches', methods=['POST'])
@@ -222,9 +207,22 @@ def get_matches():
     if not matches or not isinstance(matches, list):
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
 
-    new_js = {'data': []}
+    def fetch_match_detail(match_id):
+        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={
+            "Authorization": f"Bearer {aT}",
+            "X-Riot-Entitlements-JWT": eT,
+            "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0",
+            "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+            "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"
+        })
+        return respo.json()
 
-    match_details = asyncio.run(get_match_details(matches, aT, eT))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        match_ids = [match.get('MatchID')
+                     for match in matches if match.get('MatchID')]
+        match_details = list(executor.map(fetch_match_detail, match_ids))
+
+    new_js = {'data': []}
 
     for i, match_i in enumerate(matches):
         if match_i:
