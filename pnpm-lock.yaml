@@ -35,6 +35,9 @@ importers:
       copyfiles:
         specifier: ^2.4.1
         version: 2.4.1
+      ejs:
+        specifier: ^3.1.10
+        version: 3.1.10
       http-proxy-middleware:
         specifier: ^3.0.0
         version: 3.0.0
