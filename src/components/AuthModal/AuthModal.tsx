@@ -162,9 +162,9 @@ export default function AuthModal({
                 rightSection={<PasteButton form={form} highlighted={highlighted} />}
               />
               <Text size="sm" c="dimmed">
-                This data is not stored on the server at all and is only used to interact with Riot
-                Games. This URL does not give me access to your password, email, or any financial
-                information.
+                This data is only used to interact with Riot Games. This URL does not give me access
+                to your password, email, or any financial information. All the source code is
+                available to verify on GitHub. Please hover over Why? for more information.
               </Text>
               <Group justify="space-between" mt="lg" className={classes.controls}>
                 <Button onClick={close}>Close</Button>
