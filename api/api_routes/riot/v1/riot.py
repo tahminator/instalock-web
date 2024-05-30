@@ -123,7 +123,7 @@ def getmmr():
 
 """
 DEPRECATED - Doesn't really do anything, don't need it to.
-/api/riot/get/version - Gets the version of the Riot Client program from the Valorant API and returns it to the user. 
+/api/riot/get/version - Gets the version of the Riot Client program from the Valorant API and returns it to the user.
 """
 
 
@@ -177,7 +177,7 @@ def getuserinfo():
 
 """
 /api/riot/get/matches - Gets the user's match history from the Riot API and returns it to the user. This is a doozy holy moly. Slowest part of the whole program.
-TODO - Do some research on whether it is better to just call the data directly from Riot's API on the client side and pull each bit out there. 
+TODO - Do some research on whether it is better to just call the data directly from Riot's API on the client side and pull each bit out there.
 TODO - If you keep this, please move this to a different file for the love of god.
 """
 
@@ -208,13 +208,9 @@ def get_matches():
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
 
     def fetch_match_detail(match_id):
-        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={
-            "Authorization": f"Bearer {aT}",
-            "X-Riot-Entitlements-JWT": eT,
-            "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0",
-            "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-            "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"
-        })
+        respo = requests.get(f"https://pd.na.a.pvp.net/match-details/v1/matches/{match_id}", headers={"Authorization": f"Bearer {aT}", "X-Riot-Entitlements-JWT": eT, "X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+                                                                                                      "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+                                                                                                      "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})
         return respo.json()
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
@@ -241,23 +237,27 @@ def get_matches():
                 'duration': match_detail.get('matchInfo', {}).get('gameLengthMillis'),
                 'completed': match_detail.get('matchInfo', {}).get('isCompleted'),
                 'gamemode': Functionx.check_game_mode(match_detail.get('matchInfo', {}).get('queueID')),
-                'players': [
-                    {
-                        'name': player.get('gameName', '') + "#" + player.get('tagLine', '') if player else None,
-                        'puuid': player.get('subject'),
-                        'teamid': player.get('teamId'),
-                        'character': player.get('characterId'),
-                        'charactertype': Functionx.agent_id_to_picture(player.get('characterId')),
-                        'charactername': Functionx.agent_id_to_name(player.get('characterId')),
-                        'kills': player.get('stats', {}).get('kills'),
-                        'deaths': player.get('stats', {}).get('deaths'),
-                        'tier': player.get('competitiveTier'),
-                    }
-                    for player in match_detail.get('players', [])
-                ]
+                'players': []
             })
-            if match_i.get('MatchID') == puuid:
-                new_js['data'][i]['me'] = new_js['data'][i]['players'][i]
+
+            print(match_detail)
+            players = match_detail.get('players', [])
+            for player in players:
+                character_id = player.get('characterId')
+                new_js['data'][i]['players'].append({
+                    'id': 5,
+                    'name': player.get('gameName', '') + "#" + player.get('tagLine', '') if player else None,
+                    'puuid': player.get('subject'),
+                    'teamid': player.get('teamId'),
+                    'character': player.get('characterId'),
+                    'charactertype': Functionx.agent_id_to_picture(character_id),
+                    'charactername': Functionx.agent_id_to_name(character_id),
+                    'kills': player.get('stats', {}).get('kills'),
+                    'deaths': player.get('stats', {}).get('deaths'),
+                    'tier': player.get('competitiveTier'),
+                })
+                if player.get('subject') == puuid:
+                    new_js['data'][i]['me'] = new_js['data'][i]['players'][-1]
 
     new_js['success'] = 'true'
     new_js['code'] = '200'
@@ -270,7 +270,7 @@ TODO - Time will tell if running this route every 5 seconds is a good idea or no
 """
 
 
-@riot_route.route('/pregame/check', methods=['POST'])
+@ riot_route.route('/pregame/check', methods=['POST'])
 def checkpregame():
     if not current_user.is_authenticated:
         return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
@@ -305,7 +305,7 @@ def checkpregame():
 """
 
 
-@riot_route.route('/pregame/data', methods=['POST'])
+@ riot_route.route('/pregame/data', methods=['POST'])
 def datapregame():
     if not current_user.is_authenticated:
         return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
@@ -337,7 +337,7 @@ TODO - Analyze latency, it doesn't seem very fast but that may also be poor UX.
 """
 
 
-@riot_route.route('/pregame/select', methods=['POST'])
+@ riot_route.route('/pregame/select', methods=['POST'])
 def selectpregame():
     if not current_user.is_authenticated:
         return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
@@ -378,7 +378,7 @@ TODO - Analyze latency, it doesn't seem very fast but that may also be poor UX.
 """
 
 
-@riot_route.route('/pregame/lock', methods=['POST'])
+@ riot_route.route('/pregame/lock', methods=['POST'])
 def lockpregame():
     if not current_user.is_authenticated:
         return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
