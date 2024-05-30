@@ -4,6 +4,6 @@
       "source": "/((?!api/.*).*)",
       "destination": "/index.html"
     },
-    { "source": "/api/(.*)", "destination": "/app" }
+    { "source": "/api/(.*)", "destination": "/api/app" }
   ]
 }

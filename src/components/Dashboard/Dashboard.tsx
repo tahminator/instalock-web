@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { notifications } from '@mantine/notifications';
+import { Center, Loader } from '@mantine/core';
 import isAuth from '../isAuth/isAuth';
 import { Navbar } from '../Navbar/Navbar';
 import AuthModal from '../AuthModal/AuthModal';
 import UserNavbar from '../UserNavbar/UserNavbar';
 import Matches from '../Matches/Matches';
-import { Center, Loader } from '@mantine/core';
 
 export default function Dashboard({
   authenticated,
@@ -31,7 +31,7 @@ export default function Dashboard({
   }
 
   async function removeEntitlement() {
-    const response = await fetch('/api/riot/remove/entitlements', {
+    const response = await fetch('/api/riot/remove/entitlementsz', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
