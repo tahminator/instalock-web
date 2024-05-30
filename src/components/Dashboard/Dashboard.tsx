@@ -31,7 +31,7 @@ export default function Dashboard({
   }
 
   async function removeEntitlement() {
-    const response = await fetch('/api/riot/remove/entitlementsz', {
+    const response = await fetch('/api/riot/remove/entitlements', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
