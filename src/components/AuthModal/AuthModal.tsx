@@ -119,7 +119,7 @@ export default function AuthModal({
                       this is to accept the token directly from Riot Games. If you have any
                       questions, feel free to comb the{' '}
                       <Link to="https://github.com/0pengu/instalock-web">repo</Link> on GitHub
-                      yourself or email me <Link to="mailto:midhat.io">here</Link>.
+                      yourself or email me <Link to="mailto:tahmid@midhat.io">here</Link>.
                     </Text>
                     <Space h="lg" />
                     <Text size="sm">
