@@ -6,6 +6,7 @@ import { Navbar } from '../Navbar/Navbar';
 import AuthModal from '../AuthModal/AuthModal';
 import UserNavbar from '../UserNavbar/UserNavbar';
 import Matches from '../Matches/Matches';
+import { Center, Loader } from '@mantine/core';
 
 export default function Dashboard({
   authenticated,
@@ -23,12 +24,46 @@ export default function Dashboard({
   const [rankImage, setRankImage] = useState('');
   const [count, setCount] = useState(0);
   const [matches, setMatches] = useState([]);
+  const [waitingForServer, setWaitingForServer] = useState(true);
 
   function getImageUrl(name: string) {
     return new URL(`/${name}.png`, import.meta.url).href;
   }
 
-  function logOut() {
+  async function removeEntitlement() {
+    const response = await fetch('/api/riot/remove/entitlements', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      notifications.show({
+        title: 'Failed to remove entitlement',
+        message: 'Please try again later',
+        color: 'red',
+      });
+    } else {
+      notifications.show({
+        title: 'Success',
+        message: 'Entitlement has been removed!',
+        color: 'green',
+      });
+    }
+
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
+  }
+
+  async function logOut() {
+    const removed = await removeEntitlement();
+    if (!removed) {
+      return;
+    }
     setAuthToken('');
     setEntitlementToken('');
     setRank('');
@@ -52,6 +87,32 @@ export default function Dashboard({
         navigate('/login');
       }
     });
+  }, []);
+
+  async function fetchEntitlements() {
+    const response = await fetch('/api/riot/get/entitlements', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      notifications.show({
+        title: 'Failed to fetch entitlements from server. It likely expired.',
+        message: 'Please reauthenticate.',
+        color: 'red',
+      });
+    } else {
+      const data = await response.json();
+      setEntitlementToken(data.entitlementToken);
+      setAuthToken(data.authToken);
+    }
+    setWaitingForServer(false);
+  }
+
+  useEffect(() => {
+    fetchEntitlements();
   }, []);
 
   return (
@@ -86,6 +147,19 @@ export default function Dashboard({
             setAuthenticated={setAuthenticated}
           />
         </>
+      ) : waitingForServer ? (
+        <Center>
+          <Loader
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+            size="xl"
+            color="red"
+          />
+        </Center>
       ) : (
         <AuthModal
           authenticated={authenticated}

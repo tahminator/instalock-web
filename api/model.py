@@ -17,8 +17,8 @@ class User(db.Model, UserMixin):  # type: ignore
     email = db.Column(db.String(345), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     verified = db.Column(db.Boolean, default=False)
-    entitlement = db.Column(db.String(300), default=None, nullable=True)
-    auth = db.Column(db.String(300), default=None, nullable=True)
+    entitlement = db.Column(db.String(1000), default=None, nullable=True)
+    auth = db.Column(db.String(1000), default=None, nullable=True)
 
 
 def get_reset_token(username, expires=10):

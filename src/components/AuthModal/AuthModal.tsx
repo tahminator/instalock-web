@@ -90,6 +90,7 @@ export default function AuthModal({
       setIsSubmitting(false);
     }
   };
+
   return (
     <>
       <Modal opened={opened} onClose={close} title="Riot Authentication" centered>

@@ -67,7 +67,6 @@ export default function InstalockModal({
           message: 'Pregame data has been fetched!',
           color: 'green',
         });
-        // console.log(data);
         setMap(data.data.mapid);
         setMapName(data.data.mapname);
       } else {
@@ -236,19 +235,26 @@ export default function InstalockModal({
               <Center>
                 <Text fw={700}>{mapName}</Text>
               </Center>
-              <AspectRatio ratio={16 / 9} mah="200">
+              <AspectRatio ratio={16 / 9} mah="200" style={{ position: 'relative' }}>
                 <Image
-                  src={new URL(`/${map}.jpeg`, import.meta.url).href}
-                  alt="test"
+                  src={`${map}.jpeg`}
+                  alt="mapName"
                   radius="md"
                   color="red"
                   style={{ border: '1px solid gray' }}
                 />
-                <Overlay color="#000" backgroundOpacity={0.35} blur={3}>
+                <Overlay
+                  color="#000"
+                  backgroundOpacity={0.35}
+                  blur={3}
+                  style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                >
                   <Stack>
-                    <Text size="xl" fw={700} inherit>
-                      {mapName}
-                    </Text>
+                    <Center>
+                      <Text size="xl" fw={700} inherit style={{ visibility: 'hidden' }}>
+                        {mapName}
+                      </Text>
+                    </Center>
                     <Center>
                       <Avatar
                         src={`${selectedAgentPicture}.jpeg`}

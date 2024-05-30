@@ -9,6 +9,7 @@ from typing import *
 import concurrent.futures
 
 import api.api_routes.riot.v1.Functionx as Functionx
+from api.model import User, db
 
 riot_route = Blueprint('riot', __name__, url_prefix='/riot')
 
@@ -25,7 +26,7 @@ Deprecated for now.
 
 
 @riot_route.route('/get/entitlements', methods=['POST'])
-def getentitlement():
+def postentitlement():
     if not current_user.is_authenticated:
         return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
 
@@ -56,7 +57,53 @@ def getentitlement():
     else:
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
 
+    user: User | None = User.query.filter_by(id=current_user.id).first()
+
+    if user is None:
+        return {'code': '500', 'message': 'Internal server error', 'success': 'false'}, 500
+
+    user.entitlement = eT
+    user.auth = access_token
+    db.session.commit()
+
     return jsonify({'code': '200', 'success': 'true', 'entitlementToken': eT, 'authToken': access_token, 'success': 'true'}), 200
+
+
+@riot_route.route('/get/entitlements', methods=['GET'])
+def getentitlement():
+    if not current_user.is_authenticated:
+        return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
+
+    user: User | None = User.query.filter_by(id=current_user.id).first()
+
+    if user is None:
+        return {'code': '500', 'message': 'Internal server error', 'success': 'false'}, 500
+
+    # test the tokens
+
+    resp = requests.get("https://auth.riotgames.com/userinfo", headers={"Authorization": f"Bearer {user.auth}", "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit", "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158"})  # noqa
+    if resp.status_code != 200:
+        return {'code': '401', 'message': 'Need to reauthorize', 'success': 'false'}, 401
+
+    return jsonify({'code': '200', 'success': 'true', 'entitlementToken': user.entitlement, 'authToken': user.auth, 'success': 'true'}), 200
+
+
+@ riot_route.route('/remove/entitlements', methods=['GET'])
+def removeentitlement():
+    if not current_user.is_authenticated:
+        return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
+
+    user: User | None = User.query.filter_by(id=current_user.id).first()
+
+    if user is None:
+        return {'code': '500', 'message': 'Internal server error', 'success': 'false'}, 500
+
+    user.entitlement = None
+    user.auth = None
+
+    db.session.commit()
+
+    return jsonify({'code': '200', 'success': 'true', 'success': 'true'}), 200
 
 
 """
@@ -240,7 +287,7 @@ def get_matches():
                 'players': []
             })
 
-            print(match_detail)
+            # print(match_detail)
             players = match_detail.get('players', [])
             for player in players:
                 character_id = player.get('characterId')

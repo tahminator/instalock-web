@@ -25,7 +25,7 @@ export default function App() {
         },
       }}
     >
-      <Notifications limit={2} />
+      <Notifications limit={2} position="top-left" />
       <Router />
     </MantineProvider>
   );
