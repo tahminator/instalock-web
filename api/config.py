@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import redis
 
 load_dotenv()
 
@@ -10,7 +11,7 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = os.environ['SQLALCHEMY_DATABASE_URI']
 
-    SESSION_TYPE = 'sqlalchemy'
+    SESSION_TYPE = 'redis'
     SESSION_PERMANENT = False
     PERMANENT_SESSION_LIFETIME = 30
     SESSION_USE_SIGNER = True
@@ -27,6 +28,7 @@ class ProductionConfig(Config):
     Config  # type: ignore
     INTERNAL_URL = os.environ['INTERNAL_URL_PROD']
     SESSION_COOKIE_SECURE = True
+    SESSION_REDIS = redis.Redis.from_url(f"{os.environ['REDIS_PROD']}")
     MODE = "prod"
     static_folder = 'static'
     template_folder = 'static'
@@ -37,4 +39,5 @@ class DevelopmentConfig(Config):
     Config  # type: ignore
     INTERNAL_URL = os.environ['INTERNAL_URL_DEV']
     SESSION_COOKIE_SECURE = False
+    SESSION_REDIS = redis.from_url(f"{os.environ['REDIS_DEV']}/8")
     MODE = "test"

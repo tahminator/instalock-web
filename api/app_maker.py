@@ -1,13 +1,13 @@
 from flask import Flask
 # from celery import Celery
 
-from api.extension import db, login_manager, mail, bcrypt, migrate
+from api.extension import db, login_manager, mail, bcrypt, migrate, sess
 from api.config import DevelopmentConfig, ProductionConfig
 
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(DevelopmentConfig)
+    # app.config.from_object(DevelopmentConfig)
     app.config.from_object(ProductionConfig)
 
     db.init_app(app)
@@ -15,6 +15,7 @@ def create_app():
     mail.init_app(app)
     bcrypt.init_app(app)
     migrate.init_app(app, db)
+    sess.init_app(app)
 
     # migrate.init_app(app, db)
     # # talisman.init_app(app)

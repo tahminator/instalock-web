@@ -70,6 +70,10 @@ export function Navbar({
       });
 
       setAuthenticated(false);
+
+      // Redirect to home page
+
+      navigate('/');
     } else {
       notifications.show({
         title: 'Error',
