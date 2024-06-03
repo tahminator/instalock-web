@@ -11,5 +11,5 @@ requests
 psycopg2-binary
 flask-migrate
 aiohttp
-redis-py
+redis
 Flask-Session
