@@ -18,8 +18,8 @@ def create_app():
         profiles_sample_rate=1.0,
     )
     app = Flask(__name__)
-    app.config.from_object(DevelopmentConfig)
-    # app.config.from_object(ProductionConfig)
+    # app.config.from_object(DevelopmentConfig)
+    app.config.from_object(ProductionConfig)
 
     db.init_app(app)
     login_manager.init_app(app)
