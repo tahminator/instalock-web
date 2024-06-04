@@ -13,3 +13,4 @@ flask-migrate
 aiohttp
 redis
 Flask-Session
+sentry-sdk[flask]
