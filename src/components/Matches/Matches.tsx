@@ -99,7 +99,7 @@ export default function Matches({
             {matches.map((match) => (
               <Grid.Col span={{ xs: 12, sm: 3 }} key={match.matchid}>
                 <CardComponent
-                  src={`${match.mapcode}.jpeg`}
+                  src={`${match.mapcode}.png`}
                   alt={`${match.realmapname}`}
                   title={match.realmapname}
                   time={match.date}
@@ -114,7 +114,7 @@ export default function Matches({
                   description={
                     match.rrdiff > 0 ? `Gained ${match.rrdiff} RR` : `Lost ${-match.rrdiff} RR`
                   }
-                  mesrc={`${match.me.charactertype}.jpeg`}
+                  mesrc={`${match.me.charactertype}.png`}
                   meagentname={match.me.charactername}
                 />
               </Grid.Col>

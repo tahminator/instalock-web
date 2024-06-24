@@ -84,7 +84,7 @@ export default function UserNavbar({
           setRank(data.rank);
           setRr(data.rr);
           setUsername(data.name);
-          setRankImage(`${data.type}.jpeg`);
+          setRankImage(`${data.type}.png`);
         } else {
           notifications.show({
             title: 'Failed to fetch MMR',

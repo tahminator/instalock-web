@@ -237,7 +237,7 @@ export default function InstalockModal({
               </Center>
               <AspectRatio ratio={16 / 9} mah="200" style={{ position: 'relative' }}>
                 <Image
-                  src={`${map}.jpeg`}
+                  src={`${map}.png`}
                   alt="mapName"
                   radius="md"
                   color="red"
@@ -257,7 +257,7 @@ export default function InstalockModal({
                     </Center>
                     <Center>
                       <Avatar
-                        src={`${selectedAgentPicture}.jpeg`}
+                        src={`${selectedAgentPicture}.png`}
                         color="red"
                         style={{ border: '1px solid gray' }}
                       />
@@ -280,7 +280,7 @@ export default function InstalockModal({
                           events={{ hover: true, focus: true, touch: true }}
                         >
                           <Avatar
-                            src={`${agentPictures[key].picture}.jpeg`}
+                            src={`${agentPictures[key].picture}.png`}
                             alt={agentPictures[key].name}
                             radius="xs"
                             size="md"
