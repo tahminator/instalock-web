@@ -3,9 +3,9 @@ from flask_login import current_user, logout_user, login_user  # type: ignore
 from flask_bcrypt import Bcrypt  # type: ignore
 from flask_mail import Message  # type: ignore
 
-from api.model import User
-from api.extension import db, mail, bcrypt
-from api.model import get_reset_token
+from model import User
+from extension import db, mail, bcrypt
+from model import get_reset_token
 
 import jwt
 import datetime

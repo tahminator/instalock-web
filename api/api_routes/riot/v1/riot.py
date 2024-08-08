@@ -8,8 +8,8 @@ import json
 from typing import *
 import concurrent.futures
 
-import api.api_routes.riot.v1.Functionx as Functionx
-from api.model import User, db
+import api_routes.riot.v1.Functionx as Functionx
+from model import User, db
 
 riot_route = Blueprint('riot', __name__, url_prefix='/riot')
 
@@ -127,7 +127,7 @@ def getmmr():
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
 
     # Get the riotClientVersion of the Riot Client program, but from a third party API in order to avoid having to log in and access lockfile to get the same data.
-    response = requests.get("https://valorant-api.com/v1/version")
+    response = requests.get("https://valorant-com/v1/version")
     version: Union[str, None] = response.json()['data']['riotClientVersion']
 
     if version is None:
@@ -179,7 +179,7 @@ def getversion():
     if not current_user.is_authenticated:
         return {'code': '401', 'message': 'Unauthorized', 'success': 'false'}, 401
 
-    response = requests.get("https://valorant-api.com/v1/version")
+    response = requests.get("https://valorant-com/v1/version")
     version_json: Union[dict[Any, Any], None] = response.json()
     version: Union[str, None] = version_json['data']['version'] if version_json is not None else None
 

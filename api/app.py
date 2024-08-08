@@ -1,10 +1,11 @@
-from flask import request, jsonify, session, redirect, url_for
+import os
+from flask import request, jsonify, send_from_directory, session, redirect, url_for
 
-from api.app_maker import create_app
-from api.model import User
-from api.extension import db, login_manager
+from app_maker import create_app
+from model import User
+from extension import db, login_manager
 
-from api.api_routes.base import api_route
+from api_routes.base import api_route
 
 """
 TODO - Implement types into API
@@ -55,15 +56,14 @@ def bad_request(e):
 if MODE == 'test':
     @app.route('/')
     def index():
-        return redirect(url_for('api.index'))
+        return redirect(url_for('index'))
 else:
-    pass
-    # # Serve React App
-    # @app.route('/', defaults={'path': ''})
-    # @app.route('/<path:path>')
-    # def serve(path):
-    #     print(app.static_folder + '/' + path)
-    #     if path != "" and os.path.exists(app.static_folder + '/' + path):
-    #         return send_from_directory(app.static_folder, path)
-    #     else:
-    #         return send_from_directory(app.static_folder, 'index.html')
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def serve(path):
+        print(app.static_folder)
+        print(app.static_folder + '/' + path)
+        if path != "" and os.path.exists(app.static_folder + '/' + path):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return send_from_directory(app.static_folder, 'index.html')

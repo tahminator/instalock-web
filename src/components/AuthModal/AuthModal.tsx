@@ -115,9 +115,9 @@ export default function AuthModal({
                   <HoverCard.Dropdown>
                     <Text size="sm">
                       Riot Games has implemented a new authentication system to prevent unauthorized
-                      access to their API. This is done via HCaptcha, and the only way to bypass
-                      this is to accept the token directly from Riot Games. If you have any
-                      questions, feel free to comb the{' '}
+                      access to their This is done via HCaptcha, and the only way to bypass this is
+                      to accept the token directly from Riot Games. If you have any questions, feel
+                      free to comb the{' '}
                       <Link to="https://github.com/0pengu/instalock-web">repo</Link> on GitHub
                       yourself or email me <Link to="mailto:tahmid@midhat.io">here</Link>.
                     </Text>

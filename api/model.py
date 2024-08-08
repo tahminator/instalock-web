@@ -1,4 +1,4 @@
-from api.extension import db
+from extension import db
 from flask_login import UserMixin  # type: ignore
 from uuid import uuid4
 import jwt

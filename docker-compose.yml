@@ -1,0 +1,70 @@
+services:
+  web:
+    build: .
+    command: >
+       sh -c "cd server &&
+             flask db upgrade &&
+             gunicorn -b 0.0.0.0:5001 -w 8 app:app"
+    ports:
+      - 5001:5001
+    depends_on:
+      - db
+      - redis
+    environment:
+      SQLALCHEMY_DATABASE_URI
+      SECRET_KEY
+      MAIL_SERVER
+      MAIL_PORT
+      MAIL_USE_SSL
+      MAIL_USERNAME
+      MAIL_PASSWORD
+      MAIL_DEFAULT_SENDER
+      INTERNAL_URL_PROD
+      INTERNAL_URL_DEV
+      REDIS_PROD
+      REDIS_DEV
+    restart: unless-stopped
+    volumes:
+      - ./storage:/app/server/storage
+
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+    ports:
+      - 15432:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL
+      PGADMIN_DEFAULT_PASSWORD
+    restart: unless-stopped
+  
+
+volumes:
+  postgres_data:
+  redis_data:
+  storage_data:
+  pgadmin_data:
