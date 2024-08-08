@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   web:
     build: .
@@ -11,18 +12,18 @@ services:
       - db
       - redis
     environment:
-      SQLALCHEMY_DATABASE_URI
-      SECRET_KEY
-      MAIL_SERVER
-      MAIL_PORT
-      MAIL_USE_SSL
-      MAIL_USERNAME
-      MAIL_PASSWORD
-      MAIL_DEFAULT_SENDER
-      INTERNAL_URL_PROD
-      INTERNAL_URL_DEV
-      REDIS_PROD
-      REDIS_DEV
+      - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
+      - SECRET_KEY=${SECRET_KEY}
+      - MAIL_SERVER=${MAIL_SERVER}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USE_SSL=${MAIL_USE_SSL}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_DEFAULT_SENDER=${MAIL_DEFAULT_SENDER}
+      - INTERNAL_URL_PROD=${INTERNAL_URL_PROD}
+      - INTERNAL_URL_DEV=${INTERNAL_URL_DEV}
+      - REDIS_PROD=${REDIS_PROD}
+      - REDIS_DEV=${REDIS_DEV}
     restart: unless-stopped
     volumes:
       - ./storage:/app/server/storage
@@ -32,9 +33,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     restart: unless-stopped
     ports:
       - 5432:5432
@@ -58,10 +59,9 @@ services:
     ports:
       - 15432:80
     environment:
-      PGADMIN_DEFAULT_EMAIL
-      PGADMIN_DEFAULT_PASSWORD
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     restart: unless-stopped
-  
 
 volumes:
   postgres_data:
