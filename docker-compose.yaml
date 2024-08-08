@@ -50,19 +50,6 @@ services:
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     restart: unless-stopped
 
-  pgadmin:
-    image: dpage/pgadmin4
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    depends_on:
-      - db
-    ports:
-      - 15432:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-    restart: unless-stopped
-
 volumes:
   postgres_data:
   redis_data:
