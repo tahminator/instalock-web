@@ -17,5 +17,3 @@ services:
       - INTERNAL_URL=${INTERNAL_URL}
       - REDIS_URL=${REDIS_URL}
     restart: unless-stopped
-    volumes:
-      - ./storage:/app/server/storage
