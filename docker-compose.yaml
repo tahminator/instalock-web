@@ -9,6 +9,7 @@ services:
     ports:
       - 5001:5001
     environment:
+      - ENV=${ENV}
       - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
       - SECRET_KEY=${SECRET_KEY}
       - MAIL_SERVER=${MAIL_SERVER}
@@ -18,14 +19,7 @@ services:
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - MAIL_DEFAULT_SENDER=${MAIL_DEFAULT_SENDER}
       - INTERNAL_URL=${INTERNAL_URL}
-      - REDIS_PROD=${REDIS_PROD}
-      - REDIS_DEV=${REDIS_DEV}
+      - REDIS_URL=${REDIS_URL}
     restart: unless-stopped
     volumes:
       - ./storage:/app/server/storage
-
-volumes:
-  postgres_data:
-  redis_data:
-  storage_data:
-  pgadmin_data:
