@@ -78,7 +78,7 @@ def register():
         else:
             token: str = jwt.encode(
                 {'verify_email': email, 'exp': time.time() + 3600}, key=g.SECRET_KEY)
-            URL = "http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"
+            URL = "http://localhost:5173" if g.MODE == "development" else "https://instalock.midhat.io"
             message: Message = Message(recipients=[email], subject="Instalock email verification",
                                        body=f"Click the link to verify your email: {URL}/verify?token={token}")
             mail.send(message)
@@ -114,7 +114,7 @@ def sendregistrationemail():
 
     token: str = jwt.encode(
         {'verify_email': email, 'exp': time.time() + 3600}, key=g.SECRET_KEY)
-    URL = "http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"
+    URL = "http://localhost:5173" if g.MODE == "development" else "https://instalock.midhat.io"
     message: Message = Message(recipients=[email], subject="Instalock email verification",
                                body=f"Click the link to verify your email: {URL}/verify?token={token}")
     mail.send(message)
@@ -160,7 +160,7 @@ def verifyemail():
 
 @auth_route.route("/login", methods=['POST'])
 def login():
-    if g.MODE == "test":
+    if g.MODE == "development":
         time.sleep(1)
 
     request_json: Union[dict[str, str], None] = request.json
@@ -186,7 +186,7 @@ def login():
     if user.verified == False:
         token: str = jwt.encode(
             {'verify_email': email, 'exp': time.time() + 3600}, key=g.SECRET_KEY)
-        URL = "http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"
+        URL = "http://localhost:5173" if g.MODE == "development" else "https://instalock.midhat.io"
         message: Message = Message(recipients=[email], subject="Instalock email verification",
                                    body=f"Click the link to verify your email: {URL}/verify?token={token}")
         mail.send(message)
@@ -244,7 +244,7 @@ def iforgot():
 
     if existing_user:
         token: str = get_reset_token(existing_user.email, expires=3600)
-        URL = "http://localhost:5173" if g.MODE == "test" else "https://instalock.midhat.io"
+        URL = "http://localhost:5173" if g.MODE == "development" else "https://instalock.midhat.io"
         message: Message = Message(recipients=[email], subject="Instalock password reset",
                                    body=f"Click the link to reset your password: {URL}/resetpassword?token={token}")
         mail.send(message)

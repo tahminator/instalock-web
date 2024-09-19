@@ -127,7 +127,7 @@ def getmmr():
         return {'code': '400', 'message': 'Bad request', 'success': 'false'}, 400
 
     # Get the riotClientVersion of the Riot Client program, but from a third party API in order to avoid having to log in and access lockfile to get the same data.
-    response = requests.get("https://valorant-com/v1/version")
+    response = requests.get("https://valorant-api.com/v1/version")
     version: Union[str, None] = response.json()['data']['riotClientVersion']
 
     if version is None:

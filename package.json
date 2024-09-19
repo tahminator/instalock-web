@@ -16,9 +16,8 @@
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
     "vitest": "vitest run",
     "vitest:watch": "vitest",
-    "test": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
-    "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "development": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
+    "server:typecheck": "cd api && mypy . --explicit-package-bases --check-untyped-defs"
   },
   "dependencies": {
     "@mantine/core": "^7.10.0",

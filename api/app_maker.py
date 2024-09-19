@@ -3,7 +3,7 @@ import sentry_sdk
 # from celery import Celery
 
 from extension import db, login_manager, mail, bcrypt, migrate, sess
-from config import DevelopmentConfig, ProductionConfig
+from config import Config
 
 
 def create_app():
@@ -18,8 +18,7 @@ def create_app():
         profiles_sample_rate=1.0,
     )
     app = Flask(__name__, static_folder='../dist', template_folder='../dist')
-    # app.config.from_object(DevelopmentConfig)
-    app.config.from_object(ProductionConfig)
+    app.config.from_object(Config)
 
     db.init_app(app)
     login_manager.init_app(app)

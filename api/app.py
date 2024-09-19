@@ -18,7 +18,7 @@ app = create_app()
 
 app.register_blueprint(api_route)
 
-MODE = app.config['MODE']
+MODE = app.config['ENV']
 
 
 @login_manager.user_loader
@@ -29,7 +29,7 @@ def load_user(user_id):
 with app.app_context():
     # db.drop_all()
     # db.create_all()
-    if MODE == 'test':
+    if MODE == "development":
         db.create_all()
 
 
@@ -53,7 +53,7 @@ def bad_request(e):
     return jsonify({'code': 400, 'message': 'Bad request', 'success': 'false'}), 400
 
 
-if MODE == 'test':
+if MODE == "development":
     @app.route('/')
     def index():
         return redirect(url_for('index'))
@@ -62,8 +62,10 @@ else:
     @app.route('/<path:path>')
     def serve(path):
         print(app.static_folder)
-        print(app.static_folder + '/' + path)
-        if path != "" and os.path.exists(app.static_folder + '/' + path):
-            return send_from_directory(app.static_folder, path)
+        print(app.static_folder + '/' + path)  # type: ignore
+        # type: ignore
+        if path != "" and os.path.exists(app.static_folder + '/' + path):  # type: ignore # noqa
+            return send_from_directory(app.static_folder, path)  # type: ignore
         else:
-            return send_from_directory(app.static_folder, 'index.html')
+            # type: ignore
+            return send_from_directory(app.static_folder, 'index.html')  # type: ignore # noqa
