@@ -29,4 +29,8 @@ COPY ./api /app/server
 # Copy only the build artifacts from the previous stage
 COPY --from=build-stage /app/dist /app/dist
 
-EXPOSE 4999
+EXPOSE 5001
+
+# Command to run the application
+
+CMD sh -c "cd server && flask db upgrade && gunicorn -b 0.0.0.0:5001 -w 8 app:app"
