@@ -11,14 +11,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lucia-auth/oauth": "^3.5.3",
     "@mantine/core": "^7.12.2",
     "@mantine/hooks": "^7.12.2",
     "@mantine/notifications": "^7.12.2",
+    "@prisma/client": "^5.19.1",
+    "@tanstack/react-query": "^5.56.2",
     "dotenv": "^16.4.5",
     "eslint-config-mantine": "^4.0.3",
     "express": "^4.21.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.10.0",
