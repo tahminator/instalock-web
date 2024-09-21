@@ -66,18 +66,11 @@ app.use(async (req, res, next) => {
 
 app.use("/api", apiRouter);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(
-    express.static(
-      path.join(
-        path.dirname(fileURLToPath(import.meta.url)),
-        "..",
-        "..",
-        "dist"
-      )
-    )
-  );
-}
+app.use(
+  express.static(
+    path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "dist")
+  )
+);
 
 app.use("*", (_, res, next) => {
   if (process.env.NODE_ENV === "development") {
