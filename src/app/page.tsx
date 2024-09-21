@@ -1,11 +1,11 @@
-import { DownArrow } from "@/app/_components/down-arrow";
-import { Features } from "@/app/_components/features";
-import { Footer } from "@/app/_components/footer";
-import GradientTitle from "@/app/_components/gradient-title";
-import InitialLandingPage from "@/app/_components/initial-landing";
-import { Button } from "@mantine/core";
+import { DownArrow } from "@/components/ui/down-arrow";
+import { Features } from "@/app/_components/_features";
+import { Footer } from "@/app/_components/_footer";
+import GradientTitle from "@/app/_components/_gradient-title";
+import InitialLandingPage from "@/app/_components/_initial-landing";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import GetStartedButton from "@/components/ui/get-started-button";
+import GithubButton from "@/components/ui/github-button";
 
 export default function LandingPage() {
   return (
@@ -22,21 +22,31 @@ export default function LandingPage() {
             Welcome to <GradientTitle />, the comprehensive Valorant companion.
           </motion.h1>
           <div className="flex flex-row justify-center items-center space-x-4">
-            <Link to="/login">
-              <Button
-                size="xl"
-                variant="gradient"
-                gradient={{ from: "purple", to: "red" }}
-                className="my-4"
-              >
-                Get Started
-              </Button>
-            </Link>
-            <Link to="https://github.com/0pengu/instalock-web">
-              <Button size="xl" className="my-4 bg-gray-600 hover:bg-gray-700">
-                GitHub
-              </Button>
-            </Link>
+            <GetStartedButton to="/login" />
+            {/* {data && !isLoading && !isError ? (
+              <Link to="/dashboard">
+                <Button
+                  size="xl"
+                  variant="gradient"
+                  gradient={{ from: "purple", to: "red" }}
+                  className="my-4"
+                >
+                  Welcome back, {data.username}
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <Button
+                  size="xl"
+                  variant="gradient"
+                  gradient={{ from: "purple", to: "red" }}
+                  className="my-4"
+                >
+                  Get Started
+                </Button>
+              </Link>
+            )} */}
+            <GithubButton to="https://github.com/0pengu/instalock-web" />
           </div>
         </InitialLandingPage>
       </div>

@@ -19,7 +19,7 @@ export function Footer() {
     <div className="mt-28 border-t border-gray-200 dark:border-gray-700">
       <div className="flex justify-between items-center py-4 px-4 md:px-6 lg:px-8">
         {/* <img src="/logo.png" alt="logo" className="w-12 h-12" /> */}
-        <text className="text-2xl">Instalock</text>
+        <div className="text-2xl">Instalock</div>
         <div className="flex space-x-4">{items}</div>
         <div className="flex space-x-2 justify-end">
           <Link to="https://github.com/0pengu/instalock-web">

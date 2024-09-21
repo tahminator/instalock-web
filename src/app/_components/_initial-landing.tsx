@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 
 const gradient1 = "#151981";
 const gradient2 = "#47346D";
+const gradient3 = "#c31432";
+const gradient4 = "#240b36";
 
 const variants = [
   `radial-gradient(circle, ${gradient1}, ${gradient2})`,
-  `radial-gradient(at left top, ${gradient1}, ${gradient2})`,
+  `radial-gradient(at left top, ${gradient4}, ${gradient3})`,
 ];
 
 export default function InitialLandingPage({

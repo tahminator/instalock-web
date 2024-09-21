@@ -1,4 +1,3 @@
-import { useUserStore } from "@/app/_store/user";
 import { create } from "zustand";
 
 type AuthStore = {
@@ -12,10 +11,22 @@ type AuthStore = {
  * NOTE: THIS DOES NOT ACTUALLY HANDLE AUTHENTICATION, IT JUST STORES THE STATE.
  * You should use the `useCheckAuth` function to actually check if the user is authenticated.
  * @returns `AuthStore` - The store for managing the authentication state.
+ * @example
+ * ```tsx
+ *  useEffect(() => {
+    const auth = authStore.getState().auth;
+    if (auth) {
+      notifications.show({
+        title: "Already logged in",
+        message: "Redirecting to dashboard...",
+      });
+      navigate("/dashboard");
+    }
+  }, []);
+  ```
  *
- * Check the `authenticated` property to see if the user is authenticated, and use the `setAuthenticated` function to update the state.
  */
-export const useAuthStore = create<AuthStore>()((set) => ({
+export const authStore = create<AuthStore>()((set) => ({
   auth: false,
   setAuth: (value) => set({ auth: value }),
 }));
@@ -27,7 +38,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
  * ```ts
  * useEffect(() => {
  *   useAuthCheck().then((auth) => {
- *     useAuthStore.getState().setAuth(auth);
+ *     authStore.getState().setAuth(auth);
  *     if (auth) {
  *       notifications.show({
  *         title: "Already logged in",
@@ -45,21 +56,4 @@ export async function useAuthCheck() {
     return true;
   }
   return false;
-}
-
-export async function logOut() {
-  try {
-    const res = await fetch("/api/auth/logout", {
-      method: "POST",
-    });
-    if (res.status === 200) {
-      return true;
-    }
-    throw new Error("Failed to log out");
-  } catch (e) {
-    return false;
-  } finally {
-    useAuthStore.getState().setAuth(false);
-    useUserStore.getState().setUser(null);
-  }
 }

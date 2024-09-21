@@ -5,14 +5,17 @@
   "type": "module",
   "scripts": {
     "server:dev": "pnpx tsx --watch src/server/index.ts",
+    "start": "pnpx tsx src/server/index.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "db:pull": "pnpx prisma db pull",
     "db:push": "pnpx prisma db push",
+    "db:generate": "pnpx prisma generate",
     "db:migrate": "pnpx prisma migrate dev",
-    "db:studio": "pnpx prisma studio"
+    "db:studio": "pnpx prisma studio",
+    "postinstall": "pnpx prisma generate"
   },
   "dependencies": {
     "@lucia-auth/adapter-prisma": "^4.0.1",

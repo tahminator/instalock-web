@@ -3,6 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 import { lucia } from "@/lib/server/auth";
 import { apiRouter } from "@/server/api/route";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -12,7 +14,16 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.use((req, res, next) => {
+  console.log(
+    `[${new Date().toDateString()} ${new Date().toLocaleTimeString()}] ${
+      req.method
+    } ${req.url}`
+  );
   if (req.method === "GET") {
+    return next();
+  }
+
+  if (process.env.NODE_ENV === "development") {
     return next();
   }
   const originHeader = req.headers.origin ?? null;
@@ -55,16 +66,42 @@ app.use(async (req, res, next) => {
 
 app.use("/api", apiRouter);
 
+app.use(
+  express.static(
+    path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "dist")
+  )
+);
+
+app.use("*", (_, res, next) => {
+  if (process.env.NODE_ENV === "development") {
+    next();
+  }
+
+  res.sendFile(
+    path.join(
+      path.dirname(fileURLToPath(import.meta.url)),
+      "..",
+      "..",
+      "dist",
+      "index.html"
+    )
+  );
+});
+
 const port = 3000;
 
 const server = app.listen(port);
 
-const serverMetadata = server.address() as { address: string; port: number };
-console.log(
-  `\n\nServer listening on http://${
-    serverMetadata.address === "::" ? "127.0.0.1" : serverMetadata.address
-  }:${port}`
-);
+try {
+  const serverMetadata = server.address() as { address: string; port: number };
+  console.log(
+    `\n\nServer listening on http://${
+      serverMetadata.address === "::" ? "127.0.0.1" : serverMetadata.address
+    }:${port}`
+  );
+} catch (e) {
+  console.error(e);
+}
 
 declare global {
   // Gotta make it happy somehow

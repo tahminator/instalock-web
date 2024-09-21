@@ -1,0 +1,14 @@
+node_modules/
+node_modules/*
+dist
+.git
+npm-debug.log
+.coverage
+.coverage.*
+.env
+.env.*
+.aws
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

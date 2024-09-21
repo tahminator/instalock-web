@@ -16,7 +16,6 @@ authRouter.get("/check", async (_, res) => {
     });
   }
 
-  console.log("h");
   return res.json({
     success: true,
     message: "You are logged in",
@@ -46,7 +45,17 @@ authRouter.get("/discord", async (_, res) => {
     .redirect(url.toString());
 });
 
-authRouter.get("/discord/callback", async (req, res) => {
+authRouter.post("/discord/callback", async (req, res) => {
+  if (res.locals.user && res.locals.session) {
+    return res.json({
+      success: true,
+      message: "You are already logged in",
+      data: {
+        ...res.locals.user,
+      },
+    });
+  }
+
   const code = req.query.code?.toString() ?? null;
   const state = req.query.state?.toString() ?? null;
   const storedState =
@@ -132,8 +141,12 @@ authRouter.get("/discord/callback", async (req, res) => {
 
 authRouter.post("/logout", async (_, res) => {
   if (!res.locals.session) {
-    return res.status(401).end();
+    return res.status(401).json({
+      success: false,
+      message: "You are not logged in",
+    });
   }
+
   await lucia.invalidateSession(res.locals.session.id);
   return res
     .setHeader("Set-Cookie", lucia.createBlankSessionCookie().serialize())

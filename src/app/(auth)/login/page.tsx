@@ -1,24 +1,33 @@
-import { useAuthCheck, useAuthStore } from "@/lib/client/auth";
-import { Button, Paper, Text } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
+import { useAuthStore } from "@/app/(auth)/_store";
+import { Paper, Button, Text } from "@mantine/core";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
+  const [auth, setAuth] = [
+    useAuthStore((state) => state.auth),
+    useAuthStore((state) => state.setAuth),
+  ];
+
   useEffect(() => {
-    useAuthCheck().then((auth) => {
-      useAuthStore.getState().setAuth(auth);
-      if (auth) {
-        notifications.show({
-          title: "Already logged in",
-          message: "Redirecting to dashboard...",
-        });
-        navigate("/dashboard");
+    if (auth) {
+      return navigate("/dashboard");
+    }
+
+    const checkAuthStatus = async () => {
+      const res = await fetch("/api/auth/check");
+      if (res.ok) {
+        setAuth(true);
       }
-    });
-  }, []);
+    };
+    checkAuthStatus();
+  }, [auth, navigate, setAuth]);
+
+  if (auth) {
+    return null;
+  }
 
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center">

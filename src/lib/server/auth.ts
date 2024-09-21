@@ -1,6 +1,6 @@
 import { db } from "@/lib/server/db/init";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-import { Lucia } from "lucia";
+import { Lucia, TimeSpan } from "lucia";
 import { Discord } from "arctic";
 
 import { User } from "@prisma/client";
@@ -11,6 +11,7 @@ import { User } from "@prisma/client";
 const adapter = new PrismaAdapter(db.session, db.user);
 
 export const lucia = new Lucia(adapter, {
+  sessionExpiresIn: new TimeSpan(1, "d"),
   sessionCookie: {
     attributes: {
       secure: process.env.NODE_ENV === "production",

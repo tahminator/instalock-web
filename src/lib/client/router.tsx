@@ -1,27 +1,61 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from "../../app/page";
-import ErrorPage from "@/components/ui/error-page";
-import LoginPage from "@/app/login/page";
-import CallbackPage from "@/app/login/callback/page";
-import DashboardPage from "@/app/dashboard/page";
+import { Suspense, lazy } from "react";
+import { CenteredSpinner } from "@/components/ui/centered-spinner";
+
+const LandingPage = lazy(() => import("../../app/page"));
+const ErrorPage = lazy(() => import("@/components/ui/error-page"));
+const LoginPage = lazy(() => import("@/app/(auth)/login/page"));
+const LoginCallbackPage = lazy(
+  () => import("@/app/(auth)/login/callback/page")
+);
+const DashboardPage = lazy(() => import("@/app/dashboard/page"));
+const LogoutPage = lazy(() => import("@/app/(auth)/logout/page"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
-    errorElement: <ErrorPage />, // Errors will bubble up to this root component
+    element: (
+      <Suspense fallback={<CenteredSpinner />}>
+        <LandingPage />
+      </Suspense>
+    ),
+    errorElement: (
+      <Suspense fallback={<CenteredSpinner />}>
+        <ErrorPage />
+      </Suspense>
+    ), // Errors will bubble up to this root component
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <Suspense fallback={<CenteredSpinner />}>
+        <LoginPage />
+      </Suspense>
+    ),
   },
   {
     path: "/login/callback",
-    element: <CallbackPage />,
+    element: (
+      <Suspense fallback={<CenteredSpinner />}>
+        <LoginCallbackPage />
+      </Suspense>
+    ),
   },
   {
     path: "/dashboard",
-    element: <DashboardPage />,
+    element: (
+      <Suspense fallback={<CenteredSpinner />}>
+        <DashboardPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/logout",
+    element: (
+      <Suspense fallback={<CenteredSpinner />}>
+        <LogoutPage />
+      </Suspense>
+    ),
   },
 ]);
 
