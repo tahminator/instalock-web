@@ -66,27 +66,34 @@ app.use(async (req, res, next) => {
 
 app.use("/api", apiRouter);
 
-app.use(
-  express.static(
-    path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "dist")
-  )
-);
-
-app.use("*", (_, res, next) => {
-  if (process.env.NODE_ENV === "development") {
-    next();
-  }
-
-  res.sendFile(
-    path.join(
-      path.dirname(fileURLToPath(import.meta.url)),
-      "..",
-      "..",
-      "dist",
-      "index.html"
+if (process.env.NODE_ENV !== "development") {
+  app.use(
+    express.static(
+      path.join(
+        path.dirname(fileURLToPath(import.meta.url)),
+        "..",
+        "..",
+        "dist"
+      )
     )
   );
-});
+
+  app.use("*", (_, res, next) => {
+    if (process.env.NODE_ENV === "development") {
+      next();
+    }
+
+    res.sendFile(
+      path.join(
+        path.dirname(fileURLToPath(import.meta.url)),
+        "..",
+        "..",
+        "dist",
+        "index.html"
+      )
+    );
+  });
+}
 
 const port = 3000;
 
