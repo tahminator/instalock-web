@@ -3,6 +3,7 @@ import JettImg from "@/photos/landing/jett-small-display-icon.png";
 import PhxImg from "@/photos/landing/pheonix-small-display-icon.png";
 import ViperImg from "@/photos/landing/viper-small-display-icon.png";
 import VyseImg from "@/photos/landing/vyse-small-display-icon.png";
+import { Link } from "react-router-dom";
 
 const features = [
   {
@@ -49,8 +50,8 @@ export function Features() {
 
   return (
     <div className="container mx-auto p-8">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-20">
-        <div className="md:col-span-5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
+        <div className="lg:col-span-5">
           <h2 className="text-2xl font-bold mb-4">
             A Valorant companion app for all your needs
           </h2>
@@ -61,12 +62,14 @@ export function Features() {
             covered.
           </p>
 
-          <Button className="transition-all bg-gradient-to-r from-deep-red-400 to-deep-red-700 bg-size-200 bg-pos-0 hover:bg-pos-100">
-            Get started
-          </Button>
+          <Link to="/login">
+            <Button className="transition-all bg-gradient-to-r from-deep-red-400 to-deep-red-700 bg-size-200 bg-pos-0 hover:bg-pos-100">
+              Get started
+            </Button>
+          </Link>
         </div>
-        <div className="md:col-span-7">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">{items}</div>
+        <div className="lg:col-span-7">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">{items}</div>
         </div>
       </div>
     </div>

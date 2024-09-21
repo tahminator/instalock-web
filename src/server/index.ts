@@ -9,8 +9,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-
-app.use("/api", apiRouter);
+app.use(express.urlencoded());
 
 app.use((req, res, next) => {
   if (req.method === "GET") {
@@ -53,6 +52,8 @@ app.use(async (req, res, next) => {
   res.locals.user = user;
   return next();
 });
+
+app.use("/api", apiRouter);
 
 const port = 3000;
 

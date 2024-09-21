@@ -4,10 +4,27 @@ import { parseCookies, serializeCookie } from "oslo/cookie";
 import express from "express";
 import { OAuth } from "@/lib/server/types/discord/oauth";
 import { db } from "@/lib/server/db/init";
-import { generateId } from "lucia";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export const authRouter = express.Router();
+
+authRouter.get("/check", async (_, res) => {
+  if (!res.locals.user) {
+    return res.status(401).json({
+      success: false,
+      message: "You are not logged in",
+    });
+  }
+
+  console.log("h");
+  return res.json({
+    success: true,
+    message: "You are logged in",
+    data: {
+      ...res.locals.user,
+    },
+  });
+});
 
 authRouter.get("/discord", async (_, res) => {
   const state = generateState();
@@ -36,7 +53,6 @@ authRouter.get("/discord/callback", async (req, res) => {
     parseCookies(req.headers.cookie ?? "").get("discord_oauth_state") ?? null;
 
   if (!code || !state || !storedState || state !== storedState) {
-    console.log(code, state, storedState);
     res.status(400).end();
     return;
   }
@@ -65,10 +81,13 @@ authRouter.get("/discord/callback", async (req, res) => {
         .json({
           success: true,
           message: "You have been successfully logged in",
+          data: {
+            ...existingUser,
+          },
         });
     }
 
-    const userId = generateId(15);
+    const userId = crypto.randomUUID();
     await db.user.create({
       data: {
         id: userId,
@@ -84,7 +103,18 @@ authRouter.get("/discord/callback", async (req, res) => {
         "Set-Cookie",
         lucia.createSessionCookie(session.id).serialize()
       )
-      .redirect("/");
+      .json({
+        success: true,
+        message: "You have been successfully logged in",
+        data: {
+          ...{
+            id: userId,
+            discordId: user.id,
+            username: user.username,
+            avatar: user.avatar,
+          },
+        },
+      });
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError && e.code === "P2002") {
       // invalid code
@@ -98,4 +128,17 @@ authRouter.get("/discord/callback", async (req, res) => {
       message: "Failed to log in",
     });
   }
+});
+
+authRouter.post("/logout", async (_, res) => {
+  if (!res.locals.session) {
+    return res.status(401).end();
+  }
+  await lucia.invalidateSession(res.locals.session.id);
+  return res
+    .setHeader("Set-Cookie", lucia.createBlankSessionCookie().serialize())
+    .json({
+      success: true,
+      message: "You have been successfully logged out",
+    });
 });

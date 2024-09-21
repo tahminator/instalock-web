@@ -1,4 +1,5 @@
-import { authRouter } from "@/server/api/auth/v1/route";
+import { meRouter } from "@/server/api/@me/route";
+import { authRouter } from "@/server/api/auth/route";
 import express from "express";
 
 export const apiRouter = express.Router();
@@ -8,3 +9,5 @@ apiRouter.get("/", (_, res) => {
 });
 
 apiRouter.use("/auth", authRouter);
+
+apiRouter.use("/@me", meRouter);
