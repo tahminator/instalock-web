@@ -16,7 +16,7 @@ export default function InitialLandingPage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-[95svh] min-w-[96svw]">
+    <div className="absolute top-0 mt-[calc(3svh-2px)] min-h-[95svh] min-w-[96svw]">
       <motion.div
         className="absolute top-0 left-0 flex flex-col min-h-full min-w-full justify-center items-center rounded-md"
         initial={{ opacity: 0 }} // Start faded out
