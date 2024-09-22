@@ -10,6 +10,7 @@ const LoginCallbackPage = lazy(
 );
 const DashboardPage = lazy(() => import("@/app/dashboard/page"));
 const LogoutPage = lazy(() => import("@/app/(auth)/logout/page"));
+const SettingPage = lazy(() => import("@/app/settings/page"));
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,14 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={<CenteredSpinner />}>
         <DashboardPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/settings",
+    element: (
+      <Suspense fallback={<CenteredSpinner />}>
+        <SettingPage />
       </Suspense>
     ),
   },

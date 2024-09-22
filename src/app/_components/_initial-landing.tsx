@@ -7,7 +7,7 @@ const gradient4 = "#240b36";
 
 const variants = [
   `radial-gradient(circle, ${gradient1}, ${gradient2})`,
-  `radial-gradient(at left top, ${gradient4}, ${gradient3})`,
+  `radial-gradient(at right top, ${gradient4}, ${gradient3})`,
 ];
 
 export default function InitialLandingPage({

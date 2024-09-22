@@ -19,12 +19,25 @@ model User {
   discordId String
   username  String
   avatar    String?
+  apiKeys   ApiKey[]
 }
 
 model Session {
   id        String   @id
   userId    String
   expiresAt DateTime
+
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model ApiKey {
+  id        String   @id
+  userId    String
+  key       String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  disabled  Boolean  @default(false)
 
   user User @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
