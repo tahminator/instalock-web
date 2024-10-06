@@ -74,7 +74,7 @@ jwtRouter.get("/check", async (req, res) => {
     //   return res.status(401).json({ message: "Unauthorized" });
     // }
 
-    const token = req.query.token as string;
+    const token = req.query.jwt as string;
 
     const apiKey = await db.apiKey.findFirst({
       where: {
@@ -87,11 +87,11 @@ jwtRouter.get("/check", async (req, res) => {
     }
 
     if (apiKey.expiresAt < new Date()) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(402).json({ message: "Unauthorized" });
     }
 
     if (apiKey.activated) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Unauthorized" });
     }
 
     await db.apiKey.update({

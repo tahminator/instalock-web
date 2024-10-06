@@ -1,6 +1,7 @@
 import { type User, type Session, verifyRequestOrigin } from "lucia";
 import express from "express";
 import dotenv from "dotenv";
+import morgan from "morgan";
 import { lucia } from "@/lib/server/auth";
 import { apiRouter } from "@/server/api/route";
 import path from "path";
@@ -14,11 +15,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  console.log(
-    `[${new Date().toDateString()} ${new Date().toLocaleTimeString()}] ${
-      req.method
-    } ${req.url}`
-  );
+  // console.log(
+  //   `[${new Date().toDateString()} ${new Date().toLocaleTimeString()}] ${
+  //     req.method
+  //   } ${req.url}`
+  // );
   if (req.method === "GET") {
     return next();
   }
@@ -37,6 +38,8 @@ app.use((req, res, next) => {
   }
   return next();
 });
+
+app.use(morgan("tiny"));
 
 app.use(async (req, res, next) => {
   const sessionId = lucia.readSessionCookie(req.headers.cookie ?? "");
