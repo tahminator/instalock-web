@@ -14,12 +14,14 @@ datasource db {
 }
 
 model User {
-  id        String    @id
-  sessions  Session[]
-  discordId String
-  username  String
-  avatar    String?
-  apiKeys   ApiKey[]
+  id              String    @id
+  sessions        Session[]
+  discordId       String
+  username        String
+  avatar          String?
+  riotEntitlement String?
+  riotAuth        String?
+  ApiKey          ApiKey[]
 }
 
 model Session {
@@ -35,9 +37,9 @@ model ApiKey {
   userId    String
   key       String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   expiresAt DateTime
-  used      Boolean  @default(false)
-  disabled  Boolean  @default(false)
+  activated Boolean @default(false)
 
   user User @relation(references: [id], fields: [userId], onDelete: Cascade)
 }

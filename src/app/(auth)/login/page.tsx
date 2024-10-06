@@ -1,6 +1,7 @@
 import { useAuthStore } from "@/app/(auth)/_store";
 import { Paper, Button, Text } from "@mantine/core";
 import { useEffect } from "react";
+import { FaDiscord } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
@@ -32,7 +33,7 @@ export default function LoginPage() {
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center">
       <Paper radius="md" p="xl" withBorder>
-        <Text size="lg" fw={500}>
+        <Text size="lg" fw={500} className="text-center">
           Welcome to Instalock
         </Text>
 
@@ -42,6 +43,7 @@ export default function LoginPage() {
             size="md"
             variant="gradient"
             gradient={{ from: "gray", to: "blue", deg: 45 }}
+            leftSection={<FaDiscord />}
           >
             Login with Discord
           </Button>
