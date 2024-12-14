@@ -125,7 +125,9 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   discordId: 'discordId',
-  email: 'email'
+  discordName: 'discordName',
+  riotEntitlement: 'riotEntitlement',
+  riotAuth: 'riotAuth'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -142,6 +144,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 

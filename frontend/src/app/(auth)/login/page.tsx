@@ -32,34 +32,11 @@ export default function LoginPage() {
     return <></>;
   }
 
-  //   const [auth, setAuth] = [
-  //     useAuthStore((state) => state.auth),
-  //     useAuthStore((state) => state.setAuth),
-  //   ];
-
-  //   useEffect(() => {
-  //     if (auth) {
-  //       return navigate("/dashboard");
-  //     }
-
-  //     const checkAuthStatus = async () => {
-  //       const res = await fetch("/api/auth/check");
-  //       if (res.ok) {
-  //         setAuth(true);
-  //       }
-  //     };
-  //     checkAuthStatus();
-  //   }, [auth, navigate, setAuth]);
-
-  //   if (auth) {
-  //     return null;
-  //   }
-
   return (
     <LoginPageWrapper>
       <Paper radius="md" p="xl" withBorder>
-        <Text size="lg" fw={500} className="text-center">
-          Welcome to Instalock
+        <Text size="lg" fw={500} className="text-center !font-extrabold">
+          Welcome to Instalock{null}
         </Text>
 
         <Link to="/api/auth/v1/discord" reloadDocument>

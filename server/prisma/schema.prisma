@@ -17,9 +17,12 @@ datasource db {
 model User {
   id String @unique @default(uuid())
 
-  discordId String    @unique
-  email     String
-  Session   Session[]
+  discordId   String    @unique
+  discordName String
+  Session     Session[]
+
+  riotEntitlement String?
+  riotAuth        String?
 }
 
 model Session {

@@ -972,19 +972,25 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     discordId: string | null
-    email: string | null
+    discordName: string | null
+    riotEntitlement: string | null
+    riotAuth: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
     discordId: string | null
-    email: string | null
+    discordName: string | null
+    riotEntitlement: string | null
+    riotAuth: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     discordId: number
-    email: number
+    discordName: number
+    riotEntitlement: number
+    riotAuth: number
     _all: number
   }
 
@@ -992,19 +998,25 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     discordId?: true
-    email?: true
+    discordName?: true
+    riotEntitlement?: true
+    riotAuth?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     discordId?: true
-    email?: true
+    discordName?: true
+    riotEntitlement?: true
+    riotAuth?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     discordId?: true
-    email?: true
+    discordName?: true
+    riotEntitlement?: true
+    riotAuth?: true
     _all?: true
   }
 
@@ -1083,7 +1095,9 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     discordId: string
-    email: string
+    discordName: string
+    riotEntitlement: string | null
+    riotAuth: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1106,7 +1120,9 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     discordId?: boolean
-    email?: boolean
+    discordName?: boolean
+    riotEntitlement?: boolean
+    riotAuth?: boolean
     Session?: boolean | User$SessionArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1114,13 +1130,17 @@ export namespace Prisma {
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     discordId?: boolean
-    email?: boolean
+    discordName?: boolean
+    riotEntitlement?: boolean
+    riotAuth?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     discordId?: boolean
-    email?: boolean
+    discordName?: boolean
+    riotEntitlement?: boolean
+    riotAuth?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1137,7 +1157,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       discordId: string
-      email: string
+      discordName: string
+      riotEntitlement: string | null
+      riotAuth: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1534,7 +1556,9 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly discordId: FieldRef<"User", 'String'>
-    readonly email: FieldRef<"User", 'String'>
+    readonly discordName: FieldRef<"User", 'String'>
+    readonly riotEntitlement: FieldRef<"User", 'String'>
+    readonly riotAuth: FieldRef<"User", 'String'>
   }
     
 
@@ -2809,7 +2833,9 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     discordId: 'discordId',
-    email: 'email'
+    discordName: 'discordName',
+    riotEntitlement: 'riotEntitlement',
+    riotAuth: 'riotAuth'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -2838,6 +2864,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -2896,14 +2930,18 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     discordId?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
+    discordName?: StringFilter<"User"> | string
+    riotEntitlement?: StringNullableFilter<"User"> | string | null
+    riotAuth?: StringNullableFilter<"User"> | string | null
     Session?: SessionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     discordId?: SortOrder
-    email?: SortOrder
+    discordName?: SortOrder
+    riotEntitlement?: SortOrderInput | SortOrder
+    riotAuth?: SortOrderInput | SortOrder
     Session?: SessionOrderByRelationAggregateInput
   }
 
@@ -2913,14 +2951,18 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    email?: StringFilter<"User"> | string
+    discordName?: StringFilter<"User"> | string
+    riotEntitlement?: StringNullableFilter<"User"> | string | null
+    riotAuth?: StringNullableFilter<"User"> | string | null
     Session?: SessionListRelationFilter
   }, "id" | "discordId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     discordId?: SortOrder
-    email?: SortOrder
+    discordName?: SortOrder
+    riotEntitlement?: SortOrderInput | SortOrder
+    riotAuth?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -2932,7 +2974,9 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     discordId?: StringWithAggregatesFilter<"User"> | string
-    email?: StringWithAggregatesFilter<"User"> | string
+    discordName?: StringWithAggregatesFilter<"User"> | string
+    riotEntitlement?: StringNullableWithAggregatesFilter<"User"> | string | null
+    riotAuth?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type SessionWhereInput = {
@@ -2983,47 +3027,61 @@ export namespace Prisma {
   export type UserCreateInput = {
     id?: string
     discordId: string
-    email: string
+    discordName: string
+    riotEntitlement?: string | null
+    riotAuth?: string | null
     Session?: SessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
     discordId: string
-    email: string
+    discordName: string
+    riotEntitlement?: string | null
+    riotAuth?: string | null
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     discordId?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    discordName?: StringFieldUpdateOperationsInput | string
+    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
+    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     Session?: SessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     discordId?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    discordName?: StringFieldUpdateOperationsInput | string
+    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
+    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: string
     discordId: string
-    email: string
+    discordName: string
+    riotEntitlement?: string | null
+    riotAuth?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     discordId?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    discordName?: StringFieldUpdateOperationsInput | string
+    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
+    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     discordId?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    discordName?: StringFieldUpdateOperationsInput | string
+    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
+    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionCreateInput = {
@@ -3082,10 +3140,30 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
     none?: SessionWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type SessionOrderByRelationAggregateInput = {
@@ -3095,19 +3173,25 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     discordId?: SortOrder
-    email?: SortOrder
+    discordName?: SortOrder
+    riotEntitlement?: SortOrder
+    riotAuth?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     discordId?: SortOrder
-    email?: SortOrder
+    discordName?: SortOrder
+    riotEntitlement?: SortOrder
+    riotAuth?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     discordId?: SortOrder
-    email?: SortOrder
+    discordName?: SortOrder
+    riotEntitlement?: SortOrder
+    riotAuth?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3126,6 +3210,24 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -3194,6 +3296,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type SessionUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -3254,6 +3360,20 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -3280,6 +3400,34 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -3355,13 +3503,17 @@ export namespace Prisma {
   export type UserCreateWithoutSessionInput = {
     id?: string
     discordId: string
-    email: string
+    discordName: string
+    riotEntitlement?: string | null
+    riotAuth?: string | null
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
     id?: string
     discordId: string
-    email: string
+    discordName: string
+    riotEntitlement?: string | null
+    riotAuth?: string | null
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -3383,13 +3535,17 @@ export namespace Prisma {
   export type UserUpdateWithoutSessionInput = {
     id?: StringFieldUpdateOperationsInput | string
     discordId?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    discordName?: StringFieldUpdateOperationsInput | string
+    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
+    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
     id?: StringFieldUpdateOperationsInput | string
     discordId?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    discordName?: StringFieldUpdateOperationsInput | string
+    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
+    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionCreateManyUserInput = {

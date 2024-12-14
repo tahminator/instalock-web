@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@instalock/attempt':
+        specifier: workspace:^
+        version: link:../shared/attempt
       '@instalock/sj':
         specifier: workspace:^
         version: link:../shared/sj

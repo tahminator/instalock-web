@@ -20,6 +20,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@instalock/attempt": "workspace:^",
     "@instalock/sj": "workspace:^",
     "@instalock/types": "workspace:^",
     "@lucia-auth/adapter-prisma": "^4.0.1",
