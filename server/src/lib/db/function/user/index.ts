@@ -20,3 +20,8 @@ export const createUserWithDiscordIdAndEmail = ({
       discordName,
     },
   });
+
+export const findUserById = ({ id }: { id: string }) =>
+  db.user.findUnique({
+    where: { id },
+  });

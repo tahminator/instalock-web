@@ -1,4 +1,4 @@
-import useAuthMutation from "@/app/(auth)/login/callback/_mutation";
+import useAuthMutation from "@/app/(auth)/login/callback/mutations";
 import { Loader } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";

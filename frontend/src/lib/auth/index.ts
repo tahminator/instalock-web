@@ -9,7 +9,6 @@ export const useAuthQuery = () =>
   });
 
 const checkAuthentication = async () => {
-  await new Promise((resolve) => setTimeout(() => resolve(0), 1000));
   const res = await fetch("/api/auth/v1/@me");
 
   if (!res.ok) {
