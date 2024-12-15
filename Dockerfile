@@ -48,7 +48,7 @@ COPY --from=deps ./app ./
 COPY server ./server
 
 WORKDIR /app/server
-COPY --from=builder ./app/frontend/dist ./dist
+COPY --from=builder ./app/frontend/dist ./src/dist
 
 RUN corepack enable pnpm
 RUN ls -la .
