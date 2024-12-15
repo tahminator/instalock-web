@@ -44,8 +44,8 @@ RUN \
 FROM base AS runner
 
 WORKDIR /app
-COPY --from=deps ./app/server ./server
-COPY --from=deps ./app/shared ./shared
+COPY --from=deps ./app ./
+COPY server ./server
 
 WORKDIR /app/server
 COPY --from=builder ./app/frontend/dist ./dist
