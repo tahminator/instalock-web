@@ -54,4 +54,6 @@ RUN corepack enable pnpm
 RUN ls -la .
 RUN pnpm install
 
+EXPOSE 3050
+
 CMD ["pnpm", "run", "start"]
