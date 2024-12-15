@@ -51,7 +51,7 @@ export default function UserNavbar() {
   }
 
   const { name, rr, rank, rankName } = data;
-  const rankImage = `/public/tiers/${rank}.png`;
+  const rankImage = `/tiers/${rank}.png`;
 
   const handleRefresh = () => {
     queryClient.resetQueries({ queryKey: ["riot"] });
