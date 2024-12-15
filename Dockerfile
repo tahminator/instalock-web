@@ -53,4 +53,5 @@ COPY --from=builder ./app/frontend/dist ./src/dist
 RUN corepack enable pnpm
 RUN ls -la .
 RUN pnpm install
+
 CMD ["pnpm", "run", "start"]

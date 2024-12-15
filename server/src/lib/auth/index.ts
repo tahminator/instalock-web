@@ -14,10 +14,6 @@ export const lucia = new Lucia(adapter, {
       path: "/",
       // sameSite: "none",
       secure: process.env.NODE_ENV === "production",
-      domain:
-        process.env.NODE_ENV === "production"
-          ? ".parentlink.tahmid.io"
-          : undefined,
     },
   },
   getUserAttributes: (attributes) => {

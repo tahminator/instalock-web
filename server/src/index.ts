@@ -34,7 +34,6 @@ app.use((req, res, next) => {
   const originHeader = req.headers.origin;
   const hostHeader = req.headers.host;
 
-  console.log(originHeader, hostHeader);
   if (
     !originHeader ||
     !hostHeader ||
