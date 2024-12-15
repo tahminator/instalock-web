@@ -17,10 +17,13 @@ COPY frontend/package.json frontend/yarn.lock* frontend/package-lock.json* front
 COPY shared/ ./shared/
 
 WORKDIR /app
+
+ENV NODE_ENV=development
+
 RUN \
-  if [ -f yarn.lock ]; then NODE_ENV=development yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then NODE_ENV=development npm install; \
-  elif [ -f pnpm-lock.yaml ]; then NODE_ENV=development corepack enable pnpm && pnpm install; \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm install; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
@@ -37,9 +40,9 @@ WORKDIR /app/frontend
 RUN npm install -g typescript
 
 RUN \
-  if [ -f yarn.lock ]; then NODE_ENV=development yarn run build; \
-  elif [ -f package-lock.json ]; then NODE_ENV=development npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then NODE_ENV=development corepack enable pnpm && pnpm run build; \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
