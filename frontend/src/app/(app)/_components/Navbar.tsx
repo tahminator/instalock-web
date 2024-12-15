@@ -15,7 +15,9 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import LogoImg from "/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
-import classes from "./Navbar.module.css";
+import classes from "@/app/(app)/_components/navbar.module.css";
+import useLogoutMutation from "@/app/(auth)/logout/mutations";
+import { notifications } from "@mantine/notifications";
 
 export default function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -24,6 +26,31 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const { data } = useAuthQuery();
+  const { mutate } = useLogoutMutation();
+
+  const handleLogout = () => {
+    const id = notifications.show({
+      message: "Please wait, logging you out...",
+    });
+    mutate(void 0, {
+      onSuccess: (data) => {
+        if (!data.success) {
+          return notifications.update({
+            id,
+            message: data.message,
+            color: "red",
+          });
+        }
+
+        notifications.update({
+          id,
+          message: data.message,
+          color: "green",
+        });
+        return navigate("/");
+      },
+    });
+  };
 
   return (
     <Box
@@ -51,7 +78,7 @@ export default function Navbar() {
               >
                 Instalock
               </Text>
-            </Title>
+            </Title>{" "}
           </Group>
 
           <Group justify="center" h="100%" gap={0} visibleFrom="sm" mr="50">
@@ -104,11 +131,11 @@ export default function Navbar() {
             </HoverCard> */}
             {data?.user ? (
               <NavLink to="/dashboard" className={classes.link}>
-                <Text inherit>Matches</Text>
+                <Text inherit>Dashboard</Text>
               </NavLink>
             ) : (
               <NavLink to="/login" className={classes.link}>
-                <Text inherit>Matches</Text>
+                <Text inherit>Dashboard</Text>
               </NavLink>
             )}
           </Group>
@@ -118,7 +145,7 @@ export default function Navbar() {
               <Button
                 variant="gradient"
                 gradient={{ from: "red", to: "purple" }}
-                // onClick={handleLogout}
+                onClick={handleLogout}
               >
                 Log Out
               </Button>
@@ -160,11 +187,11 @@ export default function Navbar() {
           </NavLink>
           {data?.user ? (
             <NavLink to="/dashboard" className={classes.link}>
-              <Text className={classes.link}>Matches</Text>
+              <Text className={classes.link}>Dashboard</Text>
             </NavLink>
           ) : (
             <NavLink to="/login" className={classes.link}>
-              <Text className={classes.link}>Matches</Text>
+              <Text className={classes.link}>Dashboard</Text>
             </NavLink>
           )}
           {/* <UnstyledButton className={classes.link} onClick={toggleLinks}>
@@ -198,7 +225,7 @@ export default function Navbar() {
                 variant="gradient"
                 gradient={{ from: "purple", to: "red" }}
                 onClick={() => {
-                  // handleLogout();
+                  handleLogout();
                   closeDrawer();
                 }}
               >

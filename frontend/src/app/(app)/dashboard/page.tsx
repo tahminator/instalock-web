@@ -1,5 +1,5 @@
-import Navbar from "@/app/(app)/_components/_navbar";
-import DashboardContent from "@/app/(app)/dashboard/_components/_dashboard-content";
+import Navbar from "@/app/(app)/_components/Navbar";
+import DashboardContent from "@/app/(app)/dashboard/_components/DashboardContent";
 import CenteredSpinner from "@/components/ui/centered-spinner";
 import { Suspense } from "react";
 

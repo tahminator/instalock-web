@@ -1,4 +1,6 @@
-import RiotAuthenticationModal from "@/app/(app)/dashboard/_components/_matches/_auth/_auth-modal";
+import MatchLoader from "@/app/(app)/dashboard/_components/Matches/MatchLoader";
+import RiotAuthenticationModal from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal";
+import UserNavbar from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar";
 import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
 import { ReactNode, useMemo } from "react";
 
@@ -14,6 +16,15 @@ export default function MatchIndex() {
       </MatchIndexWrapper>
     );
   }
+
+  return (
+    <>
+      <UserNavbar />
+      <MatchIndexWrapper>
+        <MatchLoader />
+      </MatchIndexWrapper>
+    </>
+  );
 }
 
 function MatchIndexWrapper({ children }: { children: ReactNode }) {

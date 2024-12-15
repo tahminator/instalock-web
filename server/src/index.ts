@@ -6,6 +6,7 @@ import { superjsonMiddleware } from "@/middleware/superjson";
 import { verifyRequestOrigin } from "lucia";
 import { lucia } from "@/lib/auth";
 import { apiRouter } from "@/api";
+import path from "path";
 
 dotenv.config();
 let port = 3050;
@@ -72,6 +73,13 @@ app.use(async (req, res, next) => {
 });
 
 app.use("/api", apiRouter);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+  });
+}
 
 const server = app.listen(port);
 

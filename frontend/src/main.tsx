@@ -12,7 +12,25 @@ import { Notifications } from "@mantine/notifications";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider>
-      <MantineProvider forceColorScheme="dark">
+      <MantineProvider
+        forceColorScheme="dark"
+        theme={{
+          colors: {
+            "deep-red": [
+              "#ffeaec",
+              "#fdd4d6",
+              "#f4a7ac",
+              "#ec777e",
+              "#e64f57",
+              "#e3353f",
+              "#e22732",
+              "#c91a25",
+              "#b31220",
+              "#9e0419",
+            ],
+          },
+        }}
+      >
         <RouterProvider router={router} />
         <Notifications />
       </MantineProvider>

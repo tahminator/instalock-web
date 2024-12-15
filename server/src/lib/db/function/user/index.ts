@@ -25,3 +25,23 @@ export const findUserById = ({ id }: { id: string }) =>
   db.user.findUnique({
     where: { id },
   });
+
+export const saveUserRiotCredentials = ({
+  id,
+  authToken,
+  entitlementToken,
+}: {
+  id: string;
+  authToken: string;
+  entitlementToken: string;
+}) =>
+  db.user.update({
+    where: { id },
+    data: { riotAuth: authToken, riotEntitlement: entitlementToken },
+  });
+
+export const removeUserRiotCredentials = ({ id }: { id: string }) =>
+  db.user.update({
+    where: { id },
+    data: { riotAuth: null, riotEntitlement: null },
+  });
