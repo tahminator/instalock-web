@@ -3,11 +3,13 @@ import LoginPage from "@/app/(auth)/login/page";
 import DashboardPage from "@/app/(app)/dashboard/page";
 import LandingPage from "@/app/page";
 import { createBrowserRouter } from "react-router-dom";
+import FourOhFour from "@/components/ui/FourOhFour/FourOhFour";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
+    ErrorBoundary: FourOhFour,
   },
   {
     path: "/login",
