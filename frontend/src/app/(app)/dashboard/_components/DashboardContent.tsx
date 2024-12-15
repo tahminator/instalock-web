@@ -1,4 +1,4 @@
-import MatchIndex from "@/app/(app)/dashboard/_components/_matches/_match-index";
+import MatchIndex from "@/app/(app)/dashboard/_components/Matches/MatchIndex";
 import CenteredSpinner from "@/components/ui/centered-spinner";
 import { useAuthQuery } from "@/lib/auth";
 import { notifications } from "@mantine/notifications";

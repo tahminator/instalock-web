@@ -7,7 +7,7 @@ export default function CenteredSpinner() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: "100%",
       }}
     >
       <Loader

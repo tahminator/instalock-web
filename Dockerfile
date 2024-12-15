@@ -1,0 +1,56 @@
+FROM node:20.12.2-alpine AS base
+
+FROM base AS deps
+
+WORKDIR /app
+
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+COPY pnpm-workspace.yaml ./
+
+COPY server/package.json server/yarn.lock* server/package-lock.json* server/pnpm-lock.yaml* server/.npmrc* ./server/
+COPY server/prisma ./server/prisma
+
+COPY frontend/package.json frontend/yarn.lock* frontend/package-lock.json* frontend/pnpm-lock.yaml* frontend/.npmrc* ./frontend/
+# COPY scripts/package.json scripts/yarn.lock* scripts/package-lock.json* scripts/pnpm-lock.yaml* scripts/.npmrc* ./scripts/
+
+
+COPY shared/ ./shared/
+
+WORKDIR /app
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm i; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+RUN ls -la ./frontend
+FROM base AS builder
+
+WORKDIR /app
+
+COPY --from=deps ./app .
+COPY frontend ./frontend
+
+WORKDIR /app/frontend
+
+RUN \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+FROM base AS runner
+
+WORKDIR /app
+COPY --from=deps ./app/server ./server
+COPY --from=deps ./app/shared ./shared
+
+WORKDIR /app/server
+COPY --from=builder ./app/frontend/dist ./dist
+
+RUN corepack enable pnpm
+RUN ls -la .
+RUN pnpm install
+CMD ["pnpm", "run", "start"]

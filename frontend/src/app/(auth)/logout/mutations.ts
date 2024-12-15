@@ -2,7 +2,7 @@ import { SJ } from "@instalock/sj";
 import { ApiDefault } from "@instalock/types";
 import { useMutation } from "@tanstack/react-query";
 
-const useLogoutMutation = () =>
+export const useLogoutMutation = () =>
   useMutation({
     mutationKey: ["auth", "signout"],
     mutationFn: logoutFlow,

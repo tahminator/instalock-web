@@ -16,17 +16,25 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconBrandValorant } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import classes from "./AuthModal.module.css";
-import { PasteButton } from "@/app/(app)/dashboard/_components/_matches/_auth/_components/_paste-button";
+import classes from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal.module.css";
+import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authModalSchema } from "@instalock/types/schema/riot-auth-modal";
 import { useState } from "react";
 import { z } from "zod";
+import { notifications } from "@mantine/notifications";
+import { SJ } from "@instalock/sj";
+import { ApiDefault } from "@instalock/types";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function RiotAuthenticationModal() {
+  const queryClient = useQueryClient();
+
   const [opened, { open, close }] = useDisclosure(false);
   const [highlighted, setHighlighted] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(authModalSchema),
@@ -35,7 +43,49 @@ export default function RiotAuthenticationModal() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof authModalSchema>) => console.log(data);
+  const onSubmit = async (data: z.infer<typeof authModalSchema>) => {
+    setLoading(true);
+    const id = notifications.show({
+      message: "Please wait, attempting to resolve credentials from server...",
+    });
+    try {
+      const res = await fetch("/api/riot/v1/auth", {
+        method: "POST",
+        body: SJ.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const json = SJ.parse(await res.text()) as ApiDefault<{
+        authToken: string;
+        entitlementToken: string;
+      }>;
+
+      if (!json.success) {
+        return notifications.update({
+          id,
+          message: json.message,
+          color: "red",
+        });
+      }
+
+      notifications.update({
+        id,
+        message: json.message,
+        color: "green",
+      });
+      queryClient.invalidateQueries({ queryKey: ["riot", "auth"] });
+    } catch {
+      return notifications.update({
+        id,
+        message: "Oops, something went wrong. Please refresh the page.",
+        color: "red",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -116,6 +166,7 @@ export default function RiotAuthenticationModal() {
                     label="Valorant Return URL"
                     placeholder="https://playvalorant.com/opt_in#access_token..."
                     required
+                    disabled={loading}
                     {...field}
                     // value={form.values.url}
                     // onChange={(event) =>

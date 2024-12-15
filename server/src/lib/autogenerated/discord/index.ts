@@ -23,6 +23,6 @@ type Fail = {
   code: 0;
 };
 
-type DiscordUser = User | Fail;
+type DiscordOAuthUser = User | Fail;
 
-export default DiscordUser;
+export default DiscordOAuthUser;

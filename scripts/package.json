@@ -1,0 +1,17 @@
+{
+  "name": "@instalock/scripts",
+  "version": "1.0.0",
+  "description": "Do not install these into the other packages - Scripts to pull certain data about Valorant required for core functionality of Instalock.",
+  "main": "index.js",
+  "type": "module",
+  "module": "esnext",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.10.2"
+  }
+}
