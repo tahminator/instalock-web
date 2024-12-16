@@ -12,7 +12,7 @@ export default function LoginPage() {
   if (status === "pending") {
     return (
       <LoginPageWrapper>
-        <Loader />
+        <Loader color={"red.7"} />
       </LoginPageWrapper>
     );
   }
