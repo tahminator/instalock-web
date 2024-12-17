@@ -14,6 +14,6 @@ export type ShallowMatchExclude = Prisma.RiotMatchesGetPayload<{
 }>;
 
 export type ShallowMatch = ShallowMatchExclude & {
-  characterId: string;
-  me: RiotMatchPlayers;
+  characterId?: string;
+  me?: RiotMatchPlayers;
 };

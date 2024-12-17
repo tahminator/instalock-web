@@ -89,11 +89,15 @@ export default function MatchCard({ match }: { match: ShallowMatch }) {
           {queueId === "Competitive" && (
             <div className="flex space-x-2">
               <Text c={"blue"}>
-                {me.teamColor === "Blue" ? teamBlueRoundsWon : teamRedRoundsWon}
+                {me?.teamColor === "Blue"
+                  ? teamBlueRoundsWon
+                  : teamRedRoundsWon}
               </Text>
               <div>-</div>
               <Text c="red">
-                {me.teamColor === "Blue" ? teamRedRoundsWon : teamBlueRoundsWon}
+                {me?.teamColor === "Blue"
+                  ? teamRedRoundsWon
+                  : teamBlueRoundsWon}
               </Text>
             </div>
           )}
