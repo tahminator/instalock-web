@@ -31,7 +31,7 @@ COPY scripts ./scripts
 
 WORKDIR /app/scripts
 RUN corepack enable pnpm
-RUN pnpm install -g typescript
+RUN npm install -g typescript
 RUN pnpm install
 
 CMD ["pnpm", "run", "start"]
