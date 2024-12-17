@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "preinstall": "cd scripts/manual && tsx generateMapImages.ts && tsx generateTierImages.ts",
+    "generate": "cd scripts/manual && tsx generateMapImages.ts && tsx generateTierImages.ts",
     "client:dev": "cd frontend && pnpm run dev",
     "server:dev": "cd server && pnpm run dev",
     "dev": "concurrently \"pnpm run client:dev\" \"pnpm run server:dev\""
