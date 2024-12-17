@@ -28,5 +28,3 @@ async function generateMapObject() {
 }
 
 generateMapObject();
-
-export {};

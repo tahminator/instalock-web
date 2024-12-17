@@ -5301,6 +5301,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersMinAggregateOutputType = {
     id: string | null
+    puuid: string | null
     riotTag: string | null
     teamId: string | null
     characterId: string | null
@@ -5317,6 +5318,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersMaxAggregateOutputType = {
     id: string | null
+    puuid: string | null
     riotTag: string | null
     teamId: string | null
     characterId: string | null
@@ -5333,6 +5335,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersCountAggregateOutputType = {
     id: number
+    puuid: number
     riotTag: number
     teamId: number
     characterId: number
@@ -5367,6 +5370,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersMinAggregateInputType = {
     id?: true
+    puuid?: true
     riotTag?: true
     teamId?: true
     characterId?: true
@@ -5383,6 +5387,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersMaxAggregateInputType = {
     id?: true
+    puuid?: true
     riotTag?: true
     teamId?: true
     characterId?: true
@@ -5399,6 +5404,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersCountAggregateInputType = {
     id?: true
+    puuid?: true
     riotTag?: true
     teamId?: true
     characterId?: true
@@ -5502,6 +5508,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersGroupByOutputType = {
     id: string
+    puuid: string
     riotTag: string | null
     teamId: string | null
     characterId: string | null
@@ -5537,6 +5544,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    puuid?: boolean
     riotTag?: boolean
     teamId?: boolean
     characterId?: boolean
@@ -5555,6 +5563,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    puuid?: boolean
     riotTag?: boolean
     teamId?: boolean
     characterId?: boolean
@@ -5571,6 +5580,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersSelectScalar = {
     id?: boolean
+    puuid?: boolean
     riotTag?: boolean
     teamId?: boolean
     characterId?: boolean
@@ -5598,6 +5608,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      puuid: string
       riotTag: string | null
       teamId: string | null
       characterId: string | null
@@ -6005,6 +6016,7 @@ export namespace Prisma {
    */ 
   interface RiotMatchPlayersFieldRefs {
     readonly id: FieldRef<"RiotMatchPlayers", 'String'>
+    readonly puuid: FieldRef<"RiotMatchPlayers", 'String'>
     readonly riotTag: FieldRef<"RiotMatchPlayers", 'String'>
     readonly teamId: FieldRef<"RiotMatchPlayers", 'String'>
     readonly characterId: FieldRef<"RiotMatchPlayers", 'String'>
@@ -6431,6 +6443,7 @@ export namespace Prisma {
 
   export const RiotMatchPlayersScalarFieldEnum: {
     id: 'id',
+    puuid: 'puuid',
     riotTag: 'riotTag',
     teamId: 'teamId',
     characterId: 'characterId',
@@ -6823,6 +6836,7 @@ export namespace Prisma {
     OR?: RiotMatchPlayersWhereInput[]
     NOT?: RiotMatchPlayersWhereInput | RiotMatchPlayersWhereInput[]
     id?: StringFilter<"RiotMatchPlayers"> | string
+    puuid?: StringFilter<"RiotMatchPlayers"> | string
     riotTag?: StringNullableFilter<"RiotMatchPlayers"> | string | null
     teamId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
     characterId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
@@ -6840,6 +6854,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersOrderByWithRelationInput = {
     id?: SortOrder
+    puuid?: SortOrder
     riotTag?: SortOrderInput | SortOrder
     teamId?: SortOrderInput | SortOrder
     characterId?: SortOrderInput | SortOrder
@@ -6860,6 +6875,7 @@ export namespace Prisma {
     AND?: RiotMatchPlayersWhereInput | RiotMatchPlayersWhereInput[]
     OR?: RiotMatchPlayersWhereInput[]
     NOT?: RiotMatchPlayersWhereInput | RiotMatchPlayersWhereInput[]
+    puuid?: StringFilter<"RiotMatchPlayers"> | string
     riotTag?: StringNullableFilter<"RiotMatchPlayers"> | string | null
     teamId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
     characterId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
@@ -6877,6 +6893,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersOrderByWithAggregationInput = {
     id?: SortOrder
+    puuid?: SortOrder
     riotTag?: SortOrderInput | SortOrder
     teamId?: SortOrderInput | SortOrder
     characterId?: SortOrderInput | SortOrder
@@ -6901,6 +6918,7 @@ export namespace Prisma {
     OR?: RiotMatchPlayersScalarWhereWithAggregatesInput[]
     NOT?: RiotMatchPlayersScalarWhereWithAggregatesInput | RiotMatchPlayersScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"RiotMatchPlayers"> | string
+    puuid?: StringWithAggregatesFilter<"RiotMatchPlayers"> | string
     riotTag?: StringNullableWithAggregatesFilter<"RiotMatchPlayers"> | string | null
     teamId?: StringNullableWithAggregatesFilter<"RiotMatchPlayers"> | string | null
     characterId?: StringNullableWithAggregatesFilter<"RiotMatchPlayers"> | string | null
@@ -7200,7 +7218,8 @@ export namespace Prisma {
   }
 
   export type RiotMatchPlayersCreateInput = {
-    id: string
+    id?: string
+    puuid: string
     riotTag?: string | null
     teamId?: string | null
     characterId?: string | null
@@ -7217,7 +7236,8 @@ export namespace Prisma {
   }
 
   export type RiotMatchPlayersUncheckedCreateInput = {
-    id: string
+    id?: string
+    puuid: string
     riotTag?: string | null
     teamId?: string | null
     characterId?: string | null
@@ -7235,6 +7255,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7252,6 +7273,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7268,7 +7290,8 @@ export namespace Prisma {
   }
 
   export type RiotMatchPlayersCreateManyInput = {
-    id: string
+    id?: string
+    puuid: string
     riotTag?: string | null
     teamId?: string | null
     characterId?: string | null
@@ -7285,6 +7308,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7301,6 +7325,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7681,6 +7706,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersCountOrderByAggregateInput = {
     id?: SortOrder
+    puuid?: SortOrder
     riotTag?: SortOrder
     teamId?: SortOrder
     characterId?: SortOrder
@@ -7705,6 +7731,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersMaxOrderByAggregateInput = {
     id?: SortOrder
+    puuid?: SortOrder
     riotTag?: SortOrder
     teamId?: SortOrder
     characterId?: SortOrder
@@ -7721,6 +7748,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersMinOrderByAggregateInput = {
     id?: SortOrder
+    puuid?: SortOrder
     riotTag?: SortOrder
     teamId?: SortOrder
     characterId?: SortOrder
@@ -8460,7 +8488,8 @@ export namespace Prisma {
   }
 
   export type RiotMatchPlayersCreateWithoutRiotMatchesInput = {
-    id: string
+    id?: string
+    puuid: string
     riotTag?: string | null
     teamId?: string | null
     characterId?: string | null
@@ -8476,7 +8505,8 @@ export namespace Prisma {
   }
 
   export type RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput = {
-    id: string
+    id?: string
+    puuid: string
     riotTag?: string | null
     teamId?: string | null
     characterId?: string | null
@@ -8570,6 +8600,7 @@ export namespace Prisma {
     OR?: RiotMatchPlayersScalarWhereInput[]
     NOT?: RiotMatchPlayersScalarWhereInput | RiotMatchPlayersScalarWhereInput[]
     id?: StringFilter<"RiotMatchPlayers"> | string
+    puuid?: StringFilter<"RiotMatchPlayers"> | string
     riotTag?: StringNullableFilter<"RiotMatchPlayers"> | string | null
     teamId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
     characterId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
@@ -8860,6 +8891,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersUpdateWithoutRiotMatchesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8876,6 +8908,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersUncheckedUpdateWithoutRiotMatchesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8892,6 +8925,7 @@ export namespace Prisma {
 
   export type RiotMatchPlayersUncheckedUpdateManyWithoutRiotMatchesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null

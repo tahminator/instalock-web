@@ -169,7 +169,7 @@ export default function UserNavbar() {
                 </Group>
               </UnstyledButton>
             </Menu.Target>
-            <Menu.Dropdown>
+            <Menu.Dropdown className="z-auto">
               <Menu.Item
                 color="red"
                 onClick={handleDisconnect}
@@ -200,7 +200,7 @@ export default function UserNavbar() {
 
 function UserNavbarWrapper({ children }: { children?: ReactNode }) {
   return (
-    <div className={classes.header + " w-full"}>
+    <div className={classes.header + " w-full sticky top-0 z-[350]"}>
       <Container className={classes.mainSection} size="md">
         {children}
       </Container>

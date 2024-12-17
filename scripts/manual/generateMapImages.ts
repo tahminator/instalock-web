@@ -46,5 +46,3 @@ async function generateMapImages() {
 }
 
 generateMapImages();
-
-export {};

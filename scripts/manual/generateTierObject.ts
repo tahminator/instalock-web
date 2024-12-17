@@ -44,5 +44,3 @@ async function generateTierObject() {
 }
 
 generateTierObject();
-
-export {};

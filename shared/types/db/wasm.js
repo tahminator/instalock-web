@@ -162,6 +162,7 @@ exports.Prisma.RiotMatchRoundScalarFieldEnum = {
 
 exports.Prisma.RiotMatchPlayersScalarFieldEnum = {
   id: 'id',
+  puuid: 'puuid',
   riotTag: 'riotTag',
   teamId: 'teamId',
   characterId: 'characterId',

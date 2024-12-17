@@ -30,6 +30,6 @@ dist-ssr
 !.env.example
 
 # This is for testing APIs
-test.json
+test*.json
 
 venv/

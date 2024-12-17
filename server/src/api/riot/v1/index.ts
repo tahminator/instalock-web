@@ -17,6 +17,7 @@ import { sendSuperJson } from "@/lib/superjson-sender";
 import { attempt } from "@instalock/attempt";
 import {
   authModalSchema,
+  getGameModeName,
   Prisma,
   ShallowMatch,
   ShallowMatchExclude,
@@ -24,6 +25,7 @@ import {
   tierNumberToNameObject,
 } from "@instalock/types";
 import { Router } from "express";
+import { writeFile } from "fs/promises";
 
 export const riotRouterV1 = Router();
 
@@ -480,15 +482,25 @@ riotRouterV1.get("/matches/shallow", async (req, res) => {
         },
       });
 
+      // await writeFile(
+      //   `${__dirname}/test${match.id}.json`,
+      //   JSON.stringify(riotPlayersInMatch)
+      // );
+
       const me = riotPlayersInMatch.filter(
-        (player) => player.id == user.riotPuuid
+        (player) => player.puuid == user.riotPuuid
       )[0];
 
-      return { ...match, characterId: me?.characterId };
+      const gameModeName = getGameModeName(match.queueId ?? "Unknown");
+
+      return {
+        ...match,
+        characterId: me?.characterId,
+        queueId: gameModeName,
+        me,
+      };
     }) ?? []
   );
-
-  console.log(newMatches);
 
   if (matchesError) {
     return sendSuperJson(

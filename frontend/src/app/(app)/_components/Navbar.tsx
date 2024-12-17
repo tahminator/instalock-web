@@ -55,9 +55,7 @@ export default function Navbar() {
   return (
     <Box
       style={{
-        position: "sticky",
         top: 0,
-        zIndex: 10,
         background: "#242424",
         backgroundClip: "padding-box",
       }}

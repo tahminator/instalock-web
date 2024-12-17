@@ -1,5 +1,10 @@
 import { ShallowMatch } from "@instalock/types";
-import { mapUuidToNameObject, MapUuid } from "@instalock/types/riot";
+import {
+  mapUuidToNameObject,
+  MapUuid,
+  agentUuidToNameObject,
+  AgentUuid,
+} from "@instalock/types/riot";
 import {
   Avatar,
   Badge,
@@ -13,12 +18,24 @@ import {
 } from "@mantine/core";
 
 export default function MatchCard({ match }: { match: ShallowMatch }) {
-  const mapName = mapUuidToNameObject[match.mapId as MapUuid];
-  const { queueId, isCompleted, characterId } = match;
+  const {
+    queueId,
+    isCompleted,
+    characterId,
+    mapId,
+    teamBlueRoundsWon,
+    teamRedRoundsWon,
+    me,
+  } = match;
+
+  const mapName = mapUuidToNameObject[mapId as MapUuid];
   const mapSrc = `/maps/${mapName}.png`;
+
+  const agentName = agentUuidToNameObject[characterId as AgentUuid];
+  const agentSrc = `/agents/${agentName}.png`;
   return (
     <div>
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Card shadow="sm" padding="lg" radius="md" withBorder bg={"dark.8"}>
         <Card.Section>
           <Tooltip
             label={mapName}
@@ -63,17 +80,23 @@ export default function MatchCard({ match }: { match: ShallowMatch }) {
             </Text>
           </Stack> */}
           <Tooltip
-            label={characterId}
+            label={agentName}
             color="gray"
             events={{ hover: true, focus: true, touch: true }}
           >
-            <Avatar
-              // src={mesrc}
-              alt={characterId}
-              color="red"
-              style={{ border: "1px solid gray" }}
-            />
+            <Avatar src={agentSrc} alt={agentName} className="" />
           </Tooltip>
+          {queueId === "Competitive" && (
+            <div className="flex space-x-2">
+              <Text c={"blue"}>
+                {me.teamColor === "Blue" ? teamBlueRoundsWon : teamRedRoundsWon}
+              </Text>
+              <div>-</div>
+              <Text c="red">
+                {me.teamColor === "Blue" ? teamRedRoundsWon : teamBlueRoundsWon}
+              </Text>
+            </div>
+          )}
         </Group>
 
         <Space h="xs" />

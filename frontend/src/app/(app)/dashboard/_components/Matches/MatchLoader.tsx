@@ -18,7 +18,7 @@ export default function MatchLoader() {
   if (status === "error" || status === "pending") {
     return (
       <MatchLoaderWrapper>
-        {Array.from({ length: 7 }, () => (
+        {Array.from({ length: 20 }, () => (
           <SkeletonMatchCardComponent />
         ))}
       </MatchLoaderWrapper>

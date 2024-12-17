@@ -75,7 +75,8 @@ model RiotMatchRound {
 }
 
 model RiotMatchPlayers {
-  id String @id
+  id    String @id @default(uuid())
+  puuid String
 
   riotTag String?
 

@@ -65,11 +65,11 @@ export const loadMatchesForEachUser = async () => {
       );
 
       // Use the file to generate types, if needed.
-      // if (j === 1) {
-      //   await writeFile(
-      //     `${import.meta.dirname}/test.json`,
-      //     JSON.stringify(await riotMatchRes.json())
-      //   );
+      // if (j === 2) {
+      // await writeFile(
+      //   `${import.meta.dirname}/test.json`,
+      //   JSON.stringify(await riotMatchRes.json())
+      // );
       // }
 
       if (!riotMatchRes.ok) {
@@ -115,29 +115,25 @@ export const loadMatchesForEachUser = async () => {
                 teamBlueRoundsWon: teamBlue?.roundsWon,
                 teamRedRoundsWon: teamRed?.roundsWon,
                 matchPlayers: {
-                  connectOrCreate: players?.map((player) => ({
-                    where: { id: player.subject }, // Assumes 'id' is unique in the database
-                    create: {
-                      id: player.subject ?? randomUUID(),
-                      riotTag: `${player.gameName}#${player.tagLine}`,
-                      teamId: player.teamId,
-                      characterId: player.characterId,
-                      kills: player.stats?.kills ?? 0,
-                      deaths: player.stats?.deaths ?? 0,
-                      assists: player.stats?.assists ?? 0,
-                      tier: player.competitiveTier,
-                      playerCard: player.playerCard,
-                      playerTitle: player.playerTitle,
-                      teamColor: player.teamId === "Blue" ? "Blue" : "Red",
-                      teamWon:
-                        teams &&
-                        teams.find((team) => team.teamId === player.teamId)
-                          ?.won,
-                      teamRoundsWon:
-                        teams &&
-                        teams.find((team) => team.teamId === player.teamId)
-                          ?.roundsPlayed,
-                    },
+                  create: players?.map((player) => ({
+                    puuid: player.subject ?? randomUUID(),
+                    riotTag: `${player.gameName}#${player.tagLine}`,
+                    teamId: player.teamId,
+                    characterId: player.characterId,
+                    kills: player.stats?.kills ?? 0,
+                    deaths: player.stats?.deaths ?? 0,
+                    assists: player.stats?.assists ?? 0,
+                    tier: player.competitiveTier,
+                    playerCard: player.playerCard,
+                    playerTitle: player.playerTitle,
+                    teamColor: player.teamId === "Blue" ? "Blue" : "Red",
+                    teamWon:
+                      teams &&
+                      teams.find((team) => team.teamId === player.teamId)?.won,
+                    teamRoundsWon:
+                      teams &&
+                      teams.find((team) => team.teamId === player.teamId)
+                        ?.roundsPlayed,
                   })),
                 },
               },
@@ -163,29 +159,25 @@ export const loadMatchesForEachUser = async () => {
                 teamBlueRoundsWon: teamBlue?.roundsWon,
                 teamRedRoundsWon: teamRed?.roundsWon,
                 matchPlayers: {
-                  connectOrCreate: players?.map((player) => ({
-                    where: { id: player.subject }, // Assumes 'id' is unique in the database
-                    create: {
-                      id: player.subject ?? randomUUID(),
-                      riotTag: `${player.gameName}#${player.tagLine}`,
-                      teamId: player.teamId,
-                      characterId: player.characterId,
-                      kills: player.stats?.kills ?? 0,
-                      deaths: player.stats?.deaths ?? 0,
-                      assists: player.stats?.assists ?? 0,
-                      tier: player.competitiveTier,
-                      playerCard: player.playerCard,
-                      playerTitle: player.playerTitle,
-                      teamColor: player.teamId === "Blue" ? "Blue" : "Red",
-                      teamWon:
-                        teams &&
-                        teams.find((team) => team.teamId === player.teamId)
-                          ?.won,
-                      teamRoundsWon:
-                        teams &&
-                        teams.find((team) => team.teamId === player.teamId)
-                          ?.roundsPlayed,
-                    },
+                  create: players?.map((player) => ({
+                    puuid: player.subject ?? randomUUID(),
+                    riotTag: `${player.gameName}#${player.tagLine}`,
+                    teamId: player.teamId,
+                    characterId: player.characterId,
+                    kills: player.stats?.kills ?? 0,
+                    deaths: player.stats?.deaths ?? 0,
+                    assists: player.stats?.assists ?? 0,
+                    tier: player.competitiveTier,
+                    playerCard: player.playerCard,
+                    playerTitle: player.playerTitle,
+                    teamColor: player.teamId === "Blue" ? "Blue" : "Red",
+                    teamWon:
+                      teams &&
+                      teams.find((team) => team.teamId === player.teamId)?.won,
+                    teamRoundsWon:
+                      teams &&
+                      teams.find((team) => team.teamId === player.teamId)
+                        ?.roundsPlayed,
                   })),
                 },
               },
