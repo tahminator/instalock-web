@@ -164,11 +164,58 @@ riotRouterV1.post("/auth", async (req, res) => {
 
   const { entitlements_token: entitlementToken } = riotJson;
 
+  const riotUserInfoRes = await fetch("https://auth.riotgames.com/userinfo", {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+      "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+    },
+  });
+
+  if (!riotUserInfoRes.ok) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "Failed to retrieve user info from Riot API.",
+        data: { statusCode: riotUserInfoRes.status },
+      }
+    );
+  }
+
+  const riotUserInfoJson = (await riotUserInfoRes.json()) as RiotUserInfoType;
+
+  if (riotUserInfoJson.error !== undefined) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "Failed to retrieve user info from Riot API.",
+        data: { ...riotUserInfoJson },
+      }
+    );
+  }
+
+  const tagName = `${riotUserInfoJson.acct.game_name}#${riotUserInfoJson.acct.tag_line}`;
+  const puuid = riotUserInfoJson.sub;
+
   const [updatedUserError, updatedUser] = await attempt(
     saveUserRiotCredentials({
       id: res.locals.user.id,
       entitlementToken,
       authToken,
+      puuid,
+      tagName,
     })
   );
 
@@ -306,59 +353,16 @@ riotRouterV1.get("/user", async (req, res) => {
     );
   }
 
-  const { riotAuth, riotEntitlement } = user;
+  const { riotAuth, riotEntitlement, riotPuuid: puuid, riotTag } = user;
 
-  if (!riotAuth || !riotEntitlement) {
+  if (!riotAuth || !riotEntitlement || !puuid || !riotTag) {
     return sendSuperJson(req, res, 400, {
       success: false,
       message: "Not authenticated via Riot.",
     });
   }
 
-  const riotUserInfoRes = await fetch("https://auth.riotgames.com/userinfo", {
-    headers: {
-      Authorization: `Bearer ${riotAuth}`,
-      "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-      "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-    },
-  });
-
-  if (!riotUserInfoRes.ok) {
-    return sendSuperJson(
-      req,
-      res,
-      500,
-      {
-        success: false,
-        message: "Internal server error.",
-      },
-      {
-        message: "Failed to retrieve user info from Riot API.",
-        data: { statusCode: riotUserInfoRes.status },
-      }
-    );
-  }
-
-  const riotUserInfoJson = (await riotUserInfoRes.json()) as RiotUserInfoType;
-
-  if (riotUserInfoJson.error !== undefined) {
-    return sendSuperJson(
-      req,
-      res,
-      500,
-      {
-        success: false,
-        message: "Internal server error.",
-      },
-      {
-        message: "Failed to retrieve user info from Riot API.",
-        data: { ...riotUserInfoJson },
-      }
-    );
-  }
-
-  result.name = `${riotUserInfoJson.acct.game_name}#${riotUserInfoJson.acct.tag_line}`;
-  const puuid = riotUserInfoJson.sub;
+  result.name = riotTag;
 
   const riotMatchInfoRes = await fetch(
     `https://pd.na.a.pvp.net/mmr/v1/players/${puuid}/competitiveupdates?startIndex=0&endIndex=1&queue=competitive`,
@@ -422,4 +426,58 @@ riotRouterV1.get("/user", async (req, res) => {
     message: "Player information retrieved!",
     data: { ...result },
   });
+});
+
+riotRouterV1.get("/matches", async (req, res) => {
+  if (!res.locals.user || !res.locals.session) {
+    return sendSuperJson(req, res, 401, {
+      success: false,
+      message: "You are not logged in.",
+    });
+  }
+
+  const [userError, user] = await attempt(
+    findUserById({ id: res.locals.user.id })
+  );
+
+  if (userError || !user) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "This should not be happening. Check data object.",
+        data: { error: userError, user },
+      }
+    );
+  }
+
+  const { riotAuth, riotEntitlement, riotPuuid, riotTag } = user;
+
+  if (!riotAuth || !riotEntitlement || !riotPuuid || !riotTag) {
+    return sendSuperJson(req, res, 400, {
+      success: false,
+      message: "Not authenticated via Riot.",
+    });
+  }
+
+  const riotRes = await fetch(
+    `https://pd.na.a.pvp.net/mmr/v1/players/${riotPuuid}/competitiveupdates?startIndex=0&endIndex=20`,
+    {
+      headers: {
+        Authorization: `Bearer ${riotAuth}`,
+        "X-Riot-Entitlements-JWT": riotEntitlement,
+        "X-Riot-ClientPlatform":
+          "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+      },
+    }
+  );
+
+  console.log(await riotRes.json());
 });

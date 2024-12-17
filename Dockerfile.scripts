@@ -1,0 +1,37 @@
+FROM node:20.12-alpine AS base
+
+FROM base AS deps
+
+WORKDIR /app
+
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+COPY pnpm-workspace.yaml ./
+
+COPY scripts/package.json scripts/yarn.lock* scripts/package-lock.json* scripts/pnpm-lock.yaml* scripts/.npmrc* ./scripts/
+
+COPY shared/ ./shared/
+
+WORKDIR /app
+
+ENV NODE_ENV=development
+
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm install; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+FROM base AS runner
+
+WORKDIR /app
+
+COPY --from=deps ./app ./
+COPY scripts ./scripts
+
+WORKDIR /app/scripts
+
+RUN corepack enable pnpm
+RUN pnpm install
+
+CMD ["pnpm", "run", ""]

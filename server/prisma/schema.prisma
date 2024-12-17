@@ -15,7 +15,7 @@ datasource db {
 }
 
 model User {
-  id String @unique @default(uuid())
+  id String @id @default(uuid())
 
   discordId   String    @unique
   discordName String
@@ -23,6 +23,10 @@ model User {
 
   riotEntitlement String?
   riotAuth        String?
+  riotPuuid       String?
+  riotTag         String?
+
+  riotMatches RiotMatches[]
 }
 
 model Session {
@@ -31,4 +35,69 @@ model Session {
   expiresAt DateTime
 
   user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model RiotMatches {
+  id String @id
+
+  users User[]
+
+  mapId       String?
+  gameVersion String?
+
+  gameStart DateTime?
+  gameEnd   DateTime?
+
+  isCompleted Boolean?
+
+  queueId  String?
+  isRanked Boolean?
+
+  seasonId String?
+
+  rounds       RiotMatchRound[]
+  roundsPlayed Int?
+
+  teamWon           RiotMatchTeamColor?
+  teamRedRoundsWon  Int?
+  teamBlueRoundsWon Int?
+
+  matchPlayers       RiotMatchPlayers[]
+  riotMatchPlayersId String?
+}
+
+model RiotMatchRound {
+  id            String @id @default(uuid())
+  riotMatchesId String
+
+  RiotMatches RiotMatches @relation(fields: [riotMatchesId], references: [id])
+}
+
+model RiotMatchPlayers {
+  id String @id
+
+  riotTag String?
+
+  teamId      String?
+  characterId String?
+
+  kills   Int?
+  deaths  Int?
+  assists Int?
+
+  tier Int?
+
+  playerCard  String?
+  playerTitle String?
+
+  teamColor     RiotMatchTeamColor?
+  teamWon       Boolean?
+  teamRoundsWon Int?
+
+  riotMatches RiotMatches[]
+}
+
+enum RiotMatchTeamColor {
+  Red
+  Blue
 }

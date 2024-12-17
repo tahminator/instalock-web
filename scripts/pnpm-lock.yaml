@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@instalock/types':
+        specifier: workspace:^
+        version: link:../shared/types
     devDependencies:
       '@types/node':
         specifier: ^22.10.2

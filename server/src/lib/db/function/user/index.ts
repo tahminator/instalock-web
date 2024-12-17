@@ -30,18 +30,32 @@ export const saveUserRiotCredentials = ({
   id,
   authToken,
   entitlementToken,
+  puuid,
+  tagName,
 }: {
   id: string;
   authToken: string;
   entitlementToken: string;
+  puuid: string;
+  tagName: string;
 }) =>
   db.user.update({
     where: { id },
-    data: { riotAuth: authToken, riotEntitlement: entitlementToken },
+    data: {
+      riotAuth: authToken,
+      riotEntitlement: entitlementToken,
+      riotPuuid: puuid,
+      riotTag: tagName,
+    },
   });
 
 export const removeUserRiotCredentials = ({ id }: { id: string }) =>
   db.user.update({
     where: { id },
-    data: { riotAuth: null, riotEntitlement: null },
+    data: {
+      riotAuth: null,
+      riotEntitlement: null,
+      riotPuuid: null,
+      riotTag: null,
+    },
   });
