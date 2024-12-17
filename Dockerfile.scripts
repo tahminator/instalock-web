@@ -30,8 +30,7 @@ COPY --from=deps ./app ./
 COPY scripts ./scripts
 
 WORKDIR /app/scripts
-
 RUN corepack enable pnpm
 RUN pnpm install
 
-CMD ["pnpm", "run", ""]
+CMD ["pnpm", "run", "start"]
