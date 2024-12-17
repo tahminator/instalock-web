@@ -1,10 +1,14 @@
 import { db } from "@/lib/db";
 
-export const getAllMatchesByUserIdShallow = ({ userId }: { userId: string }) =>
+export const getAllMatchesByUserIdShallow = ({
+  puuid,
+}: {
+  puuid?: string | null;
+}) =>
   db.riotMatches.findMany({
     where: {
       users: {
-        some: { id: userId },
+        some: { riotPuuid: puuid },
       },
     },
     select: {

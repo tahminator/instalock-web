@@ -469,9 +469,9 @@ riotRouterV1.get("/matches/shallow", async (req, res) => {
 
   // This is asserted to catch any changes so I can update the library accordingly.
   const [matchesError, matches] = await attempt(
-    getAllMatchesByUserIdShallow({ userId: user.id }) as Prisma.PrismaPromise<
-      ShallowMatchExclude[]
-    >
+    getAllMatchesByUserIdShallow({
+      puuid: user.riotPuuid,
+    }) as Prisma.PrismaPromise<ShallowMatchExclude[]>
   );
 
   const newMatches = await Promise.all(
