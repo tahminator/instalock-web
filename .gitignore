@@ -29,4 +29,7 @@ dist-ssr
 !.env.vault
 !.env.example
 
+# This is for testing APIs
+test.json
+
 venv/

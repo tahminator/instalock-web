@@ -1,8 +1,6 @@
-import { loadMatchesForEachUser } from "./helpers/loadMatches";
+import { loadMatchesForEachUser } from "./helpers/loadMatches.js";
 
-console.log("Script has been loaded in.");
-
-setInterval(async () => {
+const tasks = async () => {
   console.log(
     `\nRunning the following tasks at ${new Date().toLocaleString()}`
   );
@@ -16,4 +14,11 @@ setInterval(async () => {
   }
 
   console.log("Match populator should be complete.\n");
+};
+
+console.log("Script has been loaded in.");
+tasks();
+
+setInterval(async () => {
+  tasks();
 }, 1000 * 60 * 10);

@@ -163,6 +163,7 @@ export default function RiotAuthenticationModal() {
                 control={form.control}
                 render={({ field }) => (
                   <TextInput
+                    error={!!form.formState.errors.url}
                     label="Valorant Return URL"
                     placeholder="https://playvalorant.com/opt_in#access_token..."
                     required
@@ -180,6 +181,9 @@ export default function RiotAuthenticationModal() {
                   />
                 )}
               />
+              {form.formState.errors.url && (
+                <Text c={"red"}>{form.formState.errors.url.message}</Text>
+              )}
               <Text size="sm" c="dimmed">
                 This data is only used to interact with Riot Games. This URL
                 does not give me access to your password, email, or any
