@@ -29,12 +29,10 @@ WORKDIR /app
 COPY --from=deps ./app ./
 COPY scripts ./scripts
 
-RUN npm run generate
-
-
 WORKDIR /app/scripts
 RUN corepack enable pnpm
 RUN npm install -g typescript
 RUN pnpm install
+RUN npm run generate
 
 CMD ["pnpm", "run", "start"]
