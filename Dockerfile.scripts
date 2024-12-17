@@ -33,6 +33,6 @@ WORKDIR /app/scripts
 RUN corepack enable pnpm
 RUN npm install -g typescript
 RUN pnpm install
-RUN npm run generate
+# RUN npm run generate
 
 CMD ["pnpm", "run", "start"]
