@@ -16,4 +16,4 @@ setInterval(async () => {
   }
 
   console.log("Match populator should be complete.\n");
-}, 5000);
+}, 1000 * 60 * 10);
