@@ -288,7 +288,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 5.22.0
-   * Query Engine version: 5dbef10bdbfb579e07d35cc85fb1518d357cb99e
+   * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
    */
   export type PrismaVersion = {
     client: string
@@ -6632,7 +6632,7 @@ export namespace Prisma {
     id?: StringFilter<"Session"> | string
     userId?: StringFilter<"Session"> | string
     expiresAt?: DateTimeFilter<"Session"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }
 
   export type SessionOrderByWithRelationInput = {
@@ -6649,7 +6649,7 @@ export namespace Prisma {
     NOT?: SessionWhereInput | SessionWhereInput[]
     userId?: StringFilter<"Session"> | string
     expiresAt?: DateTimeFilter<"Session"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }, "id">
 
   export type SessionOrderByWithAggregationInput = {
@@ -6784,7 +6784,7 @@ export namespace Prisma {
     NOT?: RiotMatchRoundWhereInput | RiotMatchRoundWhereInput[]
     id?: StringFilter<"RiotMatchRound"> | string
     riotMatchesId?: StringFilter<"RiotMatchRound"> | string
-    RiotMatches?: XOR<RiotMatchesScalarRelationFilter, RiotMatchesWhereInput>
+    RiotMatches?: XOR<RiotMatchesRelationFilter, RiotMatchesWhereInput>
   }
 
   export type RiotMatchRoundOrderByWithRelationInput = {
@@ -6799,7 +6799,7 @@ export namespace Prisma {
     OR?: RiotMatchRoundWhereInput[]
     NOT?: RiotMatchRoundWhereInput | RiotMatchRoundWhereInput[]
     riotMatchesId?: StringFilter<"RiotMatchRound"> | string
-    RiotMatches?: XOR<RiotMatchesScalarRelationFilter, RiotMatchesWhereInput>
+    RiotMatches?: XOR<RiotMatchesRelationFilter, RiotMatchesWhereInput>
   }, "id">
 
   export type RiotMatchRoundOrderByWithAggregationInput = {
@@ -7447,7 +7447,7 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type UserScalarRelationFilter = {
+  export type UserRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
@@ -7659,7 +7659,7 @@ export namespace Prisma {
     _max?: NestedEnumRiotMatchTeamColorNullableFilter<$PrismaModel>
   }
 
-  export type RiotMatchesScalarRelationFilter = {
+  export type RiotMatchesRelationFilter = {
     is?: RiotMatchesWhereInput
     isNot?: RiotMatchesWhereInput
   }
