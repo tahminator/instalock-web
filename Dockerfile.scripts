@@ -15,8 +15,6 @@ WORKDIR /app
 
 ENV NODE_ENV=development
 
-RUN npm run generate
-
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm install; \
@@ -30,6 +28,9 @@ WORKDIR /app
 
 COPY --from=deps ./app ./
 COPY scripts ./scripts
+
+RUN npm run generate
+
 
 WORKDIR /app/scripts
 RUN corepack enable pnpm
