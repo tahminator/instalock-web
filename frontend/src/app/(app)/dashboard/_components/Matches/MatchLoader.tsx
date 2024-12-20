@@ -36,7 +36,7 @@ export default function MatchLoader() {
 
 function MatchLoaderWrapper({ children }: { children?: ReactNode }) {
   return (
-    <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 w-screen px-8">
+    <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 w-screen px-8 pt-4">
       {children}
     </div>
   );

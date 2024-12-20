@@ -1,3 +1,8 @@
+import classes from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar.module.css";
+import {
+  useDisconnectRiotPlayerQuery,
+  useRiotPlayerInfoQuery,
+} from "@/app/(app)/dashboard/_components/UserNavbar/hooks";
 import {
   Burger,
   Button,
@@ -15,17 +20,12 @@ import {
   Text,
   UnstyledButton,
 } from "@mantine/core";
-import cx from "clsx";
 import { useDisclosure } from "@mantine/hooks";
-import { IconChevronDown, IconRefresh, IconTrash } from "@tabler/icons-react";
-import { ReactNode, useState } from "react";
-import classes from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar.module.css";
-import {
-  useDisconnectRiotPlayerQuery,
-  useRiotPlayerInfoQuery,
-} from "@/app/(app)/dashboard/_components/UserNavbar/hooks";
-import { useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
+import { IconChevronDown, IconRefresh, IconTrash } from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query";
+import cx from "clsx";
+import { ReactNode, useEffect, useState } from "react";
 
 export default function UserNavbar() {
   const queryClient = useQueryClient();
@@ -74,7 +74,7 @@ export default function UserNavbar() {
   };
 
   return (
-    <UserNavbarWrapper>
+    <UserNavbarWrapper opened={drawerOpened}>
       <Group justify="space-between">
         <Group justify="left" gap={10}>
           <Image
@@ -103,7 +103,6 @@ export default function UserNavbar() {
           padding="md"
           title={name}
           hiddenFrom="sm"
-          zIndex={1000000}
         >
           <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
             <Divider my="sm" />
@@ -169,7 +168,7 @@ export default function UserNavbar() {
                 </Group>
               </UnstyledButton>
             </Menu.Target>
-            <Menu.Dropdown className="z-auto">
+            <Menu.Dropdown className="!z-[350]">
               <Menu.Item
                 color="red"
                 onClick={handleDisconnect}
@@ -198,9 +197,34 @@ export default function UserNavbar() {
   );
 }
 
-function UserNavbarWrapper({ children }: { children?: ReactNode }) {
+function UserNavbarWrapper({
+  children,
+  opened,
+}: {
+  children?: ReactNode;
+  opened?: boolean;
+}) {
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.pageYOffset > 60);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className={classes.header + " w-full sticky top-0 z-[350]"}>
+    <div
+      className={
+        classes.header +
+        ` sticky top-0 transition-all ${
+          isSticky ? "top-4 w-3/4 rounded-full shadow-blue-500" : "w-full"
+        }
+          ${opened ? "z-0" : "z-[350]"}`
+      }
+    >
       <Container className={classes.mainSection} size="md">
         {children}
       </Container>
