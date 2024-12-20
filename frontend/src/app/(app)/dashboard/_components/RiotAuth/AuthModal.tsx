@@ -216,14 +216,7 @@ export default function RiotAuthenticationModal() {
           </Box>
         </Container>
       </Modal>
-      <Center
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
+      <Center className="flex flex-col items-center justify-center h-[93.5vh]">
         <Button color="red" onClick={open}>
           <IconBrandValorant size={24} />
           <Text pl={5}>Riot Authentication Required</Text>

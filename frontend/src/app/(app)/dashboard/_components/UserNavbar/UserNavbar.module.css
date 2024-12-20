@@ -31,13 +31,6 @@
   }
 }
 
-.userActive {
-  background-color: light-dark(
-    var(--mantine-color-white),
-    var(--mantine-color-dark-8)
-  );
-}
-
 .tabsList {
   &::before {
     display: none;

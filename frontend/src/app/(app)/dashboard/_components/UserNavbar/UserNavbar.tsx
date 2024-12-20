@@ -75,8 +75,8 @@ export default function UserNavbar() {
 
   return (
     <UserNavbarWrapper opened={drawerOpened}>
-      <Group justify="space-between">
-        <Group justify="left" gap={10}>
+      <div className="flex flex-row justify-between">
+        <Group>
           <Image
             src={rankImage}
             alt={`${rank} ${rr}`}
@@ -88,7 +88,7 @@ export default function UserNavbar() {
             {rankName} <Progress value={Number(rr)} color="red" /> {rr}/100
           </Text>
         </Group>
-        <Group justify="right" gap={10}>
+        <Group>
           <Burger
             opened={drawerOpened}
             onClick={toggleDrawer}
@@ -192,7 +192,7 @@ export default function UserNavbar() {
             </Center>
           </UnstyledButton>
         </Group>
-      </Group>
+      </div>
     </UserNavbarWrapper>
   );
 }
@@ -220,7 +220,7 @@ function UserNavbarWrapper({
       className={
         classes.header +
         ` sticky top-0 transition-all ${
-          isSticky ? "top-4 w-3/4 rounded-full shadow-blue-500" : "w-full"
+          isSticky ? "top-4 w-5/6 rounded-full shadow-blue-500" : "w-full"
         }
           ${opened ? "z-0" : "z-[350]"}`
       }
