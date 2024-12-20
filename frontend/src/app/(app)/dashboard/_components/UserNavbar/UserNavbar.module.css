@@ -37,6 +37,13 @@
   }
 }
 
+.userActive {
+  background-color: light-dark(
+    var(--mantine-color-white),
+    var(--mantine-color-dark-8)
+  );
+}
+
 .tab {
   font-weight: 500;
   height: rem(38);
