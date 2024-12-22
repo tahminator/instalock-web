@@ -68,20 +68,20 @@ riotRouterV1.get("/@me", async (req, res) => {
     });
   }
 
-  // const riotRes = await fetch("https://auth.riotgames.com/userinfo", {
-  //   headers: {
-  //     Authorization: `Bearer ${riotAuth}`,
-  //     "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-  //     "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-  //   },
-  // });
+  const riotRes = await fetch("https://auth.riotgames.com/userinfo", {
+    headers: {
+      Authorization: `Bearer ${riotAuth}`,
+      "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+      "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+    },
+  });
 
-  // if (!riotRes.ok) {
-  //   return sendSuperJson(req, res, 400, {
-  //     success: false,
-  //     message: "Not authenticated.",
-  //   });
-  // }
+  if (!riotRes.ok) {
+    return sendSuperJson(req, res, 400, {
+      success: false,
+      message: "Not authenticated.",
+    });
+  }
 
   return sendSuperJson(req, res, 200, {
     success: true,
