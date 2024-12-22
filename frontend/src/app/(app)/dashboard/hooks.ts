@@ -1,9 +1,9 @@
 import { SJ } from "@instalock/sj";
 import { ApiDefault } from "@instalock/types";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const useRiotAuthQuery = () =>
-  useSuspenseQuery({
+  useQuery({
     queryKey: ["riot", "auth"],
     queryFn: checkRiotAuth,
   });

@@ -7,7 +7,7 @@ import { ReactNode, useMemo } from "react";
 export default function MatchIndex() {
   const { data } = useRiotAuthQuery();
 
-  const valid = useMemo(() => !!data.authToken && !!data.entitlement, [data]);
+  const valid = useMemo(() => !!data?.authToken && !!data?.entitlement, [data]);
 
   if (!valid) {
     return (
