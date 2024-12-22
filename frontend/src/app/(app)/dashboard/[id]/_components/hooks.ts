@@ -1,5 +1,5 @@
 import { SJ } from "@instalock/sj";
-import { ApiDefault, Prisma, RiotMatch } from "@instalock/types";
+import { ApiDefault, Prisma } from "@instalock/types";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetMatchInfoQuery = (uuid: string) =>
