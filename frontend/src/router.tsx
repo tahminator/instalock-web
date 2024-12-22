@@ -1,3 +1,4 @@
+import DetailedMatchPage from "@/app/(app)/dashboard/[id]/page";
 import DashboardPage from "@/app/(app)/dashboard/page";
 import LandingPage from "@/app/page";
 import FourOhFour from "@/components/ui/FourOhFour/FourOhFour";
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardPage />,
+  },
+  {
+    path: "/dashboard/:id?",
+    element: <DetailedMatchPage />,
   },
 ]);
 

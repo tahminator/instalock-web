@@ -12,13 +12,14 @@ import {
   Card,
   Group,
   Image,
-  Space,
   Text,
   Tooltip,
 } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 export default function MatchCard({ match }: { match: ShallowMatch }) {
   const {
+    id,
     queueId,
     isCompleted,
     characterId,
@@ -102,21 +103,17 @@ export default function MatchCard({ match }: { match: ShallowMatch }) {
             </div>
           )}
         </Group>
-
-        <Space h="xs" />
-
-        {/* <Text size="sm">{description}</Text> */}
-
-        <Button
-          variant="gradient"
-          gradient={{ from: "indigo", to: "blue" }}
-          fullWidth
-          mt="md"
-          radius="md"
-          disabled
-        >
-          View Stats
-        </Button>
+        <Link to={`/dashboard/${id}`}>
+          <Button
+            variant="gradient"
+            gradient={{ from: "indigo", to: "blue" }}
+            fullWidth
+            mt="md"
+            radius="md"
+          >
+            View Stats
+          </Button>
+        </Link>
       </Card>
     </div>
   );
