@@ -1,6 +1,6 @@
-import { Prisma, RiotMatchPlayers } from "..";
+import { Prisma, PlayerMatch } from "..";
 
-export type ShallowMatchExclude = Prisma.RiotMatchesGetPayload<{
+export type ShallowMatchExclude = Prisma.RiotMatchGetPayload<{
   select: {
     id: true;
     mapId: true;
@@ -15,5 +15,5 @@ export type ShallowMatchExclude = Prisma.RiotMatchesGetPayload<{
 
 export type ShallowMatch = ShallowMatchExclude & {
   characterId?: string;
-  me?: RiotMatchPlayers;
+  me?: PlayerMatch;
 };

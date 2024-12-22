@@ -5,10 +5,10 @@ export const getAllMatchesByUserIdShallow = ({
 }: {
   puuid?: string | null;
 }) =>
-  db.riotMatches.findMany({
+  db.riotMatch.findMany({
     where: {
-      users: {
-        some: { riotPuuid: puuid },
+      players: {
+        some: { playerId: puuid ?? undefined },
       },
     },
     select: {
@@ -23,11 +23,11 @@ export const getAllMatchesByUserIdShallow = ({
     },
   });
 
-export const getAllMatchesByUserId = ({ userId }: { userId: string }) =>
-  db.riotMatches.findMany({
-    where: {
-      users: {
-        some: { id: userId },
-      },
-    },
-  });
+// export const getAllMatchesByUserId = ({ userId }: { userId: string }) =>
+//   db.riotMatches.findMany({
+//     where: {
+//       users: {
+//         some: { id: userId },
+//       },
+//     },
+//   });

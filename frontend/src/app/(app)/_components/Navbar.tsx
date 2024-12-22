@@ -1,4 +1,4 @@
-import { useAuthQuery } from "@/lib/auth";
+import classes from "@/app/(app)/_components/navbar.module.css";
 import {
   Box,
   Burger,
@@ -13,44 +13,13 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { Link, NavLink } from "react-router-dom";
 import LogoImg from "/logo.png";
-import { NavLink, useNavigate } from "react-router-dom";
-import classes from "@/app/(app)/_components/navbar.module.css";
-import useLogoutMutation from "@/app/(auth)/logout/mutations";
-import { notifications } from "@mantine/notifications";
+import { FaGithub } from "react-icons/fa6";
 
 export default function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-
-  const navigate = useNavigate();
-
-  const { data } = useAuthQuery();
-  const { mutate } = useLogoutMutation();
-
-  const handleLogout = () => {
-    const id = notifications.show({
-      message: "Please wait, logging you out...",
-    });
-    mutate(void 0, {
-      onSuccess: (data) => {
-        if (!data.success) {
-          return notifications.update({
-            id,
-            message: data.message,
-            color: "red",
-          });
-        }
-
-        notifications.update({
-          id,
-          message: data.message,
-          color: "green",
-        });
-        return navigate("/");
-      },
-    });
-  };
 
   return (
     <Box
@@ -127,37 +96,18 @@ export default function Navbar() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard> */}
-            {data?.user ? (
-              <NavLink to="/dashboard" className={classes.link}>
-                <Text inherit>Dashboard</Text>
-              </NavLink>
-            ) : (
-              <NavLink to="/login" className={classes.link}>
-                <Text inherit>Dashboard</Text>
-              </NavLink>
-            )}
+            <NavLink to="/dashboard" className={classes.link}>
+              <Text inherit>Dashboard</Text>
+            </NavLink>
           </Group>
 
           <Group visibleFrom="sm">
-            {data?.user ? (
-              <Button
-                variant="gradient"
-                gradient={{ from: "red", to: "purple" }}
-                onClick={handleLogout}
-              >
-                Log Out
+            <Link to={"https://github.com/0pengu/instalock-web"} reloadDocument>
+              <Button color={"gray.6"}>
+                <FaGithub className="mr-1" />
+                Github
               </Button>
-            ) : (
-              <Button
-                variant="gradient"
-                gradient={{ from: "red", to: "purple" }}
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Log In
-              </Button>
-            )}
+            </Link>
           </Group>
 
           <Burger
@@ -183,15 +133,9 @@ export default function Navbar() {
           <NavLink to="/" className={classes.link}>
             <Text className={classes.link}>Home</Text>
           </NavLink>
-          {data?.user ? (
-            <NavLink to="/dashboard" className={classes.link}>
-              <Text className={classes.link}>Dashboard</Text>
-            </NavLink>
-          ) : (
-            <NavLink to="/login" className={classes.link}>
-              <Text className={classes.link}>Dashboard</Text>
-            </NavLink>
-          )}
+          <NavLink to="/dashboard" className={classes.link}>
+            <Text className={classes.link}>Dashboard</Text>
+          </NavLink>
           {/* <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component="span" mr={5}>
@@ -208,29 +152,12 @@ export default function Navbar() {
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
-            {!data?.user ? (
-              <Button
-                variant="gradient"
-                gradient={{ from: "purple", to: "red" }}
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Log in
+            <Link to={"https://github.com/0pengu/instalock-web"} reloadDocument>
+              <Button color={"gray.6"} fullWidth>
+                <FaGithub className="mr-1" />
+                Github
               </Button>
-            ) : (
-              <Button
-                variant="gradient"
-                gradient={{ from: "purple", to: "red" }}
-                onClick={() => {
-                  handleLogout();
-                  closeDrawer();
-                }}
-              >
-                Log Out
-              </Button>
-            )}
-            {/* <ColorSchemeToggle /> */}
+            </Link>
           </Group>
         </ScrollArea>
       </Drawer>

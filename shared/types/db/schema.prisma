@@ -16,18 +16,14 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-
-  discordId   String    @unique
-  discordName String
-  Session     Session[]
+  puuid   String    @unique
+  Session Session[]
 
   riotEntitlement String?
   riotAuth        String?
-  riotPuuid       String?
   riotTag         String?
 
-  riotMatches RiotMatches[]
+  riotMatches PlayerMatch[]
 }
 
 model Session {
@@ -35,48 +31,13 @@ model Session {
   userId    String
   expiresAt DateTime
 
-  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+  user User @relation(references: [puuid], fields: [userId], onDelete: Cascade)
 }
 
-model RiotMatches {
-  id String @id
-
-  users User[]
-
-  mapId       String?
-  gameVersion String?
-
-  gameStart DateTime?
-  gameEnd   DateTime?
-
-  isCompleted Boolean?
-
-  queueId  String?
-  isRanked Boolean?
-
-  seasonId String?
-
-  rounds       RiotMatchRound[]
-  roundsPlayed Int?
-
-  teamWon           RiotMatchTeamColor?
-  teamRedRoundsWon  Int?
-  teamBlueRoundsWon Int?
-
-  matchPlayers       RiotMatchPlayers[]
-  riotMatchPlayersId String?
-}
-
-model RiotMatchRound {
-  id            String @id @default(uuid())
-  riotMatchesId String
-
-  RiotMatches RiotMatches @relation(fields: [riotMatchesId], references: [id])
-}
-
-model RiotMatchPlayers {
-  id    String @id @default(uuid())
-  puuid String
+model PlayerMatch {
+  id       String @id @default(uuid())
+  playerId String
+  matchId  String
 
   riotTag String?
 
@@ -96,7 +57,35 @@ model RiotMatchPlayers {
   teamWon       Boolean?
   teamRoundsWon Int?
 
-  riotMatches RiotMatches[]
+  player User      @relation(fields: [playerId], references: [puuid])
+  match  RiotMatch @relation(fields: [matchId], references: [id])
+
+  @@unique([playerId, matchId])
+}
+
+model RiotMatch {
+  id String @id
+
+  players PlayerMatch[]
+
+  mapId       String?
+  gameVersion String?
+
+  gameStart DateTime?
+  gameEnd   DateTime?
+
+  isCompleted Boolean?
+
+  queueId  String?
+  isRanked Boolean?
+
+  seasonId String?
+
+  roundsPlayed Int?
+
+  teamWon           RiotMatchTeamColor?
+  teamRedRoundsWon  Int?
+  teamBlueRoundsWon Int?
 }
 
 enum RiotMatchTeamColor {

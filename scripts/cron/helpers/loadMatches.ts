@@ -15,7 +15,7 @@ export const loadMatchesForEachUser = async () => {
     const user = users[i];
     const matchIds: string[] = [];
 
-    const { riotAuth, riotEntitlement, riotPuuid, riotTag } = user;
+    const { riotAuth, riotEntitlement, puuid: riotPuuid, riotTag } = user;
 
     if (!riotAuth || !riotEntitlement || !riotPuuid || !riotTag) {
       continue;
@@ -85,103 +85,153 @@ export const loadMatchesForEachUser = async () => {
       const teamRed =
         teams && teams[0].teamId === "Red" ? teams[0] : teams && teams[1];
 
-      await db.user.update({
-        where: { id: user.id },
-        data: {
-          riotMatches: {
-            upsert: {
-              where: {
-                id: matchInfo?.matchId ?? randomUUID(),
-              },
-              update: {
-                id: matchInfo?.matchId ?? randomUUID(),
-                mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
-                gameVersion: matchInfo?.gameVersion,
-                gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
-                gameEnd: new Date(
-                  (matchInfo?.gameLengthMillis ?? 0) +
-                    (matchInfo?.gameLengthMillis ?? 0)
-                ),
-                isCompleted: matchInfo?.isCompleted,
-                queueId: matchInfo?.queueID,
-                isRanked: matchInfo?.isRanked,
-                seasonId: matchInfo?.seasonId,
-                roundsPlayed: teams && teams[0].roundsPlayed,
-                teamWon:
-                  teams &&
-                  (teams[0].teamId === "Red" && teams[0].won === true
-                    ? "Red"
-                    : "Blue"),
-                teamBlueRoundsWon: teamBlue?.roundsWon,
-                teamRedRoundsWon: teamRed?.roundsWon,
-                matchPlayers: {
-                  create: players?.map((player) => ({
+      await db.riotMatch.upsert({
+        where: {
+          id: matchInfo?.matchId ?? randomUUID(),
+        },
+        create: {
+          id: matchInfo?.matchId ?? randomUUID(),
+          mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
+          gameVersion: matchInfo?.gameVersion,
+          gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
+          gameEnd: new Date(
+            (matchInfo?.gameLengthMillis ?? 0) +
+              (matchInfo?.gameLengthMillis ?? 0)
+          ),
+          isCompleted: matchInfo?.isCompleted,
+          queueId: matchInfo?.queueID,
+          isRanked: matchInfo?.isRanked,
+          seasonId: matchInfo?.seasonId,
+          roundsPlayed: teams && teams[0].roundsPlayed,
+          teamWon:
+            teams &&
+            (teams[0].teamId === "Red" && teams[0].won === true
+              ? "Red"
+              : "Blue"),
+          teamBlueRoundsWon: teamBlue?.roundsWon,
+          teamRedRoundsWon: teamRed?.roundsWon,
+          players: {
+            create: players?.map((player) => ({
+              riotTag: `${player.gameName}#${player.tagLine}`,
+              teamId: player.teamId,
+              characterId: player.characterId,
+              kills: player.stats?.kills ?? 0,
+              deaths: player.stats?.deaths ?? 0,
+              assists: player.stats?.assists ?? 0,
+              tier: player.competitiveTier,
+              playerCard: player.playerCard,
+              playerTitle: player.playerTitle,
+              teamColor: player.teamId === "Blue" ? "Blue" : "Red",
+              teamWon:
+                teams &&
+                teams.find((team) => team.teamId === player.teamId)?.won,
+              teamRoundsWon:
+                teams &&
+                teams.find((team) => team.teamId === player.teamId)
+                  ?.roundsPlayed,
+              player: {
+                connectOrCreate: {
+                  where: { puuid: player.subject ?? randomUUID() },
+                  create: {
                     puuid: player.subject ?? randomUUID(),
+                    riotAuth: null,
+                    riotEntitlement: null,
                     riotTag: `${player.gameName}#${player.tagLine}`,
-                    teamId: player.teamId,
-                    characterId: player.characterId,
-                    kills: player.stats?.kills ?? 0,
-                    deaths: player.stats?.deaths ?? 0,
-                    assists: player.stats?.assists ?? 0,
-                    tier: player.competitiveTier,
-                    playerCard: player.playerCard,
-                    playerTitle: player.playerTitle,
-                    teamColor: player.teamId === "Blue" ? "Blue" : "Red",
-                    teamWon:
-                      teams &&
-                      teams.find((team) => team.teamId === player.teamId)?.won,
-                    teamRoundsWon:
-                      teams &&
-                      teams.find((team) => team.teamId === player.teamId)
-                        ?.roundsPlayed,
-                  })),
+                  },
+                },
+              },
+            })),
+          },
+        },
+        update: {
+          mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
+          gameVersion: matchInfo?.gameVersion,
+          gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
+          gameEnd: new Date(
+            (matchInfo?.gameLengthMillis ?? 0) +
+              (matchInfo?.gameLengthMillis ?? 0)
+          ),
+          isCompleted: matchInfo?.isCompleted,
+          queueId: matchInfo?.queueID,
+          isRanked: matchInfo?.isRanked,
+          seasonId: matchInfo?.seasonId,
+          roundsPlayed: teams && teams[0].roundsPlayed,
+          teamWon:
+            teams &&
+            (teams[0].teamId === "Red" && teams[0].won === true
+              ? "Red"
+              : "Blue"),
+          teamBlueRoundsWon: teamBlue?.roundsWon,
+          teamRedRoundsWon: teamRed?.roundsWon,
+          players: {
+            upsert: players?.map((player) => ({
+              where: {
+                playerId_matchId: {
+                  playerId: player.subject ?? randomUUID(),
+                  matchId: matchInfo?.matchId ?? randomUUID(),
                 },
               },
               create: {
-                id: matchInfo?.matchId ?? randomUUID(),
-                mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
-                gameVersion: matchInfo?.gameVersion,
-                gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
-                gameEnd: new Date(
-                  (matchInfo?.gameLengthMillis ?? 0) +
-                    (matchInfo?.gameLengthMillis ?? 0)
-                ),
-                isCompleted: matchInfo?.isCompleted,
-                queueId: matchInfo?.queueID,
-                isRanked: matchInfo?.isRanked,
-                seasonId: matchInfo?.seasonId,
-                roundsPlayed: teams && teams[0].roundsPlayed,
+                riotTag: `${player.gameName}#${player.tagLine}`,
+                teamId: player.teamId,
+                characterId: player.characterId,
+                kills: player.stats?.kills ?? 0,
+                deaths: player.stats?.deaths ?? 0,
+                assists: player.stats?.assists ?? 0,
+                tier: player.competitiveTier,
+                playerCard: player.playerCard,
+                playerTitle: player.playerTitle,
+                teamColor: player.teamId === "Blue" ? "Blue" : "Red",
                 teamWon:
                   teams &&
-                  (teams[0].teamId === "Red" && teams[0].won === true
-                    ? "Red"
-                    : "Blue"),
-                teamBlueRoundsWon: teamBlue?.roundsWon,
-                teamRedRoundsWon: teamRed?.roundsWon,
-                matchPlayers: {
-                  create: players?.map((player) => ({
-                    puuid: player.subject ?? randomUUID(),
-                    riotTag: `${player.gameName}#${player.tagLine}`,
-                    teamId: player.teamId,
-                    characterId: player.characterId,
-                    kills: player.stats?.kills ?? 0,
-                    deaths: player.stats?.deaths ?? 0,
-                    assists: player.stats?.assists ?? 0,
-                    tier: player.competitiveTier,
-                    playerCard: player.playerCard,
-                    playerTitle: player.playerTitle,
-                    teamColor: player.teamId === "Blue" ? "Blue" : "Red",
-                    teamWon:
-                      teams &&
-                      teams.find((team) => team.teamId === player.teamId)?.won,
-                    teamRoundsWon:
-                      teams &&
-                      teams.find((team) => team.teamId === player.teamId)
-                        ?.roundsPlayed,
-                  })),
+                  teams.find((team) => team.teamId === player.teamId)?.won,
+                teamRoundsWon:
+                  teams &&
+                  teams.find((team) => team.teamId === player.teamId)
+                    ?.roundsPlayed,
+                player: {
+                  connectOrCreate: {
+                    where: { puuid: player.subject ?? randomUUID() },
+                    create: {
+                      puuid: player.subject ?? randomUUID(),
+                      riotAuth: null,
+                      riotEntitlement: null,
+                      riotTag: `${player.gameName}#${player.tagLine}`,
+                    },
+                  },
                 },
               },
-            },
+              update: {
+                riotTag: `${player.gameName}#${player.tagLine}`,
+                teamId: player.teamId,
+                characterId: player.characterId,
+                kills: player.stats?.kills ?? 0,
+                deaths: player.stats?.deaths ?? 0,
+                assists: player.stats?.assists ?? 0,
+                tier: player.competitiveTier,
+                playerCard: player.playerCard,
+                playerTitle: player.playerTitle,
+                teamColor: player.teamId === "Blue" ? "Blue" : "Red",
+                teamWon:
+                  teams &&
+                  teams.find((team) => team.teamId === player.teamId)?.won,
+                teamRoundsWon:
+                  teams &&
+                  teams.find((team) => team.teamId === player.teamId)
+                    ?.roundsPlayed,
+                player: {
+                  connectOrCreate: {
+                    where: { puuid: player.subject ?? randomUUID() },
+                    create: {
+                      puuid: player.subject ?? randomUUID(),
+                      riotAuth: null,
+                      riotEntitlement: null,
+                      riotTag: `${player.gameName}#${player.tagLine}`,
+                    },
+                  },
+                },
+              },
+            })),
           },
         },
       });

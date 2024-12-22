@@ -123,12 +123,9 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 });
 
 exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  discordId: 'discordId',
-  discordName: 'discordName',
+  puuid: 'puuid',
   riotEntitlement: 'riotEntitlement',
   riotAuth: 'riotAuth',
-  riotPuuid: 'riotPuuid',
   riotTag: 'riotTag'
 };
 
@@ -138,31 +135,10 @@ exports.Prisma.SessionScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
-exports.Prisma.RiotMatchesScalarFieldEnum = {
+exports.Prisma.PlayerMatchScalarFieldEnum = {
   id: 'id',
-  mapId: 'mapId',
-  gameVersion: 'gameVersion',
-  gameStart: 'gameStart',
-  gameEnd: 'gameEnd',
-  isCompleted: 'isCompleted',
-  queueId: 'queueId',
-  isRanked: 'isRanked',
-  seasonId: 'seasonId',
-  roundsPlayed: 'roundsPlayed',
-  teamWon: 'teamWon',
-  teamRedRoundsWon: 'teamRedRoundsWon',
-  teamBlueRoundsWon: 'teamBlueRoundsWon',
-  riotMatchPlayersId: 'riotMatchPlayersId'
-};
-
-exports.Prisma.RiotMatchRoundScalarFieldEnum = {
-  id: 'id',
-  riotMatchesId: 'riotMatchesId'
-};
-
-exports.Prisma.RiotMatchPlayersScalarFieldEnum = {
-  id: 'id',
-  puuid: 'puuid',
+  playerId: 'playerId',
+  matchId: 'matchId',
   riotTag: 'riotTag',
   teamId: 'teamId',
   characterId: 'characterId',
@@ -175,6 +151,22 @@ exports.Prisma.RiotMatchPlayersScalarFieldEnum = {
   teamColor: 'teamColor',
   teamWon: 'teamWon',
   teamRoundsWon: 'teamRoundsWon'
+};
+
+exports.Prisma.RiotMatchScalarFieldEnum = {
+  id: 'id',
+  mapId: 'mapId',
+  gameVersion: 'gameVersion',
+  gameStart: 'gameStart',
+  gameEnd: 'gameEnd',
+  isCompleted: 'isCompleted',
+  queueId: 'queueId',
+  isRanked: 'isRanked',
+  seasonId: 'seasonId',
+  roundsPlayed: 'roundsPlayed',
+  teamWon: 'teamWon',
+  teamRedRoundsWon: 'teamRedRoundsWon',
+  teamBlueRoundsWon: 'teamBlueRoundsWon'
 };
 
 exports.Prisma.SortOrder = {
@@ -199,9 +191,8 @@ exports.RiotMatchTeamColor = exports.$Enums.RiotMatchTeamColor = {
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
-  RiotMatches: 'RiotMatches',
-  RiotMatchRound: 'RiotMatchRound',
-  RiotMatchPlayers: 'RiotMatchPlayers'
+  PlayerMatch: 'PlayerMatch',
+  RiotMatch: 'RiotMatch'
 };
 
 /**

@@ -24,20 +24,15 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
 /**
- * Model RiotMatches
+ * Model PlayerMatch
  * 
  */
-export type RiotMatches = $Result.DefaultSelection<Prisma.$RiotMatchesPayload>
+export type PlayerMatch = $Result.DefaultSelection<Prisma.$PlayerMatchPayload>
 /**
- * Model RiotMatchRound
+ * Model RiotMatch
  * 
  */
-export type RiotMatchRound = $Result.DefaultSelection<Prisma.$RiotMatchRoundPayload>
-/**
- * Model RiotMatchPlayers
- * 
- */
-export type RiotMatchPlayers = $Result.DefaultSelection<Prisma.$RiotMatchPlayersPayload>
+export type RiotMatch = $Result.DefaultSelection<Prisma.$RiotMatchPayload>
 
 /**
  * Enums
@@ -200,34 +195,24 @@ export class PrismaClient<
   get session(): Prisma.SessionDelegate<ExtArgs>;
 
   /**
-   * `prisma.riotMatches`: Exposes CRUD operations for the **RiotMatches** model.
+   * `prisma.playerMatch`: Exposes CRUD operations for the **PlayerMatch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlayerMatches
+    * const playerMatches = await prisma.playerMatch.findMany()
+    * ```
+    */
+  get playerMatch(): Prisma.PlayerMatchDelegate<ExtArgs>;
+
+  /**
+   * `prisma.riotMatch`: Exposes CRUD operations for the **RiotMatch** model.
     * Example usage:
     * ```ts
     * // Fetch zero or more RiotMatches
-    * const riotMatches = await prisma.riotMatches.findMany()
+    * const riotMatches = await prisma.riotMatch.findMany()
     * ```
     */
-  get riotMatches(): Prisma.RiotMatchesDelegate<ExtArgs>;
-
-  /**
-   * `prisma.riotMatchRound`: Exposes CRUD operations for the **RiotMatchRound** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more RiotMatchRounds
-    * const riotMatchRounds = await prisma.riotMatchRound.findMany()
-    * ```
-    */
-  get riotMatchRound(): Prisma.RiotMatchRoundDelegate<ExtArgs>;
-
-  /**
-   * `prisma.riotMatchPlayers`: Exposes CRUD operations for the **RiotMatchPlayers** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more RiotMatchPlayers
-    * const riotMatchPlayers = await prisma.riotMatchPlayers.findMany()
-    * ```
-    */
-  get riotMatchPlayers(): Prisma.RiotMatchPlayersDelegate<ExtArgs>;
+  get riotMatch(): Prisma.RiotMatchDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -671,9 +656,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Session: 'Session',
-    RiotMatches: 'RiotMatches',
-    RiotMatchRound: 'RiotMatchRound',
-    RiotMatchPlayers: 'RiotMatchPlayers'
+    PlayerMatch: 'PlayerMatch',
+    RiotMatch: 'RiotMatch'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -689,7 +673,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "session" | "riotMatches" | "riotMatchRound" | "riotMatchPlayers"
+      modelProps: "user" | "session" | "playerMatch" | "riotMatch"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -833,213 +817,143 @@ export namespace Prisma {
           }
         }
       }
-      RiotMatches: {
-        payload: Prisma.$RiotMatchesPayload<ExtArgs>
-        fields: Prisma.RiotMatchesFieldRefs
+      PlayerMatch: {
+        payload: Prisma.$PlayerMatchPayload<ExtArgs>
+        fields: Prisma.PlayerMatchFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.RiotMatchesFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload> | null
+            args: Prisma.PlayerMatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.RiotMatchesFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload>
+            args: Prisma.PlayerMatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload>
           }
           findFirst: {
-            args: Prisma.RiotMatchesFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload> | null
+            args: Prisma.PlayerMatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.RiotMatchesFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload>
+            args: Prisma.PlayerMatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload>
           }
           findMany: {
-            args: Prisma.RiotMatchesFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload>[]
+            args: Prisma.PlayerMatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload>[]
           }
           create: {
-            args: Prisma.RiotMatchesCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload>
+            args: Prisma.PlayerMatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload>
           }
           createMany: {
-            args: Prisma.RiotMatchesCreateManyArgs<ExtArgs>
+            args: Prisma.PlayerMatchCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.RiotMatchesCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload>[]
+            args: Prisma.PlayerMatchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload>[]
           }
           delete: {
-            args: Prisma.RiotMatchesDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload>
+            args: Prisma.PlayerMatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload>
           }
           update: {
-            args: Prisma.RiotMatchesUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload>
+            args: Prisma.PlayerMatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload>
           }
           deleteMany: {
-            args: Prisma.RiotMatchesDeleteManyArgs<ExtArgs>
+            args: Prisma.PlayerMatchDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.RiotMatchesUpdateManyArgs<ExtArgs>
+            args: Prisma.PlayerMatchUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.RiotMatchesUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchesPayload>
+            args: Prisma.PlayerMatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerMatchPayload>
           }
           aggregate: {
-            args: Prisma.RiotMatchesAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateRiotMatches>
+            args: Prisma.PlayerMatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlayerMatch>
           }
           groupBy: {
-            args: Prisma.RiotMatchesGroupByArgs<ExtArgs>
-            result: $Utils.Optional<RiotMatchesGroupByOutputType>[]
+            args: Prisma.PlayerMatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlayerMatchGroupByOutputType>[]
           }
           count: {
-            args: Prisma.RiotMatchesCountArgs<ExtArgs>
-            result: $Utils.Optional<RiotMatchesCountAggregateOutputType> | number
+            args: Prisma.PlayerMatchCountArgs<ExtArgs>
+            result: $Utils.Optional<PlayerMatchCountAggregateOutputType> | number
           }
         }
       }
-      RiotMatchRound: {
-        payload: Prisma.$RiotMatchRoundPayload<ExtArgs>
-        fields: Prisma.RiotMatchRoundFieldRefs
+      RiotMatch: {
+        payload: Prisma.$RiotMatchPayload<ExtArgs>
+        fields: Prisma.RiotMatchFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.RiotMatchRoundFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload> | null
+            args: Prisma.RiotMatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.RiotMatchRoundFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload>
+            args: Prisma.RiotMatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload>
           }
           findFirst: {
-            args: Prisma.RiotMatchRoundFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload> | null
+            args: Prisma.RiotMatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.RiotMatchRoundFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload>
+            args: Prisma.RiotMatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload>
           }
           findMany: {
-            args: Prisma.RiotMatchRoundFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload>[]
+            args: Prisma.RiotMatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload>[]
           }
           create: {
-            args: Prisma.RiotMatchRoundCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload>
+            args: Prisma.RiotMatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload>
           }
           createMany: {
-            args: Prisma.RiotMatchRoundCreateManyArgs<ExtArgs>
+            args: Prisma.RiotMatchCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.RiotMatchRoundCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload>[]
+            args: Prisma.RiotMatchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload>[]
           }
           delete: {
-            args: Prisma.RiotMatchRoundDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload>
+            args: Prisma.RiotMatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload>
           }
           update: {
-            args: Prisma.RiotMatchRoundUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload>
+            args: Prisma.RiotMatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload>
           }
           deleteMany: {
-            args: Prisma.RiotMatchRoundDeleteManyArgs<ExtArgs>
+            args: Prisma.RiotMatchDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.RiotMatchRoundUpdateManyArgs<ExtArgs>
+            args: Prisma.RiotMatchUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.RiotMatchRoundUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchRoundPayload>
+            args: Prisma.RiotMatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiotMatchPayload>
           }
           aggregate: {
-            args: Prisma.RiotMatchRoundAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateRiotMatchRound>
+            args: Prisma.RiotMatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRiotMatch>
           }
           groupBy: {
-            args: Prisma.RiotMatchRoundGroupByArgs<ExtArgs>
-            result: $Utils.Optional<RiotMatchRoundGroupByOutputType>[]
+            args: Prisma.RiotMatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RiotMatchGroupByOutputType>[]
           }
           count: {
-            args: Prisma.RiotMatchRoundCountArgs<ExtArgs>
-            result: $Utils.Optional<RiotMatchRoundCountAggregateOutputType> | number
-          }
-        }
-      }
-      RiotMatchPlayers: {
-        payload: Prisma.$RiotMatchPlayersPayload<ExtArgs>
-        fields: Prisma.RiotMatchPlayersFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.RiotMatchPlayersFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.RiotMatchPlayersFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload>
-          }
-          findFirst: {
-            args: Prisma.RiotMatchPlayersFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.RiotMatchPlayersFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload>
-          }
-          findMany: {
-            args: Prisma.RiotMatchPlayersFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload>[]
-          }
-          create: {
-            args: Prisma.RiotMatchPlayersCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload>
-          }
-          createMany: {
-            args: Prisma.RiotMatchPlayersCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.RiotMatchPlayersCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload>[]
-          }
-          delete: {
-            args: Prisma.RiotMatchPlayersDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload>
-          }
-          update: {
-            args: Prisma.RiotMatchPlayersUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload>
-          }
-          deleteMany: {
-            args: Prisma.RiotMatchPlayersDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.RiotMatchPlayersUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.RiotMatchPlayersUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RiotMatchPlayersPayload>
-          }
-          aggregate: {
-            args: Prisma.RiotMatchPlayersAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateRiotMatchPlayers>
-          }
-          groupBy: {
-            args: Prisma.RiotMatchPlayersGroupByArgs<ExtArgs>
-            result: $Utils.Optional<RiotMatchPlayersGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.RiotMatchPlayersCountArgs<ExtArgs>
-            result: $Utils.Optional<RiotMatchPlayersCountAggregateOutputType> | number
+            args: Prisma.RiotMatchCountArgs<ExtArgs>
+            result: $Utils.Optional<RiotMatchCountAggregateOutputType> | number
           }
         }
       }
@@ -1235,87 +1149,38 @@ export namespace Prisma {
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountRiotMatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RiotMatchesWhereInput
+    where?: PlayerMatchWhereInput
   }
 
 
   /**
-   * Count Type RiotMatchesCountOutputType
+   * Count Type RiotMatchCountOutputType
    */
 
-  export type RiotMatchesCountOutputType = {
-    users: number
-    rounds: number
-    matchPlayers: number
+  export type RiotMatchCountOutputType = {
+    players: number
   }
 
-  export type RiotMatchesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | RiotMatchesCountOutputTypeCountUsersArgs
-    rounds?: boolean | RiotMatchesCountOutputTypeCountRoundsArgs
-    matchPlayers?: boolean | RiotMatchesCountOutputTypeCountMatchPlayersArgs
+  export type RiotMatchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    players?: boolean | RiotMatchCountOutputTypeCountPlayersArgs
   }
 
   // Custom InputTypes
   /**
-   * RiotMatchesCountOutputType without action
+   * RiotMatchCountOutputType without action
    */
-  export type RiotMatchesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatchesCountOutputType
+     * Select specific fields to fetch from the RiotMatchCountOutputType
      */
-    select?: RiotMatchesCountOutputTypeSelect<ExtArgs> | null
+    select?: RiotMatchCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * RiotMatchesCountOutputType without action
+   * RiotMatchCountOutputType without action
    */
-  export type RiotMatchesCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-  }
-
-  /**
-   * RiotMatchesCountOutputType without action
-   */
-  export type RiotMatchesCountOutputTypeCountRoundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RiotMatchRoundWhereInput
-  }
-
-  /**
-   * RiotMatchesCountOutputType without action
-   */
-  export type RiotMatchesCountOutputTypeCountMatchPlayersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RiotMatchPlayersWhereInput
-  }
-
-
-  /**
-   * Count Type RiotMatchPlayersCountOutputType
-   */
-
-  export type RiotMatchPlayersCountOutputType = {
-    riotMatches: number
-  }
-
-  export type RiotMatchPlayersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    riotMatches?: boolean | RiotMatchPlayersCountOutputTypeCountRiotMatchesArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * RiotMatchPlayersCountOutputType without action
-   */
-  export type RiotMatchPlayersCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayersCountOutputType
-     */
-    select?: RiotMatchPlayersCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * RiotMatchPlayersCountOutputType without action
-   */
-  export type RiotMatchPlayersCountOutputTypeCountRiotMatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RiotMatchesWhereInput
+  export type RiotMatchCountOutputTypeCountPlayersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlayerMatchWhereInput
   }
 
 
@@ -1334,64 +1199,46 @@ export namespace Prisma {
   }
 
   export type UserMinAggregateOutputType = {
-    id: string | null
-    discordId: string | null
-    discordName: string | null
+    puuid: string | null
     riotEntitlement: string | null
     riotAuth: string | null
-    riotPuuid: string | null
     riotTag: string | null
   }
 
   export type UserMaxAggregateOutputType = {
-    id: string | null
-    discordId: string | null
-    discordName: string | null
+    puuid: string | null
     riotEntitlement: string | null
     riotAuth: string | null
-    riotPuuid: string | null
     riotTag: string | null
   }
 
   export type UserCountAggregateOutputType = {
-    id: number
-    discordId: number
-    discordName: number
+    puuid: number
     riotEntitlement: number
     riotAuth: number
-    riotPuuid: number
     riotTag: number
     _all: number
   }
 
 
   export type UserMinAggregateInputType = {
-    id?: true
-    discordId?: true
-    discordName?: true
+    puuid?: true
     riotEntitlement?: true
     riotAuth?: true
-    riotPuuid?: true
     riotTag?: true
   }
 
   export type UserMaxAggregateInputType = {
-    id?: true
-    discordId?: true
-    discordName?: true
+    puuid?: true
     riotEntitlement?: true
     riotAuth?: true
-    riotPuuid?: true
     riotTag?: true
   }
 
   export type UserCountAggregateInputType = {
-    id?: true
-    discordId?: true
-    discordName?: true
+    puuid?: true
     riotEntitlement?: true
     riotAuth?: true
-    riotPuuid?: true
     riotTag?: true
     _all?: true
   }
@@ -1469,12 +1316,9 @@ export namespace Prisma {
   }
 
   export type UserGroupByOutputType = {
-    id: string
-    discordId: string
-    discordName: string
+    puuid: string
     riotEntitlement: string | null
     riotAuth: string | null
-    riotPuuid: string | null
     riotTag: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -1496,12 +1340,9 @@ export namespace Prisma {
 
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    discordId?: boolean
-    discordName?: boolean
+    puuid?: boolean
     riotEntitlement?: boolean
     riotAuth?: boolean
-    riotPuuid?: boolean
     riotTag?: boolean
     Session?: boolean | User$SessionArgs<ExtArgs>
     riotMatches?: boolean | User$riotMatchesArgs<ExtArgs>
@@ -1509,22 +1350,16 @@ export namespace Prisma {
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    discordId?: boolean
-    discordName?: boolean
+    puuid?: boolean
     riotEntitlement?: boolean
     riotAuth?: boolean
-    riotPuuid?: boolean
     riotTag?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
-    id?: boolean
-    discordId?: boolean
-    discordName?: boolean
+    puuid?: boolean
     riotEntitlement?: boolean
     riotAuth?: boolean
-    riotPuuid?: boolean
     riotTag?: boolean
   }
 
@@ -1539,15 +1374,12 @@ export namespace Prisma {
     name: "User"
     objects: {
       Session: Prisma.$SessionPayload<ExtArgs>[]
-      riotMatches: Prisma.$RiotMatchesPayload<ExtArgs>[]
+      riotMatches: Prisma.$PlayerMatchPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
-      discordId: string
-      discordName: string
+      puuid: string
       riotEntitlement: string | null
       riotAuth: string | null
-      riotPuuid: string | null
       riotTag: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1632,8 +1464,8 @@ export namespace Prisma {
      * // Get first 10 Users
      * const users = await prisma.user.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+     * // Only select the `puuid`
+     * const userWithPuuidOnly = await prisma.user.findMany({ select: { puuid: true } })
      * 
      */
     findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany">>
@@ -1677,9 +1509,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.createManyAndReturn({ 
-     *   select: { id: true },
+     * // Create many Users and only return the `puuid`
+     * const userWithPuuidOnly = await prisma.user.createManyAndReturn({ 
+     *   select: { puuid: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -1914,7 +1746,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Session<T extends User$SessionArgs<ExtArgs> = {}>(args?: Subset<T, User$SessionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany"> | Null>
-    riotMatches<T extends User$riotMatchesArgs<ExtArgs> = {}>(args?: Subset<T, User$riotMatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "findMany"> | Null>
+    riotMatches<T extends User$riotMatchesArgs<ExtArgs> = {}>(args?: Subset<T, User$riotMatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1944,12 +1776,9 @@ export namespace Prisma {
    * Fields of the User model
    */ 
   interface UserFieldRefs {
-    readonly id: FieldRef<"User", 'String'>
-    readonly discordId: FieldRef<"User", 'String'>
-    readonly discordName: FieldRef<"User", 'String'>
+    readonly puuid: FieldRef<"User", 'String'>
     readonly riotEntitlement: FieldRef<"User", 'String'>
     readonly riotAuth: FieldRef<"User", 'String'>
-    readonly riotPuuid: FieldRef<"User", 'String'>
     readonly riotTag: FieldRef<"User", 'String'>
   }
     
@@ -2289,19 +2118,19 @@ export namespace Prisma {
    */
   export type User$riotMatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the PlayerMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: PlayerMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
-    where?: RiotMatchesWhereInput
-    orderBy?: RiotMatchesOrderByWithRelationInput | RiotMatchesOrderByWithRelationInput[]
-    cursor?: RiotMatchesWhereUniqueInput
+    include?: PlayerMatchInclude<ExtArgs> | null
+    where?: PlayerMatchWhereInput
+    orderBy?: PlayerMatchOrderByWithRelationInput | PlayerMatchOrderByWithRelationInput[]
+    cursor?: PlayerMatchWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: RiotMatchesScalarFieldEnum | RiotMatchesScalarFieldEnum[]
+    distinct?: PlayerMatchScalarFieldEnum | PlayerMatchScalarFieldEnum[]
   }
 
   /**
@@ -3229,30 +3058,1139 @@ export namespace Prisma {
 
 
   /**
-   * Model RiotMatches
+   * Model PlayerMatch
    */
 
-  export type AggregateRiotMatches = {
-    _count: RiotMatchesCountAggregateOutputType | null
-    _avg: RiotMatchesAvgAggregateOutputType | null
-    _sum: RiotMatchesSumAggregateOutputType | null
-    _min: RiotMatchesMinAggregateOutputType | null
-    _max: RiotMatchesMaxAggregateOutputType | null
+  export type AggregatePlayerMatch = {
+    _count: PlayerMatchCountAggregateOutputType | null
+    _avg: PlayerMatchAvgAggregateOutputType | null
+    _sum: PlayerMatchSumAggregateOutputType | null
+    _min: PlayerMatchMinAggregateOutputType | null
+    _max: PlayerMatchMaxAggregateOutputType | null
   }
 
-  export type RiotMatchesAvgAggregateOutputType = {
+  export type PlayerMatchAvgAggregateOutputType = {
+    kills: number | null
+    deaths: number | null
+    assists: number | null
+    tier: number | null
+    teamRoundsWon: number | null
+  }
+
+  export type PlayerMatchSumAggregateOutputType = {
+    kills: number | null
+    deaths: number | null
+    assists: number | null
+    tier: number | null
+    teamRoundsWon: number | null
+  }
+
+  export type PlayerMatchMinAggregateOutputType = {
+    id: string | null
+    playerId: string | null
+    matchId: string | null
+    riotTag: string | null
+    teamId: string | null
+    characterId: string | null
+    kills: number | null
+    deaths: number | null
+    assists: number | null
+    tier: number | null
+    playerCard: string | null
+    playerTitle: string | null
+    teamColor: $Enums.RiotMatchTeamColor | null
+    teamWon: boolean | null
+    teamRoundsWon: number | null
+  }
+
+  export type PlayerMatchMaxAggregateOutputType = {
+    id: string | null
+    playerId: string | null
+    matchId: string | null
+    riotTag: string | null
+    teamId: string | null
+    characterId: string | null
+    kills: number | null
+    deaths: number | null
+    assists: number | null
+    tier: number | null
+    playerCard: string | null
+    playerTitle: string | null
+    teamColor: $Enums.RiotMatchTeamColor | null
+    teamWon: boolean | null
+    teamRoundsWon: number | null
+  }
+
+  export type PlayerMatchCountAggregateOutputType = {
+    id: number
+    playerId: number
+    matchId: number
+    riotTag: number
+    teamId: number
+    characterId: number
+    kills: number
+    deaths: number
+    assists: number
+    tier: number
+    playerCard: number
+    playerTitle: number
+    teamColor: number
+    teamWon: number
+    teamRoundsWon: number
+    _all: number
+  }
+
+
+  export type PlayerMatchAvgAggregateInputType = {
+    kills?: true
+    deaths?: true
+    assists?: true
+    tier?: true
+    teamRoundsWon?: true
+  }
+
+  export type PlayerMatchSumAggregateInputType = {
+    kills?: true
+    deaths?: true
+    assists?: true
+    tier?: true
+    teamRoundsWon?: true
+  }
+
+  export type PlayerMatchMinAggregateInputType = {
+    id?: true
+    playerId?: true
+    matchId?: true
+    riotTag?: true
+    teamId?: true
+    characterId?: true
+    kills?: true
+    deaths?: true
+    assists?: true
+    tier?: true
+    playerCard?: true
+    playerTitle?: true
+    teamColor?: true
+    teamWon?: true
+    teamRoundsWon?: true
+  }
+
+  export type PlayerMatchMaxAggregateInputType = {
+    id?: true
+    playerId?: true
+    matchId?: true
+    riotTag?: true
+    teamId?: true
+    characterId?: true
+    kills?: true
+    deaths?: true
+    assists?: true
+    tier?: true
+    playerCard?: true
+    playerTitle?: true
+    teamColor?: true
+    teamWon?: true
+    teamRoundsWon?: true
+  }
+
+  export type PlayerMatchCountAggregateInputType = {
+    id?: true
+    playerId?: true
+    matchId?: true
+    riotTag?: true
+    teamId?: true
+    characterId?: true
+    kills?: true
+    deaths?: true
+    assists?: true
+    tier?: true
+    playerCard?: true
+    playerTitle?: true
+    teamColor?: true
+    teamWon?: true
+    teamRoundsWon?: true
+    _all?: true
+  }
+
+  export type PlayerMatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlayerMatch to aggregate.
+     */
+    where?: PlayerMatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlayerMatches to fetch.
+     */
+    orderBy?: PlayerMatchOrderByWithRelationInput | PlayerMatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlayerMatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlayerMatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlayerMatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlayerMatches
+    **/
+    _count?: true | PlayerMatchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PlayerMatchAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlayerMatchSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlayerMatchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlayerMatchMaxAggregateInputType
+  }
+
+  export type GetPlayerMatchAggregateType<T extends PlayerMatchAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlayerMatch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlayerMatch[P]>
+      : GetScalarType<T[P], AggregatePlayerMatch[P]>
+  }
+
+
+
+
+  export type PlayerMatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlayerMatchWhereInput
+    orderBy?: PlayerMatchOrderByWithAggregationInput | PlayerMatchOrderByWithAggregationInput[]
+    by: PlayerMatchScalarFieldEnum[] | PlayerMatchScalarFieldEnum
+    having?: PlayerMatchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlayerMatchCountAggregateInputType | true
+    _avg?: PlayerMatchAvgAggregateInputType
+    _sum?: PlayerMatchSumAggregateInputType
+    _min?: PlayerMatchMinAggregateInputType
+    _max?: PlayerMatchMaxAggregateInputType
+  }
+
+  export type PlayerMatchGroupByOutputType = {
+    id: string
+    playerId: string
+    matchId: string
+    riotTag: string | null
+    teamId: string | null
+    characterId: string | null
+    kills: number | null
+    deaths: number | null
+    assists: number | null
+    tier: number | null
+    playerCard: string | null
+    playerTitle: string | null
+    teamColor: $Enums.RiotMatchTeamColor | null
+    teamWon: boolean | null
+    teamRoundsWon: number | null
+    _count: PlayerMatchCountAggregateOutputType | null
+    _avg: PlayerMatchAvgAggregateOutputType | null
+    _sum: PlayerMatchSumAggregateOutputType | null
+    _min: PlayerMatchMinAggregateOutputType | null
+    _max: PlayerMatchMaxAggregateOutputType | null
+  }
+
+  type GetPlayerMatchGroupByPayload<T extends PlayerMatchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlayerMatchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlayerMatchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlayerMatchGroupByOutputType[P]>
+            : GetScalarType<T[P], PlayerMatchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlayerMatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    playerId?: boolean
+    matchId?: boolean
+    riotTag?: boolean
+    teamId?: boolean
+    characterId?: boolean
+    kills?: boolean
+    deaths?: boolean
+    assists?: boolean
+    tier?: boolean
+    playerCard?: boolean
+    playerTitle?: boolean
+    teamColor?: boolean
+    teamWon?: boolean
+    teamRoundsWon?: boolean
+    player?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | RiotMatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["playerMatch"]>
+
+  export type PlayerMatchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    playerId?: boolean
+    matchId?: boolean
+    riotTag?: boolean
+    teamId?: boolean
+    characterId?: boolean
+    kills?: boolean
+    deaths?: boolean
+    assists?: boolean
+    tier?: boolean
+    playerCard?: boolean
+    playerTitle?: boolean
+    teamColor?: boolean
+    teamWon?: boolean
+    teamRoundsWon?: boolean
+    player?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | RiotMatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["playerMatch"]>
+
+  export type PlayerMatchSelectScalar = {
+    id?: boolean
+    playerId?: boolean
+    matchId?: boolean
+    riotTag?: boolean
+    teamId?: boolean
+    characterId?: boolean
+    kills?: boolean
+    deaths?: boolean
+    assists?: boolean
+    tier?: boolean
+    playerCard?: boolean
+    playerTitle?: boolean
+    teamColor?: boolean
+    teamWon?: boolean
+    teamRoundsWon?: boolean
+  }
+
+  export type PlayerMatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    player?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | RiotMatchDefaultArgs<ExtArgs>
+  }
+  export type PlayerMatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    player?: boolean | UserDefaultArgs<ExtArgs>
+    match?: boolean | RiotMatchDefaultArgs<ExtArgs>
+  }
+
+  export type $PlayerMatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlayerMatch"
+    objects: {
+      player: Prisma.$UserPayload<ExtArgs>
+      match: Prisma.$RiotMatchPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      playerId: string
+      matchId: string
+      riotTag: string | null
+      teamId: string | null
+      characterId: string | null
+      kills: number | null
+      deaths: number | null
+      assists: number | null
+      tier: number | null
+      playerCard: string | null
+      playerTitle: string | null
+      teamColor: $Enums.RiotMatchTeamColor | null
+      teamWon: boolean | null
+      teamRoundsWon: number | null
+    }, ExtArgs["result"]["playerMatch"]>
+    composites: {}
+  }
+
+  type PlayerMatchGetPayload<S extends boolean | null | undefined | PlayerMatchDefaultArgs> = $Result.GetResult<Prisma.$PlayerMatchPayload, S>
+
+  type PlayerMatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PlayerMatchFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PlayerMatchCountAggregateInputType | true
+    }
+
+  export interface PlayerMatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlayerMatch'], meta: { name: 'PlayerMatch' } }
+    /**
+     * Find zero or one PlayerMatch that matches the filter.
+     * @param {PlayerMatchFindUniqueArgs} args - Arguments to find a PlayerMatch
+     * @example
+     * // Get one PlayerMatch
+     * const playerMatch = await prisma.playerMatch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlayerMatchFindUniqueArgs>(args: SelectSubset<T, PlayerMatchFindUniqueArgs<ExtArgs>>): Prisma__PlayerMatchClient<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PlayerMatch that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PlayerMatchFindUniqueOrThrowArgs} args - Arguments to find a PlayerMatch
+     * @example
+     * // Get one PlayerMatch
+     * const playerMatch = await prisma.playerMatch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlayerMatchFindUniqueOrThrowArgs>(args: SelectSubset<T, PlayerMatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlayerMatchClient<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PlayerMatch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerMatchFindFirstArgs} args - Arguments to find a PlayerMatch
+     * @example
+     * // Get one PlayerMatch
+     * const playerMatch = await prisma.playerMatch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlayerMatchFindFirstArgs>(args?: SelectSubset<T, PlayerMatchFindFirstArgs<ExtArgs>>): Prisma__PlayerMatchClient<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PlayerMatch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerMatchFindFirstOrThrowArgs} args - Arguments to find a PlayerMatch
+     * @example
+     * // Get one PlayerMatch
+     * const playerMatch = await prisma.playerMatch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlayerMatchFindFirstOrThrowArgs>(args?: SelectSubset<T, PlayerMatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlayerMatchClient<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PlayerMatches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerMatchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlayerMatches
+     * const playerMatches = await prisma.playerMatch.findMany()
+     * 
+     * // Get first 10 PlayerMatches
+     * const playerMatches = await prisma.playerMatch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const playerMatchWithIdOnly = await prisma.playerMatch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlayerMatchFindManyArgs>(args?: SelectSubset<T, PlayerMatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PlayerMatch.
+     * @param {PlayerMatchCreateArgs} args - Arguments to create a PlayerMatch.
+     * @example
+     * // Create one PlayerMatch
+     * const PlayerMatch = await prisma.playerMatch.create({
+     *   data: {
+     *     // ... data to create a PlayerMatch
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlayerMatchCreateArgs>(args: SelectSubset<T, PlayerMatchCreateArgs<ExtArgs>>): Prisma__PlayerMatchClient<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PlayerMatches.
+     * @param {PlayerMatchCreateManyArgs} args - Arguments to create many PlayerMatches.
+     * @example
+     * // Create many PlayerMatches
+     * const playerMatch = await prisma.playerMatch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlayerMatchCreateManyArgs>(args?: SelectSubset<T, PlayerMatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlayerMatches and returns the data saved in the database.
+     * @param {PlayerMatchCreateManyAndReturnArgs} args - Arguments to create many PlayerMatches.
+     * @example
+     * // Create many PlayerMatches
+     * const playerMatch = await prisma.playerMatch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlayerMatches and only return the `id`
+     * const playerMatchWithIdOnly = await prisma.playerMatch.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlayerMatchCreateManyAndReturnArgs>(args?: SelectSubset<T, PlayerMatchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PlayerMatch.
+     * @param {PlayerMatchDeleteArgs} args - Arguments to delete one PlayerMatch.
+     * @example
+     * // Delete one PlayerMatch
+     * const PlayerMatch = await prisma.playerMatch.delete({
+     *   where: {
+     *     // ... filter to delete one PlayerMatch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlayerMatchDeleteArgs>(args: SelectSubset<T, PlayerMatchDeleteArgs<ExtArgs>>): Prisma__PlayerMatchClient<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PlayerMatch.
+     * @param {PlayerMatchUpdateArgs} args - Arguments to update one PlayerMatch.
+     * @example
+     * // Update one PlayerMatch
+     * const playerMatch = await prisma.playerMatch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlayerMatchUpdateArgs>(args: SelectSubset<T, PlayerMatchUpdateArgs<ExtArgs>>): Prisma__PlayerMatchClient<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PlayerMatches.
+     * @param {PlayerMatchDeleteManyArgs} args - Arguments to filter PlayerMatches to delete.
+     * @example
+     * // Delete a few PlayerMatches
+     * const { count } = await prisma.playerMatch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlayerMatchDeleteManyArgs>(args?: SelectSubset<T, PlayerMatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlayerMatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerMatchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlayerMatches
+     * const playerMatch = await prisma.playerMatch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlayerMatchUpdateManyArgs>(args: SelectSubset<T, PlayerMatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PlayerMatch.
+     * @param {PlayerMatchUpsertArgs} args - Arguments to update or create a PlayerMatch.
+     * @example
+     * // Update or create a PlayerMatch
+     * const playerMatch = await prisma.playerMatch.upsert({
+     *   create: {
+     *     // ... data to create a PlayerMatch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlayerMatch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlayerMatchUpsertArgs>(args: SelectSubset<T, PlayerMatchUpsertArgs<ExtArgs>>): Prisma__PlayerMatchClient<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PlayerMatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerMatchCountArgs} args - Arguments to filter PlayerMatches to count.
+     * @example
+     * // Count the number of PlayerMatches
+     * const count = await prisma.playerMatch.count({
+     *   where: {
+     *     // ... the filter for the PlayerMatches we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlayerMatchCountArgs>(
+      args?: Subset<T, PlayerMatchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlayerMatchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlayerMatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerMatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlayerMatchAggregateArgs>(args: Subset<T, PlayerMatchAggregateArgs>): Prisma.PrismaPromise<GetPlayerMatchAggregateType<T>>
+
+    /**
+     * Group by PlayerMatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerMatchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlayerMatchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlayerMatchGroupByArgs['orderBy'] }
+        : { orderBy?: PlayerMatchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlayerMatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlayerMatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlayerMatch model
+   */
+  readonly fields: PlayerMatchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlayerMatch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlayerMatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    player<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    match<T extends RiotMatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RiotMatchDefaultArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlayerMatch model
+   */ 
+  interface PlayerMatchFieldRefs {
+    readonly id: FieldRef<"PlayerMatch", 'String'>
+    readonly playerId: FieldRef<"PlayerMatch", 'String'>
+    readonly matchId: FieldRef<"PlayerMatch", 'String'>
+    readonly riotTag: FieldRef<"PlayerMatch", 'String'>
+    readonly teamId: FieldRef<"PlayerMatch", 'String'>
+    readonly characterId: FieldRef<"PlayerMatch", 'String'>
+    readonly kills: FieldRef<"PlayerMatch", 'Int'>
+    readonly deaths: FieldRef<"PlayerMatch", 'Int'>
+    readonly assists: FieldRef<"PlayerMatch", 'Int'>
+    readonly tier: FieldRef<"PlayerMatch", 'Int'>
+    readonly playerCard: FieldRef<"PlayerMatch", 'String'>
+    readonly playerTitle: FieldRef<"PlayerMatch", 'String'>
+    readonly teamColor: FieldRef<"PlayerMatch", 'RiotMatchTeamColor'>
+    readonly teamWon: FieldRef<"PlayerMatch", 'Boolean'>
+    readonly teamRoundsWon: FieldRef<"PlayerMatch", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlayerMatch findUnique
+   */
+  export type PlayerMatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerMatch to fetch.
+     */
+    where: PlayerMatchWhereUniqueInput
+  }
+
+  /**
+   * PlayerMatch findUniqueOrThrow
+   */
+  export type PlayerMatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerMatch to fetch.
+     */
+    where: PlayerMatchWhereUniqueInput
+  }
+
+  /**
+   * PlayerMatch findFirst
+   */
+  export type PlayerMatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerMatch to fetch.
+     */
+    where?: PlayerMatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlayerMatches to fetch.
+     */
+    orderBy?: PlayerMatchOrderByWithRelationInput | PlayerMatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlayerMatches.
+     */
+    cursor?: PlayerMatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlayerMatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlayerMatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlayerMatches.
+     */
+    distinct?: PlayerMatchScalarFieldEnum | PlayerMatchScalarFieldEnum[]
+  }
+
+  /**
+   * PlayerMatch findFirstOrThrow
+   */
+  export type PlayerMatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerMatch to fetch.
+     */
+    where?: PlayerMatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlayerMatches to fetch.
+     */
+    orderBy?: PlayerMatchOrderByWithRelationInput | PlayerMatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlayerMatches.
+     */
+    cursor?: PlayerMatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlayerMatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlayerMatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlayerMatches.
+     */
+    distinct?: PlayerMatchScalarFieldEnum | PlayerMatchScalarFieldEnum[]
+  }
+
+  /**
+   * PlayerMatch findMany
+   */
+  export type PlayerMatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PlayerMatches to fetch.
+     */
+    where?: PlayerMatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlayerMatches to fetch.
+     */
+    orderBy?: PlayerMatchOrderByWithRelationInput | PlayerMatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlayerMatches.
+     */
+    cursor?: PlayerMatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlayerMatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlayerMatches.
+     */
+    skip?: number
+    distinct?: PlayerMatchScalarFieldEnum | PlayerMatchScalarFieldEnum[]
+  }
+
+  /**
+   * PlayerMatch create
+   */
+  export type PlayerMatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlayerMatch.
+     */
+    data: XOR<PlayerMatchCreateInput, PlayerMatchUncheckedCreateInput>
+  }
+
+  /**
+   * PlayerMatch createMany
+   */
+  export type PlayerMatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlayerMatches.
+     */
+    data: PlayerMatchCreateManyInput | PlayerMatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PlayerMatch createManyAndReturn
+   */
+  export type PlayerMatchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PlayerMatches.
+     */
+    data: PlayerMatchCreateManyInput | PlayerMatchCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlayerMatch update
+   */
+  export type PlayerMatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlayerMatch.
+     */
+    data: XOR<PlayerMatchUpdateInput, PlayerMatchUncheckedUpdateInput>
+    /**
+     * Choose, which PlayerMatch to update.
+     */
+    where: PlayerMatchWhereUniqueInput
+  }
+
+  /**
+   * PlayerMatch updateMany
+   */
+  export type PlayerMatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlayerMatches.
+     */
+    data: XOR<PlayerMatchUpdateManyMutationInput, PlayerMatchUncheckedUpdateManyInput>
+    /**
+     * Filter which PlayerMatches to update
+     */
+    where?: PlayerMatchWhereInput
+  }
+
+  /**
+   * PlayerMatch upsert
+   */
+  export type PlayerMatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlayerMatch to update in case it exists.
+     */
+    where: PlayerMatchWhereUniqueInput
+    /**
+     * In case the PlayerMatch found by the `where` argument doesn't exist, create a new PlayerMatch with this data.
+     */
+    create: XOR<PlayerMatchCreateInput, PlayerMatchUncheckedCreateInput>
+    /**
+     * In case the PlayerMatch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlayerMatchUpdateInput, PlayerMatchUncheckedUpdateInput>
+  }
+
+  /**
+   * PlayerMatch delete
+   */
+  export type PlayerMatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+    /**
+     * Filter which PlayerMatch to delete.
+     */
+    where: PlayerMatchWhereUniqueInput
+  }
+
+  /**
+   * PlayerMatch deleteMany
+   */
+  export type PlayerMatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlayerMatches to delete
+     */
+    where?: PlayerMatchWhereInput
+  }
+
+  /**
+   * PlayerMatch without action
+   */
+  export type PlayerMatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerMatch
+     */
+    select?: PlayerMatchSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerMatchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RiotMatch
+   */
+
+  export type AggregateRiotMatch = {
+    _count: RiotMatchCountAggregateOutputType | null
+    _avg: RiotMatchAvgAggregateOutputType | null
+    _sum: RiotMatchSumAggregateOutputType | null
+    _min: RiotMatchMinAggregateOutputType | null
+    _max: RiotMatchMaxAggregateOutputType | null
+  }
+
+  export type RiotMatchAvgAggregateOutputType = {
     roundsPlayed: number | null
     teamRedRoundsWon: number | null
     teamBlueRoundsWon: number | null
   }
 
-  export type RiotMatchesSumAggregateOutputType = {
+  export type RiotMatchSumAggregateOutputType = {
     roundsPlayed: number | null
     teamRedRoundsWon: number | null
     teamBlueRoundsWon: number | null
   }
 
-  export type RiotMatchesMinAggregateOutputType = {
+  export type RiotMatchMinAggregateOutputType = {
     id: string | null
     mapId: string | null
     gameVersion: string | null
@@ -3266,10 +4204,9 @@ export namespace Prisma {
     teamWon: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon: number | null
     teamBlueRoundsWon: number | null
-    riotMatchPlayersId: string | null
   }
 
-  export type RiotMatchesMaxAggregateOutputType = {
+  export type RiotMatchMaxAggregateOutputType = {
     id: string | null
     mapId: string | null
     gameVersion: string | null
@@ -3283,10 +4220,9 @@ export namespace Prisma {
     teamWon: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon: number | null
     teamBlueRoundsWon: number | null
-    riotMatchPlayersId: string | null
   }
 
-  export type RiotMatchesCountAggregateOutputType = {
+  export type RiotMatchCountAggregateOutputType = {
     id: number
     mapId: number
     gameVersion: number
@@ -3300,24 +4236,23 @@ export namespace Prisma {
     teamWon: number
     teamRedRoundsWon: number
     teamBlueRoundsWon: number
-    riotMatchPlayersId: number
     _all: number
   }
 
 
-  export type RiotMatchesAvgAggregateInputType = {
+  export type RiotMatchAvgAggregateInputType = {
     roundsPlayed?: true
     teamRedRoundsWon?: true
     teamBlueRoundsWon?: true
   }
 
-  export type RiotMatchesSumAggregateInputType = {
+  export type RiotMatchSumAggregateInputType = {
     roundsPlayed?: true
     teamRedRoundsWon?: true
     teamBlueRoundsWon?: true
   }
 
-  export type RiotMatchesMinAggregateInputType = {
+  export type RiotMatchMinAggregateInputType = {
     id?: true
     mapId?: true
     gameVersion?: true
@@ -3331,10 +4266,9 @@ export namespace Prisma {
     teamWon?: true
     teamRedRoundsWon?: true
     teamBlueRoundsWon?: true
-    riotMatchPlayersId?: true
   }
 
-  export type RiotMatchesMaxAggregateInputType = {
+  export type RiotMatchMaxAggregateInputType = {
     id?: true
     mapId?: true
     gameVersion?: true
@@ -3348,10 +4282,9 @@ export namespace Prisma {
     teamWon?: true
     teamRedRoundsWon?: true
     teamBlueRoundsWon?: true
-    riotMatchPlayersId?: true
   }
 
-  export type RiotMatchesCountAggregateInputType = {
+  export type RiotMatchCountAggregateInputType = {
     id?: true
     mapId?: true
     gameVersion?: true
@@ -3365,27 +4298,26 @@ export namespace Prisma {
     teamWon?: true
     teamRedRoundsWon?: true
     teamBlueRoundsWon?: true
-    riotMatchPlayersId?: true
     _all?: true
   }
 
-  export type RiotMatchesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which RiotMatches to aggregate.
+     * Filter which RiotMatch to aggregate.
      */
-    where?: RiotMatchesWhereInput
+    where?: RiotMatchWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of RiotMatches to fetch.
      */
-    orderBy?: RiotMatchesOrderByWithRelationInput | RiotMatchesOrderByWithRelationInput[]
+    orderBy?: RiotMatchOrderByWithRelationInput | RiotMatchOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: RiotMatchesWhereUniqueInput
+    cursor?: RiotMatchWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -3403,59 +4335,59 @@ export namespace Prisma {
      * 
      * Count returned RiotMatches
     **/
-    _count?: true | RiotMatchesCountAggregateInputType
+    _count?: true | RiotMatchCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: RiotMatchesAvgAggregateInputType
+    _avg?: RiotMatchAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: RiotMatchesSumAggregateInputType
+    _sum?: RiotMatchSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: RiotMatchesMinAggregateInputType
+    _min?: RiotMatchMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: RiotMatchesMaxAggregateInputType
+    _max?: RiotMatchMaxAggregateInputType
   }
 
-  export type GetRiotMatchesAggregateType<T extends RiotMatchesAggregateArgs> = {
-        [P in keyof T & keyof AggregateRiotMatches]: P extends '_count' | 'count'
+  export type GetRiotMatchAggregateType<T extends RiotMatchAggregateArgs> = {
+        [P in keyof T & keyof AggregateRiotMatch]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateRiotMatches[P]>
-      : GetScalarType<T[P], AggregateRiotMatches[P]>
+        : GetScalarType<T[P], AggregateRiotMatch[P]>
+      : GetScalarType<T[P], AggregateRiotMatch[P]>
   }
 
 
 
 
-  export type RiotMatchesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RiotMatchesWhereInput
-    orderBy?: RiotMatchesOrderByWithAggregationInput | RiotMatchesOrderByWithAggregationInput[]
-    by: RiotMatchesScalarFieldEnum[] | RiotMatchesScalarFieldEnum
-    having?: RiotMatchesScalarWhereWithAggregatesInput
+  export type RiotMatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RiotMatchWhereInput
+    orderBy?: RiotMatchOrderByWithAggregationInput | RiotMatchOrderByWithAggregationInput[]
+    by: RiotMatchScalarFieldEnum[] | RiotMatchScalarFieldEnum
+    having?: RiotMatchScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: RiotMatchesCountAggregateInputType | true
-    _avg?: RiotMatchesAvgAggregateInputType
-    _sum?: RiotMatchesSumAggregateInputType
-    _min?: RiotMatchesMinAggregateInputType
-    _max?: RiotMatchesMaxAggregateInputType
+    _count?: RiotMatchCountAggregateInputType | true
+    _avg?: RiotMatchAvgAggregateInputType
+    _sum?: RiotMatchSumAggregateInputType
+    _min?: RiotMatchMinAggregateInputType
+    _max?: RiotMatchMaxAggregateInputType
   }
 
-  export type RiotMatchesGroupByOutputType = {
+  export type RiotMatchGroupByOutputType = {
     id: string
     mapId: string | null
     gameVersion: string | null
@@ -3469,29 +4401,28 @@ export namespace Prisma {
     teamWon: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon: number | null
     teamBlueRoundsWon: number | null
-    riotMatchPlayersId: string | null
-    _count: RiotMatchesCountAggregateOutputType | null
-    _avg: RiotMatchesAvgAggregateOutputType | null
-    _sum: RiotMatchesSumAggregateOutputType | null
-    _min: RiotMatchesMinAggregateOutputType | null
-    _max: RiotMatchesMaxAggregateOutputType | null
+    _count: RiotMatchCountAggregateOutputType | null
+    _avg: RiotMatchAvgAggregateOutputType | null
+    _sum: RiotMatchSumAggregateOutputType | null
+    _min: RiotMatchMinAggregateOutputType | null
+    _max: RiotMatchMaxAggregateOutputType | null
   }
 
-  type GetRiotMatchesGroupByPayload<T extends RiotMatchesGroupByArgs> = Prisma.PrismaPromise<
+  type GetRiotMatchGroupByPayload<T extends RiotMatchGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<RiotMatchesGroupByOutputType, T['by']> &
+      PickEnumerable<RiotMatchGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof RiotMatchesGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof RiotMatchGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], RiotMatchesGroupByOutputType[P]>
-            : GetScalarType<T[P], RiotMatchesGroupByOutputType[P]>
+              : GetScalarType<T[P], RiotMatchGroupByOutputType[P]>
+            : GetScalarType<T[P], RiotMatchGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type RiotMatchesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type RiotMatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     mapId?: boolean
     gameVersion?: boolean
@@ -3505,14 +4436,11 @@ export namespace Prisma {
     teamWon?: boolean
     teamRedRoundsWon?: boolean
     teamBlueRoundsWon?: boolean
-    riotMatchPlayersId?: boolean
-    users?: boolean | RiotMatches$usersArgs<ExtArgs>
-    rounds?: boolean | RiotMatches$roundsArgs<ExtArgs>
-    matchPlayers?: boolean | RiotMatches$matchPlayersArgs<ExtArgs>
-    _count?: boolean | RiotMatchesCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["riotMatches"]>
+    players?: boolean | RiotMatch$playersArgs<ExtArgs>
+    _count?: boolean | RiotMatchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["riotMatch"]>
 
-  export type RiotMatchesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type RiotMatchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     mapId?: boolean
     gameVersion?: boolean
@@ -3526,10 +4454,9 @@ export namespace Prisma {
     teamWon?: boolean
     teamRedRoundsWon?: boolean
     teamBlueRoundsWon?: boolean
-    riotMatchPlayersId?: boolean
-  }, ExtArgs["result"]["riotMatches"]>
+  }, ExtArgs["result"]["riotMatch"]>
 
-  export type RiotMatchesSelectScalar = {
+  export type RiotMatchSelectScalar = {
     id?: boolean
     mapId?: boolean
     gameVersion?: boolean
@@ -3543,23 +4470,18 @@ export namespace Prisma {
     teamWon?: boolean
     teamRedRoundsWon?: boolean
     teamBlueRoundsWon?: boolean
-    riotMatchPlayersId?: boolean
   }
 
-  export type RiotMatchesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | RiotMatches$usersArgs<ExtArgs>
-    rounds?: boolean | RiotMatches$roundsArgs<ExtArgs>
-    matchPlayers?: boolean | RiotMatches$matchPlayersArgs<ExtArgs>
-    _count?: boolean | RiotMatchesCountOutputTypeDefaultArgs<ExtArgs>
+  export type RiotMatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    players?: boolean | RiotMatch$playersArgs<ExtArgs>
+    _count?: boolean | RiotMatchCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type RiotMatchesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type RiotMatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $RiotMatchesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "RiotMatches"
+  export type $RiotMatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RiotMatch"
     objects: {
-      users: Prisma.$UserPayload<ExtArgs>[]
-      rounds: Prisma.$RiotMatchRoundPayload<ExtArgs>[]
-      matchPlayers: Prisma.$RiotMatchPlayersPayload<ExtArgs>[]
+      players: Prisma.$PlayerMatchPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3575,137 +4497,136 @@ export namespace Prisma {
       teamWon: $Enums.RiotMatchTeamColor | null
       teamRedRoundsWon: number | null
       teamBlueRoundsWon: number | null
-      riotMatchPlayersId: string | null
-    }, ExtArgs["result"]["riotMatches"]>
+    }, ExtArgs["result"]["riotMatch"]>
     composites: {}
   }
 
-  type RiotMatchesGetPayload<S extends boolean | null | undefined | RiotMatchesDefaultArgs> = $Result.GetResult<Prisma.$RiotMatchesPayload, S>
+  type RiotMatchGetPayload<S extends boolean | null | undefined | RiotMatchDefaultArgs> = $Result.GetResult<Prisma.$RiotMatchPayload, S>
 
-  type RiotMatchesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<RiotMatchesFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: RiotMatchesCountAggregateInputType | true
+  type RiotMatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RiotMatchFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RiotMatchCountAggregateInputType | true
     }
 
-  export interface RiotMatchesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RiotMatches'], meta: { name: 'RiotMatches' } }
+  export interface RiotMatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RiotMatch'], meta: { name: 'RiotMatch' } }
     /**
-     * Find zero or one RiotMatches that matches the filter.
-     * @param {RiotMatchesFindUniqueArgs} args - Arguments to find a RiotMatches
+     * Find zero or one RiotMatch that matches the filter.
+     * @param {RiotMatchFindUniqueArgs} args - Arguments to find a RiotMatch
      * @example
-     * // Get one RiotMatches
-     * const riotMatches = await prisma.riotMatches.findUnique({
+     * // Get one RiotMatch
+     * const riotMatch = await prisma.riotMatch.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends RiotMatchesFindUniqueArgs>(args: SelectSubset<T, RiotMatchesFindUniqueArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends RiotMatchFindUniqueArgs>(args: SelectSubset<T, RiotMatchFindUniqueArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
 
     /**
-     * Find one RiotMatches that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one RiotMatch that matches the filter or throw an error with `error.code='P2025'` 
      * if no matches were found.
-     * @param {RiotMatchesFindUniqueOrThrowArgs} args - Arguments to find a RiotMatches
+     * @param {RiotMatchFindUniqueOrThrowArgs} args - Arguments to find a RiotMatch
      * @example
-     * // Get one RiotMatches
-     * const riotMatches = await prisma.riotMatches.findUniqueOrThrow({
+     * // Get one RiotMatch
+     * const riotMatch = await prisma.riotMatch.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends RiotMatchesFindUniqueOrThrowArgs>(args: SelectSubset<T, RiotMatchesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends RiotMatchFindUniqueOrThrowArgs>(args: SelectSubset<T, RiotMatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
 
     /**
-     * Find the first RiotMatches that matches the filter.
+     * Find the first RiotMatch that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchesFindFirstArgs} args - Arguments to find a RiotMatches
+     * @param {RiotMatchFindFirstArgs} args - Arguments to find a RiotMatch
      * @example
-     * // Get one RiotMatches
-     * const riotMatches = await prisma.riotMatches.findFirst({
+     * // Get one RiotMatch
+     * const riotMatch = await prisma.riotMatch.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends RiotMatchesFindFirstArgs>(args?: SelectSubset<T, RiotMatchesFindFirstArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends RiotMatchFindFirstArgs>(args?: SelectSubset<T, RiotMatchFindFirstArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
 
     /**
-     * Find the first RiotMatches that matches the filter or
+     * Find the first RiotMatch that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchesFindFirstOrThrowArgs} args - Arguments to find a RiotMatches
+     * @param {RiotMatchFindFirstOrThrowArgs} args - Arguments to find a RiotMatch
      * @example
-     * // Get one RiotMatches
-     * const riotMatches = await prisma.riotMatches.findFirstOrThrow({
+     * // Get one RiotMatch
+     * const riotMatch = await prisma.riotMatch.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends RiotMatchesFindFirstOrThrowArgs>(args?: SelectSubset<T, RiotMatchesFindFirstOrThrowArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends RiotMatchFindFirstOrThrowArgs>(args?: SelectSubset<T, RiotMatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
 
     /**
      * Find zero or more RiotMatches that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {RiotMatchFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all RiotMatches
-     * const riotMatches = await prisma.riotMatches.findMany()
+     * const riotMatches = await prisma.riotMatch.findMany()
      * 
      * // Get first 10 RiotMatches
-     * const riotMatches = await prisma.riotMatches.findMany({ take: 10 })
+     * const riotMatches = await prisma.riotMatch.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const riotMatchesWithIdOnly = await prisma.riotMatches.findMany({ select: { id: true } })
+     * const riotMatchWithIdOnly = await prisma.riotMatch.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends RiotMatchesFindManyArgs>(args?: SelectSubset<T, RiotMatchesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "findMany">>
+    findMany<T extends RiotMatchFindManyArgs>(args?: SelectSubset<T, RiotMatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "findMany">>
 
     /**
-     * Create a RiotMatches.
-     * @param {RiotMatchesCreateArgs} args - Arguments to create a RiotMatches.
+     * Create a RiotMatch.
+     * @param {RiotMatchCreateArgs} args - Arguments to create a RiotMatch.
      * @example
-     * // Create one RiotMatches
-     * const RiotMatches = await prisma.riotMatches.create({
+     * // Create one RiotMatch
+     * const RiotMatch = await prisma.riotMatch.create({
      *   data: {
-     *     // ... data to create a RiotMatches
+     *     // ... data to create a RiotMatch
      *   }
      * })
      * 
      */
-    create<T extends RiotMatchesCreateArgs>(args: SelectSubset<T, RiotMatchesCreateArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends RiotMatchCreateArgs>(args: SelectSubset<T, RiotMatchCreateArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "create">, never, ExtArgs>
 
     /**
      * Create many RiotMatches.
-     * @param {RiotMatchesCreateManyArgs} args - Arguments to create many RiotMatches.
+     * @param {RiotMatchCreateManyArgs} args - Arguments to create many RiotMatches.
      * @example
      * // Create many RiotMatches
-     * const riotMatches = await prisma.riotMatches.createMany({
+     * const riotMatch = await prisma.riotMatch.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends RiotMatchesCreateManyArgs>(args?: SelectSubset<T, RiotMatchesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends RiotMatchCreateManyArgs>(args?: SelectSubset<T, RiotMatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create many RiotMatches and returns the data saved in the database.
-     * @param {RiotMatchesCreateManyAndReturnArgs} args - Arguments to create many RiotMatches.
+     * @param {RiotMatchCreateManyAndReturnArgs} args - Arguments to create many RiotMatches.
      * @example
      * // Create many RiotMatches
-     * const riotMatches = await prisma.riotMatches.createManyAndReturn({
+     * const riotMatch = await prisma.riotMatch.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
      * // Create many RiotMatches and only return the `id`
-     * const riotMatchesWithIdOnly = await prisma.riotMatches.createManyAndReturn({ 
+     * const riotMatchWithIdOnly = await prisma.riotMatch.createManyAndReturn({ 
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -3715,28 +4636,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends RiotMatchesCreateManyAndReturnArgs>(args?: SelectSubset<T, RiotMatchesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends RiotMatchCreateManyAndReturnArgs>(args?: SelectSubset<T, RiotMatchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "createManyAndReturn">>
 
     /**
-     * Delete a RiotMatches.
-     * @param {RiotMatchesDeleteArgs} args - Arguments to delete one RiotMatches.
+     * Delete a RiotMatch.
+     * @param {RiotMatchDeleteArgs} args - Arguments to delete one RiotMatch.
      * @example
-     * // Delete one RiotMatches
-     * const RiotMatches = await prisma.riotMatches.delete({
+     * // Delete one RiotMatch
+     * const RiotMatch = await prisma.riotMatch.delete({
      *   where: {
-     *     // ... filter to delete one RiotMatches
+     *     // ... filter to delete one RiotMatch
      *   }
      * })
      * 
      */
-    delete<T extends RiotMatchesDeleteArgs>(args: SelectSubset<T, RiotMatchesDeleteArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends RiotMatchDeleteArgs>(args: SelectSubset<T, RiotMatchDeleteArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "delete">, never, ExtArgs>
 
     /**
-     * Update one RiotMatches.
-     * @param {RiotMatchesUpdateArgs} args - Arguments to update one RiotMatches.
+     * Update one RiotMatch.
+     * @param {RiotMatchUpdateArgs} args - Arguments to update one RiotMatch.
      * @example
-     * // Update one RiotMatches
-     * const riotMatches = await prisma.riotMatches.update({
+     * // Update one RiotMatch
+     * const riotMatch = await prisma.riotMatch.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3746,30 +4667,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends RiotMatchesUpdateArgs>(args: SelectSubset<T, RiotMatchesUpdateArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends RiotMatchUpdateArgs>(args: SelectSubset<T, RiotMatchUpdateArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "update">, never, ExtArgs>
 
     /**
      * Delete zero or more RiotMatches.
-     * @param {RiotMatchesDeleteManyArgs} args - Arguments to filter RiotMatches to delete.
+     * @param {RiotMatchDeleteManyArgs} args - Arguments to filter RiotMatches to delete.
      * @example
      * // Delete a few RiotMatches
-     * const { count } = await prisma.riotMatches.deleteMany({
+     * const { count } = await prisma.riotMatch.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends RiotMatchesDeleteManyArgs>(args?: SelectSubset<T, RiotMatchesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends RiotMatchDeleteManyArgs>(args?: SelectSubset<T, RiotMatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more RiotMatches.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {RiotMatchUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
      * // Update many RiotMatches
-     * const riotMatches = await prisma.riotMatches.updateMany({
+     * const riotMatch = await prisma.riotMatch.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3779,56 +4700,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends RiotMatchesUpdateManyArgs>(args: SelectSubset<T, RiotMatchesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends RiotMatchUpdateManyArgs>(args: SelectSubset<T, RiotMatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one RiotMatches.
-     * @param {RiotMatchesUpsertArgs} args - Arguments to update or create a RiotMatches.
+     * Create or update one RiotMatch.
+     * @param {RiotMatchUpsertArgs} args - Arguments to update or create a RiotMatch.
      * @example
-     * // Update or create a RiotMatches
-     * const riotMatches = await prisma.riotMatches.upsert({
+     * // Update or create a RiotMatch
+     * const riotMatch = await prisma.riotMatch.upsert({
      *   create: {
-     *     // ... data to create a RiotMatches
+     *     // ... data to create a RiotMatch
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the RiotMatches we want to update
+     *     // ... the filter for the RiotMatch we want to update
      *   }
      * })
      */
-    upsert<T extends RiotMatchesUpsertArgs>(args: SelectSubset<T, RiotMatchesUpsertArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends RiotMatchUpsertArgs>(args: SelectSubset<T, RiotMatchUpsertArgs<ExtArgs>>): Prisma__RiotMatchClient<$Result.GetResult<Prisma.$RiotMatchPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
 
 
     /**
      * Count the number of RiotMatches.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchesCountArgs} args - Arguments to filter RiotMatches to count.
+     * @param {RiotMatchCountArgs} args - Arguments to filter RiotMatches to count.
      * @example
      * // Count the number of RiotMatches
-     * const count = await prisma.riotMatches.count({
+     * const count = await prisma.riotMatch.count({
      *   where: {
      *     // ... the filter for the RiotMatches we want to count
      *   }
      * })
     **/
-    count<T extends RiotMatchesCountArgs>(
-      args?: Subset<T, RiotMatchesCountArgs>,
+    count<T extends RiotMatchCountArgs>(
+      args?: Subset<T, RiotMatchCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], RiotMatchesCountAggregateOutputType>
+          : GetScalarType<T['select'], RiotMatchCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a RiotMatches.
+     * Allows you to perform aggregations operations on a RiotMatch.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {RiotMatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -3848,13 +4769,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends RiotMatchesAggregateArgs>(args: Subset<T, RiotMatchesAggregateArgs>): Prisma.PrismaPromise<GetRiotMatchesAggregateType<T>>
+    aggregate<T extends RiotMatchAggregateArgs>(args: Subset<T, RiotMatchAggregateArgs>): Prisma.PrismaPromise<GetRiotMatchAggregateType<T>>
 
     /**
-     * Group by RiotMatches.
+     * Group by RiotMatch.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchesGroupByArgs} args - Group by arguments.
+     * @param {RiotMatchGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -3869,14 +4790,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends RiotMatchesGroupByArgs,
+      T extends RiotMatchGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RiotMatchesGroupByArgs['orderBy'] }
-        : { orderBy?: RiotMatchesGroupByArgs['orderBy'] },
+        ? { orderBy: RiotMatchGroupByArgs['orderBy'] }
+        : { orderBy?: RiotMatchGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -3925,24 +4846,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, RiotMatchesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRiotMatchesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, RiotMatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRiotMatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the RiotMatches model
+   * Fields of the RiotMatch model
    */
-  readonly fields: RiotMatchesFieldRefs;
+  readonly fields: RiotMatchFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for RiotMatches.
+   * The delegate class that acts as a "Promise-like" for RiotMatch.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__RiotMatchesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__RiotMatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    users<T extends RiotMatches$usersArgs<ExtArgs> = {}>(args?: Subset<T, RiotMatches$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
-    rounds<T extends RiotMatches$roundsArgs<ExtArgs> = {}>(args?: Subset<T, RiotMatches$roundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "findMany"> | Null>
-    matchPlayers<T extends RiotMatches$matchPlayersArgs<ExtArgs> = {}>(args?: Subset<T, RiotMatches$matchPlayersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "findMany"> | Null>
+    players<T extends RiotMatch$playersArgs<ExtArgs> = {}>(args?: Subset<T, RiotMatch$playersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerMatchPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3969,91 +4888,90 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the RiotMatches model
+   * Fields of the RiotMatch model
    */ 
-  interface RiotMatchesFieldRefs {
-    readonly id: FieldRef<"RiotMatches", 'String'>
-    readonly mapId: FieldRef<"RiotMatches", 'String'>
-    readonly gameVersion: FieldRef<"RiotMatches", 'String'>
-    readonly gameStart: FieldRef<"RiotMatches", 'DateTime'>
-    readonly gameEnd: FieldRef<"RiotMatches", 'DateTime'>
-    readonly isCompleted: FieldRef<"RiotMatches", 'Boolean'>
-    readonly queueId: FieldRef<"RiotMatches", 'String'>
-    readonly isRanked: FieldRef<"RiotMatches", 'Boolean'>
-    readonly seasonId: FieldRef<"RiotMatches", 'String'>
-    readonly roundsPlayed: FieldRef<"RiotMatches", 'Int'>
-    readonly teamWon: FieldRef<"RiotMatches", 'RiotMatchTeamColor'>
-    readonly teamRedRoundsWon: FieldRef<"RiotMatches", 'Int'>
-    readonly teamBlueRoundsWon: FieldRef<"RiotMatches", 'Int'>
-    readonly riotMatchPlayersId: FieldRef<"RiotMatches", 'String'>
+  interface RiotMatchFieldRefs {
+    readonly id: FieldRef<"RiotMatch", 'String'>
+    readonly mapId: FieldRef<"RiotMatch", 'String'>
+    readonly gameVersion: FieldRef<"RiotMatch", 'String'>
+    readonly gameStart: FieldRef<"RiotMatch", 'DateTime'>
+    readonly gameEnd: FieldRef<"RiotMatch", 'DateTime'>
+    readonly isCompleted: FieldRef<"RiotMatch", 'Boolean'>
+    readonly queueId: FieldRef<"RiotMatch", 'String'>
+    readonly isRanked: FieldRef<"RiotMatch", 'Boolean'>
+    readonly seasonId: FieldRef<"RiotMatch", 'String'>
+    readonly roundsPlayed: FieldRef<"RiotMatch", 'Int'>
+    readonly teamWon: FieldRef<"RiotMatch", 'RiotMatchTeamColor'>
+    readonly teamRedRoundsWon: FieldRef<"RiotMatch", 'Int'>
+    readonly teamBlueRoundsWon: FieldRef<"RiotMatch", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * RiotMatches findUnique
+   * RiotMatch findUnique
    */
-  export type RiotMatchesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
-     * Filter, which RiotMatches to fetch.
+     * Filter, which RiotMatch to fetch.
      */
-    where: RiotMatchesWhereUniqueInput
+    where: RiotMatchWhereUniqueInput
   }
 
   /**
-   * RiotMatches findUniqueOrThrow
+   * RiotMatch findUniqueOrThrow
    */
-  export type RiotMatchesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
-     * Filter, which RiotMatches to fetch.
+     * Filter, which RiotMatch to fetch.
      */
-    where: RiotMatchesWhereUniqueInput
+    where: RiotMatchWhereUniqueInput
   }
 
   /**
-   * RiotMatches findFirst
+   * RiotMatch findFirst
    */
-  export type RiotMatchesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
-     * Filter, which RiotMatches to fetch.
+     * Filter, which RiotMatch to fetch.
      */
-    where?: RiotMatchesWhereInput
+    where?: RiotMatchWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of RiotMatches to fetch.
      */
-    orderBy?: RiotMatchesOrderByWithRelationInput | RiotMatchesOrderByWithRelationInput[]
+    orderBy?: RiotMatchOrderByWithRelationInput | RiotMatchOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for RiotMatches.
      */
-    cursor?: RiotMatchesWhereUniqueInput
+    cursor?: RiotMatchWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -4071,37 +4989,37 @@ export namespace Prisma {
      * 
      * Filter by unique combinations of RiotMatches.
      */
-    distinct?: RiotMatchesScalarFieldEnum | RiotMatchesScalarFieldEnum[]
+    distinct?: RiotMatchScalarFieldEnum | RiotMatchScalarFieldEnum[]
   }
 
   /**
-   * RiotMatches findFirstOrThrow
+   * RiotMatch findFirstOrThrow
    */
-  export type RiotMatchesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
-     * Filter, which RiotMatches to fetch.
+     * Filter, which RiotMatch to fetch.
      */
-    where?: RiotMatchesWhereInput
+    where?: RiotMatchWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of RiotMatches to fetch.
      */
-    orderBy?: RiotMatchesOrderByWithRelationInput | RiotMatchesOrderByWithRelationInput[]
+    orderBy?: RiotMatchOrderByWithRelationInput | RiotMatchOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for RiotMatches.
      */
-    cursor?: RiotMatchesWhereUniqueInput
+    cursor?: RiotMatchWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -4119,37 +5037,37 @@ export namespace Prisma {
      * 
      * Filter by unique combinations of RiotMatches.
      */
-    distinct?: RiotMatchesScalarFieldEnum | RiotMatchesScalarFieldEnum[]
+    distinct?: RiotMatchScalarFieldEnum | RiotMatchScalarFieldEnum[]
   }
 
   /**
-   * RiotMatches findMany
+   * RiotMatch findMany
    */
-  export type RiotMatchesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
      * Filter, which RiotMatches to fetch.
      */
-    where?: RiotMatchesWhereInput
+    where?: RiotMatchWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of RiotMatches to fetch.
      */
-    orderBy?: RiotMatchesOrderByWithRelationInput | RiotMatchesOrderByWithRelationInput[]
+    orderBy?: RiotMatchOrderByWithRelationInput | RiotMatchOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing RiotMatches.
      */
-    cursor?: RiotMatchesWhereUniqueInput
+    cursor?: RiotMatchWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -4162,2218 +5080,175 @@ export namespace Prisma {
      * Skip the first `n` RiotMatches.
      */
     skip?: number
-    distinct?: RiotMatchesScalarFieldEnum | RiotMatchesScalarFieldEnum[]
+    distinct?: RiotMatchScalarFieldEnum | RiotMatchScalarFieldEnum[]
   }
 
   /**
-   * RiotMatches create
+   * RiotMatch create
    */
-  export type RiotMatchesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
-     * The data needed to create a RiotMatches.
+     * The data needed to create a RiotMatch.
      */
-    data: XOR<RiotMatchesCreateInput, RiotMatchesUncheckedCreateInput>
+    data: XOR<RiotMatchCreateInput, RiotMatchUncheckedCreateInput>
   }
 
   /**
-   * RiotMatches createMany
+   * RiotMatch createMany
    */
-  export type RiotMatchesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many RiotMatches.
      */
-    data: RiotMatchesCreateManyInput | RiotMatchesCreateManyInput[]
+    data: RiotMatchCreateManyInput | RiotMatchCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * RiotMatches createManyAndReturn
+   * RiotMatch createManyAndReturn
    */
-  export type RiotMatchesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelectCreateManyAndReturn<ExtArgs> | null
+    select?: RiotMatchSelectCreateManyAndReturn<ExtArgs> | null
     /**
      * The data used to create many RiotMatches.
      */
-    data: RiotMatchesCreateManyInput | RiotMatchesCreateManyInput[]
+    data: RiotMatchCreateManyInput | RiotMatchCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * RiotMatches update
+   * RiotMatch update
    */
-  export type RiotMatchesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
-     * The data needed to update a RiotMatches.
+     * The data needed to update a RiotMatch.
      */
-    data: XOR<RiotMatchesUpdateInput, RiotMatchesUncheckedUpdateInput>
+    data: XOR<RiotMatchUpdateInput, RiotMatchUncheckedUpdateInput>
     /**
-     * Choose, which RiotMatches to update.
+     * Choose, which RiotMatch to update.
      */
-    where: RiotMatchesWhereUniqueInput
+    where: RiotMatchWhereUniqueInput
   }
 
   /**
-   * RiotMatches updateMany
+   * RiotMatch updateMany
    */
-  export type RiotMatchesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to update RiotMatches.
      */
-    data: XOR<RiotMatchesUpdateManyMutationInput, RiotMatchesUncheckedUpdateManyInput>
+    data: XOR<RiotMatchUpdateManyMutationInput, RiotMatchUncheckedUpdateManyInput>
     /**
      * Filter which RiotMatches to update
      */
-    where?: RiotMatchesWhereInput
+    where?: RiotMatchWhereInput
   }
 
   /**
-   * RiotMatches upsert
+   * RiotMatch upsert
    */
-  export type RiotMatchesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
-     * The filter to search for the RiotMatches to update in case it exists.
+     * The filter to search for the RiotMatch to update in case it exists.
      */
-    where: RiotMatchesWhereUniqueInput
+    where: RiotMatchWhereUniqueInput
     /**
-     * In case the RiotMatches found by the `where` argument doesn't exist, create a new RiotMatches with this data.
+     * In case the RiotMatch found by the `where` argument doesn't exist, create a new RiotMatch with this data.
      */
-    create: XOR<RiotMatchesCreateInput, RiotMatchesUncheckedCreateInput>
+    create: XOR<RiotMatchCreateInput, RiotMatchUncheckedCreateInput>
     /**
-     * In case the RiotMatches was found with the provided `where` argument, update it with this data.
+     * In case the RiotMatch was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<RiotMatchesUpdateInput, RiotMatchesUncheckedUpdateInput>
+    update: XOR<RiotMatchUpdateInput, RiotMatchUncheckedUpdateInput>
   }
 
   /**
-   * RiotMatches delete
+   * RiotMatch delete
    */
-  export type RiotMatchesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatches
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchesSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchesInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
     /**
-     * Filter which RiotMatches to delete.
+     * Filter which RiotMatch to delete.
      */
-    where: RiotMatchesWhereUniqueInput
+    where: RiotMatchWhereUniqueInput
   }
 
   /**
-   * RiotMatches deleteMany
+   * RiotMatch deleteMany
    */
-  export type RiotMatchesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which RiotMatches to delete
      */
-    where?: RiotMatchesWhereInput
+    where?: RiotMatchWhereInput
   }
 
   /**
-   * RiotMatches.users
+   * RiotMatch.players
    */
-  export type RiotMatches$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatch$playersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the PlayerMatch
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: PlayerMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
+    include?: PlayerMatchInclude<ExtArgs> | null
+    where?: PlayerMatchWhereInput
+    orderBy?: PlayerMatchOrderByWithRelationInput | PlayerMatchOrderByWithRelationInput[]
+    cursor?: PlayerMatchWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: PlayerMatchScalarFieldEnum | PlayerMatchScalarFieldEnum[]
   }
 
   /**
-   * RiotMatches.rounds
+   * RiotMatch without action
    */
-  export type RiotMatches$roundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RiotMatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RiotMatchRound
+     * Select specific fields to fetch from the RiotMatch
      */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
+    select?: RiotMatchSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    where?: RiotMatchRoundWhereInput
-    orderBy?: RiotMatchRoundOrderByWithRelationInput | RiotMatchRoundOrderByWithRelationInput[]
-    cursor?: RiotMatchRoundWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RiotMatchRoundScalarFieldEnum | RiotMatchRoundScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatches.matchPlayers
-   */
-  export type RiotMatches$matchPlayersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    where?: RiotMatchPlayersWhereInput
-    orderBy?: RiotMatchPlayersOrderByWithRelationInput | RiotMatchPlayersOrderByWithRelationInput[]
-    cursor?: RiotMatchPlayersWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RiotMatchPlayersScalarFieldEnum | RiotMatchPlayersScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatches without action
-   */
-  export type RiotMatchesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatches
-     */
-    select?: RiotMatchesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchesInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model RiotMatchRound
-   */
-
-  export type AggregateRiotMatchRound = {
-    _count: RiotMatchRoundCountAggregateOutputType | null
-    _min: RiotMatchRoundMinAggregateOutputType | null
-    _max: RiotMatchRoundMaxAggregateOutputType | null
-  }
-
-  export type RiotMatchRoundMinAggregateOutputType = {
-    id: string | null
-    riotMatchesId: string | null
-  }
-
-  export type RiotMatchRoundMaxAggregateOutputType = {
-    id: string | null
-    riotMatchesId: string | null
-  }
-
-  export type RiotMatchRoundCountAggregateOutputType = {
-    id: number
-    riotMatchesId: number
-    _all: number
-  }
-
-
-  export type RiotMatchRoundMinAggregateInputType = {
-    id?: true
-    riotMatchesId?: true
-  }
-
-  export type RiotMatchRoundMaxAggregateInputType = {
-    id?: true
-    riotMatchesId?: true
-  }
-
-  export type RiotMatchRoundCountAggregateInputType = {
-    id?: true
-    riotMatchesId?: true
-    _all?: true
-  }
-
-  export type RiotMatchRoundAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which RiotMatchRound to aggregate.
-     */
-    where?: RiotMatchRoundWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RiotMatchRounds to fetch.
-     */
-    orderBy?: RiotMatchRoundOrderByWithRelationInput | RiotMatchRoundOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: RiotMatchRoundWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RiotMatchRounds from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RiotMatchRounds.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned RiotMatchRounds
-    **/
-    _count?: true | RiotMatchRoundCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: RiotMatchRoundMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: RiotMatchRoundMaxAggregateInputType
-  }
-
-  export type GetRiotMatchRoundAggregateType<T extends RiotMatchRoundAggregateArgs> = {
-        [P in keyof T & keyof AggregateRiotMatchRound]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateRiotMatchRound[P]>
-      : GetScalarType<T[P], AggregateRiotMatchRound[P]>
-  }
-
-
-
-
-  export type RiotMatchRoundGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RiotMatchRoundWhereInput
-    orderBy?: RiotMatchRoundOrderByWithAggregationInput | RiotMatchRoundOrderByWithAggregationInput[]
-    by: RiotMatchRoundScalarFieldEnum[] | RiotMatchRoundScalarFieldEnum
-    having?: RiotMatchRoundScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: RiotMatchRoundCountAggregateInputType | true
-    _min?: RiotMatchRoundMinAggregateInputType
-    _max?: RiotMatchRoundMaxAggregateInputType
-  }
-
-  export type RiotMatchRoundGroupByOutputType = {
-    id: string
-    riotMatchesId: string
-    _count: RiotMatchRoundCountAggregateOutputType | null
-    _min: RiotMatchRoundMinAggregateOutputType | null
-    _max: RiotMatchRoundMaxAggregateOutputType | null
-  }
-
-  type GetRiotMatchRoundGroupByPayload<T extends RiotMatchRoundGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<RiotMatchRoundGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof RiotMatchRoundGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], RiotMatchRoundGroupByOutputType[P]>
-            : GetScalarType<T[P], RiotMatchRoundGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type RiotMatchRoundSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    riotMatchesId?: boolean
-    RiotMatches?: boolean | RiotMatchesDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["riotMatchRound"]>
-
-  export type RiotMatchRoundSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    riotMatchesId?: boolean
-    RiotMatches?: boolean | RiotMatchesDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["riotMatchRound"]>
-
-  export type RiotMatchRoundSelectScalar = {
-    id?: boolean
-    riotMatchesId?: boolean
-  }
-
-  export type RiotMatchRoundInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    RiotMatches?: boolean | RiotMatchesDefaultArgs<ExtArgs>
-  }
-  export type RiotMatchRoundIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    RiotMatches?: boolean | RiotMatchesDefaultArgs<ExtArgs>
-  }
-
-  export type $RiotMatchRoundPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "RiotMatchRound"
-    objects: {
-      RiotMatches: Prisma.$RiotMatchesPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      riotMatchesId: string
-    }, ExtArgs["result"]["riotMatchRound"]>
-    composites: {}
-  }
-
-  type RiotMatchRoundGetPayload<S extends boolean | null | undefined | RiotMatchRoundDefaultArgs> = $Result.GetResult<Prisma.$RiotMatchRoundPayload, S>
-
-  type RiotMatchRoundCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<RiotMatchRoundFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: RiotMatchRoundCountAggregateInputType | true
-    }
-
-  export interface RiotMatchRoundDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RiotMatchRound'], meta: { name: 'RiotMatchRound' } }
-    /**
-     * Find zero or one RiotMatchRound that matches the filter.
-     * @param {RiotMatchRoundFindUniqueArgs} args - Arguments to find a RiotMatchRound
-     * @example
-     * // Get one RiotMatchRound
-     * const riotMatchRound = await prisma.riotMatchRound.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends RiotMatchRoundFindUniqueArgs>(args: SelectSubset<T, RiotMatchRoundFindUniqueArgs<ExtArgs>>): Prisma__RiotMatchRoundClient<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one RiotMatchRound that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {RiotMatchRoundFindUniqueOrThrowArgs} args - Arguments to find a RiotMatchRound
-     * @example
-     * // Get one RiotMatchRound
-     * const riotMatchRound = await prisma.riotMatchRound.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends RiotMatchRoundFindUniqueOrThrowArgs>(args: SelectSubset<T, RiotMatchRoundFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RiotMatchRoundClient<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first RiotMatchRound that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchRoundFindFirstArgs} args - Arguments to find a RiotMatchRound
-     * @example
-     * // Get one RiotMatchRound
-     * const riotMatchRound = await prisma.riotMatchRound.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends RiotMatchRoundFindFirstArgs>(args?: SelectSubset<T, RiotMatchRoundFindFirstArgs<ExtArgs>>): Prisma__RiotMatchRoundClient<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first RiotMatchRound that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchRoundFindFirstOrThrowArgs} args - Arguments to find a RiotMatchRound
-     * @example
-     * // Get one RiotMatchRound
-     * const riotMatchRound = await prisma.riotMatchRound.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends RiotMatchRoundFindFirstOrThrowArgs>(args?: SelectSubset<T, RiotMatchRoundFindFirstOrThrowArgs<ExtArgs>>): Prisma__RiotMatchRoundClient<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more RiotMatchRounds that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchRoundFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all RiotMatchRounds
-     * const riotMatchRounds = await prisma.riotMatchRound.findMany()
-     * 
-     * // Get first 10 RiotMatchRounds
-     * const riotMatchRounds = await prisma.riotMatchRound.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const riotMatchRoundWithIdOnly = await prisma.riotMatchRound.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends RiotMatchRoundFindManyArgs>(args?: SelectSubset<T, RiotMatchRoundFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a RiotMatchRound.
-     * @param {RiotMatchRoundCreateArgs} args - Arguments to create a RiotMatchRound.
-     * @example
-     * // Create one RiotMatchRound
-     * const RiotMatchRound = await prisma.riotMatchRound.create({
-     *   data: {
-     *     // ... data to create a RiotMatchRound
-     *   }
-     * })
-     * 
-     */
-    create<T extends RiotMatchRoundCreateArgs>(args: SelectSubset<T, RiotMatchRoundCreateArgs<ExtArgs>>): Prisma__RiotMatchRoundClient<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many RiotMatchRounds.
-     * @param {RiotMatchRoundCreateManyArgs} args - Arguments to create many RiotMatchRounds.
-     * @example
-     * // Create many RiotMatchRounds
-     * const riotMatchRound = await prisma.riotMatchRound.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends RiotMatchRoundCreateManyArgs>(args?: SelectSubset<T, RiotMatchRoundCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many RiotMatchRounds and returns the data saved in the database.
-     * @param {RiotMatchRoundCreateManyAndReturnArgs} args - Arguments to create many RiotMatchRounds.
-     * @example
-     * // Create many RiotMatchRounds
-     * const riotMatchRound = await prisma.riotMatchRound.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many RiotMatchRounds and only return the `id`
-     * const riotMatchRoundWithIdOnly = await prisma.riotMatchRound.createManyAndReturn({ 
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends RiotMatchRoundCreateManyAndReturnArgs>(args?: SelectSubset<T, RiotMatchRoundCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "createManyAndReturn">>
-
-    /**
-     * Delete a RiotMatchRound.
-     * @param {RiotMatchRoundDeleteArgs} args - Arguments to delete one RiotMatchRound.
-     * @example
-     * // Delete one RiotMatchRound
-     * const RiotMatchRound = await prisma.riotMatchRound.delete({
-     *   where: {
-     *     // ... filter to delete one RiotMatchRound
-     *   }
-     * })
-     * 
-     */
-    delete<T extends RiotMatchRoundDeleteArgs>(args: SelectSubset<T, RiotMatchRoundDeleteArgs<ExtArgs>>): Prisma__RiotMatchRoundClient<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one RiotMatchRound.
-     * @param {RiotMatchRoundUpdateArgs} args - Arguments to update one RiotMatchRound.
-     * @example
-     * // Update one RiotMatchRound
-     * const riotMatchRound = await prisma.riotMatchRound.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends RiotMatchRoundUpdateArgs>(args: SelectSubset<T, RiotMatchRoundUpdateArgs<ExtArgs>>): Prisma__RiotMatchRoundClient<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more RiotMatchRounds.
-     * @param {RiotMatchRoundDeleteManyArgs} args - Arguments to filter RiotMatchRounds to delete.
-     * @example
-     * // Delete a few RiotMatchRounds
-     * const { count } = await prisma.riotMatchRound.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends RiotMatchRoundDeleteManyArgs>(args?: SelectSubset<T, RiotMatchRoundDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more RiotMatchRounds.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchRoundUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many RiotMatchRounds
-     * const riotMatchRound = await prisma.riotMatchRound.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends RiotMatchRoundUpdateManyArgs>(args: SelectSubset<T, RiotMatchRoundUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one RiotMatchRound.
-     * @param {RiotMatchRoundUpsertArgs} args - Arguments to update or create a RiotMatchRound.
-     * @example
-     * // Update or create a RiotMatchRound
-     * const riotMatchRound = await prisma.riotMatchRound.upsert({
-     *   create: {
-     *     // ... data to create a RiotMatchRound
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the RiotMatchRound we want to update
-     *   }
-     * })
-     */
-    upsert<T extends RiotMatchRoundUpsertArgs>(args: SelectSubset<T, RiotMatchRoundUpsertArgs<ExtArgs>>): Prisma__RiotMatchRoundClient<$Result.GetResult<Prisma.$RiotMatchRoundPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of RiotMatchRounds.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchRoundCountArgs} args - Arguments to filter RiotMatchRounds to count.
-     * @example
-     * // Count the number of RiotMatchRounds
-     * const count = await prisma.riotMatchRound.count({
-     *   where: {
-     *     // ... the filter for the RiotMatchRounds we want to count
-     *   }
-     * })
-    **/
-    count<T extends RiotMatchRoundCountArgs>(
-      args?: Subset<T, RiotMatchRoundCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], RiotMatchRoundCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a RiotMatchRound.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchRoundAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends RiotMatchRoundAggregateArgs>(args: Subset<T, RiotMatchRoundAggregateArgs>): Prisma.PrismaPromise<GetRiotMatchRoundAggregateType<T>>
-
-    /**
-     * Group by RiotMatchRound.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchRoundGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends RiotMatchRoundGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RiotMatchRoundGroupByArgs['orderBy'] }
-        : { orderBy?: RiotMatchRoundGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, RiotMatchRoundGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRiotMatchRoundGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the RiotMatchRound model
-   */
-  readonly fields: RiotMatchRoundFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for RiotMatchRound.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__RiotMatchRoundClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    RiotMatches<T extends RiotMatchesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RiotMatchesDefaultArgs<ExtArgs>>): Prisma__RiotMatchesClient<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the RiotMatchRound model
-   */ 
-  interface RiotMatchRoundFieldRefs {
-    readonly id: FieldRef<"RiotMatchRound", 'String'>
-    readonly riotMatchesId: FieldRef<"RiotMatchRound", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * RiotMatchRound findUnique
-   */
-  export type RiotMatchRoundFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchRound to fetch.
-     */
-    where: RiotMatchRoundWhereUniqueInput
-  }
-
-  /**
-   * RiotMatchRound findUniqueOrThrow
-   */
-  export type RiotMatchRoundFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchRound to fetch.
-     */
-    where: RiotMatchRoundWhereUniqueInput
-  }
-
-  /**
-   * RiotMatchRound findFirst
-   */
-  export type RiotMatchRoundFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchRound to fetch.
-     */
-    where?: RiotMatchRoundWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RiotMatchRounds to fetch.
-     */
-    orderBy?: RiotMatchRoundOrderByWithRelationInput | RiotMatchRoundOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for RiotMatchRounds.
-     */
-    cursor?: RiotMatchRoundWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RiotMatchRounds from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RiotMatchRounds.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of RiotMatchRounds.
-     */
-    distinct?: RiotMatchRoundScalarFieldEnum | RiotMatchRoundScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatchRound findFirstOrThrow
-   */
-  export type RiotMatchRoundFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchRound to fetch.
-     */
-    where?: RiotMatchRoundWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RiotMatchRounds to fetch.
-     */
-    orderBy?: RiotMatchRoundOrderByWithRelationInput | RiotMatchRoundOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for RiotMatchRounds.
-     */
-    cursor?: RiotMatchRoundWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RiotMatchRounds from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RiotMatchRounds.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of RiotMatchRounds.
-     */
-    distinct?: RiotMatchRoundScalarFieldEnum | RiotMatchRoundScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatchRound findMany
-   */
-  export type RiotMatchRoundFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchRounds to fetch.
-     */
-    where?: RiotMatchRoundWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RiotMatchRounds to fetch.
-     */
-    orderBy?: RiotMatchRoundOrderByWithRelationInput | RiotMatchRoundOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing RiotMatchRounds.
-     */
-    cursor?: RiotMatchRoundWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RiotMatchRounds from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RiotMatchRounds.
-     */
-    skip?: number
-    distinct?: RiotMatchRoundScalarFieldEnum | RiotMatchRoundScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatchRound create
-   */
-  export type RiotMatchRoundCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * The data needed to create a RiotMatchRound.
-     */
-    data: XOR<RiotMatchRoundCreateInput, RiotMatchRoundUncheckedCreateInput>
-  }
-
-  /**
-   * RiotMatchRound createMany
-   */
-  export type RiotMatchRoundCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many RiotMatchRounds.
-     */
-    data: RiotMatchRoundCreateManyInput | RiotMatchRoundCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * RiotMatchRound createManyAndReturn
-   */
-  export type RiotMatchRoundCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * The data used to create many RiotMatchRounds.
-     */
-    data: RiotMatchRoundCreateManyInput | RiotMatchRoundCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * RiotMatchRound update
-   */
-  export type RiotMatchRoundUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * The data needed to update a RiotMatchRound.
-     */
-    data: XOR<RiotMatchRoundUpdateInput, RiotMatchRoundUncheckedUpdateInput>
-    /**
-     * Choose, which RiotMatchRound to update.
-     */
-    where: RiotMatchRoundWhereUniqueInput
-  }
-
-  /**
-   * RiotMatchRound updateMany
-   */
-  export type RiotMatchRoundUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update RiotMatchRounds.
-     */
-    data: XOR<RiotMatchRoundUpdateManyMutationInput, RiotMatchRoundUncheckedUpdateManyInput>
-    /**
-     * Filter which RiotMatchRounds to update
-     */
-    where?: RiotMatchRoundWhereInput
-  }
-
-  /**
-   * RiotMatchRound upsert
-   */
-  export type RiotMatchRoundUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * The filter to search for the RiotMatchRound to update in case it exists.
-     */
-    where: RiotMatchRoundWhereUniqueInput
-    /**
-     * In case the RiotMatchRound found by the `where` argument doesn't exist, create a new RiotMatchRound with this data.
-     */
-    create: XOR<RiotMatchRoundCreateInput, RiotMatchRoundUncheckedCreateInput>
-    /**
-     * In case the RiotMatchRound was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<RiotMatchRoundUpdateInput, RiotMatchRoundUncheckedUpdateInput>
-  }
-
-  /**
-   * RiotMatchRound delete
-   */
-  export type RiotMatchRoundDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-    /**
-     * Filter which RiotMatchRound to delete.
-     */
-    where: RiotMatchRoundWhereUniqueInput
-  }
-
-  /**
-   * RiotMatchRound deleteMany
-   */
-  export type RiotMatchRoundDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which RiotMatchRounds to delete
-     */
-    where?: RiotMatchRoundWhereInput
-  }
-
-  /**
-   * RiotMatchRound without action
-   */
-  export type RiotMatchRoundDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchRound
-     */
-    select?: RiotMatchRoundSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchRoundInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model RiotMatchPlayers
-   */
-
-  export type AggregateRiotMatchPlayers = {
-    _count: RiotMatchPlayersCountAggregateOutputType | null
-    _avg: RiotMatchPlayersAvgAggregateOutputType | null
-    _sum: RiotMatchPlayersSumAggregateOutputType | null
-    _min: RiotMatchPlayersMinAggregateOutputType | null
-    _max: RiotMatchPlayersMaxAggregateOutputType | null
-  }
-
-  export type RiotMatchPlayersAvgAggregateOutputType = {
-    kills: number | null
-    deaths: number | null
-    assists: number | null
-    tier: number | null
-    teamRoundsWon: number | null
-  }
-
-  export type RiotMatchPlayersSumAggregateOutputType = {
-    kills: number | null
-    deaths: number | null
-    assists: number | null
-    tier: number | null
-    teamRoundsWon: number | null
-  }
-
-  export type RiotMatchPlayersMinAggregateOutputType = {
-    id: string | null
-    puuid: string | null
-    riotTag: string | null
-    teamId: string | null
-    characterId: string | null
-    kills: number | null
-    deaths: number | null
-    assists: number | null
-    tier: number | null
-    playerCard: string | null
-    playerTitle: string | null
-    teamColor: $Enums.RiotMatchTeamColor | null
-    teamWon: boolean | null
-    teamRoundsWon: number | null
-  }
-
-  export type RiotMatchPlayersMaxAggregateOutputType = {
-    id: string | null
-    puuid: string | null
-    riotTag: string | null
-    teamId: string | null
-    characterId: string | null
-    kills: number | null
-    deaths: number | null
-    assists: number | null
-    tier: number | null
-    playerCard: string | null
-    playerTitle: string | null
-    teamColor: $Enums.RiotMatchTeamColor | null
-    teamWon: boolean | null
-    teamRoundsWon: number | null
-  }
-
-  export type RiotMatchPlayersCountAggregateOutputType = {
-    id: number
-    puuid: number
-    riotTag: number
-    teamId: number
-    characterId: number
-    kills: number
-    deaths: number
-    assists: number
-    tier: number
-    playerCard: number
-    playerTitle: number
-    teamColor: number
-    teamWon: number
-    teamRoundsWon: number
-    _all: number
-  }
-
-
-  export type RiotMatchPlayersAvgAggregateInputType = {
-    kills?: true
-    deaths?: true
-    assists?: true
-    tier?: true
-    teamRoundsWon?: true
-  }
-
-  export type RiotMatchPlayersSumAggregateInputType = {
-    kills?: true
-    deaths?: true
-    assists?: true
-    tier?: true
-    teamRoundsWon?: true
-  }
-
-  export type RiotMatchPlayersMinAggregateInputType = {
-    id?: true
-    puuid?: true
-    riotTag?: true
-    teamId?: true
-    characterId?: true
-    kills?: true
-    deaths?: true
-    assists?: true
-    tier?: true
-    playerCard?: true
-    playerTitle?: true
-    teamColor?: true
-    teamWon?: true
-    teamRoundsWon?: true
-  }
-
-  export type RiotMatchPlayersMaxAggregateInputType = {
-    id?: true
-    puuid?: true
-    riotTag?: true
-    teamId?: true
-    characterId?: true
-    kills?: true
-    deaths?: true
-    assists?: true
-    tier?: true
-    playerCard?: true
-    playerTitle?: true
-    teamColor?: true
-    teamWon?: true
-    teamRoundsWon?: true
-  }
-
-  export type RiotMatchPlayersCountAggregateInputType = {
-    id?: true
-    puuid?: true
-    riotTag?: true
-    teamId?: true
-    characterId?: true
-    kills?: true
-    deaths?: true
-    assists?: true
-    tier?: true
-    playerCard?: true
-    playerTitle?: true
-    teamColor?: true
-    teamWon?: true
-    teamRoundsWon?: true
-    _all?: true
-  }
-
-  export type RiotMatchPlayersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which RiotMatchPlayers to aggregate.
-     */
-    where?: RiotMatchPlayersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RiotMatchPlayers to fetch.
-     */
-    orderBy?: RiotMatchPlayersOrderByWithRelationInput | RiotMatchPlayersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: RiotMatchPlayersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RiotMatchPlayers from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RiotMatchPlayers.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned RiotMatchPlayers
-    **/
-    _count?: true | RiotMatchPlayersCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: RiotMatchPlayersAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: RiotMatchPlayersSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: RiotMatchPlayersMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: RiotMatchPlayersMaxAggregateInputType
-  }
-
-  export type GetRiotMatchPlayersAggregateType<T extends RiotMatchPlayersAggregateArgs> = {
-        [P in keyof T & keyof AggregateRiotMatchPlayers]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateRiotMatchPlayers[P]>
-      : GetScalarType<T[P], AggregateRiotMatchPlayers[P]>
-  }
-
-
-
-
-  export type RiotMatchPlayersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RiotMatchPlayersWhereInput
-    orderBy?: RiotMatchPlayersOrderByWithAggregationInput | RiotMatchPlayersOrderByWithAggregationInput[]
-    by: RiotMatchPlayersScalarFieldEnum[] | RiotMatchPlayersScalarFieldEnum
-    having?: RiotMatchPlayersScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: RiotMatchPlayersCountAggregateInputType | true
-    _avg?: RiotMatchPlayersAvgAggregateInputType
-    _sum?: RiotMatchPlayersSumAggregateInputType
-    _min?: RiotMatchPlayersMinAggregateInputType
-    _max?: RiotMatchPlayersMaxAggregateInputType
-  }
-
-  export type RiotMatchPlayersGroupByOutputType = {
-    id: string
-    puuid: string
-    riotTag: string | null
-    teamId: string | null
-    characterId: string | null
-    kills: number | null
-    deaths: number | null
-    assists: number | null
-    tier: number | null
-    playerCard: string | null
-    playerTitle: string | null
-    teamColor: $Enums.RiotMatchTeamColor | null
-    teamWon: boolean | null
-    teamRoundsWon: number | null
-    _count: RiotMatchPlayersCountAggregateOutputType | null
-    _avg: RiotMatchPlayersAvgAggregateOutputType | null
-    _sum: RiotMatchPlayersSumAggregateOutputType | null
-    _min: RiotMatchPlayersMinAggregateOutputType | null
-    _max: RiotMatchPlayersMaxAggregateOutputType | null
-  }
-
-  type GetRiotMatchPlayersGroupByPayload<T extends RiotMatchPlayersGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<RiotMatchPlayersGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof RiotMatchPlayersGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], RiotMatchPlayersGroupByOutputType[P]>
-            : GetScalarType<T[P], RiotMatchPlayersGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type RiotMatchPlayersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    puuid?: boolean
-    riotTag?: boolean
-    teamId?: boolean
-    characterId?: boolean
-    kills?: boolean
-    deaths?: boolean
-    assists?: boolean
-    tier?: boolean
-    playerCard?: boolean
-    playerTitle?: boolean
-    teamColor?: boolean
-    teamWon?: boolean
-    teamRoundsWon?: boolean
-    riotMatches?: boolean | RiotMatchPlayers$riotMatchesArgs<ExtArgs>
-    _count?: boolean | RiotMatchPlayersCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["riotMatchPlayers"]>
-
-  export type RiotMatchPlayersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    puuid?: boolean
-    riotTag?: boolean
-    teamId?: boolean
-    characterId?: boolean
-    kills?: boolean
-    deaths?: boolean
-    assists?: boolean
-    tier?: boolean
-    playerCard?: boolean
-    playerTitle?: boolean
-    teamColor?: boolean
-    teamWon?: boolean
-    teamRoundsWon?: boolean
-  }, ExtArgs["result"]["riotMatchPlayers"]>
-
-  export type RiotMatchPlayersSelectScalar = {
-    id?: boolean
-    puuid?: boolean
-    riotTag?: boolean
-    teamId?: boolean
-    characterId?: boolean
-    kills?: boolean
-    deaths?: boolean
-    assists?: boolean
-    tier?: boolean
-    playerCard?: boolean
-    playerTitle?: boolean
-    teamColor?: boolean
-    teamWon?: boolean
-    teamRoundsWon?: boolean
-  }
-
-  export type RiotMatchPlayersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    riotMatches?: boolean | RiotMatchPlayers$riotMatchesArgs<ExtArgs>
-    _count?: boolean | RiotMatchPlayersCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type RiotMatchPlayersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $RiotMatchPlayersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "RiotMatchPlayers"
-    objects: {
-      riotMatches: Prisma.$RiotMatchesPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      puuid: string
-      riotTag: string | null
-      teamId: string | null
-      characterId: string | null
-      kills: number | null
-      deaths: number | null
-      assists: number | null
-      tier: number | null
-      playerCard: string | null
-      playerTitle: string | null
-      teamColor: $Enums.RiotMatchTeamColor | null
-      teamWon: boolean | null
-      teamRoundsWon: number | null
-    }, ExtArgs["result"]["riotMatchPlayers"]>
-    composites: {}
-  }
-
-  type RiotMatchPlayersGetPayload<S extends boolean | null | undefined | RiotMatchPlayersDefaultArgs> = $Result.GetResult<Prisma.$RiotMatchPlayersPayload, S>
-
-  type RiotMatchPlayersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<RiotMatchPlayersFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: RiotMatchPlayersCountAggregateInputType | true
-    }
-
-  export interface RiotMatchPlayersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RiotMatchPlayers'], meta: { name: 'RiotMatchPlayers' } }
-    /**
-     * Find zero or one RiotMatchPlayers that matches the filter.
-     * @param {RiotMatchPlayersFindUniqueArgs} args - Arguments to find a RiotMatchPlayers
-     * @example
-     * // Get one RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends RiotMatchPlayersFindUniqueArgs>(args: SelectSubset<T, RiotMatchPlayersFindUniqueArgs<ExtArgs>>): Prisma__RiotMatchPlayersClient<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one RiotMatchPlayers that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {RiotMatchPlayersFindUniqueOrThrowArgs} args - Arguments to find a RiotMatchPlayers
-     * @example
-     * // Get one RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends RiotMatchPlayersFindUniqueOrThrowArgs>(args: SelectSubset<T, RiotMatchPlayersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RiotMatchPlayersClient<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first RiotMatchPlayers that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchPlayersFindFirstArgs} args - Arguments to find a RiotMatchPlayers
-     * @example
-     * // Get one RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends RiotMatchPlayersFindFirstArgs>(args?: SelectSubset<T, RiotMatchPlayersFindFirstArgs<ExtArgs>>): Prisma__RiotMatchPlayersClient<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first RiotMatchPlayers that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchPlayersFindFirstOrThrowArgs} args - Arguments to find a RiotMatchPlayers
-     * @example
-     * // Get one RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends RiotMatchPlayersFindFirstOrThrowArgs>(args?: SelectSubset<T, RiotMatchPlayersFindFirstOrThrowArgs<ExtArgs>>): Prisma__RiotMatchPlayersClient<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more RiotMatchPlayers that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchPlayersFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.findMany()
-     * 
-     * // Get first 10 RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const riotMatchPlayersWithIdOnly = await prisma.riotMatchPlayers.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends RiotMatchPlayersFindManyArgs>(args?: SelectSubset<T, RiotMatchPlayersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a RiotMatchPlayers.
-     * @param {RiotMatchPlayersCreateArgs} args - Arguments to create a RiotMatchPlayers.
-     * @example
-     * // Create one RiotMatchPlayers
-     * const RiotMatchPlayers = await prisma.riotMatchPlayers.create({
-     *   data: {
-     *     // ... data to create a RiotMatchPlayers
-     *   }
-     * })
-     * 
-     */
-    create<T extends RiotMatchPlayersCreateArgs>(args: SelectSubset<T, RiotMatchPlayersCreateArgs<ExtArgs>>): Prisma__RiotMatchPlayersClient<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many RiotMatchPlayers.
-     * @param {RiotMatchPlayersCreateManyArgs} args - Arguments to create many RiotMatchPlayers.
-     * @example
-     * // Create many RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends RiotMatchPlayersCreateManyArgs>(args?: SelectSubset<T, RiotMatchPlayersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many RiotMatchPlayers and returns the data saved in the database.
-     * @param {RiotMatchPlayersCreateManyAndReturnArgs} args - Arguments to create many RiotMatchPlayers.
-     * @example
-     * // Create many RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many RiotMatchPlayers and only return the `id`
-     * const riotMatchPlayersWithIdOnly = await prisma.riotMatchPlayers.createManyAndReturn({ 
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends RiotMatchPlayersCreateManyAndReturnArgs>(args?: SelectSubset<T, RiotMatchPlayersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "createManyAndReturn">>
-
-    /**
-     * Delete a RiotMatchPlayers.
-     * @param {RiotMatchPlayersDeleteArgs} args - Arguments to delete one RiotMatchPlayers.
-     * @example
-     * // Delete one RiotMatchPlayers
-     * const RiotMatchPlayers = await prisma.riotMatchPlayers.delete({
-     *   where: {
-     *     // ... filter to delete one RiotMatchPlayers
-     *   }
-     * })
-     * 
-     */
-    delete<T extends RiotMatchPlayersDeleteArgs>(args: SelectSubset<T, RiotMatchPlayersDeleteArgs<ExtArgs>>): Prisma__RiotMatchPlayersClient<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one RiotMatchPlayers.
-     * @param {RiotMatchPlayersUpdateArgs} args - Arguments to update one RiotMatchPlayers.
-     * @example
-     * // Update one RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends RiotMatchPlayersUpdateArgs>(args: SelectSubset<T, RiotMatchPlayersUpdateArgs<ExtArgs>>): Prisma__RiotMatchPlayersClient<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more RiotMatchPlayers.
-     * @param {RiotMatchPlayersDeleteManyArgs} args - Arguments to filter RiotMatchPlayers to delete.
-     * @example
-     * // Delete a few RiotMatchPlayers
-     * const { count } = await prisma.riotMatchPlayers.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends RiotMatchPlayersDeleteManyArgs>(args?: SelectSubset<T, RiotMatchPlayersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more RiotMatchPlayers.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchPlayersUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends RiotMatchPlayersUpdateManyArgs>(args: SelectSubset<T, RiotMatchPlayersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one RiotMatchPlayers.
-     * @param {RiotMatchPlayersUpsertArgs} args - Arguments to update or create a RiotMatchPlayers.
-     * @example
-     * // Update or create a RiotMatchPlayers
-     * const riotMatchPlayers = await prisma.riotMatchPlayers.upsert({
-     *   create: {
-     *     // ... data to create a RiotMatchPlayers
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the RiotMatchPlayers we want to update
-     *   }
-     * })
-     */
-    upsert<T extends RiotMatchPlayersUpsertArgs>(args: SelectSubset<T, RiotMatchPlayersUpsertArgs<ExtArgs>>): Prisma__RiotMatchPlayersClient<$Result.GetResult<Prisma.$RiotMatchPlayersPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of RiotMatchPlayers.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchPlayersCountArgs} args - Arguments to filter RiotMatchPlayers to count.
-     * @example
-     * // Count the number of RiotMatchPlayers
-     * const count = await prisma.riotMatchPlayers.count({
-     *   where: {
-     *     // ... the filter for the RiotMatchPlayers we want to count
-     *   }
-     * })
-    **/
-    count<T extends RiotMatchPlayersCountArgs>(
-      args?: Subset<T, RiotMatchPlayersCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], RiotMatchPlayersCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a RiotMatchPlayers.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchPlayersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends RiotMatchPlayersAggregateArgs>(args: Subset<T, RiotMatchPlayersAggregateArgs>): Prisma.PrismaPromise<GetRiotMatchPlayersAggregateType<T>>
-
-    /**
-     * Group by RiotMatchPlayers.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RiotMatchPlayersGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends RiotMatchPlayersGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RiotMatchPlayersGroupByArgs['orderBy'] }
-        : { orderBy?: RiotMatchPlayersGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, RiotMatchPlayersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRiotMatchPlayersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the RiotMatchPlayers model
-   */
-  readonly fields: RiotMatchPlayersFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for RiotMatchPlayers.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__RiotMatchPlayersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    riotMatches<T extends RiotMatchPlayers$riotMatchesArgs<ExtArgs> = {}>(args?: Subset<T, RiotMatchPlayers$riotMatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiotMatchesPayload<ExtArgs>, T, "findMany"> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the RiotMatchPlayers model
-   */ 
-  interface RiotMatchPlayersFieldRefs {
-    readonly id: FieldRef<"RiotMatchPlayers", 'String'>
-    readonly puuid: FieldRef<"RiotMatchPlayers", 'String'>
-    readonly riotTag: FieldRef<"RiotMatchPlayers", 'String'>
-    readonly teamId: FieldRef<"RiotMatchPlayers", 'String'>
-    readonly characterId: FieldRef<"RiotMatchPlayers", 'String'>
-    readonly kills: FieldRef<"RiotMatchPlayers", 'Int'>
-    readonly deaths: FieldRef<"RiotMatchPlayers", 'Int'>
-    readonly assists: FieldRef<"RiotMatchPlayers", 'Int'>
-    readonly tier: FieldRef<"RiotMatchPlayers", 'Int'>
-    readonly playerCard: FieldRef<"RiotMatchPlayers", 'String'>
-    readonly playerTitle: FieldRef<"RiotMatchPlayers", 'String'>
-    readonly teamColor: FieldRef<"RiotMatchPlayers", 'RiotMatchTeamColor'>
-    readonly teamWon: FieldRef<"RiotMatchPlayers", 'Boolean'>
-    readonly teamRoundsWon: FieldRef<"RiotMatchPlayers", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * RiotMatchPlayers findUnique
-   */
-  export type RiotMatchPlayersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchPlayers to fetch.
-     */
-    where: RiotMatchPlayersWhereUniqueInput
-  }
-
-  /**
-   * RiotMatchPlayers findUniqueOrThrow
-   */
-  export type RiotMatchPlayersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchPlayers to fetch.
-     */
-    where: RiotMatchPlayersWhereUniqueInput
-  }
-
-  /**
-   * RiotMatchPlayers findFirst
-   */
-  export type RiotMatchPlayersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchPlayers to fetch.
-     */
-    where?: RiotMatchPlayersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RiotMatchPlayers to fetch.
-     */
-    orderBy?: RiotMatchPlayersOrderByWithRelationInput | RiotMatchPlayersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for RiotMatchPlayers.
-     */
-    cursor?: RiotMatchPlayersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RiotMatchPlayers from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RiotMatchPlayers.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of RiotMatchPlayers.
-     */
-    distinct?: RiotMatchPlayersScalarFieldEnum | RiotMatchPlayersScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatchPlayers findFirstOrThrow
-   */
-  export type RiotMatchPlayersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchPlayers to fetch.
-     */
-    where?: RiotMatchPlayersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RiotMatchPlayers to fetch.
-     */
-    orderBy?: RiotMatchPlayersOrderByWithRelationInput | RiotMatchPlayersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for RiotMatchPlayers.
-     */
-    cursor?: RiotMatchPlayersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RiotMatchPlayers from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RiotMatchPlayers.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of RiotMatchPlayers.
-     */
-    distinct?: RiotMatchPlayersScalarFieldEnum | RiotMatchPlayersScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatchPlayers findMany
-   */
-  export type RiotMatchPlayersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * Filter, which RiotMatchPlayers to fetch.
-     */
-    where?: RiotMatchPlayersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RiotMatchPlayers to fetch.
-     */
-    orderBy?: RiotMatchPlayersOrderByWithRelationInput | RiotMatchPlayersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing RiotMatchPlayers.
-     */
-    cursor?: RiotMatchPlayersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RiotMatchPlayers from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RiotMatchPlayers.
-     */
-    skip?: number
-    distinct?: RiotMatchPlayersScalarFieldEnum | RiotMatchPlayersScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatchPlayers create
-   */
-  export type RiotMatchPlayersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * The data needed to create a RiotMatchPlayers.
-     */
-    data: XOR<RiotMatchPlayersCreateInput, RiotMatchPlayersUncheckedCreateInput>
-  }
-
-  /**
-   * RiotMatchPlayers createMany
-   */
-  export type RiotMatchPlayersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many RiotMatchPlayers.
-     */
-    data: RiotMatchPlayersCreateManyInput | RiotMatchPlayersCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * RiotMatchPlayers createManyAndReturn
-   */
-  export type RiotMatchPlayersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * The data used to create many RiotMatchPlayers.
-     */
-    data: RiotMatchPlayersCreateManyInput | RiotMatchPlayersCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * RiotMatchPlayers update
-   */
-  export type RiotMatchPlayersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * The data needed to update a RiotMatchPlayers.
-     */
-    data: XOR<RiotMatchPlayersUpdateInput, RiotMatchPlayersUncheckedUpdateInput>
-    /**
-     * Choose, which RiotMatchPlayers to update.
-     */
-    where: RiotMatchPlayersWhereUniqueInput
-  }
-
-  /**
-   * RiotMatchPlayers updateMany
-   */
-  export type RiotMatchPlayersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update RiotMatchPlayers.
-     */
-    data: XOR<RiotMatchPlayersUpdateManyMutationInput, RiotMatchPlayersUncheckedUpdateManyInput>
-    /**
-     * Filter which RiotMatchPlayers to update
-     */
-    where?: RiotMatchPlayersWhereInput
-  }
-
-  /**
-   * RiotMatchPlayers upsert
-   */
-  export type RiotMatchPlayersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * The filter to search for the RiotMatchPlayers to update in case it exists.
-     */
-    where: RiotMatchPlayersWhereUniqueInput
-    /**
-     * In case the RiotMatchPlayers found by the `where` argument doesn't exist, create a new RiotMatchPlayers with this data.
-     */
-    create: XOR<RiotMatchPlayersCreateInput, RiotMatchPlayersUncheckedCreateInput>
-    /**
-     * In case the RiotMatchPlayers was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<RiotMatchPlayersUpdateInput, RiotMatchPlayersUncheckedUpdateInput>
-  }
-
-  /**
-   * RiotMatchPlayers delete
-   */
-  export type RiotMatchPlayersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
-    /**
-     * Filter which RiotMatchPlayers to delete.
-     */
-    where: RiotMatchPlayersWhereUniqueInput
-  }
-
-  /**
-   * RiotMatchPlayers deleteMany
-   */
-  export type RiotMatchPlayersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which RiotMatchPlayers to delete
-     */
-    where?: RiotMatchPlayersWhereInput
-  }
-
-  /**
-   * RiotMatchPlayers.riotMatches
-   */
-  export type RiotMatchPlayers$riotMatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatches
-     */
-    select?: RiotMatchesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchesInclude<ExtArgs> | null
-    where?: RiotMatchesWhereInput
-    orderBy?: RiotMatchesOrderByWithRelationInput | RiotMatchesOrderByWithRelationInput[]
-    cursor?: RiotMatchesWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RiotMatchesScalarFieldEnum | RiotMatchesScalarFieldEnum[]
-  }
-
-  /**
-   * RiotMatchPlayers without action
-   */
-  export type RiotMatchPlayersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RiotMatchPlayers
-     */
-    select?: RiotMatchPlayersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RiotMatchPlayersInclude<ExtArgs> | null
+    include?: RiotMatchInclude<ExtArgs> | null
   }
 
 
@@ -6392,12 +5267,9 @@ export namespace Prisma {
 
 
   export const UserScalarFieldEnum: {
-    id: 'id',
-    discordId: 'discordId',
-    discordName: 'discordName',
+    puuid: 'puuid',
     riotEntitlement: 'riotEntitlement',
     riotAuth: 'riotAuth',
-    riotPuuid: 'riotPuuid',
     riotTag: 'riotTag'
   };
 
@@ -6413,37 +5285,10 @@ export namespace Prisma {
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
-  export const RiotMatchesScalarFieldEnum: {
+  export const PlayerMatchScalarFieldEnum: {
     id: 'id',
-    mapId: 'mapId',
-    gameVersion: 'gameVersion',
-    gameStart: 'gameStart',
-    gameEnd: 'gameEnd',
-    isCompleted: 'isCompleted',
-    queueId: 'queueId',
-    isRanked: 'isRanked',
-    seasonId: 'seasonId',
-    roundsPlayed: 'roundsPlayed',
-    teamWon: 'teamWon',
-    teamRedRoundsWon: 'teamRedRoundsWon',
-    teamBlueRoundsWon: 'teamBlueRoundsWon',
-    riotMatchPlayersId: 'riotMatchPlayersId'
-  };
-
-  export type RiotMatchesScalarFieldEnum = (typeof RiotMatchesScalarFieldEnum)[keyof typeof RiotMatchesScalarFieldEnum]
-
-
-  export const RiotMatchRoundScalarFieldEnum: {
-    id: 'id',
-    riotMatchesId: 'riotMatchesId'
-  };
-
-  export type RiotMatchRoundScalarFieldEnum = (typeof RiotMatchRoundScalarFieldEnum)[keyof typeof RiotMatchRoundScalarFieldEnum]
-
-
-  export const RiotMatchPlayersScalarFieldEnum: {
-    id: 'id',
-    puuid: 'puuid',
+    playerId: 'playerId',
+    matchId: 'matchId',
     riotTag: 'riotTag',
     teamId: 'teamId',
     characterId: 'characterId',
@@ -6458,7 +5303,26 @@ export namespace Prisma {
     teamRoundsWon: 'teamRoundsWon'
   };
 
-  export type RiotMatchPlayersScalarFieldEnum = (typeof RiotMatchPlayersScalarFieldEnum)[keyof typeof RiotMatchPlayersScalarFieldEnum]
+  export type PlayerMatchScalarFieldEnum = (typeof PlayerMatchScalarFieldEnum)[keyof typeof PlayerMatchScalarFieldEnum]
+
+
+  export const RiotMatchScalarFieldEnum: {
+    id: 'id',
+    mapId: 'mapId',
+    gameVersion: 'gameVersion',
+    gameStart: 'gameStart',
+    gameEnd: 'gameEnd',
+    isCompleted: 'isCompleted',
+    queueId: 'queueId',
+    isRanked: 'isRanked',
+    seasonId: 'seasonId',
+    roundsPlayed: 'roundsPlayed',
+    teamWon: 'teamWon',
+    teamRedRoundsWon: 'teamRedRoundsWon',
+    teamBlueRoundsWon: 'teamBlueRoundsWon'
+  };
+
+  export type RiotMatchScalarFieldEnum = (typeof RiotMatchScalarFieldEnum)[keyof typeof RiotMatchScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6519,13 +5383,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -6554,6 +5411,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -6574,51 +5438,39 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    id?: StringFilter<"User"> | string
-    discordId?: StringFilter<"User"> | string
-    discordName?: StringFilter<"User"> | string
+    puuid?: StringFilter<"User"> | string
     riotEntitlement?: StringNullableFilter<"User"> | string | null
     riotAuth?: StringNullableFilter<"User"> | string | null
-    riotPuuid?: StringNullableFilter<"User"> | string | null
     riotTag?: StringNullableFilter<"User"> | string | null
     Session?: SessionListRelationFilter
-    riotMatches?: RiotMatchesListRelationFilter
+    riotMatches?: PlayerMatchListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
-    id?: SortOrder
-    discordId?: SortOrder
-    discordName?: SortOrder
+    puuid?: SortOrder
     riotEntitlement?: SortOrderInput | SortOrder
     riotAuth?: SortOrderInput | SortOrder
-    riotPuuid?: SortOrderInput | SortOrder
     riotTag?: SortOrderInput | SortOrder
     Session?: SessionOrderByRelationAggregateInput
-    riotMatches?: RiotMatchesOrderByRelationAggregateInput
+    riotMatches?: PlayerMatchOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    discordId?: string
+    puuid?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    discordName?: StringFilter<"User"> | string
     riotEntitlement?: StringNullableFilter<"User"> | string | null
     riotAuth?: StringNullableFilter<"User"> | string | null
-    riotPuuid?: StringNullableFilter<"User"> | string | null
     riotTag?: StringNullableFilter<"User"> | string | null
     Session?: SessionListRelationFilter
-    riotMatches?: RiotMatchesListRelationFilter
-  }, "id" | "discordId">
+    riotMatches?: PlayerMatchListRelationFilter
+  }, "puuid">
 
   export type UserOrderByWithAggregationInput = {
-    id?: SortOrder
-    discordId?: SortOrder
-    discordName?: SortOrder
+    puuid?: SortOrder
     riotEntitlement?: SortOrderInput | SortOrder
     riotAuth?: SortOrderInput | SortOrder
-    riotPuuid?: SortOrderInput | SortOrder
     riotTag?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -6629,12 +5481,9 @@ export namespace Prisma {
     AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"User"> | string
-    discordId?: StringWithAggregatesFilter<"User"> | string
-    discordName?: StringWithAggregatesFilter<"User"> | string
+    puuid?: StringWithAggregatesFilter<"User"> | string
     riotEntitlement?: StringNullableWithAggregatesFilter<"User"> | string | null
     riotAuth?: StringNullableWithAggregatesFilter<"User"> | string | null
-    riotPuuid?: StringNullableWithAggregatesFilter<"User"> | string | null
     riotTag?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
@@ -6683,30 +5532,138 @@ export namespace Prisma {
     expiresAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
   }
 
-  export type RiotMatchesWhereInput = {
-    AND?: RiotMatchesWhereInput | RiotMatchesWhereInput[]
-    OR?: RiotMatchesWhereInput[]
-    NOT?: RiotMatchesWhereInput | RiotMatchesWhereInput[]
-    id?: StringFilter<"RiotMatches"> | string
-    mapId?: StringNullableFilter<"RiotMatches"> | string | null
-    gameVersion?: StringNullableFilter<"RiotMatches"> | string | null
-    gameStart?: DateTimeNullableFilter<"RiotMatches"> | Date | string | null
-    gameEnd?: DateTimeNullableFilter<"RiotMatches"> | Date | string | null
-    isCompleted?: BoolNullableFilter<"RiotMatches"> | boolean | null
-    queueId?: StringNullableFilter<"RiotMatches"> | string | null
-    isRanked?: BoolNullableFilter<"RiotMatches"> | boolean | null
-    seasonId?: StringNullableFilter<"RiotMatches"> | string | null
-    roundsPlayed?: IntNullableFilter<"RiotMatches"> | number | null
-    teamWon?: EnumRiotMatchTeamColorNullableFilter<"RiotMatches"> | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: IntNullableFilter<"RiotMatches"> | number | null
-    teamBlueRoundsWon?: IntNullableFilter<"RiotMatches"> | number | null
-    riotMatchPlayersId?: StringNullableFilter<"RiotMatches"> | string | null
-    users?: UserListRelationFilter
-    rounds?: RiotMatchRoundListRelationFilter
-    matchPlayers?: RiotMatchPlayersListRelationFilter
+  export type PlayerMatchWhereInput = {
+    AND?: PlayerMatchWhereInput | PlayerMatchWhereInput[]
+    OR?: PlayerMatchWhereInput[]
+    NOT?: PlayerMatchWhereInput | PlayerMatchWhereInput[]
+    id?: StringFilter<"PlayerMatch"> | string
+    playerId?: StringFilter<"PlayerMatch"> | string
+    matchId?: StringFilter<"PlayerMatch"> | string
+    riotTag?: StringNullableFilter<"PlayerMatch"> | string | null
+    teamId?: StringNullableFilter<"PlayerMatch"> | string | null
+    characterId?: StringNullableFilter<"PlayerMatch"> | string | null
+    kills?: IntNullableFilter<"PlayerMatch"> | number | null
+    deaths?: IntNullableFilter<"PlayerMatch"> | number | null
+    assists?: IntNullableFilter<"PlayerMatch"> | number | null
+    tier?: IntNullableFilter<"PlayerMatch"> | number | null
+    playerCard?: StringNullableFilter<"PlayerMatch"> | string | null
+    playerTitle?: StringNullableFilter<"PlayerMatch"> | string | null
+    teamColor?: EnumRiotMatchTeamColorNullableFilter<"PlayerMatch"> | $Enums.RiotMatchTeamColor | null
+    teamWon?: BoolNullableFilter<"PlayerMatch"> | boolean | null
+    teamRoundsWon?: IntNullableFilter<"PlayerMatch"> | number | null
+    player?: XOR<UserRelationFilter, UserWhereInput>
+    match?: XOR<RiotMatchRelationFilter, RiotMatchWhereInput>
   }
 
-  export type RiotMatchesOrderByWithRelationInput = {
+  export type PlayerMatchOrderByWithRelationInput = {
+    id?: SortOrder
+    playerId?: SortOrder
+    matchId?: SortOrder
+    riotTag?: SortOrderInput | SortOrder
+    teamId?: SortOrderInput | SortOrder
+    characterId?: SortOrderInput | SortOrder
+    kills?: SortOrderInput | SortOrder
+    deaths?: SortOrderInput | SortOrder
+    assists?: SortOrderInput | SortOrder
+    tier?: SortOrderInput | SortOrder
+    playerCard?: SortOrderInput | SortOrder
+    playerTitle?: SortOrderInput | SortOrder
+    teamColor?: SortOrderInput | SortOrder
+    teamWon?: SortOrderInput | SortOrder
+    teamRoundsWon?: SortOrderInput | SortOrder
+    player?: UserOrderByWithRelationInput
+    match?: RiotMatchOrderByWithRelationInput
+  }
+
+  export type PlayerMatchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    playerId_matchId?: PlayerMatchPlayerIdMatchIdCompoundUniqueInput
+    AND?: PlayerMatchWhereInput | PlayerMatchWhereInput[]
+    OR?: PlayerMatchWhereInput[]
+    NOT?: PlayerMatchWhereInput | PlayerMatchWhereInput[]
+    playerId?: StringFilter<"PlayerMatch"> | string
+    matchId?: StringFilter<"PlayerMatch"> | string
+    riotTag?: StringNullableFilter<"PlayerMatch"> | string | null
+    teamId?: StringNullableFilter<"PlayerMatch"> | string | null
+    characterId?: StringNullableFilter<"PlayerMatch"> | string | null
+    kills?: IntNullableFilter<"PlayerMatch"> | number | null
+    deaths?: IntNullableFilter<"PlayerMatch"> | number | null
+    assists?: IntNullableFilter<"PlayerMatch"> | number | null
+    tier?: IntNullableFilter<"PlayerMatch"> | number | null
+    playerCard?: StringNullableFilter<"PlayerMatch"> | string | null
+    playerTitle?: StringNullableFilter<"PlayerMatch"> | string | null
+    teamColor?: EnumRiotMatchTeamColorNullableFilter<"PlayerMatch"> | $Enums.RiotMatchTeamColor | null
+    teamWon?: BoolNullableFilter<"PlayerMatch"> | boolean | null
+    teamRoundsWon?: IntNullableFilter<"PlayerMatch"> | number | null
+    player?: XOR<UserRelationFilter, UserWhereInput>
+    match?: XOR<RiotMatchRelationFilter, RiotMatchWhereInput>
+  }, "id" | "playerId_matchId">
+
+  export type PlayerMatchOrderByWithAggregationInput = {
+    id?: SortOrder
+    playerId?: SortOrder
+    matchId?: SortOrder
+    riotTag?: SortOrderInput | SortOrder
+    teamId?: SortOrderInput | SortOrder
+    characterId?: SortOrderInput | SortOrder
+    kills?: SortOrderInput | SortOrder
+    deaths?: SortOrderInput | SortOrder
+    assists?: SortOrderInput | SortOrder
+    tier?: SortOrderInput | SortOrder
+    playerCard?: SortOrderInput | SortOrder
+    playerTitle?: SortOrderInput | SortOrder
+    teamColor?: SortOrderInput | SortOrder
+    teamWon?: SortOrderInput | SortOrder
+    teamRoundsWon?: SortOrderInput | SortOrder
+    _count?: PlayerMatchCountOrderByAggregateInput
+    _avg?: PlayerMatchAvgOrderByAggregateInput
+    _max?: PlayerMatchMaxOrderByAggregateInput
+    _min?: PlayerMatchMinOrderByAggregateInput
+    _sum?: PlayerMatchSumOrderByAggregateInput
+  }
+
+  export type PlayerMatchScalarWhereWithAggregatesInput = {
+    AND?: PlayerMatchScalarWhereWithAggregatesInput | PlayerMatchScalarWhereWithAggregatesInput[]
+    OR?: PlayerMatchScalarWhereWithAggregatesInput[]
+    NOT?: PlayerMatchScalarWhereWithAggregatesInput | PlayerMatchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlayerMatch"> | string
+    playerId?: StringWithAggregatesFilter<"PlayerMatch"> | string
+    matchId?: StringWithAggregatesFilter<"PlayerMatch"> | string
+    riotTag?: StringNullableWithAggregatesFilter<"PlayerMatch"> | string | null
+    teamId?: StringNullableWithAggregatesFilter<"PlayerMatch"> | string | null
+    characterId?: StringNullableWithAggregatesFilter<"PlayerMatch"> | string | null
+    kills?: IntNullableWithAggregatesFilter<"PlayerMatch"> | number | null
+    deaths?: IntNullableWithAggregatesFilter<"PlayerMatch"> | number | null
+    assists?: IntNullableWithAggregatesFilter<"PlayerMatch"> | number | null
+    tier?: IntNullableWithAggregatesFilter<"PlayerMatch"> | number | null
+    playerCard?: StringNullableWithAggregatesFilter<"PlayerMatch"> | string | null
+    playerTitle?: StringNullableWithAggregatesFilter<"PlayerMatch"> | string | null
+    teamColor?: EnumRiotMatchTeamColorNullableWithAggregatesFilter<"PlayerMatch"> | $Enums.RiotMatchTeamColor | null
+    teamWon?: BoolNullableWithAggregatesFilter<"PlayerMatch"> | boolean | null
+    teamRoundsWon?: IntNullableWithAggregatesFilter<"PlayerMatch"> | number | null
+  }
+
+  export type RiotMatchWhereInput = {
+    AND?: RiotMatchWhereInput | RiotMatchWhereInput[]
+    OR?: RiotMatchWhereInput[]
+    NOT?: RiotMatchWhereInput | RiotMatchWhereInput[]
+    id?: StringFilter<"RiotMatch"> | string
+    mapId?: StringNullableFilter<"RiotMatch"> | string | null
+    gameVersion?: StringNullableFilter<"RiotMatch"> | string | null
+    gameStart?: DateTimeNullableFilter<"RiotMatch"> | Date | string | null
+    gameEnd?: DateTimeNullableFilter<"RiotMatch"> | Date | string | null
+    isCompleted?: BoolNullableFilter<"RiotMatch"> | boolean | null
+    queueId?: StringNullableFilter<"RiotMatch"> | string | null
+    isRanked?: BoolNullableFilter<"RiotMatch"> | boolean | null
+    seasonId?: StringNullableFilter<"RiotMatch"> | string | null
+    roundsPlayed?: IntNullableFilter<"RiotMatch"> | number | null
+    teamWon?: EnumRiotMatchTeamColorNullableFilter<"RiotMatch"> | $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: IntNullableFilter<"RiotMatch"> | number | null
+    teamBlueRoundsWon?: IntNullableFilter<"RiotMatch"> | number | null
+    players?: PlayerMatchListRelationFilter
+  }
+
+  export type RiotMatchOrderByWithRelationInput = {
     id?: SortOrder
     mapId?: SortOrderInput | SortOrder
     gameVersion?: SortOrderInput | SortOrder
@@ -6720,36 +5677,30 @@ export namespace Prisma {
     teamWon?: SortOrderInput | SortOrder
     teamRedRoundsWon?: SortOrderInput | SortOrder
     teamBlueRoundsWon?: SortOrderInput | SortOrder
-    riotMatchPlayersId?: SortOrderInput | SortOrder
-    users?: UserOrderByRelationAggregateInput
-    rounds?: RiotMatchRoundOrderByRelationAggregateInput
-    matchPlayers?: RiotMatchPlayersOrderByRelationAggregateInput
+    players?: PlayerMatchOrderByRelationAggregateInput
   }
 
-  export type RiotMatchesWhereUniqueInput = Prisma.AtLeast<{
+  export type RiotMatchWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: RiotMatchesWhereInput | RiotMatchesWhereInput[]
-    OR?: RiotMatchesWhereInput[]
-    NOT?: RiotMatchesWhereInput | RiotMatchesWhereInput[]
-    mapId?: StringNullableFilter<"RiotMatches"> | string | null
-    gameVersion?: StringNullableFilter<"RiotMatches"> | string | null
-    gameStart?: DateTimeNullableFilter<"RiotMatches"> | Date | string | null
-    gameEnd?: DateTimeNullableFilter<"RiotMatches"> | Date | string | null
-    isCompleted?: BoolNullableFilter<"RiotMatches"> | boolean | null
-    queueId?: StringNullableFilter<"RiotMatches"> | string | null
-    isRanked?: BoolNullableFilter<"RiotMatches"> | boolean | null
-    seasonId?: StringNullableFilter<"RiotMatches"> | string | null
-    roundsPlayed?: IntNullableFilter<"RiotMatches"> | number | null
-    teamWon?: EnumRiotMatchTeamColorNullableFilter<"RiotMatches"> | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: IntNullableFilter<"RiotMatches"> | number | null
-    teamBlueRoundsWon?: IntNullableFilter<"RiotMatches"> | number | null
-    riotMatchPlayersId?: StringNullableFilter<"RiotMatches"> | string | null
-    users?: UserListRelationFilter
-    rounds?: RiotMatchRoundListRelationFilter
-    matchPlayers?: RiotMatchPlayersListRelationFilter
+    AND?: RiotMatchWhereInput | RiotMatchWhereInput[]
+    OR?: RiotMatchWhereInput[]
+    NOT?: RiotMatchWhereInput | RiotMatchWhereInput[]
+    mapId?: StringNullableFilter<"RiotMatch"> | string | null
+    gameVersion?: StringNullableFilter<"RiotMatch"> | string | null
+    gameStart?: DateTimeNullableFilter<"RiotMatch"> | Date | string | null
+    gameEnd?: DateTimeNullableFilter<"RiotMatch"> | Date | string | null
+    isCompleted?: BoolNullableFilter<"RiotMatch"> | boolean | null
+    queueId?: StringNullableFilter<"RiotMatch"> | string | null
+    isRanked?: BoolNullableFilter<"RiotMatch"> | boolean | null
+    seasonId?: StringNullableFilter<"RiotMatch"> | string | null
+    roundsPlayed?: IntNullableFilter<"RiotMatch"> | number | null
+    teamWon?: EnumRiotMatchTeamColorNullableFilter<"RiotMatch"> | $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: IntNullableFilter<"RiotMatch"> | number | null
+    teamBlueRoundsWon?: IntNullableFilter<"RiotMatch"> | number | null
+    players?: PlayerMatchListRelationFilter
   }, "id">
 
-  export type RiotMatchesOrderByWithAggregationInput = {
+  export type RiotMatchOrderByWithAggregationInput = {
     id?: SortOrder
     mapId?: SortOrderInput | SortOrder
     gameVersion?: SortOrderInput | SortOrder
@@ -6763,251 +5714,86 @@ export namespace Prisma {
     teamWon?: SortOrderInput | SortOrder
     teamRedRoundsWon?: SortOrderInput | SortOrder
     teamBlueRoundsWon?: SortOrderInput | SortOrder
-    riotMatchPlayersId?: SortOrderInput | SortOrder
-    _count?: RiotMatchesCountOrderByAggregateInput
-    _avg?: RiotMatchesAvgOrderByAggregateInput
-    _max?: RiotMatchesMaxOrderByAggregateInput
-    _min?: RiotMatchesMinOrderByAggregateInput
-    _sum?: RiotMatchesSumOrderByAggregateInput
+    _count?: RiotMatchCountOrderByAggregateInput
+    _avg?: RiotMatchAvgOrderByAggregateInput
+    _max?: RiotMatchMaxOrderByAggregateInput
+    _min?: RiotMatchMinOrderByAggregateInput
+    _sum?: RiotMatchSumOrderByAggregateInput
   }
 
-  export type RiotMatchesScalarWhereWithAggregatesInput = {
-    AND?: RiotMatchesScalarWhereWithAggregatesInput | RiotMatchesScalarWhereWithAggregatesInput[]
-    OR?: RiotMatchesScalarWhereWithAggregatesInput[]
-    NOT?: RiotMatchesScalarWhereWithAggregatesInput | RiotMatchesScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"RiotMatches"> | string
-    mapId?: StringNullableWithAggregatesFilter<"RiotMatches"> | string | null
-    gameVersion?: StringNullableWithAggregatesFilter<"RiotMatches"> | string | null
-    gameStart?: DateTimeNullableWithAggregatesFilter<"RiotMatches"> | Date | string | null
-    gameEnd?: DateTimeNullableWithAggregatesFilter<"RiotMatches"> | Date | string | null
-    isCompleted?: BoolNullableWithAggregatesFilter<"RiotMatches"> | boolean | null
-    queueId?: StringNullableWithAggregatesFilter<"RiotMatches"> | string | null
-    isRanked?: BoolNullableWithAggregatesFilter<"RiotMatches"> | boolean | null
-    seasonId?: StringNullableWithAggregatesFilter<"RiotMatches"> | string | null
-    roundsPlayed?: IntNullableWithAggregatesFilter<"RiotMatches"> | number | null
-    teamWon?: EnumRiotMatchTeamColorNullableWithAggregatesFilter<"RiotMatches"> | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: IntNullableWithAggregatesFilter<"RiotMatches"> | number | null
-    teamBlueRoundsWon?: IntNullableWithAggregatesFilter<"RiotMatches"> | number | null
-    riotMatchPlayersId?: StringNullableWithAggregatesFilter<"RiotMatches"> | string | null
-  }
-
-  export type RiotMatchRoundWhereInput = {
-    AND?: RiotMatchRoundWhereInput | RiotMatchRoundWhereInput[]
-    OR?: RiotMatchRoundWhereInput[]
-    NOT?: RiotMatchRoundWhereInput | RiotMatchRoundWhereInput[]
-    id?: StringFilter<"RiotMatchRound"> | string
-    riotMatchesId?: StringFilter<"RiotMatchRound"> | string
-    RiotMatches?: XOR<RiotMatchesRelationFilter, RiotMatchesWhereInput>
-  }
-
-  export type RiotMatchRoundOrderByWithRelationInput = {
-    id?: SortOrder
-    riotMatchesId?: SortOrder
-    RiotMatches?: RiotMatchesOrderByWithRelationInput
-  }
-
-  export type RiotMatchRoundWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: RiotMatchRoundWhereInput | RiotMatchRoundWhereInput[]
-    OR?: RiotMatchRoundWhereInput[]
-    NOT?: RiotMatchRoundWhereInput | RiotMatchRoundWhereInput[]
-    riotMatchesId?: StringFilter<"RiotMatchRound"> | string
-    RiotMatches?: XOR<RiotMatchesRelationFilter, RiotMatchesWhereInput>
-  }, "id">
-
-  export type RiotMatchRoundOrderByWithAggregationInput = {
-    id?: SortOrder
-    riotMatchesId?: SortOrder
-    _count?: RiotMatchRoundCountOrderByAggregateInput
-    _max?: RiotMatchRoundMaxOrderByAggregateInput
-    _min?: RiotMatchRoundMinOrderByAggregateInput
-  }
-
-  export type RiotMatchRoundScalarWhereWithAggregatesInput = {
-    AND?: RiotMatchRoundScalarWhereWithAggregatesInput | RiotMatchRoundScalarWhereWithAggregatesInput[]
-    OR?: RiotMatchRoundScalarWhereWithAggregatesInput[]
-    NOT?: RiotMatchRoundScalarWhereWithAggregatesInput | RiotMatchRoundScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"RiotMatchRound"> | string
-    riotMatchesId?: StringWithAggregatesFilter<"RiotMatchRound"> | string
-  }
-
-  export type RiotMatchPlayersWhereInput = {
-    AND?: RiotMatchPlayersWhereInput | RiotMatchPlayersWhereInput[]
-    OR?: RiotMatchPlayersWhereInput[]
-    NOT?: RiotMatchPlayersWhereInput | RiotMatchPlayersWhereInput[]
-    id?: StringFilter<"RiotMatchPlayers"> | string
-    puuid?: StringFilter<"RiotMatchPlayers"> | string
-    riotTag?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    teamId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    characterId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    kills?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    deaths?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    assists?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    tier?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    playerCard?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    playerTitle?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    teamColor?: EnumRiotMatchTeamColorNullableFilter<"RiotMatchPlayers"> | $Enums.RiotMatchTeamColor | null
-    teamWon?: BoolNullableFilter<"RiotMatchPlayers"> | boolean | null
-    teamRoundsWon?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    riotMatches?: RiotMatchesListRelationFilter
-  }
-
-  export type RiotMatchPlayersOrderByWithRelationInput = {
-    id?: SortOrder
-    puuid?: SortOrder
-    riotTag?: SortOrderInput | SortOrder
-    teamId?: SortOrderInput | SortOrder
-    characterId?: SortOrderInput | SortOrder
-    kills?: SortOrderInput | SortOrder
-    deaths?: SortOrderInput | SortOrder
-    assists?: SortOrderInput | SortOrder
-    tier?: SortOrderInput | SortOrder
-    playerCard?: SortOrderInput | SortOrder
-    playerTitle?: SortOrderInput | SortOrder
-    teamColor?: SortOrderInput | SortOrder
-    teamWon?: SortOrderInput | SortOrder
-    teamRoundsWon?: SortOrderInput | SortOrder
-    riotMatches?: RiotMatchesOrderByRelationAggregateInput
-  }
-
-  export type RiotMatchPlayersWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: RiotMatchPlayersWhereInput | RiotMatchPlayersWhereInput[]
-    OR?: RiotMatchPlayersWhereInput[]
-    NOT?: RiotMatchPlayersWhereInput | RiotMatchPlayersWhereInput[]
-    puuid?: StringFilter<"RiotMatchPlayers"> | string
-    riotTag?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    teamId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    characterId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    kills?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    deaths?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    assists?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    tier?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    playerCard?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    playerTitle?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    teamColor?: EnumRiotMatchTeamColorNullableFilter<"RiotMatchPlayers"> | $Enums.RiotMatchTeamColor | null
-    teamWon?: BoolNullableFilter<"RiotMatchPlayers"> | boolean | null
-    teamRoundsWon?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    riotMatches?: RiotMatchesListRelationFilter
-  }, "id">
-
-  export type RiotMatchPlayersOrderByWithAggregationInput = {
-    id?: SortOrder
-    puuid?: SortOrder
-    riotTag?: SortOrderInput | SortOrder
-    teamId?: SortOrderInput | SortOrder
-    characterId?: SortOrderInput | SortOrder
-    kills?: SortOrderInput | SortOrder
-    deaths?: SortOrderInput | SortOrder
-    assists?: SortOrderInput | SortOrder
-    tier?: SortOrderInput | SortOrder
-    playerCard?: SortOrderInput | SortOrder
-    playerTitle?: SortOrderInput | SortOrder
-    teamColor?: SortOrderInput | SortOrder
-    teamWon?: SortOrderInput | SortOrder
-    teamRoundsWon?: SortOrderInput | SortOrder
-    _count?: RiotMatchPlayersCountOrderByAggregateInput
-    _avg?: RiotMatchPlayersAvgOrderByAggregateInput
-    _max?: RiotMatchPlayersMaxOrderByAggregateInput
-    _min?: RiotMatchPlayersMinOrderByAggregateInput
-    _sum?: RiotMatchPlayersSumOrderByAggregateInput
-  }
-
-  export type RiotMatchPlayersScalarWhereWithAggregatesInput = {
-    AND?: RiotMatchPlayersScalarWhereWithAggregatesInput | RiotMatchPlayersScalarWhereWithAggregatesInput[]
-    OR?: RiotMatchPlayersScalarWhereWithAggregatesInput[]
-    NOT?: RiotMatchPlayersScalarWhereWithAggregatesInput | RiotMatchPlayersScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"RiotMatchPlayers"> | string
-    puuid?: StringWithAggregatesFilter<"RiotMatchPlayers"> | string
-    riotTag?: StringNullableWithAggregatesFilter<"RiotMatchPlayers"> | string | null
-    teamId?: StringNullableWithAggregatesFilter<"RiotMatchPlayers"> | string | null
-    characterId?: StringNullableWithAggregatesFilter<"RiotMatchPlayers"> | string | null
-    kills?: IntNullableWithAggregatesFilter<"RiotMatchPlayers"> | number | null
-    deaths?: IntNullableWithAggregatesFilter<"RiotMatchPlayers"> | number | null
-    assists?: IntNullableWithAggregatesFilter<"RiotMatchPlayers"> | number | null
-    tier?: IntNullableWithAggregatesFilter<"RiotMatchPlayers"> | number | null
-    playerCard?: StringNullableWithAggregatesFilter<"RiotMatchPlayers"> | string | null
-    playerTitle?: StringNullableWithAggregatesFilter<"RiotMatchPlayers"> | string | null
-    teamColor?: EnumRiotMatchTeamColorNullableWithAggregatesFilter<"RiotMatchPlayers"> | $Enums.RiotMatchTeamColor | null
-    teamWon?: BoolNullableWithAggregatesFilter<"RiotMatchPlayers"> | boolean | null
-    teamRoundsWon?: IntNullableWithAggregatesFilter<"RiotMatchPlayers"> | number | null
+  export type RiotMatchScalarWhereWithAggregatesInput = {
+    AND?: RiotMatchScalarWhereWithAggregatesInput | RiotMatchScalarWhereWithAggregatesInput[]
+    OR?: RiotMatchScalarWhereWithAggregatesInput[]
+    NOT?: RiotMatchScalarWhereWithAggregatesInput | RiotMatchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RiotMatch"> | string
+    mapId?: StringNullableWithAggregatesFilter<"RiotMatch"> | string | null
+    gameVersion?: StringNullableWithAggregatesFilter<"RiotMatch"> | string | null
+    gameStart?: DateTimeNullableWithAggregatesFilter<"RiotMatch"> | Date | string | null
+    gameEnd?: DateTimeNullableWithAggregatesFilter<"RiotMatch"> | Date | string | null
+    isCompleted?: BoolNullableWithAggregatesFilter<"RiotMatch"> | boolean | null
+    queueId?: StringNullableWithAggregatesFilter<"RiotMatch"> | string | null
+    isRanked?: BoolNullableWithAggregatesFilter<"RiotMatch"> | boolean | null
+    seasonId?: StringNullableWithAggregatesFilter<"RiotMatch"> | string | null
+    roundsPlayed?: IntNullableWithAggregatesFilter<"RiotMatch"> | number | null
+    teamWon?: EnumRiotMatchTeamColorNullableWithAggregatesFilter<"RiotMatch"> | $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: IntNullableWithAggregatesFilter<"RiotMatch"> | number | null
+    teamBlueRoundsWon?: IntNullableWithAggregatesFilter<"RiotMatch"> | number | null
   }
 
   export type UserCreateInput = {
-    id?: string
-    discordId: string
-    discordName: string
+    puuid: string
     riotEntitlement?: string | null
     riotAuth?: string | null
-    riotPuuid?: string | null
     riotTag?: string | null
     Session?: SessionCreateNestedManyWithoutUserInput
-    riotMatches?: RiotMatchesCreateNestedManyWithoutUsersInput
+    riotMatches?: PlayerMatchCreateNestedManyWithoutPlayerInput
   }
 
   export type UserUncheckedCreateInput = {
-    id?: string
-    discordId: string
-    discordName: string
+    puuid: string
     riotEntitlement?: string | null
     riotAuth?: string | null
-    riotPuuid?: string | null
     riotTag?: string | null
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
-    riotMatches?: RiotMatchesUncheckedCreateNestedManyWithoutUsersInput
+    riotMatches?: PlayerMatchUncheckedCreateNestedManyWithoutPlayerInput
   }
 
   export type UserUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     Session?: SessionUpdateManyWithoutUserNestedInput
-    riotMatches?: RiotMatchesUpdateManyWithoutUsersNestedInput
+    riotMatches?: PlayerMatchUpdateManyWithoutPlayerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    riotMatches?: RiotMatchesUncheckedUpdateManyWithoutUsersNestedInput
+    riotMatches?: PlayerMatchUncheckedUpdateManyWithoutPlayerNestedInput
   }
 
   export type UserCreateManyInput = {
-    id?: string
-    discordId: string
-    discordName: string
+    puuid: string
     riotEntitlement?: string | null
     riotAuth?: string | null
-    riotPuuid?: string | null
     riotTag?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -7052,174 +5838,8 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type RiotMatchesCreateInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-    users?: UserCreateNestedManyWithoutRiotMatchesInput
-    rounds?: RiotMatchRoundCreateNestedManyWithoutRiotMatchesInput
-    matchPlayers?: RiotMatchPlayersCreateNestedManyWithoutRiotMatchesInput
-  }
-
-  export type RiotMatchesUncheckedCreateInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-    users?: UserUncheckedCreateNestedManyWithoutRiotMatchesInput
-    rounds?: RiotMatchRoundUncheckedCreateNestedManyWithoutRiotMatchesInput
-    matchPlayers?: RiotMatchPlayersUncheckedCreateNestedManyWithoutRiotMatchesInput
-  }
-
-  export type RiotMatchesUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-    users?: UserUpdateManyWithoutRiotMatchesNestedInput
-    rounds?: RiotMatchRoundUpdateManyWithoutRiotMatchesNestedInput
-    matchPlayers?: RiotMatchPlayersUpdateManyWithoutRiotMatchesNestedInput
-  }
-
-  export type RiotMatchesUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-    users?: UserUncheckedUpdateManyWithoutRiotMatchesNestedInput
-    rounds?: RiotMatchRoundUncheckedUpdateManyWithoutRiotMatchesNestedInput
-    matchPlayers?: RiotMatchPlayersUncheckedUpdateManyWithoutRiotMatchesNestedInput
-  }
-
-  export type RiotMatchesCreateManyInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-  }
-
-  export type RiotMatchesUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type RiotMatchesUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type RiotMatchRoundCreateInput = {
+  export type PlayerMatchCreateInput = {
     id?: string
-    RiotMatches: RiotMatchesCreateNestedOneWithoutRoundsInput
-  }
-
-  export type RiotMatchRoundUncheckedCreateInput = {
-    id?: string
-    riotMatchesId: string
-  }
-
-  export type RiotMatchRoundUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    RiotMatches?: RiotMatchesUpdateOneRequiredWithoutRoundsNestedInput
-  }
-
-  export type RiotMatchRoundUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    riotMatchesId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RiotMatchRoundCreateManyInput = {
-    id?: string
-    riotMatchesId: string
-  }
-
-  export type RiotMatchRoundUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RiotMatchRoundUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    riotMatchesId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RiotMatchPlayersCreateInput = {
-    id?: string
-    puuid: string
     riotTag?: string | null
     teamId?: string | null
     characterId?: string | null
@@ -7232,66 +5852,14 @@ export namespace Prisma {
     teamColor?: $Enums.RiotMatchTeamColor | null
     teamWon?: boolean | null
     teamRoundsWon?: number | null
-    riotMatches?: RiotMatchesCreateNestedManyWithoutMatchPlayersInput
+    player: UserCreateNestedOneWithoutRiotMatchesInput
+    match: RiotMatchCreateNestedOneWithoutPlayersInput
   }
 
-  export type RiotMatchPlayersUncheckedCreateInput = {
+  export type PlayerMatchUncheckedCreateInput = {
     id?: string
-    puuid: string
-    riotTag?: string | null
-    teamId?: string | null
-    characterId?: string | null
-    kills?: number | null
-    deaths?: number | null
-    assists?: number | null
-    tier?: number | null
-    playerCard?: string | null
-    playerTitle?: string | null
-    teamColor?: $Enums.RiotMatchTeamColor | null
-    teamWon?: boolean | null
-    teamRoundsWon?: number | null
-    riotMatches?: RiotMatchesUncheckedCreateNestedManyWithoutMatchPlayersInput
-  }
-
-  export type RiotMatchPlayersUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    puuid?: StringFieldUpdateOperationsInput | string
-    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
-    teamId?: NullableStringFieldUpdateOperationsInput | string | null
-    characterId?: NullableStringFieldUpdateOperationsInput | string | null
-    kills?: NullableIntFieldUpdateOperationsInput | number | null
-    deaths?: NullableIntFieldUpdateOperationsInput | number | null
-    assists?: NullableIntFieldUpdateOperationsInput | number | null
-    tier?: NullableIntFieldUpdateOperationsInput | number | null
-    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
-    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatches?: RiotMatchesUpdateManyWithoutMatchPlayersNestedInput
-  }
-
-  export type RiotMatchPlayersUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    puuid?: StringFieldUpdateOperationsInput | string
-    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
-    teamId?: NullableStringFieldUpdateOperationsInput | string | null
-    characterId?: NullableStringFieldUpdateOperationsInput | string | null
-    kills?: NullableIntFieldUpdateOperationsInput | number | null
-    deaths?: NullableIntFieldUpdateOperationsInput | number | null
-    assists?: NullableIntFieldUpdateOperationsInput | number | null
-    tier?: NullableIntFieldUpdateOperationsInput | number | null
-    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
-    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatches?: RiotMatchesUncheckedUpdateManyWithoutMatchPlayersNestedInput
-  }
-
-  export type RiotMatchPlayersCreateManyInput = {
-    id?: string
-    puuid: string
+    playerId: string
+    matchId: string
     riotTag?: string | null
     teamId?: string | null
     characterId?: string | null
@@ -7306,9 +5874,28 @@ export namespace Prisma {
     teamRoundsWon?: number | null
   }
 
-  export type RiotMatchPlayersUpdateManyMutationInput = {
+  export type PlayerMatchUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    puuid?: StringFieldUpdateOperationsInput | string
+    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    kills?: NullableIntFieldUpdateOperationsInput | number | null
+    deaths?: NullableIntFieldUpdateOperationsInput | number | null
+    assists?: NullableIntFieldUpdateOperationsInput | number | null
+    tier?: NullableIntFieldUpdateOperationsInput | number | null
+    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
+    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    player?: UserUpdateOneRequiredWithoutRiotMatchesNestedInput
+    match?: RiotMatchUpdateOneRequiredWithoutPlayersNestedInput
+  }
+
+  export type PlayerMatchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerId?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7323,9 +5910,26 @@ export namespace Prisma {
     teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
-  export type RiotMatchPlayersUncheckedUpdateManyInput = {
+  export type PlayerMatchCreateManyInput = {
+    id?: string
+    playerId: string
+    matchId: string
+    riotTag?: string | null
+    teamId?: string | null
+    characterId?: string | null
+    kills?: number | null
+    deaths?: number | null
+    assists?: number | null
+    tier?: number | null
+    playerCard?: string | null
+    playerTitle?: string | null
+    teamColor?: $Enums.RiotMatchTeamColor | null
+    teamWon?: boolean | null
+    teamRoundsWon?: number | null
+  }
+
+  export type PlayerMatchUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    puuid?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7338,6 +5942,140 @@ export namespace Prisma {
     teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
     teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type PlayerMatchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    playerId?: StringFieldUpdateOperationsInput | string
+    matchId?: StringFieldUpdateOperationsInput | string
+    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    kills?: NullableIntFieldUpdateOperationsInput | number | null
+    deaths?: NullableIntFieldUpdateOperationsInput | number | null
+    assists?: NullableIntFieldUpdateOperationsInput | number | null
+    tier?: NullableIntFieldUpdateOperationsInput | number | null
+    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
+    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type RiotMatchCreateInput = {
+    id: string
+    mapId?: string | null
+    gameVersion?: string | null
+    gameStart?: Date | string | null
+    gameEnd?: Date | string | null
+    isCompleted?: boolean | null
+    queueId?: string | null
+    isRanked?: boolean | null
+    seasonId?: string | null
+    roundsPlayed?: number | null
+    teamWon?: $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: number | null
+    teamBlueRoundsWon?: number | null
+    players?: PlayerMatchCreateNestedManyWithoutMatchInput
+  }
+
+  export type RiotMatchUncheckedCreateInput = {
+    id: string
+    mapId?: string | null
+    gameVersion?: string | null
+    gameStart?: Date | string | null
+    gameEnd?: Date | string | null
+    isCompleted?: boolean | null
+    queueId?: string | null
+    isRanked?: boolean | null
+    seasonId?: string | null
+    roundsPlayed?: number | null
+    teamWon?: $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: number | null
+    teamBlueRoundsWon?: number | null
+    players?: PlayerMatchUncheckedCreateNestedManyWithoutMatchInput
+  }
+
+  export type RiotMatchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapId?: NullableStringFieldUpdateOperationsInput | string | null
+    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    queueId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
+    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    players?: PlayerMatchUpdateManyWithoutMatchNestedInput
+  }
+
+  export type RiotMatchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapId?: NullableStringFieldUpdateOperationsInput | string | null
+    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    queueId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
+    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    players?: PlayerMatchUncheckedUpdateManyWithoutMatchNestedInput
+  }
+
+  export type RiotMatchCreateManyInput = {
+    id: string
+    mapId?: string | null
+    gameVersion?: string | null
+    gameStart?: Date | string | null
+    gameEnd?: Date | string | null
+    isCompleted?: boolean | null
+    queueId?: string | null
+    isRanked?: boolean | null
+    seasonId?: string | null
+    roundsPlayed?: number | null
+    teamWon?: $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: number | null
+    teamBlueRoundsWon?: number | null
+  }
+
+  export type RiotMatchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapId?: NullableStringFieldUpdateOperationsInput | string | null
+    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    queueId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
+    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type RiotMatchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapId?: NullableStringFieldUpdateOperationsInput | string | null
+    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    queueId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
+    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -7376,10 +6114,10 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
-  export type RiotMatchesListRelationFilter = {
-    every?: RiotMatchesWhereInput
-    some?: RiotMatchesWhereInput
-    none?: RiotMatchesWhereInput
+  export type PlayerMatchListRelationFilter = {
+    every?: PlayerMatchWhereInput
+    some?: PlayerMatchWhereInput
+    none?: PlayerMatchWhereInput
   }
 
   export type SortOrderInput = {
@@ -7391,37 +6129,28 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type RiotMatchesOrderByRelationAggregateInput = {
+  export type PlayerMatchOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
-    id?: SortOrder
-    discordId?: SortOrder
-    discordName?: SortOrder
+    puuid?: SortOrder
     riotEntitlement?: SortOrder
     riotAuth?: SortOrder
-    riotPuuid?: SortOrder
     riotTag?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
-    id?: SortOrder
-    discordId?: SortOrder
-    discordName?: SortOrder
+    puuid?: SortOrder
     riotEntitlement?: SortOrder
     riotAuth?: SortOrder
-    riotPuuid?: SortOrder
     riotTag?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
-    id?: SortOrder
-    discordId?: SortOrder
-    discordName?: SortOrder
+    puuid?: SortOrder
     riotEntitlement?: SortOrder
     riotAuth?: SortOrder
-    riotPuuid?: SortOrder
     riotTag?: SortOrder
   }
 
@@ -7509,22 +6238,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -7543,119 +6256,89 @@ export namespace Prisma {
     not?: NestedEnumRiotMatchTeamColorNullableFilter<$PrismaModel> | $Enums.RiotMatchTeamColor | null
   }
 
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
-  }
-
-  export type RiotMatchRoundListRelationFilter = {
-    every?: RiotMatchRoundWhereInput
-    some?: RiotMatchRoundWhereInput
-    none?: RiotMatchRoundWhereInput
-  }
-
-  export type RiotMatchPlayersListRelationFilter = {
-    every?: RiotMatchPlayersWhereInput
-    some?: RiotMatchPlayersWhereInput
-    none?: RiotMatchPlayersWhereInput
-  }
-
-  export type UserOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type RiotMatchRoundOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type RiotMatchPlayersOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type RiotMatchesCountOrderByAggregateInput = {
-    id?: SortOrder
-    mapId?: SortOrder
-    gameVersion?: SortOrder
-    gameStart?: SortOrder
-    gameEnd?: SortOrder
-    isCompleted?: SortOrder
-    queueId?: SortOrder
-    isRanked?: SortOrder
-    seasonId?: SortOrder
-    roundsPlayed?: SortOrder
-    teamWon?: SortOrder
-    teamRedRoundsWon?: SortOrder
-    teamBlueRoundsWon?: SortOrder
-    riotMatchPlayersId?: SortOrder
-  }
-
-  export type RiotMatchesAvgOrderByAggregateInput = {
-    roundsPlayed?: SortOrder
-    teamRedRoundsWon?: SortOrder
-    teamBlueRoundsWon?: SortOrder
-  }
-
-  export type RiotMatchesMaxOrderByAggregateInput = {
-    id?: SortOrder
-    mapId?: SortOrder
-    gameVersion?: SortOrder
-    gameStart?: SortOrder
-    gameEnd?: SortOrder
-    isCompleted?: SortOrder
-    queueId?: SortOrder
-    isRanked?: SortOrder
-    seasonId?: SortOrder
-    roundsPlayed?: SortOrder
-    teamWon?: SortOrder
-    teamRedRoundsWon?: SortOrder
-    teamBlueRoundsWon?: SortOrder
-    riotMatchPlayersId?: SortOrder
-  }
-
-  export type RiotMatchesMinOrderByAggregateInput = {
-    id?: SortOrder
-    mapId?: SortOrder
-    gameVersion?: SortOrder
-    gameStart?: SortOrder
-    gameEnd?: SortOrder
-    isCompleted?: SortOrder
-    queueId?: SortOrder
-    isRanked?: SortOrder
-    seasonId?: SortOrder
-    roundsPlayed?: SortOrder
-    teamWon?: SortOrder
-    teamRedRoundsWon?: SortOrder
-    teamBlueRoundsWon?: SortOrder
-    riotMatchPlayersId?: SortOrder
-  }
-
-  export type RiotMatchesSumOrderByAggregateInput = {
-    roundsPlayed?: SortOrder
-    teamRedRoundsWon?: SortOrder
-    teamBlueRoundsWon?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type BoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type RiotMatchRelationFilter = {
+    is?: RiotMatchWhereInput
+    isNot?: RiotMatchWhereInput
+  }
+
+  export type PlayerMatchPlayerIdMatchIdCompoundUniqueInput = {
+    playerId: string
+    matchId: string
+  }
+
+  export type PlayerMatchCountOrderByAggregateInput = {
+    id?: SortOrder
+    playerId?: SortOrder
+    matchId?: SortOrder
+    riotTag?: SortOrder
+    teamId?: SortOrder
+    characterId?: SortOrder
+    kills?: SortOrder
+    deaths?: SortOrder
+    assists?: SortOrder
+    tier?: SortOrder
+    playerCard?: SortOrder
+    playerTitle?: SortOrder
+    teamColor?: SortOrder
+    teamWon?: SortOrder
+    teamRoundsWon?: SortOrder
+  }
+
+  export type PlayerMatchAvgOrderByAggregateInput = {
+    kills?: SortOrder
+    deaths?: SortOrder
+    assists?: SortOrder
+    tier?: SortOrder
+    teamRoundsWon?: SortOrder
+  }
+
+  export type PlayerMatchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    playerId?: SortOrder
+    matchId?: SortOrder
+    riotTag?: SortOrder
+    teamId?: SortOrder
+    characterId?: SortOrder
+    kills?: SortOrder
+    deaths?: SortOrder
+    assists?: SortOrder
+    tier?: SortOrder
+    playerCard?: SortOrder
+    playerTitle?: SortOrder
+    teamColor?: SortOrder
+    teamWon?: SortOrder
+    teamRoundsWon?: SortOrder
+  }
+
+  export type PlayerMatchMinOrderByAggregateInput = {
+    id?: SortOrder
+    playerId?: SortOrder
+    matchId?: SortOrder
+    riotTag?: SortOrder
+    teamId?: SortOrder
+    characterId?: SortOrder
+    kills?: SortOrder
+    deaths?: SortOrder
+    assists?: SortOrder
+    tier?: SortOrder
+    playerCard?: SortOrder
+    playerTitle?: SortOrder
+    teamColor?: SortOrder
+    teamWon?: SortOrder
+    teamRoundsWon?: SortOrder
+  }
+
+  export type PlayerMatchSumOrderByAggregateInput = {
+    kills?: SortOrder
+    deaths?: SortOrder
+    assists?: SortOrder
+    tier?: SortOrder
+    teamRoundsWon?: SortOrder
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -7684,91 +6367,97 @@ export namespace Prisma {
     _max?: NestedEnumRiotMatchTeamColorNullableFilter<$PrismaModel>
   }
 
-  export type RiotMatchesRelationFilter = {
-    is?: RiotMatchesWhereInput
-    isNot?: RiotMatchesWhereInput
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
-  export type RiotMatchRoundCountOrderByAggregateInput = {
-    id?: SortOrder
-    riotMatchesId?: SortOrder
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type RiotMatchRoundMaxOrderByAggregateInput = {
+  export type RiotMatchCountOrderByAggregateInput = {
     id?: SortOrder
-    riotMatchesId?: SortOrder
-  }
-
-  export type RiotMatchRoundMinOrderByAggregateInput = {
-    id?: SortOrder
-    riotMatchesId?: SortOrder
-  }
-
-  export type RiotMatchPlayersCountOrderByAggregateInput = {
-    id?: SortOrder
-    puuid?: SortOrder
-    riotTag?: SortOrder
-    teamId?: SortOrder
-    characterId?: SortOrder
-    kills?: SortOrder
-    deaths?: SortOrder
-    assists?: SortOrder
-    tier?: SortOrder
-    playerCard?: SortOrder
-    playerTitle?: SortOrder
-    teamColor?: SortOrder
+    mapId?: SortOrder
+    gameVersion?: SortOrder
+    gameStart?: SortOrder
+    gameEnd?: SortOrder
+    isCompleted?: SortOrder
+    queueId?: SortOrder
+    isRanked?: SortOrder
+    seasonId?: SortOrder
+    roundsPlayed?: SortOrder
     teamWon?: SortOrder
-    teamRoundsWon?: SortOrder
+    teamRedRoundsWon?: SortOrder
+    teamBlueRoundsWon?: SortOrder
   }
 
-  export type RiotMatchPlayersAvgOrderByAggregateInput = {
-    kills?: SortOrder
-    deaths?: SortOrder
-    assists?: SortOrder
-    tier?: SortOrder
-    teamRoundsWon?: SortOrder
+  export type RiotMatchAvgOrderByAggregateInput = {
+    roundsPlayed?: SortOrder
+    teamRedRoundsWon?: SortOrder
+    teamBlueRoundsWon?: SortOrder
   }
 
-  export type RiotMatchPlayersMaxOrderByAggregateInput = {
+  export type RiotMatchMaxOrderByAggregateInput = {
     id?: SortOrder
-    puuid?: SortOrder
-    riotTag?: SortOrder
-    teamId?: SortOrder
-    characterId?: SortOrder
-    kills?: SortOrder
-    deaths?: SortOrder
-    assists?: SortOrder
-    tier?: SortOrder
-    playerCard?: SortOrder
-    playerTitle?: SortOrder
-    teamColor?: SortOrder
+    mapId?: SortOrder
+    gameVersion?: SortOrder
+    gameStart?: SortOrder
+    gameEnd?: SortOrder
+    isCompleted?: SortOrder
+    queueId?: SortOrder
+    isRanked?: SortOrder
+    seasonId?: SortOrder
+    roundsPlayed?: SortOrder
     teamWon?: SortOrder
-    teamRoundsWon?: SortOrder
+    teamRedRoundsWon?: SortOrder
+    teamBlueRoundsWon?: SortOrder
   }
 
-  export type RiotMatchPlayersMinOrderByAggregateInput = {
+  export type RiotMatchMinOrderByAggregateInput = {
     id?: SortOrder
-    puuid?: SortOrder
-    riotTag?: SortOrder
-    teamId?: SortOrder
-    characterId?: SortOrder
-    kills?: SortOrder
-    deaths?: SortOrder
-    assists?: SortOrder
-    tier?: SortOrder
-    playerCard?: SortOrder
-    playerTitle?: SortOrder
-    teamColor?: SortOrder
+    mapId?: SortOrder
+    gameVersion?: SortOrder
+    gameStart?: SortOrder
+    gameEnd?: SortOrder
+    isCompleted?: SortOrder
+    queueId?: SortOrder
+    isRanked?: SortOrder
+    seasonId?: SortOrder
+    roundsPlayed?: SortOrder
     teamWon?: SortOrder
-    teamRoundsWon?: SortOrder
+    teamRedRoundsWon?: SortOrder
+    teamBlueRoundsWon?: SortOrder
   }
 
-  export type RiotMatchPlayersSumOrderByAggregateInput = {
-    kills?: SortOrder
-    deaths?: SortOrder
-    assists?: SortOrder
-    tier?: SortOrder
-    teamRoundsWon?: SortOrder
+  export type RiotMatchSumOrderByAggregateInput = {
+    roundsPlayed?: SortOrder
+    teamRedRoundsWon?: SortOrder
+    teamBlueRoundsWon?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -7778,10 +6467,11 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type RiotMatchesCreateNestedManyWithoutUsersInput = {
-    create?: XOR<RiotMatchesCreateWithoutUsersInput, RiotMatchesUncheckedCreateWithoutUsersInput> | RiotMatchesCreateWithoutUsersInput[] | RiotMatchesUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutUsersInput | RiotMatchesCreateOrConnectWithoutUsersInput[]
-    connect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
+  export type PlayerMatchCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<PlayerMatchCreateWithoutPlayerInput, PlayerMatchUncheckedCreateWithoutPlayerInput> | PlayerMatchCreateWithoutPlayerInput[] | PlayerMatchUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: PlayerMatchCreateOrConnectWithoutPlayerInput | PlayerMatchCreateOrConnectWithoutPlayerInput[]
+    createMany?: PlayerMatchCreateManyPlayerInputEnvelope
+    connect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
   }
 
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
@@ -7791,10 +6481,11 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type RiotMatchesUncheckedCreateNestedManyWithoutUsersInput = {
-    create?: XOR<RiotMatchesCreateWithoutUsersInput, RiotMatchesUncheckedCreateWithoutUsersInput> | RiotMatchesCreateWithoutUsersInput[] | RiotMatchesUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutUsersInput | RiotMatchesCreateOrConnectWithoutUsersInput[]
-    connect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
+  export type PlayerMatchUncheckedCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<PlayerMatchCreateWithoutPlayerInput, PlayerMatchUncheckedCreateWithoutPlayerInput> | PlayerMatchCreateWithoutPlayerInput[] | PlayerMatchUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: PlayerMatchCreateOrConnectWithoutPlayerInput | PlayerMatchCreateOrConnectWithoutPlayerInput[]
+    createMany?: PlayerMatchCreateManyPlayerInputEnvelope
+    connect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -7819,17 +6510,18 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
-  export type RiotMatchesUpdateManyWithoutUsersNestedInput = {
-    create?: XOR<RiotMatchesCreateWithoutUsersInput, RiotMatchesUncheckedCreateWithoutUsersInput> | RiotMatchesCreateWithoutUsersInput[] | RiotMatchesUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutUsersInput | RiotMatchesCreateOrConnectWithoutUsersInput[]
-    upsert?: RiotMatchesUpsertWithWhereUniqueWithoutUsersInput | RiotMatchesUpsertWithWhereUniqueWithoutUsersInput[]
-    set?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    disconnect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    delete?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    connect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    update?: RiotMatchesUpdateWithWhereUniqueWithoutUsersInput | RiotMatchesUpdateWithWhereUniqueWithoutUsersInput[]
-    updateMany?: RiotMatchesUpdateManyWithWhereWithoutUsersInput | RiotMatchesUpdateManyWithWhereWithoutUsersInput[]
-    deleteMany?: RiotMatchesScalarWhereInput | RiotMatchesScalarWhereInput[]
+  export type PlayerMatchUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<PlayerMatchCreateWithoutPlayerInput, PlayerMatchUncheckedCreateWithoutPlayerInput> | PlayerMatchCreateWithoutPlayerInput[] | PlayerMatchUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: PlayerMatchCreateOrConnectWithoutPlayerInput | PlayerMatchCreateOrConnectWithoutPlayerInput[]
+    upsert?: PlayerMatchUpsertWithWhereUniqueWithoutPlayerInput | PlayerMatchUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: PlayerMatchCreateManyPlayerInputEnvelope
+    set?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    disconnect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    delete?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    connect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    update?: PlayerMatchUpdateWithWhereUniqueWithoutPlayerInput | PlayerMatchUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: PlayerMatchUpdateManyWithWhereWithoutPlayerInput | PlayerMatchUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: PlayerMatchScalarWhereInput | PlayerMatchScalarWhereInput[]
   }
 
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -7846,17 +6538,18 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
-  export type RiotMatchesUncheckedUpdateManyWithoutUsersNestedInput = {
-    create?: XOR<RiotMatchesCreateWithoutUsersInput, RiotMatchesUncheckedCreateWithoutUsersInput> | RiotMatchesCreateWithoutUsersInput[] | RiotMatchesUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutUsersInput | RiotMatchesCreateOrConnectWithoutUsersInput[]
-    upsert?: RiotMatchesUpsertWithWhereUniqueWithoutUsersInput | RiotMatchesUpsertWithWhereUniqueWithoutUsersInput[]
-    set?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    disconnect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    delete?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    connect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    update?: RiotMatchesUpdateWithWhereUniqueWithoutUsersInput | RiotMatchesUpdateWithWhereUniqueWithoutUsersInput[]
-    updateMany?: RiotMatchesUpdateManyWithWhereWithoutUsersInput | RiotMatchesUpdateManyWithWhereWithoutUsersInput[]
-    deleteMany?: RiotMatchesScalarWhereInput | RiotMatchesScalarWhereInput[]
+  export type PlayerMatchUncheckedUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<PlayerMatchCreateWithoutPlayerInput, PlayerMatchUncheckedCreateWithoutPlayerInput> | PlayerMatchCreateWithoutPlayerInput[] | PlayerMatchUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: PlayerMatchCreateOrConnectWithoutPlayerInput | PlayerMatchCreateOrConnectWithoutPlayerInput[]
+    upsert?: PlayerMatchUpsertWithWhereUniqueWithoutPlayerInput | PlayerMatchUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: PlayerMatchCreateManyPlayerInputEnvelope
+    set?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    disconnect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    delete?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    connect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    update?: PlayerMatchUpdateWithWhereUniqueWithoutPlayerInput | PlayerMatchUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: PlayerMatchUpdateManyWithWhereWithoutPlayerInput | PlayerMatchUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: PlayerMatchScalarWhereInput | PlayerMatchScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionInput = {
@@ -7877,50 +6570,16 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionInput, UserUpdateWithoutSessionInput>, UserUncheckedUpdateWithoutSessionInput>
   }
 
-  export type UserCreateNestedManyWithoutRiotMatchesInput = {
-    create?: XOR<UserCreateWithoutRiotMatchesInput, UserUncheckedCreateWithoutRiotMatchesInput> | UserCreateWithoutRiotMatchesInput[] | UserUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutRiotMatchesInput | UserCreateOrConnectWithoutRiotMatchesInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type UserCreateNestedOneWithoutRiotMatchesInput = {
+    create?: XOR<UserCreateWithoutRiotMatchesInput, UserUncheckedCreateWithoutRiotMatchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRiotMatchesInput
+    connect?: UserWhereUniqueInput
   }
 
-  export type RiotMatchRoundCreateNestedManyWithoutRiotMatchesInput = {
-    create?: XOR<RiotMatchRoundCreateWithoutRiotMatchesInput, RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput> | RiotMatchRoundCreateWithoutRiotMatchesInput[] | RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput | RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput[]
-    createMany?: RiotMatchRoundCreateManyRiotMatchesInputEnvelope
-    connect?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-  }
-
-  export type RiotMatchPlayersCreateNestedManyWithoutRiotMatchesInput = {
-    create?: XOR<RiotMatchPlayersCreateWithoutRiotMatchesInput, RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput> | RiotMatchPlayersCreateWithoutRiotMatchesInput[] | RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput | RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput[]
-    connect?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-  }
-
-  export type UserUncheckedCreateNestedManyWithoutRiotMatchesInput = {
-    create?: XOR<UserCreateWithoutRiotMatchesInput, UserUncheckedCreateWithoutRiotMatchesInput> | UserCreateWithoutRiotMatchesInput[] | UserUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutRiotMatchesInput | UserCreateOrConnectWithoutRiotMatchesInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type RiotMatchRoundUncheckedCreateNestedManyWithoutRiotMatchesInput = {
-    create?: XOR<RiotMatchRoundCreateWithoutRiotMatchesInput, RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput> | RiotMatchRoundCreateWithoutRiotMatchesInput[] | RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput | RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput[]
-    createMany?: RiotMatchRoundCreateManyRiotMatchesInputEnvelope
-    connect?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-  }
-
-  export type RiotMatchPlayersUncheckedCreateNestedManyWithoutRiotMatchesInput = {
-    create?: XOR<RiotMatchPlayersCreateWithoutRiotMatchesInput, RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput> | RiotMatchPlayersCreateWithoutRiotMatchesInput[] | RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput | RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput[]
-    connect?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
+  export type RiotMatchCreateNestedOneWithoutPlayersInput = {
+    create?: XOR<RiotMatchCreateWithoutPlayersInput, RiotMatchUncheckedCreateWithoutPlayersInput>
+    connectOrCreate?: RiotMatchCreateOrConnectWithoutPlayersInput
+    connect?: RiotMatchWhereUniqueInput
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -7935,136 +6594,70 @@ export namespace Prisma {
     set?: $Enums.RiotMatchTeamColor | null
   }
 
-  export type UserUpdateManyWithoutRiotMatchesNestedInput = {
-    create?: XOR<UserCreateWithoutRiotMatchesInput, UserUncheckedCreateWithoutRiotMatchesInput> | UserCreateWithoutRiotMatchesInput[] | UserUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutRiotMatchesInput | UserCreateOrConnectWithoutRiotMatchesInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutRiotMatchesInput | UserUpsertWithWhereUniqueWithoutRiotMatchesInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutRiotMatchesInput | UserUpdateWithWhereUniqueWithoutRiotMatchesInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutRiotMatchesInput | UserUpdateManyWithWhereWithoutRiotMatchesInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
-  export type RiotMatchRoundUpdateManyWithoutRiotMatchesNestedInput = {
-    create?: XOR<RiotMatchRoundCreateWithoutRiotMatchesInput, RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput> | RiotMatchRoundCreateWithoutRiotMatchesInput[] | RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput | RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput[]
-    upsert?: RiotMatchRoundUpsertWithWhereUniqueWithoutRiotMatchesInput | RiotMatchRoundUpsertWithWhereUniqueWithoutRiotMatchesInput[]
-    createMany?: RiotMatchRoundCreateManyRiotMatchesInputEnvelope
-    set?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-    disconnect?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-    delete?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-    connect?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-    update?: RiotMatchRoundUpdateWithWhereUniqueWithoutRiotMatchesInput | RiotMatchRoundUpdateWithWhereUniqueWithoutRiotMatchesInput[]
-    updateMany?: RiotMatchRoundUpdateManyWithWhereWithoutRiotMatchesInput | RiotMatchRoundUpdateManyWithWhereWithoutRiotMatchesInput[]
-    deleteMany?: RiotMatchRoundScalarWhereInput | RiotMatchRoundScalarWhereInput[]
+  export type UserUpdateOneRequiredWithoutRiotMatchesNestedInput = {
+    create?: XOR<UserCreateWithoutRiotMatchesInput, UserUncheckedCreateWithoutRiotMatchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRiotMatchesInput
+    upsert?: UserUpsertWithoutRiotMatchesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRiotMatchesInput, UserUpdateWithoutRiotMatchesInput>, UserUncheckedUpdateWithoutRiotMatchesInput>
   }
 
-  export type RiotMatchPlayersUpdateManyWithoutRiotMatchesNestedInput = {
-    create?: XOR<RiotMatchPlayersCreateWithoutRiotMatchesInput, RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput> | RiotMatchPlayersCreateWithoutRiotMatchesInput[] | RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput | RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput[]
-    upsert?: RiotMatchPlayersUpsertWithWhereUniqueWithoutRiotMatchesInput | RiotMatchPlayersUpsertWithWhereUniqueWithoutRiotMatchesInput[]
-    set?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-    disconnect?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-    delete?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-    connect?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-    update?: RiotMatchPlayersUpdateWithWhereUniqueWithoutRiotMatchesInput | RiotMatchPlayersUpdateWithWhereUniqueWithoutRiotMatchesInput[]
-    updateMany?: RiotMatchPlayersUpdateManyWithWhereWithoutRiotMatchesInput | RiotMatchPlayersUpdateManyWithWhereWithoutRiotMatchesInput[]
-    deleteMany?: RiotMatchPlayersScalarWhereInput | RiotMatchPlayersScalarWhereInput[]
+  export type RiotMatchUpdateOneRequiredWithoutPlayersNestedInput = {
+    create?: XOR<RiotMatchCreateWithoutPlayersInput, RiotMatchUncheckedCreateWithoutPlayersInput>
+    connectOrCreate?: RiotMatchCreateOrConnectWithoutPlayersInput
+    upsert?: RiotMatchUpsertWithoutPlayersInput
+    connect?: RiotMatchWhereUniqueInput
+    update?: XOR<XOR<RiotMatchUpdateToOneWithWhereWithoutPlayersInput, RiotMatchUpdateWithoutPlayersInput>, RiotMatchUncheckedUpdateWithoutPlayersInput>
   }
 
-  export type UserUncheckedUpdateManyWithoutRiotMatchesNestedInput = {
-    create?: XOR<UserCreateWithoutRiotMatchesInput, UserUncheckedCreateWithoutRiotMatchesInput> | UserCreateWithoutRiotMatchesInput[] | UserUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutRiotMatchesInput | UserCreateOrConnectWithoutRiotMatchesInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutRiotMatchesInput | UserUpsertWithWhereUniqueWithoutRiotMatchesInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutRiotMatchesInput | UserUpdateWithWhereUniqueWithoutRiotMatchesInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutRiotMatchesInput | UserUpdateManyWithWhereWithoutRiotMatchesInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type PlayerMatchCreateNestedManyWithoutMatchInput = {
+    create?: XOR<PlayerMatchCreateWithoutMatchInput, PlayerMatchUncheckedCreateWithoutMatchInput> | PlayerMatchCreateWithoutMatchInput[] | PlayerMatchUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: PlayerMatchCreateOrConnectWithoutMatchInput | PlayerMatchCreateOrConnectWithoutMatchInput[]
+    createMany?: PlayerMatchCreateManyMatchInputEnvelope
+    connect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
   }
 
-  export type RiotMatchRoundUncheckedUpdateManyWithoutRiotMatchesNestedInput = {
-    create?: XOR<RiotMatchRoundCreateWithoutRiotMatchesInput, RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput> | RiotMatchRoundCreateWithoutRiotMatchesInput[] | RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput | RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput[]
-    upsert?: RiotMatchRoundUpsertWithWhereUniqueWithoutRiotMatchesInput | RiotMatchRoundUpsertWithWhereUniqueWithoutRiotMatchesInput[]
-    createMany?: RiotMatchRoundCreateManyRiotMatchesInputEnvelope
-    set?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-    disconnect?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-    delete?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-    connect?: RiotMatchRoundWhereUniqueInput | RiotMatchRoundWhereUniqueInput[]
-    update?: RiotMatchRoundUpdateWithWhereUniqueWithoutRiotMatchesInput | RiotMatchRoundUpdateWithWhereUniqueWithoutRiotMatchesInput[]
-    updateMany?: RiotMatchRoundUpdateManyWithWhereWithoutRiotMatchesInput | RiotMatchRoundUpdateManyWithWhereWithoutRiotMatchesInput[]
-    deleteMany?: RiotMatchRoundScalarWhereInput | RiotMatchRoundScalarWhereInput[]
+  export type PlayerMatchUncheckedCreateNestedManyWithoutMatchInput = {
+    create?: XOR<PlayerMatchCreateWithoutMatchInput, PlayerMatchUncheckedCreateWithoutMatchInput> | PlayerMatchCreateWithoutMatchInput[] | PlayerMatchUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: PlayerMatchCreateOrConnectWithoutMatchInput | PlayerMatchCreateOrConnectWithoutMatchInput[]
+    createMany?: PlayerMatchCreateManyMatchInputEnvelope
+    connect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
   }
 
-  export type RiotMatchPlayersUncheckedUpdateManyWithoutRiotMatchesNestedInput = {
-    create?: XOR<RiotMatchPlayersCreateWithoutRiotMatchesInput, RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput> | RiotMatchPlayersCreateWithoutRiotMatchesInput[] | RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput[]
-    connectOrCreate?: RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput | RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput[]
-    upsert?: RiotMatchPlayersUpsertWithWhereUniqueWithoutRiotMatchesInput | RiotMatchPlayersUpsertWithWhereUniqueWithoutRiotMatchesInput[]
-    set?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-    disconnect?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-    delete?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-    connect?: RiotMatchPlayersWhereUniqueInput | RiotMatchPlayersWhereUniqueInput[]
-    update?: RiotMatchPlayersUpdateWithWhereUniqueWithoutRiotMatchesInput | RiotMatchPlayersUpdateWithWhereUniqueWithoutRiotMatchesInput[]
-    updateMany?: RiotMatchPlayersUpdateManyWithWhereWithoutRiotMatchesInput | RiotMatchPlayersUpdateManyWithWhereWithoutRiotMatchesInput[]
-    deleteMany?: RiotMatchPlayersScalarWhereInput | RiotMatchPlayersScalarWhereInput[]
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
-  export type RiotMatchesCreateNestedOneWithoutRoundsInput = {
-    create?: XOR<RiotMatchesCreateWithoutRoundsInput, RiotMatchesUncheckedCreateWithoutRoundsInput>
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutRoundsInput
-    connect?: RiotMatchesWhereUniqueInput
+  export type PlayerMatchUpdateManyWithoutMatchNestedInput = {
+    create?: XOR<PlayerMatchCreateWithoutMatchInput, PlayerMatchUncheckedCreateWithoutMatchInput> | PlayerMatchCreateWithoutMatchInput[] | PlayerMatchUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: PlayerMatchCreateOrConnectWithoutMatchInput | PlayerMatchCreateOrConnectWithoutMatchInput[]
+    upsert?: PlayerMatchUpsertWithWhereUniqueWithoutMatchInput | PlayerMatchUpsertWithWhereUniqueWithoutMatchInput[]
+    createMany?: PlayerMatchCreateManyMatchInputEnvelope
+    set?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    disconnect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    delete?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    connect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    update?: PlayerMatchUpdateWithWhereUniqueWithoutMatchInput | PlayerMatchUpdateWithWhereUniqueWithoutMatchInput[]
+    updateMany?: PlayerMatchUpdateManyWithWhereWithoutMatchInput | PlayerMatchUpdateManyWithWhereWithoutMatchInput[]
+    deleteMany?: PlayerMatchScalarWhereInput | PlayerMatchScalarWhereInput[]
   }
 
-  export type RiotMatchesUpdateOneRequiredWithoutRoundsNestedInput = {
-    create?: XOR<RiotMatchesCreateWithoutRoundsInput, RiotMatchesUncheckedCreateWithoutRoundsInput>
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutRoundsInput
-    upsert?: RiotMatchesUpsertWithoutRoundsInput
-    connect?: RiotMatchesWhereUniqueInput
-    update?: XOR<XOR<RiotMatchesUpdateToOneWithWhereWithoutRoundsInput, RiotMatchesUpdateWithoutRoundsInput>, RiotMatchesUncheckedUpdateWithoutRoundsInput>
-  }
-
-  export type RiotMatchesCreateNestedManyWithoutMatchPlayersInput = {
-    create?: XOR<RiotMatchesCreateWithoutMatchPlayersInput, RiotMatchesUncheckedCreateWithoutMatchPlayersInput> | RiotMatchesCreateWithoutMatchPlayersInput[] | RiotMatchesUncheckedCreateWithoutMatchPlayersInput[]
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutMatchPlayersInput | RiotMatchesCreateOrConnectWithoutMatchPlayersInput[]
-    connect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-  }
-
-  export type RiotMatchesUncheckedCreateNestedManyWithoutMatchPlayersInput = {
-    create?: XOR<RiotMatchesCreateWithoutMatchPlayersInput, RiotMatchesUncheckedCreateWithoutMatchPlayersInput> | RiotMatchesCreateWithoutMatchPlayersInput[] | RiotMatchesUncheckedCreateWithoutMatchPlayersInput[]
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutMatchPlayersInput | RiotMatchesCreateOrConnectWithoutMatchPlayersInput[]
-    connect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-  }
-
-  export type RiotMatchesUpdateManyWithoutMatchPlayersNestedInput = {
-    create?: XOR<RiotMatchesCreateWithoutMatchPlayersInput, RiotMatchesUncheckedCreateWithoutMatchPlayersInput> | RiotMatchesCreateWithoutMatchPlayersInput[] | RiotMatchesUncheckedCreateWithoutMatchPlayersInput[]
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutMatchPlayersInput | RiotMatchesCreateOrConnectWithoutMatchPlayersInput[]
-    upsert?: RiotMatchesUpsertWithWhereUniqueWithoutMatchPlayersInput | RiotMatchesUpsertWithWhereUniqueWithoutMatchPlayersInput[]
-    set?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    disconnect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    delete?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    connect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    update?: RiotMatchesUpdateWithWhereUniqueWithoutMatchPlayersInput | RiotMatchesUpdateWithWhereUniqueWithoutMatchPlayersInput[]
-    updateMany?: RiotMatchesUpdateManyWithWhereWithoutMatchPlayersInput | RiotMatchesUpdateManyWithWhereWithoutMatchPlayersInput[]
-    deleteMany?: RiotMatchesScalarWhereInput | RiotMatchesScalarWhereInput[]
-  }
-
-  export type RiotMatchesUncheckedUpdateManyWithoutMatchPlayersNestedInput = {
-    create?: XOR<RiotMatchesCreateWithoutMatchPlayersInput, RiotMatchesUncheckedCreateWithoutMatchPlayersInput> | RiotMatchesCreateWithoutMatchPlayersInput[] | RiotMatchesUncheckedCreateWithoutMatchPlayersInput[]
-    connectOrCreate?: RiotMatchesCreateOrConnectWithoutMatchPlayersInput | RiotMatchesCreateOrConnectWithoutMatchPlayersInput[]
-    upsert?: RiotMatchesUpsertWithWhereUniqueWithoutMatchPlayersInput | RiotMatchesUpsertWithWhereUniqueWithoutMatchPlayersInput[]
-    set?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    disconnect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    delete?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    connect?: RiotMatchesWhereUniqueInput | RiotMatchesWhereUniqueInput[]
-    update?: RiotMatchesUpdateWithWhereUniqueWithoutMatchPlayersInput | RiotMatchesUpdateWithWhereUniqueWithoutMatchPlayersInput[]
-    updateMany?: RiotMatchesUpdateManyWithWhereWithoutMatchPlayersInput | RiotMatchesUpdateManyWithWhereWithoutMatchPlayersInput[]
-    deleteMany?: RiotMatchesScalarWhereInput | RiotMatchesScalarWhereInput[]
+  export type PlayerMatchUncheckedUpdateManyWithoutMatchNestedInput = {
+    create?: XOR<PlayerMatchCreateWithoutMatchInput, PlayerMatchUncheckedCreateWithoutMatchInput> | PlayerMatchCreateWithoutMatchInput[] | PlayerMatchUncheckedCreateWithoutMatchInput[]
+    connectOrCreate?: PlayerMatchCreateOrConnectWithoutMatchInput | PlayerMatchCreateOrConnectWithoutMatchInput[]
+    upsert?: PlayerMatchUpsertWithWhereUniqueWithoutMatchInput | PlayerMatchUpsertWithWhereUniqueWithoutMatchInput[]
+    createMany?: PlayerMatchCreateManyMatchInputEnvelope
+    set?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    disconnect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    delete?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    connect?: PlayerMatchWhereUniqueInput | PlayerMatchWhereUniqueInput[]
+    update?: PlayerMatchUpdateWithWhereUniqueWithoutMatchInput | PlayerMatchUpdateWithWhereUniqueWithoutMatchInput[]
+    updateMany?: PlayerMatchUpdateManyWithWhereWithoutMatchInput | PlayerMatchUpdateManyWithWhereWithoutMatchInput[]
+    deleteMany?: PlayerMatchScalarWhereInput | PlayerMatchScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8176,22 +6769,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedBoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
   export type NestedEnumRiotMatchTeamColorNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.RiotMatchTeamColor | EnumRiotMatchTeamColorFieldRefInput<$PrismaModel> | null
     in?: $Enums.RiotMatchTeamColor[] | ListEnumRiotMatchTeamColorFieldRefInput<$PrismaModel> | null
@@ -8199,26 +6776,9 @@ export namespace Prisma {
     not?: NestedEnumRiotMatchTeamColorNullableFilter<$PrismaModel> | $Enums.RiotMatchTeamColor | null
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8258,6 +6818,39 @@ export namespace Prisma {
     _max?: NestedEnumRiotMatchTeamColorNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type SessionCreateWithoutUserInput = {
     id: string
     expiresAt: Date | string
@@ -8278,47 +6871,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type RiotMatchesCreateWithoutUsersInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-    rounds?: RiotMatchRoundCreateNestedManyWithoutRiotMatchesInput
-    matchPlayers?: RiotMatchPlayersCreateNestedManyWithoutRiotMatchesInput
+  export type PlayerMatchCreateWithoutPlayerInput = {
+    id?: string
+    riotTag?: string | null
+    teamId?: string | null
+    characterId?: string | null
+    kills?: number | null
+    deaths?: number | null
+    assists?: number | null
+    tier?: number | null
+    playerCard?: string | null
+    playerTitle?: string | null
+    teamColor?: $Enums.RiotMatchTeamColor | null
+    teamWon?: boolean | null
+    teamRoundsWon?: number | null
+    match: RiotMatchCreateNestedOneWithoutPlayersInput
   }
 
-  export type RiotMatchesUncheckedCreateWithoutUsersInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-    rounds?: RiotMatchRoundUncheckedCreateNestedManyWithoutRiotMatchesInput
-    matchPlayers?: RiotMatchPlayersUncheckedCreateNestedManyWithoutRiotMatchesInput
+  export type PlayerMatchUncheckedCreateWithoutPlayerInput = {
+    id?: string
+    matchId: string
+    riotTag?: string | null
+    teamId?: string | null
+    characterId?: string | null
+    kills?: number | null
+    deaths?: number | null
+    assists?: number | null
+    tier?: number | null
+    playerCard?: string | null
+    playerTitle?: string | null
+    teamColor?: $Enums.RiotMatchTeamColor | null
+    teamWon?: boolean | null
+    teamRoundsWon?: number | null
   }
 
-  export type RiotMatchesCreateOrConnectWithoutUsersInput = {
-    where: RiotMatchesWhereUniqueInput
-    create: XOR<RiotMatchesCreateWithoutUsersInput, RiotMatchesUncheckedCreateWithoutUsersInput>
+  export type PlayerMatchCreateOrConnectWithoutPlayerInput = {
+    where: PlayerMatchWhereUniqueInput
+    create: XOR<PlayerMatchCreateWithoutPlayerInput, PlayerMatchUncheckedCreateWithoutPlayerInput>
+  }
+
+  export type PlayerMatchCreateManyPlayerInputEnvelope = {
+    data: PlayerMatchCreateManyPlayerInput | PlayerMatchCreateManyPlayerInput[]
+    skipDuplicates?: boolean
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -8346,62 +6940,57 @@ export namespace Prisma {
     expiresAt?: DateTimeFilter<"Session"> | Date | string
   }
 
-  export type RiotMatchesUpsertWithWhereUniqueWithoutUsersInput = {
-    where: RiotMatchesWhereUniqueInput
-    update: XOR<RiotMatchesUpdateWithoutUsersInput, RiotMatchesUncheckedUpdateWithoutUsersInput>
-    create: XOR<RiotMatchesCreateWithoutUsersInput, RiotMatchesUncheckedCreateWithoutUsersInput>
+  export type PlayerMatchUpsertWithWhereUniqueWithoutPlayerInput = {
+    where: PlayerMatchWhereUniqueInput
+    update: XOR<PlayerMatchUpdateWithoutPlayerInput, PlayerMatchUncheckedUpdateWithoutPlayerInput>
+    create: XOR<PlayerMatchCreateWithoutPlayerInput, PlayerMatchUncheckedCreateWithoutPlayerInput>
   }
 
-  export type RiotMatchesUpdateWithWhereUniqueWithoutUsersInput = {
-    where: RiotMatchesWhereUniqueInput
-    data: XOR<RiotMatchesUpdateWithoutUsersInput, RiotMatchesUncheckedUpdateWithoutUsersInput>
+  export type PlayerMatchUpdateWithWhereUniqueWithoutPlayerInput = {
+    where: PlayerMatchWhereUniqueInput
+    data: XOR<PlayerMatchUpdateWithoutPlayerInput, PlayerMatchUncheckedUpdateWithoutPlayerInput>
   }
 
-  export type RiotMatchesUpdateManyWithWhereWithoutUsersInput = {
-    where: RiotMatchesScalarWhereInput
-    data: XOR<RiotMatchesUpdateManyMutationInput, RiotMatchesUncheckedUpdateManyWithoutUsersInput>
+  export type PlayerMatchUpdateManyWithWhereWithoutPlayerInput = {
+    where: PlayerMatchScalarWhereInput
+    data: XOR<PlayerMatchUpdateManyMutationInput, PlayerMatchUncheckedUpdateManyWithoutPlayerInput>
   }
 
-  export type RiotMatchesScalarWhereInput = {
-    AND?: RiotMatchesScalarWhereInput | RiotMatchesScalarWhereInput[]
-    OR?: RiotMatchesScalarWhereInput[]
-    NOT?: RiotMatchesScalarWhereInput | RiotMatchesScalarWhereInput[]
-    id?: StringFilter<"RiotMatches"> | string
-    mapId?: StringNullableFilter<"RiotMatches"> | string | null
-    gameVersion?: StringNullableFilter<"RiotMatches"> | string | null
-    gameStart?: DateTimeNullableFilter<"RiotMatches"> | Date | string | null
-    gameEnd?: DateTimeNullableFilter<"RiotMatches"> | Date | string | null
-    isCompleted?: BoolNullableFilter<"RiotMatches"> | boolean | null
-    queueId?: StringNullableFilter<"RiotMatches"> | string | null
-    isRanked?: BoolNullableFilter<"RiotMatches"> | boolean | null
-    seasonId?: StringNullableFilter<"RiotMatches"> | string | null
-    roundsPlayed?: IntNullableFilter<"RiotMatches"> | number | null
-    teamWon?: EnumRiotMatchTeamColorNullableFilter<"RiotMatches"> | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: IntNullableFilter<"RiotMatches"> | number | null
-    teamBlueRoundsWon?: IntNullableFilter<"RiotMatches"> | number | null
-    riotMatchPlayersId?: StringNullableFilter<"RiotMatches"> | string | null
+  export type PlayerMatchScalarWhereInput = {
+    AND?: PlayerMatchScalarWhereInput | PlayerMatchScalarWhereInput[]
+    OR?: PlayerMatchScalarWhereInput[]
+    NOT?: PlayerMatchScalarWhereInput | PlayerMatchScalarWhereInput[]
+    id?: StringFilter<"PlayerMatch"> | string
+    playerId?: StringFilter<"PlayerMatch"> | string
+    matchId?: StringFilter<"PlayerMatch"> | string
+    riotTag?: StringNullableFilter<"PlayerMatch"> | string | null
+    teamId?: StringNullableFilter<"PlayerMatch"> | string | null
+    characterId?: StringNullableFilter<"PlayerMatch"> | string | null
+    kills?: IntNullableFilter<"PlayerMatch"> | number | null
+    deaths?: IntNullableFilter<"PlayerMatch"> | number | null
+    assists?: IntNullableFilter<"PlayerMatch"> | number | null
+    tier?: IntNullableFilter<"PlayerMatch"> | number | null
+    playerCard?: StringNullableFilter<"PlayerMatch"> | string | null
+    playerTitle?: StringNullableFilter<"PlayerMatch"> | string | null
+    teamColor?: EnumRiotMatchTeamColorNullableFilter<"PlayerMatch"> | $Enums.RiotMatchTeamColor | null
+    teamWon?: BoolNullableFilter<"PlayerMatch"> | boolean | null
+    teamRoundsWon?: IntNullableFilter<"PlayerMatch"> | number | null
   }
 
   export type UserCreateWithoutSessionInput = {
-    id?: string
-    discordId: string
-    discordName: string
+    puuid: string
     riotEntitlement?: string | null
     riotAuth?: string | null
-    riotPuuid?: string | null
     riotTag?: string | null
-    riotMatches?: RiotMatchesCreateNestedManyWithoutUsersInput
+    riotMatches?: PlayerMatchCreateNestedManyWithoutPlayerInput
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
-    id?: string
-    discordId: string
-    discordName: string
+    puuid: string
     riotEntitlement?: string | null
     riotAuth?: string | null
-    riotPuuid?: string | null
     riotTag?: string | null
-    riotMatches?: RiotMatchesUncheckedCreateNestedManyWithoutUsersInput
+    riotMatches?: PlayerMatchUncheckedCreateNestedManyWithoutPlayerInput
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -8421,45 +7010,33 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutSessionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
-    riotMatches?: RiotMatchesUpdateManyWithoutUsersNestedInput
+    riotMatches?: PlayerMatchUpdateManyWithoutPlayerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
+    puuid?: StringFieldUpdateOperationsInput | string
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
-    riotMatches?: RiotMatchesUncheckedUpdateManyWithoutUsersNestedInput
+    riotMatches?: PlayerMatchUncheckedUpdateManyWithoutPlayerNestedInput
   }
 
   export type UserCreateWithoutRiotMatchesInput = {
-    id?: string
-    discordId: string
-    discordName: string
+    puuid: string
     riotEntitlement?: string | null
     riotAuth?: string | null
-    riotPuuid?: string | null
     riotTag?: string | null
     Session?: SessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRiotMatchesInput = {
-    id?: string
-    discordId: string
-    discordName: string
+    puuid: string
     riotEntitlement?: string | null
     riotAuth?: string | null
-    riotPuuid?: string | null
     riotTag?: string | null
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
@@ -8469,207 +7046,82 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutRiotMatchesInput, UserUncheckedCreateWithoutRiotMatchesInput>
   }
 
-  export type RiotMatchRoundCreateWithoutRiotMatchesInput = {
-    id?: string
+  export type RiotMatchCreateWithoutPlayersInput = {
+    id: string
+    mapId?: string | null
+    gameVersion?: string | null
+    gameStart?: Date | string | null
+    gameEnd?: Date | string | null
+    isCompleted?: boolean | null
+    queueId?: string | null
+    isRanked?: boolean | null
+    seasonId?: string | null
+    roundsPlayed?: number | null
+    teamWon?: $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: number | null
+    teamBlueRoundsWon?: number | null
   }
 
-  export type RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput = {
-    id?: string
+  export type RiotMatchUncheckedCreateWithoutPlayersInput = {
+    id: string
+    mapId?: string | null
+    gameVersion?: string | null
+    gameStart?: Date | string | null
+    gameEnd?: Date | string | null
+    isCompleted?: boolean | null
+    queueId?: string | null
+    isRanked?: boolean | null
+    seasonId?: string | null
+    roundsPlayed?: number | null
+    teamWon?: $Enums.RiotMatchTeamColor | null
+    teamRedRoundsWon?: number | null
+    teamBlueRoundsWon?: number | null
   }
 
-  export type RiotMatchRoundCreateOrConnectWithoutRiotMatchesInput = {
-    where: RiotMatchRoundWhereUniqueInput
-    create: XOR<RiotMatchRoundCreateWithoutRiotMatchesInput, RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput>
+  export type RiotMatchCreateOrConnectWithoutPlayersInput = {
+    where: RiotMatchWhereUniqueInput
+    create: XOR<RiotMatchCreateWithoutPlayersInput, RiotMatchUncheckedCreateWithoutPlayersInput>
   }
 
-  export type RiotMatchRoundCreateManyRiotMatchesInputEnvelope = {
-    data: RiotMatchRoundCreateManyRiotMatchesInput | RiotMatchRoundCreateManyRiotMatchesInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type RiotMatchPlayersCreateWithoutRiotMatchesInput = {
-    id?: string
-    puuid: string
-    riotTag?: string | null
-    teamId?: string | null
-    characterId?: string | null
-    kills?: number | null
-    deaths?: number | null
-    assists?: number | null
-    tier?: number | null
-    playerCard?: string | null
-    playerTitle?: string | null
-    teamColor?: $Enums.RiotMatchTeamColor | null
-    teamWon?: boolean | null
-    teamRoundsWon?: number | null
-  }
-
-  export type RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput = {
-    id?: string
-    puuid: string
-    riotTag?: string | null
-    teamId?: string | null
-    characterId?: string | null
-    kills?: number | null
-    deaths?: number | null
-    assists?: number | null
-    tier?: number | null
-    playerCard?: string | null
-    playerTitle?: string | null
-    teamColor?: $Enums.RiotMatchTeamColor | null
-    teamWon?: boolean | null
-    teamRoundsWon?: number | null
-  }
-
-  export type RiotMatchPlayersCreateOrConnectWithoutRiotMatchesInput = {
-    where: RiotMatchPlayersWhereUniqueInput
-    create: XOR<RiotMatchPlayersCreateWithoutRiotMatchesInput, RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput>
-  }
-
-  export type UserUpsertWithWhereUniqueWithoutRiotMatchesInput = {
-    where: UserWhereUniqueInput
+  export type UserUpsertWithoutRiotMatchesInput = {
     update: XOR<UserUpdateWithoutRiotMatchesInput, UserUncheckedUpdateWithoutRiotMatchesInput>
     create: XOR<UserCreateWithoutRiotMatchesInput, UserUncheckedCreateWithoutRiotMatchesInput>
+    where?: UserWhereInput
   }
 
-  export type UserUpdateWithWhereUniqueWithoutRiotMatchesInput = {
-    where: UserWhereUniqueInput
+  export type UserUpdateToOneWithWhereWithoutRiotMatchesInput = {
+    where?: UserWhereInput
     data: XOR<UserUpdateWithoutRiotMatchesInput, UserUncheckedUpdateWithoutRiotMatchesInput>
   }
 
-  export type UserUpdateManyWithWhereWithoutRiotMatchesInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutRiotMatchesInput>
+  export type UserUpdateWithoutRiotMatchesInput = {
+    puuid?: StringFieldUpdateOperationsInput | string
+    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
+    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
+    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    Session?: SessionUpdateManyWithoutUserNestedInput
   }
 
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: StringFilter<"User"> | string
-    discordId?: StringFilter<"User"> | string
-    discordName?: StringFilter<"User"> | string
-    riotEntitlement?: StringNullableFilter<"User"> | string | null
-    riotAuth?: StringNullableFilter<"User"> | string | null
-    riotPuuid?: StringNullableFilter<"User"> | string | null
-    riotTag?: StringNullableFilter<"User"> | string | null
+  export type UserUncheckedUpdateWithoutRiotMatchesInput = {
+    puuid?: StringFieldUpdateOperationsInput | string
+    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
+    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
+    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type RiotMatchRoundUpsertWithWhereUniqueWithoutRiotMatchesInput = {
-    where: RiotMatchRoundWhereUniqueInput
-    update: XOR<RiotMatchRoundUpdateWithoutRiotMatchesInput, RiotMatchRoundUncheckedUpdateWithoutRiotMatchesInput>
-    create: XOR<RiotMatchRoundCreateWithoutRiotMatchesInput, RiotMatchRoundUncheckedCreateWithoutRiotMatchesInput>
+  export type RiotMatchUpsertWithoutPlayersInput = {
+    update: XOR<RiotMatchUpdateWithoutPlayersInput, RiotMatchUncheckedUpdateWithoutPlayersInput>
+    create: XOR<RiotMatchCreateWithoutPlayersInput, RiotMatchUncheckedCreateWithoutPlayersInput>
+    where?: RiotMatchWhereInput
   }
 
-  export type RiotMatchRoundUpdateWithWhereUniqueWithoutRiotMatchesInput = {
-    where: RiotMatchRoundWhereUniqueInput
-    data: XOR<RiotMatchRoundUpdateWithoutRiotMatchesInput, RiotMatchRoundUncheckedUpdateWithoutRiotMatchesInput>
+  export type RiotMatchUpdateToOneWithWhereWithoutPlayersInput = {
+    where?: RiotMatchWhereInput
+    data: XOR<RiotMatchUpdateWithoutPlayersInput, RiotMatchUncheckedUpdateWithoutPlayersInput>
   }
 
-  export type RiotMatchRoundUpdateManyWithWhereWithoutRiotMatchesInput = {
-    where: RiotMatchRoundScalarWhereInput
-    data: XOR<RiotMatchRoundUpdateManyMutationInput, RiotMatchRoundUncheckedUpdateManyWithoutRiotMatchesInput>
-  }
-
-  export type RiotMatchRoundScalarWhereInput = {
-    AND?: RiotMatchRoundScalarWhereInput | RiotMatchRoundScalarWhereInput[]
-    OR?: RiotMatchRoundScalarWhereInput[]
-    NOT?: RiotMatchRoundScalarWhereInput | RiotMatchRoundScalarWhereInput[]
-    id?: StringFilter<"RiotMatchRound"> | string
-    riotMatchesId?: StringFilter<"RiotMatchRound"> | string
-  }
-
-  export type RiotMatchPlayersUpsertWithWhereUniqueWithoutRiotMatchesInput = {
-    where: RiotMatchPlayersWhereUniqueInput
-    update: XOR<RiotMatchPlayersUpdateWithoutRiotMatchesInput, RiotMatchPlayersUncheckedUpdateWithoutRiotMatchesInput>
-    create: XOR<RiotMatchPlayersCreateWithoutRiotMatchesInput, RiotMatchPlayersUncheckedCreateWithoutRiotMatchesInput>
-  }
-
-  export type RiotMatchPlayersUpdateWithWhereUniqueWithoutRiotMatchesInput = {
-    where: RiotMatchPlayersWhereUniqueInput
-    data: XOR<RiotMatchPlayersUpdateWithoutRiotMatchesInput, RiotMatchPlayersUncheckedUpdateWithoutRiotMatchesInput>
-  }
-
-  export type RiotMatchPlayersUpdateManyWithWhereWithoutRiotMatchesInput = {
-    where: RiotMatchPlayersScalarWhereInput
-    data: XOR<RiotMatchPlayersUpdateManyMutationInput, RiotMatchPlayersUncheckedUpdateManyWithoutRiotMatchesInput>
-  }
-
-  export type RiotMatchPlayersScalarWhereInput = {
-    AND?: RiotMatchPlayersScalarWhereInput | RiotMatchPlayersScalarWhereInput[]
-    OR?: RiotMatchPlayersScalarWhereInput[]
-    NOT?: RiotMatchPlayersScalarWhereInput | RiotMatchPlayersScalarWhereInput[]
-    id?: StringFilter<"RiotMatchPlayers"> | string
-    puuid?: StringFilter<"RiotMatchPlayers"> | string
-    riotTag?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    teamId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    characterId?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    kills?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    deaths?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    assists?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    tier?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-    playerCard?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    playerTitle?: StringNullableFilter<"RiotMatchPlayers"> | string | null
-    teamColor?: EnumRiotMatchTeamColorNullableFilter<"RiotMatchPlayers"> | $Enums.RiotMatchTeamColor | null
-    teamWon?: BoolNullableFilter<"RiotMatchPlayers"> | boolean | null
-    teamRoundsWon?: IntNullableFilter<"RiotMatchPlayers"> | number | null
-  }
-
-  export type RiotMatchesCreateWithoutRoundsInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-    users?: UserCreateNestedManyWithoutRiotMatchesInput
-    matchPlayers?: RiotMatchPlayersCreateNestedManyWithoutRiotMatchesInput
-  }
-
-  export type RiotMatchesUncheckedCreateWithoutRoundsInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-    users?: UserUncheckedCreateNestedManyWithoutRiotMatchesInput
-    matchPlayers?: RiotMatchPlayersUncheckedCreateNestedManyWithoutRiotMatchesInput
-  }
-
-  export type RiotMatchesCreateOrConnectWithoutRoundsInput = {
-    where: RiotMatchesWhereUniqueInput
-    create: XOR<RiotMatchesCreateWithoutRoundsInput, RiotMatchesUncheckedCreateWithoutRoundsInput>
-  }
-
-  export type RiotMatchesUpsertWithoutRoundsInput = {
-    update: XOR<RiotMatchesUpdateWithoutRoundsInput, RiotMatchesUncheckedUpdateWithoutRoundsInput>
-    create: XOR<RiotMatchesCreateWithoutRoundsInput, RiotMatchesUncheckedCreateWithoutRoundsInput>
-    where?: RiotMatchesWhereInput
-  }
-
-  export type RiotMatchesUpdateToOneWithWhereWithoutRoundsInput = {
-    where?: RiotMatchesWhereInput
-    data: XOR<RiotMatchesUpdateWithoutRoundsInput, RiotMatchesUncheckedUpdateWithoutRoundsInput>
-  }
-
-  export type RiotMatchesUpdateWithoutRoundsInput = {
+  export type RiotMatchUpdateWithoutPlayersInput = {
     id?: StringFieldUpdateOperationsInput | string
     mapId?: NullableStringFieldUpdateOperationsInput | string | null
     gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8683,12 +7135,9 @@ export namespace Prisma {
     teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
     teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-    users?: UserUpdateManyWithoutRiotMatchesNestedInput
-    matchPlayers?: RiotMatchPlayersUpdateManyWithoutRiotMatchesNestedInput
   }
 
-  export type RiotMatchesUncheckedUpdateWithoutRoundsInput = {
+  export type RiotMatchUncheckedUpdateWithoutPlayersInput = {
     id?: StringFieldUpdateOperationsInput | string
     mapId?: NullableStringFieldUpdateOperationsInput | string | null
     gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8702,73 +7151,88 @@ export namespace Prisma {
     teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
     teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-    users?: UserUncheckedUpdateManyWithoutRiotMatchesNestedInput
-    matchPlayers?: RiotMatchPlayersUncheckedUpdateManyWithoutRiotMatchesNestedInput
   }
 
-  export type RiotMatchesCreateWithoutMatchPlayersInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-    users?: UserCreateNestedManyWithoutRiotMatchesInput
-    rounds?: RiotMatchRoundCreateNestedManyWithoutRiotMatchesInput
+  export type PlayerMatchCreateWithoutMatchInput = {
+    id?: string
+    riotTag?: string | null
+    teamId?: string | null
+    characterId?: string | null
+    kills?: number | null
+    deaths?: number | null
+    assists?: number | null
+    tier?: number | null
+    playerCard?: string | null
+    playerTitle?: string | null
+    teamColor?: $Enums.RiotMatchTeamColor | null
+    teamWon?: boolean | null
+    teamRoundsWon?: number | null
+    player: UserCreateNestedOneWithoutRiotMatchesInput
   }
 
-  export type RiotMatchesUncheckedCreateWithoutMatchPlayersInput = {
-    id: string
-    mapId?: string | null
-    gameVersion?: string | null
-    gameStart?: Date | string | null
-    gameEnd?: Date | string | null
-    isCompleted?: boolean | null
-    queueId?: string | null
-    isRanked?: boolean | null
-    seasonId?: string | null
-    roundsPlayed?: number | null
-    teamWon?: $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: number | null
-    teamBlueRoundsWon?: number | null
-    riotMatchPlayersId?: string | null
-    users?: UserUncheckedCreateNestedManyWithoutRiotMatchesInput
-    rounds?: RiotMatchRoundUncheckedCreateNestedManyWithoutRiotMatchesInput
+  export type PlayerMatchUncheckedCreateWithoutMatchInput = {
+    id?: string
+    playerId: string
+    riotTag?: string | null
+    teamId?: string | null
+    characterId?: string | null
+    kills?: number | null
+    deaths?: number | null
+    assists?: number | null
+    tier?: number | null
+    playerCard?: string | null
+    playerTitle?: string | null
+    teamColor?: $Enums.RiotMatchTeamColor | null
+    teamWon?: boolean | null
+    teamRoundsWon?: number | null
   }
 
-  export type RiotMatchesCreateOrConnectWithoutMatchPlayersInput = {
-    where: RiotMatchesWhereUniqueInput
-    create: XOR<RiotMatchesCreateWithoutMatchPlayersInput, RiotMatchesUncheckedCreateWithoutMatchPlayersInput>
+  export type PlayerMatchCreateOrConnectWithoutMatchInput = {
+    where: PlayerMatchWhereUniqueInput
+    create: XOR<PlayerMatchCreateWithoutMatchInput, PlayerMatchUncheckedCreateWithoutMatchInput>
   }
 
-  export type RiotMatchesUpsertWithWhereUniqueWithoutMatchPlayersInput = {
-    where: RiotMatchesWhereUniqueInput
-    update: XOR<RiotMatchesUpdateWithoutMatchPlayersInput, RiotMatchesUncheckedUpdateWithoutMatchPlayersInput>
-    create: XOR<RiotMatchesCreateWithoutMatchPlayersInput, RiotMatchesUncheckedCreateWithoutMatchPlayersInput>
+  export type PlayerMatchCreateManyMatchInputEnvelope = {
+    data: PlayerMatchCreateManyMatchInput | PlayerMatchCreateManyMatchInput[]
+    skipDuplicates?: boolean
   }
 
-  export type RiotMatchesUpdateWithWhereUniqueWithoutMatchPlayersInput = {
-    where: RiotMatchesWhereUniqueInput
-    data: XOR<RiotMatchesUpdateWithoutMatchPlayersInput, RiotMatchesUncheckedUpdateWithoutMatchPlayersInput>
+  export type PlayerMatchUpsertWithWhereUniqueWithoutMatchInput = {
+    where: PlayerMatchWhereUniqueInput
+    update: XOR<PlayerMatchUpdateWithoutMatchInput, PlayerMatchUncheckedUpdateWithoutMatchInput>
+    create: XOR<PlayerMatchCreateWithoutMatchInput, PlayerMatchUncheckedCreateWithoutMatchInput>
   }
 
-  export type RiotMatchesUpdateManyWithWhereWithoutMatchPlayersInput = {
-    where: RiotMatchesScalarWhereInput
-    data: XOR<RiotMatchesUpdateManyMutationInput, RiotMatchesUncheckedUpdateManyWithoutMatchPlayersInput>
+  export type PlayerMatchUpdateWithWhereUniqueWithoutMatchInput = {
+    where: PlayerMatchWhereUniqueInput
+    data: XOR<PlayerMatchUpdateWithoutMatchInput, PlayerMatchUncheckedUpdateWithoutMatchInput>
+  }
+
+  export type PlayerMatchUpdateManyWithWhereWithoutMatchInput = {
+    where: PlayerMatchScalarWhereInput
+    data: XOR<PlayerMatchUpdateManyMutationInput, PlayerMatchUncheckedUpdateManyWithoutMatchInput>
   }
 
   export type SessionCreateManyUserInput = {
     id: string
     expiresAt: Date | string
+  }
+
+  export type PlayerMatchCreateManyPlayerInput = {
+    id?: string
+    matchId: string
+    riotTag?: string | null
+    teamId?: string | null
+    characterId?: string | null
+    kills?: number | null
+    deaths?: number | null
+    assists?: number | null
+    tier?: number | null
+    playerCard?: string | null
+    playerTitle?: string | null
+    teamColor?: $Enums.RiotMatchTeamColor | null
+    teamWon?: boolean | null
+    teamRoundsWon?: number | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -8786,112 +7250,94 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type RiotMatchesUpdateWithoutUsersInput = {
+  export type PlayerMatchUpdateWithoutPlayerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-    rounds?: RiotMatchRoundUpdateManyWithoutRiotMatchesNestedInput
-    matchPlayers?: RiotMatchPlayersUpdateManyWithoutRiotMatchesNestedInput
+    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    kills?: NullableIntFieldUpdateOperationsInput | number | null
+    deaths?: NullableIntFieldUpdateOperationsInput | number | null
+    assists?: NullableIntFieldUpdateOperationsInput | number | null
+    tier?: NullableIntFieldUpdateOperationsInput | number | null
+    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
+    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    match?: RiotMatchUpdateOneRequiredWithoutPlayersNestedInput
   }
 
-  export type RiotMatchesUncheckedUpdateWithoutUsersInput = {
+  export type PlayerMatchUncheckedUpdateWithoutPlayerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-    rounds?: RiotMatchRoundUncheckedUpdateManyWithoutRiotMatchesNestedInput
-    matchPlayers?: RiotMatchPlayersUncheckedUpdateManyWithoutRiotMatchesNestedInput
+    matchId?: StringFieldUpdateOperationsInput | string
+    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    kills?: NullableIntFieldUpdateOperationsInput | number | null
+    deaths?: NullableIntFieldUpdateOperationsInput | number | null
+    assists?: NullableIntFieldUpdateOperationsInput | number | null
+    tier?: NullableIntFieldUpdateOperationsInput | number | null
+    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
+    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
-  export type RiotMatchesUncheckedUpdateManyWithoutUsersInput = {
+  export type PlayerMatchUncheckedUpdateManyWithoutPlayerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
+    matchId?: StringFieldUpdateOperationsInput | string
+    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    kills?: NullableIntFieldUpdateOperationsInput | number | null
+    deaths?: NullableIntFieldUpdateOperationsInput | number | null
+    assists?: NullableIntFieldUpdateOperationsInput | number | null
+    tier?: NullableIntFieldUpdateOperationsInput | number | null
+    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
+    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
-  export type RiotMatchRoundCreateManyRiotMatchesInput = {
+  export type PlayerMatchCreateManyMatchInput = {
     id?: string
+    playerId: string
+    riotTag?: string | null
+    teamId?: string | null
+    characterId?: string | null
+    kills?: number | null
+    deaths?: number | null
+    assists?: number | null
+    tier?: number | null
+    playerCard?: string | null
+    playerTitle?: string | null
+    teamColor?: $Enums.RiotMatchTeamColor | null
+    teamWon?: boolean | null
+    teamRoundsWon?: number | null
   }
 
-  export type UserUpdateWithoutRiotMatchesInput = {
+  export type PlayerMatchUpdateWithoutMatchInput = {
     id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
-    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
-    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
-    Session?: SessionUpdateManyWithoutUserNestedInput
+    teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    kills?: NullableIntFieldUpdateOperationsInput | number | null
+    deaths?: NullableIntFieldUpdateOperationsInput | number | null
+    assists?: NullableIntFieldUpdateOperationsInput | number | null
+    tier?: NullableIntFieldUpdateOperationsInput | number | null
+    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
+    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
+    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    player?: UserUpdateOneRequiredWithoutRiotMatchesNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutRiotMatchesInput = {
+  export type PlayerMatchUncheckedUpdateWithoutMatchInput = {
     id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
-    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
-    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
-    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
-    Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateManyWithoutRiotMatchesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    discordId?: StringFieldUpdateOperationsInput | string
-    discordName?: StringFieldUpdateOperationsInput | string
-    riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
-    riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
-    riotPuuid?: NullableStringFieldUpdateOperationsInput | string | null
-    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type RiotMatchRoundUpdateWithoutRiotMatchesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RiotMatchRoundUncheckedUpdateWithoutRiotMatchesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RiotMatchRoundUncheckedUpdateManyWithoutRiotMatchesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RiotMatchPlayersUpdateWithoutRiotMatchesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    puuid?: StringFieldUpdateOperationsInput | string
+    playerId?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8906,9 +7352,9 @@ export namespace Prisma {
     teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
-  export type RiotMatchPlayersUncheckedUpdateWithoutRiotMatchesInput = {
+  export type PlayerMatchUncheckedUpdateManyWithoutMatchInput = {
     id?: StringFieldUpdateOperationsInput | string
-    puuid?: StringFieldUpdateOperationsInput | string
+    playerId?: StringFieldUpdateOperationsInput | string
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
     characterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8921,78 +7367,6 @@ export namespace Prisma {
     teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
     teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type RiotMatchPlayersUncheckedUpdateManyWithoutRiotMatchesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    puuid?: StringFieldUpdateOperationsInput | string
-    riotTag?: NullableStringFieldUpdateOperationsInput | string | null
-    teamId?: NullableStringFieldUpdateOperationsInput | string | null
-    characterId?: NullableStringFieldUpdateOperationsInput | string | null
-    kills?: NullableIntFieldUpdateOperationsInput | number | null
-    deaths?: NullableIntFieldUpdateOperationsInput | number | null
-    assists?: NullableIntFieldUpdateOperationsInput | number | null
-    tier?: NullableIntFieldUpdateOperationsInput | number | null
-    playerCard?: NullableStringFieldUpdateOperationsInput | string | null
-    playerTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    teamColor?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamWon?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    teamRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type RiotMatchesUpdateWithoutMatchPlayersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-    users?: UserUpdateManyWithoutRiotMatchesNestedInput
-    rounds?: RiotMatchRoundUpdateManyWithoutRiotMatchesNestedInput
-  }
-
-  export type RiotMatchesUncheckedUpdateWithoutMatchPlayersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
-    users?: UserUncheckedUpdateManyWithoutRiotMatchesNestedInput
-    rounds?: RiotMatchRoundUncheckedUpdateManyWithoutRiotMatchesNestedInput
-  }
-
-  export type RiotMatchesUncheckedUpdateManyWithoutMatchPlayersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    mapId?: NullableStringFieldUpdateOperationsInput | string | null
-    gameVersion?: NullableStringFieldUpdateOperationsInput | string | null
-    gameStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    isCompleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    queueId?: NullableStringFieldUpdateOperationsInput | string | null
-    isRanked?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seasonId?: NullableStringFieldUpdateOperationsInput | string | null
-    roundsPlayed?: NullableIntFieldUpdateOperationsInput | number | null
-    teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
-    teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
-    riotMatchPlayersId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
@@ -9005,13 +7379,9 @@ export namespace Prisma {
      */
     export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
     /**
-     * @deprecated Use RiotMatchesCountOutputTypeDefaultArgs instead
+     * @deprecated Use RiotMatchCountOutputTypeDefaultArgs instead
      */
-    export type RiotMatchesCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiotMatchesCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use RiotMatchPlayersCountOutputTypeDefaultArgs instead
-     */
-    export type RiotMatchPlayersCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiotMatchPlayersCountOutputTypeDefaultArgs<ExtArgs>
+    export type RiotMatchCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiotMatchCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -9021,17 +7391,13 @@ export namespace Prisma {
      */
     export type SessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SessionDefaultArgs<ExtArgs>
     /**
-     * @deprecated Use RiotMatchesDefaultArgs instead
+     * @deprecated Use PlayerMatchDefaultArgs instead
      */
-    export type RiotMatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiotMatchesDefaultArgs<ExtArgs>
+    export type PlayerMatchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PlayerMatchDefaultArgs<ExtArgs>
     /**
-     * @deprecated Use RiotMatchRoundDefaultArgs instead
+     * @deprecated Use RiotMatchDefaultArgs instead
      */
-    export type RiotMatchRoundArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiotMatchRoundDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use RiotMatchPlayersDefaultArgs instead
-     */
-    export type RiotMatchPlayersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiotMatchPlayersDefaultArgs<ExtArgs>
+    export type RiotMatchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiotMatchDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

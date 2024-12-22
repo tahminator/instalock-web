@@ -22,7 +22,7 @@ export default function LandingPage() {
             Welcome to <GradientTitle />, the comprehensive Valorant companion.
           </motion.h1>
           <div className="flex flex-row justify-center items-center space-x-4">
-            <GetStartedButton to="/login" />
+            <GetStartedButton to="/dashboard" />
             {/* {data && !isLoading && !isError ? (
               <Link to="/dashboard">
                 <Button

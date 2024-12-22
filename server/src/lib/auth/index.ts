@@ -18,8 +18,7 @@ export const lucia = new Lucia(adapter, {
   },
   getUserAttributes: (attributes) => {
     return {
-      discordName: attributes.discordName,
-      id: attributes.id,
+      puuid: attributes.puuid,
     };
   },
 });
