@@ -40,3 +40,11 @@ export const removeUserRiotCredentials = ({ puuid }: { puuid: string }) =>
       riotTag: null,
     },
   });
+
+export const markUserAsNoLongerNew = ({ puuid }: { puuid: string }) =>
+  db.user.update({
+    where: { puuid },
+    data: {
+      newUser: false,
+    },
+  });

@@ -21,4 +21,4 @@ tasks();
 
 setInterval(async () => {
   tasks();
-}, 1000 * 60 * 10);
+}, 1000 * 60 * 4);

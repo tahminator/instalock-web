@@ -23,6 +23,9 @@ model User {
   riotAuth        String?
   riotTag         String?
 
+  // My attributes
+  newUser Boolean @default(true)
+
   riotMatches PlayerMatch[]
 }
 

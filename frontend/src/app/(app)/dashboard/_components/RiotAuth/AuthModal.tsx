@@ -90,10 +90,11 @@ export default function RiotAuthenticationModal() {
   return (
     <>
       <Modal
-        opened={opened}
+        opened={loading ? true : opened}
         onClose={close}
         title="Riot Authentication"
         centered
+        withCloseButton={!loading}
       >
         <Container>
           <Box>
@@ -146,6 +147,7 @@ export default function RiotAuthenticationModal() {
                       "https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid"
                     )
                   }
+                  disabled={loading}
                 >
                   Open Riot Login Page
                 </Button>
@@ -202,12 +204,10 @@ export default function RiotAuthenticationModal() {
                 mt="lg"
                 className={classes.controls}
               >
-                <Button onClick={close}>Close</Button>
-                <Button
-                  type="submit"
-                  //   disabled={isSubmitting}
-                  //   loading={isSubmitting}
-                >
+                <Button onClick={close} disabled={loading}>
+                  Close
+                </Button>
+                <Button type="submit" disabled={loading}>
                   Authenticate
                 </Button>
               </Group>

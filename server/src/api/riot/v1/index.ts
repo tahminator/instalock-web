@@ -9,8 +9,10 @@ import { getAllMatchesByUserIdShallow } from "@/lib/db/function/matches";
 import {
   createOrUpdatePlayer,
   findPlayerByPuuid,
+  markUserAsNoLongerNew,
   removeUserRiotCredentials,
 } from "@/lib/db/function/user";
+import { loadMatchesForNewUser } from "@/lib/riot/loadMatchesNewUser";
 import { sendSuperJson } from "@/lib/superjson-sender";
 import { attempt } from "@instalock/attempt";
 import {
@@ -234,6 +236,12 @@ riotRouterV1.post("/auth", async (req, res) => {
         },
       }
     );
+  }
+
+  if (updatedUser.newUser) {
+    // New user fetch matches but wait for the promise to finish to continue, so their dashboard shouldn't be empty.
+    await loadMatchesForNewUser(updatedUser.puuid);
+    await markUserAsNoLongerNew({ puuid: updatedUser.puuid });
   }
 
   const session = await lucia.createSession(updatedUser.puuid, {});

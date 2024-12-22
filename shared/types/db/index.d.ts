@@ -1203,6 +1203,7 @@ export namespace Prisma {
     riotEntitlement: string | null
     riotAuth: string | null
     riotTag: string | null
+    newUser: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1210,6 +1211,7 @@ export namespace Prisma {
     riotEntitlement: string | null
     riotAuth: string | null
     riotTag: string | null
+    newUser: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1217,6 +1219,7 @@ export namespace Prisma {
     riotEntitlement: number
     riotAuth: number
     riotTag: number
+    newUser: number
     _all: number
   }
 
@@ -1226,6 +1229,7 @@ export namespace Prisma {
     riotEntitlement?: true
     riotAuth?: true
     riotTag?: true
+    newUser?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1233,6 +1237,7 @@ export namespace Prisma {
     riotEntitlement?: true
     riotAuth?: true
     riotTag?: true
+    newUser?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1240,6 +1245,7 @@ export namespace Prisma {
     riotEntitlement?: true
     riotAuth?: true
     riotTag?: true
+    newUser?: true
     _all?: true
   }
 
@@ -1320,6 +1326,7 @@ export namespace Prisma {
     riotEntitlement: string | null
     riotAuth: string | null
     riotTag: string | null
+    newUser: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1344,6 +1351,7 @@ export namespace Prisma {
     riotEntitlement?: boolean
     riotAuth?: boolean
     riotTag?: boolean
+    newUser?: boolean
     Session?: boolean | User$SessionArgs<ExtArgs>
     riotMatches?: boolean | User$riotMatchesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1354,6 +1362,7 @@ export namespace Prisma {
     riotEntitlement?: boolean
     riotAuth?: boolean
     riotTag?: boolean
+    newUser?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1361,6 +1370,7 @@ export namespace Prisma {
     riotEntitlement?: boolean
     riotAuth?: boolean
     riotTag?: boolean
+    newUser?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1381,6 +1391,7 @@ export namespace Prisma {
       riotEntitlement: string | null
       riotAuth: string | null
       riotTag: string | null
+      newUser: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1780,6 +1791,7 @@ export namespace Prisma {
     readonly riotEntitlement: FieldRef<"User", 'String'>
     readonly riotAuth: FieldRef<"User", 'String'>
     readonly riotTag: FieldRef<"User", 'String'>
+    readonly newUser: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -5270,7 +5282,8 @@ export namespace Prisma {
     puuid: 'puuid',
     riotEntitlement: 'riotEntitlement',
     riotAuth: 'riotAuth',
-    riotTag: 'riotTag'
+    riotTag: 'riotTag',
+    newUser: 'newUser'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -5369,6 +5382,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -5411,13 +5431,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -5442,6 +5455,7 @@ export namespace Prisma {
     riotEntitlement?: StringNullableFilter<"User"> | string | null
     riotAuth?: StringNullableFilter<"User"> | string | null
     riotTag?: StringNullableFilter<"User"> | string | null
+    newUser?: BoolFilter<"User"> | boolean
     Session?: SessionListRelationFilter
     riotMatches?: PlayerMatchListRelationFilter
   }
@@ -5451,6 +5465,7 @@ export namespace Prisma {
     riotEntitlement?: SortOrderInput | SortOrder
     riotAuth?: SortOrderInput | SortOrder
     riotTag?: SortOrderInput | SortOrder
+    newUser?: SortOrder
     Session?: SessionOrderByRelationAggregateInput
     riotMatches?: PlayerMatchOrderByRelationAggregateInput
   }
@@ -5463,6 +5478,7 @@ export namespace Prisma {
     riotEntitlement?: StringNullableFilter<"User"> | string | null
     riotAuth?: StringNullableFilter<"User"> | string | null
     riotTag?: StringNullableFilter<"User"> | string | null
+    newUser?: BoolFilter<"User"> | boolean
     Session?: SessionListRelationFilter
     riotMatches?: PlayerMatchListRelationFilter
   }, "puuid">
@@ -5472,6 +5488,7 @@ export namespace Prisma {
     riotEntitlement?: SortOrderInput | SortOrder
     riotAuth?: SortOrderInput | SortOrder
     riotTag?: SortOrderInput | SortOrder
+    newUser?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -5485,6 +5502,7 @@ export namespace Prisma {
     riotEntitlement?: StringNullableWithAggregatesFilter<"User"> | string | null
     riotAuth?: StringNullableWithAggregatesFilter<"User"> | string | null
     riotTag?: StringNullableWithAggregatesFilter<"User"> | string | null
+    newUser?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type SessionWhereInput = {
@@ -5745,6 +5763,7 @@ export namespace Prisma {
     riotEntitlement?: string | null
     riotAuth?: string | null
     riotTag?: string | null
+    newUser?: boolean
     Session?: SessionCreateNestedManyWithoutUserInput
     riotMatches?: PlayerMatchCreateNestedManyWithoutPlayerInput
   }
@@ -5754,6 +5773,7 @@ export namespace Prisma {
     riotEntitlement?: string | null
     riotAuth?: string | null
     riotTag?: string | null
+    newUser?: boolean
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     riotMatches?: PlayerMatchUncheckedCreateNestedManyWithoutPlayerInput
   }
@@ -5763,6 +5783,7 @@ export namespace Prisma {
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    newUser?: BoolFieldUpdateOperationsInput | boolean
     Session?: SessionUpdateManyWithoutUserNestedInput
     riotMatches?: PlayerMatchUpdateManyWithoutPlayerNestedInput
   }
@@ -5772,6 +5793,7 @@ export namespace Prisma {
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    newUser?: BoolFieldUpdateOperationsInput | boolean
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     riotMatches?: PlayerMatchUncheckedUpdateManyWithoutPlayerNestedInput
   }
@@ -5781,6 +5803,7 @@ export namespace Prisma {
     riotEntitlement?: string | null
     riotAuth?: string | null
     riotTag?: string | null
+    newUser?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -5788,6 +5811,7 @@ export namespace Prisma {
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    newUser?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -5795,6 +5819,7 @@ export namespace Prisma {
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    newUser?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SessionCreateInput = {
@@ -6108,6 +6133,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -6138,6 +6168,7 @@ export namespace Prisma {
     riotEntitlement?: SortOrder
     riotAuth?: SortOrder
     riotTag?: SortOrder
+    newUser?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -6145,6 +6176,7 @@ export namespace Prisma {
     riotEntitlement?: SortOrder
     riotAuth?: SortOrder
     riotTag?: SortOrder
+    newUser?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -6152,6 +6184,7 @@ export namespace Prisma {
     riotEntitlement?: SortOrder
     riotAuth?: SortOrder
     riotTag?: SortOrder
+    newUser?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -6188,6 +6221,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -6496,6 +6537,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type SessionUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -6688,6 +6733,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -6742,6 +6792,14 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -6982,6 +7040,7 @@ export namespace Prisma {
     riotEntitlement?: string | null
     riotAuth?: string | null
     riotTag?: string | null
+    newUser?: boolean
     riotMatches?: PlayerMatchCreateNestedManyWithoutPlayerInput
   }
 
@@ -6990,6 +7049,7 @@ export namespace Prisma {
     riotEntitlement?: string | null
     riotAuth?: string | null
     riotTag?: string | null
+    newUser?: boolean
     riotMatches?: PlayerMatchUncheckedCreateNestedManyWithoutPlayerInput
   }
 
@@ -7014,6 +7074,7 @@ export namespace Prisma {
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    newUser?: BoolFieldUpdateOperationsInput | boolean
     riotMatches?: PlayerMatchUpdateManyWithoutPlayerNestedInput
   }
 
@@ -7022,6 +7083,7 @@ export namespace Prisma {
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    newUser?: BoolFieldUpdateOperationsInput | boolean
     riotMatches?: PlayerMatchUncheckedUpdateManyWithoutPlayerNestedInput
   }
 
@@ -7030,6 +7092,7 @@ export namespace Prisma {
     riotEntitlement?: string | null
     riotAuth?: string | null
     riotTag?: string | null
+    newUser?: boolean
     Session?: SessionCreateNestedManyWithoutUserInput
   }
 
@@ -7038,6 +7101,7 @@ export namespace Prisma {
     riotEntitlement?: string | null
     riotAuth?: string | null
     riotTag?: string | null
+    newUser?: boolean
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -7099,6 +7163,7 @@ export namespace Prisma {
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    newUser?: BoolFieldUpdateOperationsInput | boolean
     Session?: SessionUpdateManyWithoutUserNestedInput
   }
 
@@ -7107,6 +7172,7 @@ export namespace Prisma {
     riotEntitlement?: NullableStringFieldUpdateOperationsInput | string | null
     riotAuth?: NullableStringFieldUpdateOperationsInput | string | null
     riotTag?: NullableStringFieldUpdateOperationsInput | string | null
+    newUser?: BoolFieldUpdateOperationsInput | boolean
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 

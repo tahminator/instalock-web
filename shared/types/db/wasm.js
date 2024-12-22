@@ -126,7 +126,8 @@ exports.Prisma.UserScalarFieldEnum = {
   puuid: 'puuid',
   riotEntitlement: 'riotEntitlement',
   riotAuth: 'riotAuth',
-  riotTag: 'riotTag'
+  riotTag: 'riotTag',
+  newUser: 'newUser'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
