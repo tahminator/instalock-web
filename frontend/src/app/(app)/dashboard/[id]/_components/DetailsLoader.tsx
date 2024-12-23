@@ -73,8 +73,8 @@ export default function DetailsLoader({ uuid }: { uuid: string }) {
         <PlayerTable className="w-1/2 p-4" players={enemyPlayers} me={me} />
       </div>
       <Link to="/dashboard">
-        <Button className="mt-8" variant="transparent">
-          Go back to matches
+        <Button className="mt-8" variant="outline" color="red">
+          Go back to dashboard
         </Button>
       </Link>
     </div>

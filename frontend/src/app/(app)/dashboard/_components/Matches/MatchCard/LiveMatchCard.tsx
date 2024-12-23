@@ -11,13 +11,12 @@ export default function LiveMatchCard() {
         <Link to={"/live"}>
           <Button
             variant="gradient"
-            gradient={{ from: "indigo", to: "blue" }}
+            gradient={{ from: "blue", to: "red.7" }}
             fullWidth
             mt="md"
             radius="md"
-            disabled
           >
-            Select Agent (Disabled due to a bug)
+            Select Agent
           </Button>
         </Link>
       </div>

@@ -368,3 +368,103 @@ export type Team = {
   roundsWon?: number;
   numPoints?: number;
 };
+
+type RiotPreGameFailType = {
+  httpStatus: number;
+  errorCode: string;
+  message: string;
+};
+
+type RiotPreGamePassType = {
+  httpStatus: undefined;
+  Subject: string;
+  MatchID: string;
+  Version: number;
+};
+
+export type RiotPreGameApiType = RiotPreGameFailType | RiotPreGamePassType;
+
+export type RiotPreGameDataType = {
+  ID: string;
+  Version: number;
+  Teams: RTeam[];
+  AllyTeam: RTeam;
+  EnemyTeam: null;
+  ObserverSubjects: any[];
+  MatchCoaches: any[];
+  EnemyTeamSize: number;
+  EnemyTeamLockCount: number;
+  PregameState: string;
+  LastUpdated: Date;
+  MapID: string;
+  MapSelectPool: any[];
+  BannedMapIDs: any[];
+  CastedVotes: CastedVotes;
+  MapSelectSteps: any[];
+  MapSelectStep: number;
+  Team1: string;
+  GamePodID: string;
+  Mode: string;
+  VoiceSessionID: string;
+  MUCName: string;
+  TeamMatchToken: string;
+  QueueID: string;
+  ProvisioningFlowID: string;
+  IsRanked: boolean;
+  PhaseTimeRemainingNS: number;
+  StepTimeRemainingNS: number;
+  altModesFlagADA: boolean;
+  TournamentMetadata: null;
+  RosterMetadata: null;
+};
+
+export type RTeam = {
+  TeamID: string;
+  Players: RPlayer[];
+};
+
+export type RPlayer = {
+  Subject: string;
+  CharacterID: string;
+  CharacterSelectionState: CharacterSelectionState;
+  PregamePlayerState: PregamePlayerState;
+  CompetitiveTier: number;
+  PlayerIdentity: PlayerIdentity;
+  SeasonalBadgeInfo: SeasonalBadgeInfo;
+  IsCaptain: boolean;
+  PlatformType: RPlatformType;
+};
+
+export enum CharacterSelectionState {
+  Empty = "",
+  Locked = "locked",
+  Selected = "selected",
+}
+
+export enum RPlatformType {
+  PC = "pc",
+}
+
+export type PlayerIdentity = {
+  Subject: string;
+  PlayerCardID: string;
+  PlayerTitleID: string;
+  AccountLevel: number;
+  PreferredLevelBorderID: string;
+  Incognito: boolean;
+  HideAccountLevel: boolean;
+};
+
+export enum PregamePlayerState {
+  Joined = "joined",
+}
+
+export type SeasonalBadgeInfo = {
+  SeasonID: string;
+  NumberOfWins: number;
+  WinsByTier: null;
+  Rank: number;
+  LeaderboardRank: number;
+};
+
+export type CastedVotes = {};

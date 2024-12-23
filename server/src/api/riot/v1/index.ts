@@ -59,7 +59,7 @@ riotRouterV1.get("/@me", async (req, res) => {
     );
   }
 
-  const { riotAuth, riotEntitlement } = user;
+  const { riotAuth, riotEntitlement, puuid } = user;
 
   if (!riotAuth || !riotEntitlement) {
     return sendSuperJson(req, res, 400, {
@@ -86,7 +86,7 @@ riotRouterV1.get("/@me", async (req, res) => {
   return sendSuperJson(req, res, 200, {
     success: true,
     message: "Authenticated.",
-    data: { authToken: riotAuth, entitlement: riotEntitlement },
+    data: { authToken: riotAuth, entitlement: riotEntitlement, puuid },
   });
 });
 
