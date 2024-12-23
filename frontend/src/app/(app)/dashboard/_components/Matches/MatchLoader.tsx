@@ -8,6 +8,7 @@
 // }
 
 import { useGetShallowMatchesQuery } from "@/app/(app)/dashboard/_components/Matches/hooks";
+import LiveMatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/LiveMatchCard";
 import MatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/MatchCard";
 import SkeletonMatchCardComponent from "@/app/(app)/dashboard/_components/Matches/MatchCard/SkeletonCard/SkeletonCard";
 import { ReactNode } from "react";
@@ -27,6 +28,7 @@ export default function MatchLoader() {
 
   return (
     <MatchLoaderWrapper>
+      <LiveMatchCard />
       {data.matches.map((match) => (
         <MatchCard match={match} />
       ))}

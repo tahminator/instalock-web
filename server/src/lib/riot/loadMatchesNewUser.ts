@@ -100,8 +100,7 @@ export const loadMatchesForNewUser = async (userId: string) => {
         gameVersion: matchInfo?.gameVersion,
         gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
         gameEnd: new Date(
-          (matchInfo?.gameLengthMillis ?? 0) +
-            (matchInfo?.gameLengthMillis ?? 0)
+          (matchInfo?.gameStartMillis ?? 0) + (matchInfo?.gameLengthMillis ?? 0)
         ),
         isCompleted: matchInfo?.isCompleted,
         queueId: matchInfo?.queueID,

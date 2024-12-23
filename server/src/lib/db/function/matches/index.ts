@@ -23,11 +23,8 @@ export const getAllMatchesByUserIdShallow = ({
     },
   });
 
-// export const getAllMatchesByUserId = ({ userId }: { userId: string }) =>
-//   db.riotMatches.findMany({
-//     where: {
-//       users: {
-//         some: { id: userId },
-//       },
-//     },
-//   });
+export const getMatchByUuid = ({ uuid }: { uuid: string }) =>
+  db.riotMatch.findUnique({
+    where: { id: uuid },
+    include: { players: true },
+  });
