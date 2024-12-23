@@ -21,6 +21,9 @@ export const getAllMatchesByUserIdShallow = ({
       gameEnd: true,
       queueId: true,
     },
+    orderBy: {
+      gameStart: "desc",
+    },
   });
 
 export const getMatchByUuid = ({ uuid }: { uuid: string }) =>
