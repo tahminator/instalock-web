@@ -28,7 +28,7 @@ export default function LiveChecker() {
     return (
       <div className="flex flex-col items-center justify-center w-screen h-[92vh]">
         <Loader size={"lg"} color={"red"} />
-        <Text className="pt-8 text-center">
+        <Text className="pt-8 text-center p-4">
           👋 Hey! This screen will automatically update once a new match has
           been detected.
         </Text>
