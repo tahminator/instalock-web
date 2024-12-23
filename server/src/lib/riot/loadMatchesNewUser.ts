@@ -95,6 +95,7 @@ export const loadMatchesForNewUser = async (userId: string) => {
         id: matchInfo?.matchId ?? randomUUID(),
       },
       create: {
+        raw: json,
         id: matchInfo?.matchId ?? randomUUID(),
         mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
         gameVersion: matchInfo?.gameVersion,
@@ -144,6 +145,7 @@ export const loadMatchesForNewUser = async (userId: string) => {
         },
       },
       update: {
+        raw: json,
         mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
         gameVersion: matchInfo?.gameVersion,
         gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
