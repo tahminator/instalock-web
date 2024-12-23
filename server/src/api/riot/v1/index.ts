@@ -523,6 +523,8 @@ riotRouterV1.get("/match/:id", async (req, res) => {
     });
   }
 
+  const puuid = res.locals.user.puuid;
+
   const data = { uuid: (req.params as { id: string }).id };
 
   const parser = await checkIdSchema.safeParseAsync(data);
@@ -564,9 +566,34 @@ riotRouterV1.get("/match/:id", async (req, res) => {
     );
   }
 
+  const newMatch = await (async () => {
+    const me = await db.playerMatch.findUnique({
+      where: {
+        playerId_matchId: {
+          playerId: puuid,
+          matchId: match.id,
+        },
+      },
+    });
+
+    // await writeFile(
+    //   `${__dirname}/test${match.id}.json`,
+    //   JSON.stringify(riotPlayersInMatch)
+    // );
+
+    const gameModeName = getGameModeName(match.queueId ?? "Unknown");
+
+    return {
+      ...match,
+      characterId: me?.characterId,
+      queueId: gameModeName,
+      me,
+    };
+  })();
+
   return sendSuperJson(req, res, 200, {
     success: true,
     message: "The match has been found!",
-    data: { ...match },
+    data: { ...newMatch },
   });
 });

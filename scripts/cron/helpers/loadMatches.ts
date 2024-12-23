@@ -148,7 +148,7 @@ export const loadMatchesForEachUser = async () => {
           gameVersion: matchInfo?.gameVersion,
           gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
           gameEnd: new Date(
-            (matchInfo?.gameLengthMillis ?? 0) +
+            (matchInfo?.gameStartMillis ?? 0) +
               (matchInfo?.gameLengthMillis ?? 0)
           ),
           isCompleted: matchInfo?.isCompleted,

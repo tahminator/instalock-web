@@ -1,9 +1,9 @@
 import { SJ } from "@instalock/sj";
-import { ApiDefault, Prisma } from "@instalock/types";
-import { useQuery } from "@tanstack/react-query";
+import { ApiDefault, PlayerMatch, Prisma } from "@instalock/types";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const useGetMatchInfoQuery = (uuid: string) =>
-  useQuery({
+  useSuspenseQuery({
     queryKey: ["riot", "match", uuid],
     queryFn: () => getRiotMatchInfo(uuid),
   });
@@ -16,7 +16,9 @@ export const getRiotMatchInfo = async (uuid: string) => {
   }
 
   const json = (await SJ.parse(await res.text())) as ApiDefault<
-    Prisma.RiotMatchGetPayload<{ include: { players: true } }>
+    Prisma.RiotMatchGetPayload<{ include: { players: true } }> & {
+      me: PlayerMatch;
+    }
   >;
 
   if (!json.success) {
