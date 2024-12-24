@@ -17,6 +17,7 @@ import { Button, Card, Image, Text, Tooltip } from "@mantine/core";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 // import fakeData from "./test.json";
+import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
 
 const agents = (() => {
   const agentsListList = Object.entries(agentUuidToNameObject);
@@ -116,7 +117,11 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
 
             return (
               <div className="flex flex-col items-center">
-                <div>{player.Subject === puuid ? "Me" : `#${idx + 1}`}</div>
+                <NameSearcher
+                  puuid={player.Subject}
+                  myPuuid={puuid ?? ""}
+                  idx={idx}
+                />
                 <Tooltip
                   label={`${
                     agentName ?? "Undecided"
