@@ -2,12 +2,26 @@ import MatchLoader from "@/app/(app)/dashboard/_components/Matches/MatchLoader";
 import RiotAuthenticationModal from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal";
 import UserNavbar from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar";
 import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
+import CenteredSpinner from "@/components/ui/centered-spinner";
+import { Text } from "@mantine/core";
 import { ReactNode, useMemo } from "react";
 
 export default function MatchIndex() {
-  const { data } = useRiotAuthQuery();
+  const { data, status } = useRiotAuthQuery();
 
   const valid = useMemo(() => !!data?.authToken && !!data?.entitlement, [data]);
+
+  if (status === "pending") {
+    return <CenteredSpinner />;
+  }
+
+  if (status === "error") {
+    return (
+      <MatchIndexWrapper>
+        <Text>Sorry, something went wrong. Please try again.</Text>
+      </MatchIndexWrapper>
+    );
+  }
 
   if (!valid) {
     return (
