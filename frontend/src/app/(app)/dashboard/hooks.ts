@@ -14,15 +14,16 @@ async function checkRiotAuth() {
   const json = (await SJ.parse(await res.text())) as ApiDefault<{
     authToken?: string;
     entitlement?: string;
+    puuid?: string;
   }>;
 
   if (!json.success) {
-    return { authToken: undefined, entitlement: undefined };
+    return { authToken: undefined, entitlement: undefined, puuid: undefined };
   }
 
-  const { authToken, entitlement } = json.data;
+  const { authToken, entitlement, puuid } = json.data;
 
-  return { authToken, entitlement };
+  return { authToken, entitlement, puuid };
 }
 
 export default useRiotAuthQuery;

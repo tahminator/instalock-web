@@ -4248,6 +4248,7 @@ export namespace Prisma {
     teamWon: number
     teamRedRoundsWon: number
     teamBlueRoundsWon: number
+    raw: number
     _all: number
   }
 
@@ -4310,6 +4311,7 @@ export namespace Prisma {
     teamWon?: true
     teamRedRoundsWon?: true
     teamBlueRoundsWon?: true
+    raw?: true
     _all?: true
   }
 
@@ -4413,6 +4415,7 @@ export namespace Prisma {
     teamWon: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon: number | null
     teamBlueRoundsWon: number | null
+    raw: JsonValue | null
     _count: RiotMatchCountAggregateOutputType | null
     _avg: RiotMatchAvgAggregateOutputType | null
     _sum: RiotMatchSumAggregateOutputType | null
@@ -4448,6 +4451,7 @@ export namespace Prisma {
     teamWon?: boolean
     teamRedRoundsWon?: boolean
     teamBlueRoundsWon?: boolean
+    raw?: boolean
     players?: boolean | RiotMatch$playersArgs<ExtArgs>
     _count?: boolean | RiotMatchCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["riotMatch"]>
@@ -4466,6 +4470,7 @@ export namespace Prisma {
     teamWon?: boolean
     teamRedRoundsWon?: boolean
     teamBlueRoundsWon?: boolean
+    raw?: boolean
   }, ExtArgs["result"]["riotMatch"]>
 
   export type RiotMatchSelectScalar = {
@@ -4482,6 +4487,7 @@ export namespace Prisma {
     teamWon?: boolean
     teamRedRoundsWon?: boolean
     teamBlueRoundsWon?: boolean
+    raw?: boolean
   }
 
   export type RiotMatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4509,6 +4515,7 @@ export namespace Prisma {
       teamWon: $Enums.RiotMatchTeamColor | null
       teamRedRoundsWon: number | null
       teamBlueRoundsWon: number | null
+      raw: Prisma.JsonValue | null
     }, ExtArgs["result"]["riotMatch"]>
     composites: {}
   }
@@ -4916,6 +4923,7 @@ export namespace Prisma {
     readonly teamWon: FieldRef<"RiotMatch", 'RiotMatchTeamColor'>
     readonly teamRedRoundsWon: FieldRef<"RiotMatch", 'Int'>
     readonly teamBlueRoundsWon: FieldRef<"RiotMatch", 'Int'>
+    readonly raw: FieldRef<"RiotMatch", 'Json'>
   }
     
 
@@ -5332,7 +5340,8 @@ export namespace Prisma {
     roundsPlayed: 'roundsPlayed',
     teamWon: 'teamWon',
     teamRedRoundsWon: 'teamRedRoundsWon',
-    teamBlueRoundsWon: 'teamBlueRoundsWon'
+    teamBlueRoundsWon: 'teamBlueRoundsWon',
+    raw: 'raw'
   };
 
   export type RiotMatchScalarFieldEnum = (typeof RiotMatchScalarFieldEnum)[keyof typeof RiotMatchScalarFieldEnum]
@@ -5344,6 +5353,14 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -5360,6 +5377,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -5427,6 +5453,13 @@ export namespace Prisma {
    * Reference to a field of type 'RiotMatchTeamColor[]'
    */
   export type ListEnumRiotMatchTeamColorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiotMatchTeamColor[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -5678,6 +5711,7 @@ export namespace Prisma {
     teamWon?: EnumRiotMatchTeamColorNullableFilter<"RiotMatch"> | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: IntNullableFilter<"RiotMatch"> | number | null
     teamBlueRoundsWon?: IntNullableFilter<"RiotMatch"> | number | null
+    raw?: JsonNullableFilter<"RiotMatch">
     players?: PlayerMatchListRelationFilter
   }
 
@@ -5695,6 +5729,7 @@ export namespace Prisma {
     teamWon?: SortOrderInput | SortOrder
     teamRedRoundsWon?: SortOrderInput | SortOrder
     teamBlueRoundsWon?: SortOrderInput | SortOrder
+    raw?: SortOrderInput | SortOrder
     players?: PlayerMatchOrderByRelationAggregateInput
   }
 
@@ -5715,6 +5750,7 @@ export namespace Prisma {
     teamWon?: EnumRiotMatchTeamColorNullableFilter<"RiotMatch"> | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: IntNullableFilter<"RiotMatch"> | number | null
     teamBlueRoundsWon?: IntNullableFilter<"RiotMatch"> | number | null
+    raw?: JsonNullableFilter<"RiotMatch">
     players?: PlayerMatchListRelationFilter
   }, "id">
 
@@ -5732,6 +5768,7 @@ export namespace Prisma {
     teamWon?: SortOrderInput | SortOrder
     teamRedRoundsWon?: SortOrderInput | SortOrder
     teamBlueRoundsWon?: SortOrderInput | SortOrder
+    raw?: SortOrderInput | SortOrder
     _count?: RiotMatchCountOrderByAggregateInput
     _avg?: RiotMatchAvgOrderByAggregateInput
     _max?: RiotMatchMaxOrderByAggregateInput
@@ -5756,6 +5793,7 @@ export namespace Prisma {
     teamWon?: EnumRiotMatchTeamColorNullableWithAggregatesFilter<"RiotMatch"> | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: IntNullableWithAggregatesFilter<"RiotMatch"> | number | null
     teamBlueRoundsWon?: IntNullableWithAggregatesFilter<"RiotMatch"> | number | null
+    raw?: JsonNullableWithAggregatesFilter<"RiotMatch">
   }
 
   export type UserCreateInput = {
@@ -6001,6 +6039,7 @@ export namespace Prisma {
     teamWon?: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: number | null
     teamBlueRoundsWon?: number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
     players?: PlayerMatchCreateNestedManyWithoutMatchInput
   }
 
@@ -6018,6 +6057,7 @@ export namespace Prisma {
     teamWon?: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: number | null
     teamBlueRoundsWon?: number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
     players?: PlayerMatchUncheckedCreateNestedManyWithoutMatchInput
   }
 
@@ -6035,6 +6075,7 @@ export namespace Prisma {
     teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
     teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
     players?: PlayerMatchUpdateManyWithoutMatchNestedInput
   }
 
@@ -6052,6 +6093,7 @@ export namespace Prisma {
     teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
     teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
     players?: PlayerMatchUncheckedUpdateManyWithoutMatchNestedInput
   }
 
@@ -6069,6 +6111,7 @@ export namespace Prisma {
     teamWon?: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: number | null
     teamBlueRoundsWon?: number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type RiotMatchUpdateManyMutationInput = {
@@ -6085,6 +6128,7 @@ export namespace Prisma {
     teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
     teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type RiotMatchUncheckedUpdateManyInput = {
@@ -6101,6 +6145,7 @@ export namespace Prisma {
     teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
     teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -6426,6 +6471,28 @@ export namespace Prisma {
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type RiotMatchCountOrderByAggregateInput = {
     id?: SortOrder
@@ -6441,6 +6508,7 @@ export namespace Prisma {
     teamWon?: SortOrder
     teamRedRoundsWon?: SortOrder
     teamBlueRoundsWon?: SortOrder
+    raw?: SortOrder
   }
 
   export type RiotMatchAvgOrderByAggregateInput = {
@@ -6499,6 +6567,31 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -6908,6 +7001,28 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type SessionCreateWithoutUserInput = {
     id: string
@@ -7124,6 +7239,7 @@ export namespace Prisma {
     teamWon?: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: number | null
     teamBlueRoundsWon?: number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type RiotMatchUncheckedCreateWithoutPlayersInput = {
@@ -7140,6 +7256,7 @@ export namespace Prisma {
     teamWon?: $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: number | null
     teamBlueRoundsWon?: number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type RiotMatchCreateOrConnectWithoutPlayersInput = {
@@ -7201,6 +7318,7 @@ export namespace Prisma {
     teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
     teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type RiotMatchUncheckedUpdateWithoutPlayersInput = {
@@ -7217,6 +7335,7 @@ export namespace Prisma {
     teamWon?: NullableEnumRiotMatchTeamColorFieldUpdateOperationsInput | $Enums.RiotMatchTeamColor | null
     teamRedRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
     teamBlueRoundsWon?: NullableIntFieldUpdateOperationsInput | number | null
+    raw?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type PlayerMatchCreateWithoutMatchInput = {

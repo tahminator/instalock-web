@@ -91,12 +91,13 @@ export const loadMatchesForEachUser = async () => {
         },
         create: {
           id: matchInfo?.matchId ?? randomUUID(),
+          raw: json,
           mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
           gameVersion: matchInfo?.gameVersion,
-          gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
+          gameStart: new Date(matchInfo?.gameStartMillis ?? 0),
           gameEnd: new Date(
-            (matchInfo?.gameLengthMillis ?? 0) +
-              (matchInfo?.gameLengthMillis ?? 0)
+            (Number(matchInfo?.gameStartMillis) || 0) +
+              (Number(matchInfo?.gameLengthMillis) || 0)
           ),
           isCompleted: matchInfo?.isCompleted,
           queueId: matchInfo?.queueID,
@@ -144,12 +145,13 @@ export const loadMatchesForEachUser = async () => {
           },
         },
         update: {
+          raw: json,
           mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
           gameVersion: matchInfo?.gameVersion,
           gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
           gameEnd: new Date(
-            (matchInfo?.gameStartMillis ?? 0) +
-              (matchInfo?.gameLengthMillis ?? 0)
+            (Number(matchInfo?.gameStartMillis) || 0) +
+              (Number(matchInfo?.gameLengthMillis) || 0)
           ),
           isCompleted: matchInfo?.isCompleted,
           queueId: matchInfo?.queueID,

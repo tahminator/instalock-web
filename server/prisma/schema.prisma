@@ -89,6 +89,8 @@ model RiotMatch {
   teamWon           RiotMatchTeamColor?
   teamRedRoundsWon  Int?
   teamBlueRoundsWon Int?
+
+  raw Json?
 }
 
 enum RiotMatchTeamColor {

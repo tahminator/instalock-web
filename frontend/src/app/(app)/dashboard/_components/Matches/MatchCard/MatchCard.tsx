@@ -100,14 +100,14 @@ export default function MatchCard({ match }: { match: ShallowMatch }) {
       </Group>
       <Link to={`/dashboard/${id}`}>
         <Button
-          variant="gradient"
-          gradient={{ from: "indigo", to: "blue" }}
+          variant="outline"
+          color="red"
           fullWidth
           mt="md"
           radius="md"
           disabled={queueId === "Deathmatch"}
         >
-          View Stats
+          View Details
         </Button>
       </Link>
     </Card>
