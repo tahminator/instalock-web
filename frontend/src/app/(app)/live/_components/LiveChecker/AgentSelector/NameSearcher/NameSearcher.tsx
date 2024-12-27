@@ -4,20 +4,22 @@ export default function NameSearcher({
   puuid,
   myPuuid,
   idx,
+  className,
 }: {
   puuid: string;
   myPuuid: string;
   idx: number;
+  className?: string;
 }) {
   const { data, status } = useFindNameQuery({ puuid });
 
   if (puuid === myPuuid) {
-    return <div>Me</div>;
+    return <span className={className}>Me</span>;
   }
 
-  if (status !== "success") {
-    return <div>#{idx + 1}</div>;
+  if (status !== "success" || data.name === "") {
+    return <span className={className}>#{idx + 1}</span>;
   }
 
-  return <div>{data.name}</div>;
+  return <span className={className}>{data.name}</span>;
 }

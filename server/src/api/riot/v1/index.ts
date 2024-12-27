@@ -638,7 +638,7 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
     return sendSuperJson(req, res, 200, {
       success: true,
       message: "User found!",
-      data: { tagName: riotTag, puuid },
+      data: { riotTag, puuid },
     });
   } else {
     const [userError, user] = await attempt(

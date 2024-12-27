@@ -37,7 +37,6 @@ export const removeUserRiotCredentials = ({ puuid }: { puuid: string }) =>
     data: {
       riotAuth: null,
       riotEntitlement: null,
-      riotTag: null,
     },
   });
 

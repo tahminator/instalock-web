@@ -121,6 +121,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
                   puuid={player.Subject}
                   myPuuid={puuid ?? ""}
                   idx={idx}
+                  className="md:max-w-none max-w-12 overflow-scroll md:text-base text-xs"
                 />
                 <Tooltip
                   label={`${
