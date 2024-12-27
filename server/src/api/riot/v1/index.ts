@@ -597,3 +597,117 @@ riotRouterV1.get("/match/:id", async (req, res) => {
     data: { ...newMatch },
   });
 });
+
+riotRouterV1.get("/player/:id/name", async (req, res) => {
+  if (!res.locals.user || !res.locals.session) {
+    return sendSuperJson(req, res, 401, {
+      success: false,
+      message: "You are not logged in.",
+    });
+  }
+
+  const data = { uuid: (req.params as { id: string }).id };
+
+  const parser = await checkIdSchema.safeParseAsync(data);
+
+  if (!parser.success) {
+    return sendSuperJson(
+      req,
+      res,
+      400,
+      {
+        success: false,
+        message: "Request body is malformed/improper.",
+      },
+      {
+        message: "Parser failed.",
+        error: parser.error,
+      }
+    );
+  }
+
+  const { uuid } = parser.data;
+
+  const [foundUserError, foundUser] = await attempt(
+    findPlayerByPuuid({ puuid: uuid })
+  );
+
+  if (foundUser) {
+    const { riotTag, puuid } = foundUser;
+
+    return sendSuperJson(req, res, 200, {
+      success: true,
+      message: "User found!",
+      data: { riotTag, puuid },
+    });
+  } else {
+    const [userError, user] = await attempt(
+      findPlayerByPuuid({ puuid: res.locals.user.puuid })
+    );
+
+    if (userError || !user) {
+      return sendSuperJson(
+        req,
+        res,
+        500,
+        {
+          success: false,
+          message: "Internal server error.",
+        },
+        {
+          message: "This should not be happening. Check data object.",
+          data: { error: userError, user },
+        }
+      );
+    }
+
+    const { riotAuth, riotEntitlement } = user;
+
+    const riotUserInfoRes = await fetch(
+      "https://pd.na.a.pvp.net/name-service/v2/players",
+      {
+        method: "PUT",
+        body: JSON.stringify([uuid]),
+        headers: {
+          Authorization: `Bearer ${riotAuth}`,
+          "X-Riot-Entitlements-JWT": riotEntitlement ?? "",
+          "X-Riot-ClientPlatform":
+            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+        },
+      }
+    );
+
+    if (!riotUserInfoRes.ok) {
+      return sendSuperJson(
+        req,
+        res,
+        404,
+        {
+          success: false,
+          message: "User not found.",
+        },
+        {
+          message: "Failed to retrieve user info from Riot API.",
+          data: { statusCode: riotUserInfoRes.status },
+        }
+      );
+    }
+
+    const riotUserInfoJson = (await riotUserInfoRes.json()) as {
+      DisplayName: string;
+      Subject: string;
+      GameName: string;
+      TagLine: string;
+    }[];
+
+    const tagName = `${riotUserInfoJson[0].GameName}#${riotUserInfoJson[0].TagLine}`;
+
+    return sendSuperJson(req, res, 200, {
+      success: true,
+      message: "User found!",
+      data: { riotTag: tagName, puuid: uuid },
+    });
+  }
+});
