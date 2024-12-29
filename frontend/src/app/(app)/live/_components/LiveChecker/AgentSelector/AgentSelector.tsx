@@ -18,6 +18,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 // import fakeData from "./test.json";
 import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
+import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
 
 const agents = (() => {
   const agentsListList = Object.entries(agentUuidToNameObject);
@@ -140,6 +141,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
                     fallbackSrc="/question-mark.png"
                   />
                 </Tooltip>
+                <RankSearcher puuid={player.Subject} />
               </div>
             );
           })}
