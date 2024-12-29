@@ -6,7 +6,7 @@ export default function Countdown({ start }: { start: number }) {
   const [countdown, setCountdown] = useState(start);
 
   useInterval(() => {
-    if (countdown >= 0) {
+    if (countdown > 0) {
       setCountdown((prev) => prev - 1);
     }
   }, 1000);

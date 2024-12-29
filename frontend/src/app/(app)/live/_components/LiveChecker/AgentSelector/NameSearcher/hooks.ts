@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useFindNameQuery = ({ puuid }: { puuid: string }) =>
   useQuery({
-    queryKey: ["riot", "live", "player", puuid],
+    queryKey: ["riot", "live", "player", "name", puuid],
     queryFn: () => findName({ puuid }),
   });
 

@@ -711,3 +711,125 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
     });
   }
 });
+
+riotRouterV1.get("/player/:id/rank", async (req, res) => {
+  const result = {
+    rank: undefined,
+    rr: undefined,
+    rankName: undefined,
+  } as {
+    rank?: number;
+    rr?: number;
+    rankName?: string;
+  };
+
+  if (!res.locals.user || !res.locals.session) {
+    return sendSuperJson(req, res, 401, {
+      success: false,
+      message: "You are not logged in.",
+    });
+  }
+
+  const data = { uuid: (req.params as { id: string }).id };
+
+  const [userError, user] = await attempt(
+    findPlayerByPuuid({ puuid: res.locals.user.puuid })
+  );
+
+  if (userError || !user) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "This should not be happening. Check data object.",
+        data: { error: userError, user },
+      }
+    );
+  }
+
+  const { riotAuth, riotEntitlement, riotTag } = user;
+
+  const { puuid } = { puuid: (req.params as { id: string }).id };
+
+  if (!riotAuth || !riotEntitlement || !puuid || !riotTag) {
+    return sendSuperJson(req, res, 400, {
+      success: false,
+      message: "Not authenticated via Riot.",
+    });
+  }
+
+  const riotMatchInfoRes = await fetch(
+    `https://pd.na.a.pvp.net/mmr/v1/players/${puuid}/competitiveupdates?startIndex=0&endIndex=1&queue=competitive`,
+    {
+      headers: {
+        Authorization: `Bearer ${riotAuth}`,
+        "X-Riot-Entitlements-JWT": riotEntitlement,
+        "X-Riot-ClientPlatform":
+          "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+      },
+    }
+  );
+
+  if (!riotMatchInfoRes.ok) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "Failed to retrieve latest match info from Riot API.",
+        data: { statusCode: riotMatchInfoRes.status },
+      }
+    );
+  }
+
+  const riotMatchInfoJson =
+    (await riotMatchInfoRes.json()) as RiotMatchInfoType;
+
+  if (riotMatchInfoJson.errorCode !== undefined) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "Failed to retrieve latest match info from Riot API.",
+        data: { ...riotMatchInfoJson },
+      }
+    );
+  }
+
+  const latestMatch =
+    riotMatchInfoJson.Matches[riotMatchInfoJson.Matches.length - 1];
+
+  if (latestMatch) {
+    result.rank = latestMatch.TierAfterUpdate;
+    result.rr = latestMatch.RankedRatingAfterUpdate;
+
+    const tierKey = latestMatch.TierAfterUpdate.toString() as TierNumber;
+    result.rankName = tierNumberToNameObject[tierKey];
+  } else {
+    result.rank = 0;
+    result.rr = 0;
+    result.rankName = "Unranked";
+  }
+
+  return sendSuperJson(req, res, 200, {
+    success: true,
+    message: "Player information retrieved!",
+    data: { ...result },
+  });
+});
