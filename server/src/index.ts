@@ -7,11 +7,38 @@ import { verifyRequestOrigin } from "lucia";
 import { lucia } from "@/lib/auth";
 import { apiRouter } from "@/api";
 import path from "path";
+import rateLimit from "express-rate-limit";
+import RedisStore from "rate-limit-redis";
+import { redis } from "@/lib/redis";
+import { sendSuperJson } from "@/lib/superjson-sender";
 
 dotenv.config();
 let port = 3050;
 
 export const app = express();
+
+// TODO - Might have to adjust these values, let's see.
+app.use(
+  rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    limit: 120, // 100 req/IP per 1 minute (~2 req/s is insane and should not be hit.)
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+
+    // Redis store configuration
+    store: new RedisStore({
+      // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
+      sendCommand: (...args: string[]) => redis.call(...args),
+    }),
+    handler: (req, res) => {
+      return sendSuperJson(req, res, 429, {
+        success: false,
+        message:
+          "You have been rate limited (sending too many requests). Please try again later.",
+      });
+    },
+  })
+);
 
 app.use(cookieParser());
 app.use(superjsonMiddleware);
