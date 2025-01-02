@@ -23,7 +23,7 @@ app.set('trust proxy', 1 /* number of proxies between user and server */)
 app.use(
   rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
-    limit: 120, // 100 req/IP per 1 minute (~2 req/s is insane and should not be hit.)
+    limit: 1000, // 1000 req/IP per 1 minute (~16 req/s is insane and should not be hit.)
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 
