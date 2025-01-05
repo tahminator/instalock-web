@@ -62,7 +62,7 @@ export function Features() {
             covered.
           </p>
 
-          <Link to="/login">
+          <Link to="/dashboard">
             <Button className="transition-all bg-gradient-to-r from-deep-red-400 to-deep-red-700 bg-size-200 bg-pos-0 hover:bg-pos-100">
               Get started
             </Button>
