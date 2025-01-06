@@ -19,7 +19,7 @@ export default function LiveChecker() {
   }
 
   if (status === "error") {
-    return;
+    return <></>;
   }
 
   const { matchId } = data;

@@ -3,30 +3,14 @@ import { useGetMatchInfoQuery } from "@/app/(app)/dashboard/[id]/_components/hoo
 import PlayerTable from "@/app/(app)/dashboard/[id]/_components/PlayerTable/PlayerTable";
 import { MapUuid, mapUuidToNameObject } from "@instalock/types/riot";
 import { Button, Text } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 export default function DetailsLoader({ uuid }: { uuid: string }) {
-  const navigate = useNavigate();
-  const { data, status } = useGetMatchInfoQuery(uuid);
+  const { data: result, status } = useGetMatchInfoQuery(uuid);
 
-  if (status === "error") {
-    notifications.show({
-      message:
-        "This is an invalid match page. Please try selecting another match.",
-      color: "red",
-    });
-    navigate("/dashboard");
-    return <></>;
-  }
-
-  if (!data.data) {
-    notifications.show({
-      message: "Something went wrong. Please try selecting another match.",
-      color: "red",
-    });
-    navigate("/dashboard");
+  // The logic for these situations gets handled inside of the custom hook.
+  // Please check the implementation for more details.
+  if (status === "error" || !result.data) {
     return <></>;
   }
 
@@ -38,7 +22,7 @@ export default function DetailsLoader({ uuid }: { uuid: string }) {
     gameStart,
     gameEnd,
     me,
-  } = data.data;
+  } = result.data;
 
   const mapName = mapUuidToNameObject[mapId as MapUuid];
 

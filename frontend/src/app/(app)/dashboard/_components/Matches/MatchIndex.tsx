@@ -4,12 +4,12 @@ import UserNavbar from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar"
 import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
 import { Text } from "@mantine/core";
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 
 export default function MatchIndex() {
   const { data, status } = useRiotAuthQuery();
 
-  const valid = useMemo(() => !!data?.authToken && !!data?.entitlement, [data]);
+  const valid = !!data?.authToken && !!data?.entitlement;
 
   if (status === "pending") {
     return <CenteredSpinner />;
