@@ -101,6 +101,7 @@ export const agentUuidToNameObject = {
   "dade69b4-4f5a-8528-247b-219e5a1facd6": "Fade",
   "5f8d3a7f-467b-97f3-062c-13acf203c006": "Breach",
   "cc8b64c8-4b25-4ff9-6e7f-37b4da43d235": "Deadlock",
+  "b444168c-4e35-8076-db47-ef9bf368f384": "Tejo",
   "f94c3b30-42be-e959-889c-5aa313dba261": "Raze",
   "22697a3d-45bf-8dd7-4fec-84a9e28c69d7": "Chamber",
   "601dbbe7-43ce-be57-2a40-4abd24953621": "KAYO",

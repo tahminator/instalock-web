@@ -242,12 +242,6 @@ riotRouterV1.post("/auth", async (req, res) => {
     );
   }
 
-  if (updatedUser.newUser) {
-    // New user fetch matches but wait for the promise to finish to continue, so their dashboard shouldn't be empty.
-    await loadMatchesForNewUser(updatedUser.puuid);
-    await markUserAsNoLongerNew({ puuid: updatedUser.puuid });
-  }
-
   const session = await lucia.createSession(updatedUser.puuid, {});
 
   res.appendHeader(
@@ -457,6 +451,12 @@ riotRouterV1.get("/matches/shallow", async (req, res) => {
         data: { error: userError, user },
       }
     );
+  }
+
+  if (user.newUser) {
+    // New user fetch matches but wait for the promise to finish to continue, so their dashboard shouldn't be empty.
+    await loadMatchesForNewUser(user.puuid);
+    await markUserAsNoLongerNew({ puuid: user.puuid });
   }
 
   // This is asserted to catch any changes so I can update the library accordingly.

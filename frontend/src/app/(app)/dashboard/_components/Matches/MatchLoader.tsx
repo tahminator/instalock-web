@@ -16,9 +16,10 @@ import { ReactNode } from "react";
 export default function MatchLoader() {
   const { data, status } = useGetShallowMatchesQuery();
 
-  if (status === "error" || status === "pending") {
+  if (status === "pending" || status === "error") {
     return (
       <MatchLoaderWrapper>
+        <LiveMatchCard />
         {Array.from({ length: 20 }, () => (
           <SkeletonMatchCardComponent />
         ))}

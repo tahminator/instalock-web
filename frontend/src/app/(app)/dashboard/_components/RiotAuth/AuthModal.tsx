@@ -1,3 +1,9 @@
+import classes from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal.module.css";
+import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SJ } from "@instalock/sj";
+import { ApiDefault } from "@instalock/types";
+import { authModalSchema } from "@instalock/types/schema/riot-auth-modal";
 import {
   Box,
   Button,
@@ -14,19 +20,13 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconBrandValorant } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
-import classes from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal.module.css";
-import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { authModalSchema } from "@instalock/types/schema/riot-auth-modal";
-import { useState } from "react";
-import { z } from "zod";
 import { notifications } from "@mantine/notifications";
-import { SJ } from "@instalock/sj";
-import { ApiDefault } from "@instalock/types";
+import { IconBrandValorant } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { z } from "zod";
 
 export default function RiotAuthenticationModal() {
   const queryClient = useQueryClient();
@@ -105,12 +105,6 @@ export default function RiotAuthenticationModal() {
                   log in to your Riot account.
                 </Text>
                 <Divider />
-                <Text ta="center" size="sm">
-                  Click the button below to authenticate with Riot through the
-                  special link. Once you log in, copy the{" "}
-                  <Code>https://playvalorant.com</Code> link into the box and
-                  click Authenticate.
-                </Text>
                 <HoverCard width={280}>
                   <HoverCard.Target>
                     <Button color="gray">Why?</Button>
@@ -133,12 +127,21 @@ export default function RiotAuthenticationModal() {
                     </Text>
                     <Space h="lg" />
                     <Text size="sm">
-                      <strong>Disclaimer:</strong> This is an open-source
-                      project and is not affiliated with Riot Games. Use at your
-                      own risk.
+                      <strong>Can I get banned?</strong> The answer is no, you
+                      should not get banned. The worst case scenario is a 7 day
+                      restriction for "API abuse", which they have yet to
+                      enforce. The program does not trigger any sort of
+                      anti-cheat as it does not modify the game memory or
+                      utilize any hacks of any sort.
                     </Text>
                   </HoverCard.Dropdown>
                 </HoverCard>
+                <Text ta="center" size="sm">
+                  Click the button below to authenticate with Riot through the
+                  special link. Once you log in, copy the{" "}
+                  <Code>https://playvalorant.com</Code> link into the box and
+                  click Authenticate.
+                </Text>
                 <Divider />
                 <Button
                   color="red"
