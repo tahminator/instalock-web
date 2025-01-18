@@ -123,9 +123,23 @@ export default function Navbar() {
         onClose={closeDrawer}
         size="100%"
         padding="md"
-        title="Instalock"
+        title={
+          <Group pl="10">
+            <Image src={LogoImg} w={30} mr={-15} ml={-20} pt={5} />
+            <Title className={classes.title} order={1}>
+              <Text
+                inherit
+                variant="gradient"
+                component="span"
+                gradient={{ from: "deep-red.4", to: "deep-red" }}
+              >
+                Instalock
+              </Text>
+            </Title>{" "}
+          </Group>
+        }
         hiddenFrom="sm"
-        zIndex={0}
+        zIndex={400}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />

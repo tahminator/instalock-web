@@ -16,11 +16,8 @@ export default function PlayerTable({
     <Table className={clsx("", className)}>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th>Character</Table.Th>
-          <Table.Th>Player Name</Table.Th>
-          <Table.Th>Kills</Table.Th>
-          <Table.Th>Assists</Table.Th>
-          <Table.Th>Deaths</Table.Th>
+          <Table.Th>Name</Table.Th>
+          <Table.Th>K/D/A</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -43,18 +40,20 @@ export default function PlayerTable({
           return (
             <Table.Tr key={idx} className={"text-black " + rowBg}>
               <Table.Td>
-                <Tooltip
-                  label={agentName}
-                  color="gray"
-                  events={{ hover: true, focus: true, touch: true }}
-                >
-                  <Avatar src={agentSrc} alt={agentName} className="" />
-                </Tooltip>
+                <div className="flex items-center space-x-2">
+                  <Tooltip
+                    label={agentName}
+                    color="gray"
+                    events={{ hover: true, focus: true, touch: true }}
+                  >
+                    <Avatar src={agentSrc} alt={agentName} />
+                  </Tooltip>
+                  <span>{player.riotTag}</span>
+                </div>
               </Table.Td>
-              <Table.Td>{player.riotTag}</Table.Td>
-              <Table.Td>{player.kills}</Table.Td>
-              <Table.Td>{player.assists}</Table.Td>
-              <Table.Td>{player.deaths}</Table.Td>
+              <Table.Td>
+                {player.kills}/{player.deaths}/{player.assists}
+              </Table.Td>
             </Table.Tr>
           );
         })}

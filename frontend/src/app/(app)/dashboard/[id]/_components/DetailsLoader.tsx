@@ -52,7 +52,7 @@ export default function DetailsLoader({ uuid }: { uuid: string }) {
           )}
         </Text>
       </div>
-      <div className="pt-24 flex space-x-2">
+      <div className="pt-24 flex space-x-2 sm:flex-row flex-col">
         <PlayerTable className="w-1/2 p-4" players={friendlyPlayers} me={me} />
         <PlayerTable className="w-1/2 p-4" players={enemyPlayers} me={me} />
       </div>
