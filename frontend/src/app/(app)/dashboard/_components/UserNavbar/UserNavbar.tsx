@@ -14,7 +14,6 @@ import {
   Image,
   Loader,
   Menu,
-  Progress,
   rem,
   ScrollArea,
   Text,
