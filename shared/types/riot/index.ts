@@ -85,6 +85,7 @@ export const gameModeIdToName = {
   deathmatch: "Deathmatch",
   hurm: "TDM",
   swiftplay: "Swiftplay",
+  premier: "Premier",
 } as const;
 
 type GameModeId = keyof typeof gameModeIdToName;
