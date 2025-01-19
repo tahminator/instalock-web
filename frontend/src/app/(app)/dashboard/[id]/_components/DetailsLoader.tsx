@@ -22,6 +22,7 @@ export default function DetailsLoader({ uuid }: { uuid: string }) {
     gameStart,
     gameEnd,
     me,
+    queueId,
   } = result.data;
 
   const mapName = mapUuidToNameObject[mapId as MapUuid];
@@ -54,7 +55,9 @@ export default function DetailsLoader({ uuid }: { uuid: string }) {
       </div>
       <div className="pt-24 flex space-x-2 sm:flex-row flex-col">
         <PlayerTable className="w-1/2 p-4" players={friendlyPlayers} me={me} />
-        <PlayerTable className="w-1/2 p-4" players={enemyPlayers} me={me} />
+        {queueId !== "Deathmatch" && (
+          <PlayerTable className="w-1/2 p-4" players={enemyPlayers} me={me} />
+        )}
       </div>
       <Link to="/dashboard">
         <Button className="mt-8" variant="outline" color="red">

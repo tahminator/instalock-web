@@ -85,7 +85,8 @@ export default function UserNavbar() {
             className="h-12"
           />
           <Text>
-            {rankName} <Progress value={Number(rr)} color="red" /> {rr}/100
+            {rankName}
+            {/* <Progress value={Number(rr)} color="red" /> {rr}/100 */}
           </Text>
         </Group>
         <Group>

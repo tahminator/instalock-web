@@ -99,14 +99,7 @@ export default function MatchCard({ match }: { match: ShallowMatch }) {
         )}
       </Group>
       <Link to={`/dashboard/${id}`}>
-        <Button
-          variant="outline"
-          color="red"
-          fullWidth
-          mt="md"
-          radius="md"
-          disabled={queueId === "Deathmatch"}
-        >
+        <Button variant="outline" color="red" fullWidth mt="md" radius="md">
           View Details
         </Button>
       </Link>

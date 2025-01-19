@@ -1,4 +1,9 @@
-import { AgentUuid, agentUuidToNameObject } from "@instalock/types/riot";
+import {
+  AgentUuid,
+  agentUuidToNameObject,
+  TierNumber,
+  tierNumberToNameObject,
+} from "@instalock/types/riot";
 import { PlayerMatch } from "@instalock/types";
 import { Avatar, Table, Tooltip } from "@mantine/core";
 import clsx from "clsx";
@@ -16,6 +21,7 @@ export default function PlayerTable({
     <Table className={clsx("", className)}>
       <Table.Thead>
         <Table.Tr>
+          <Table.Th>Rank</Table.Th>
           <Table.Th>Name</Table.Th>
           <Table.Th>K/D/A</Table.Th>
         </Table.Tr>
@@ -25,6 +31,10 @@ export default function PlayerTable({
           const agentName =
             agentUuidToNameObject[player.characterId as AgentUuid];
           const agentSrc = `/agents/${agentName}.png`;
+
+          const tierName =
+            tierNumberToNameObject[player.tier?.toString() as TierNumber];
+          const tierSrc = `/tiers/${player.tier}.png`;
 
           const rowBg = (() => {
             if (player.id == me.id) {
@@ -39,6 +49,15 @@ export default function PlayerTable({
           })();
           return (
             <Table.Tr key={idx} className={"text-black " + rowBg}>
+              <Table.Td>
+                <Tooltip
+                  label={tierName}
+                  color="gray"
+                  events={{ hover: true, focus: true, touch: true }}
+                >
+                  <Avatar src={tierSrc} alt={tierName} />
+                </Tooltip>
+              </Table.Td>
               <Table.Td>
                 <div className="flex items-center space-x-2">
                   <Tooltip

@@ -312,12 +312,12 @@ riotRouterV1.get("/user", async (req, res) => {
   const result = {
     name: undefined,
     rank: undefined,
-    rr: undefined,
+    // rr: undefined,
     rankName: undefined,
   } as {
     name?: string;
     rank?: number;
-    rr?: number;
+    // rr?: number;
     rankName?: string;
   };
 
@@ -358,6 +358,21 @@ riotRouterV1.get("/user", async (req, res) => {
   }
 
   result.name = riotTag;
+
+  const matches = await getAllMatchesByUserIdShallow({ puuid });
+
+  if (matches.length !== 0) {
+    const me = await db.playerMatch.findUnique({
+      where: {
+        playerId_matchId: {
+          playerId: puuid,
+          matchId: matches[matches.length - 1].id,
+        },
+      },
+    });
+
+    result.rank = me?.tier ?? undefined;
+  }
 
   const riotMatchInfoRes = await fetch(
     `https://pd.na.a.pvp.net/mmr/v1/players/${puuid}/competitiveupdates?startIndex=0&endIndex=1&queue=competitive`,
@@ -411,7 +426,7 @@ riotRouterV1.get("/user", async (req, res) => {
   const latestMatch = riotMatchInfoJson.Matches[0];
 
   result.rank = latestMatch.TierAfterUpdate;
-  result.rr = latestMatch.RankedRatingAfterUpdate;
+  // result.rr = latestMatch.RankedRatingAfterUpdate;
 
   const tierKey = latestMatch.TierAfterUpdate.toString() as TierNumber;
   result.rankName = tierNumberToNameObject[tierKey];
