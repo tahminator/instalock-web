@@ -2,6 +2,7 @@ import { Buffer } from "buffer";
 import { writeFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import sharp from "sharp";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,7 +31,7 @@ async function generateTierImages() {
   json.data[4].tiers.forEach(async (v) => {
     if (v.largeIcon) {
       const url = v.largeIcon;
-      const fileName = `${v.tier}.png`;
+      const fileName = `${v.tier}.webp`;
       const filePath = path.resolve(
         __dirname,
         "..",
@@ -49,7 +50,10 @@ async function generateTierImages() {
       const arrayBuffer = await iconRes.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-      await writeFile(filePath, buffer);
+      const webpBuffer = await sharp(buffer)
+        .webp({ quality: 80 }) // Set quality for compression
+        .toBuffer();
+      await writeFile(filePath, webpBuffer);
       console.log(`Saved ${fileName} to icons folder`);
     }
   });

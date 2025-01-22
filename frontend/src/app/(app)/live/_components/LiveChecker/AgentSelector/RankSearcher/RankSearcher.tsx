@@ -15,7 +15,7 @@ export default function RankSearcher({
     return <span className={className}>Loading...</span>;
   }
 
-  const rankImage = `/tiers/${data.rank}.png`;
+  const rankImage = `/tiers/${data.rank}.webp`;
 
   return (
     <Image

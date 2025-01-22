@@ -30,10 +30,10 @@ export default function MatchCard({ match }: { match: ShallowMatch }) {
   } = match;
 
   const mapName = mapUuidToNameObject[mapId as MapUuid];
-  const mapSrc = `/maps/${mapName}.png`;
+  const mapSrc = `/maps/${mapName}.webp`;
 
   const agentName = agentUuidToNameObject[characterId as AgentUuid];
-  const agentSrc = `/agents/${agentName}.png`;
+  const agentSrc = `/agents/${agentName}.webp`;
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder bg={"dark.8"}>
       <Card.Section>

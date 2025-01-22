@@ -30,11 +30,11 @@ export default function PlayerTable({
         {players.map((player, idx) => {
           const agentName =
             agentUuidToNameObject[player.characterId as AgentUuid];
-          const agentSrc = `/agents/${agentName}.png`;
+          const agentSrc = `/agents/${agentName}.webp`;
 
           const tierName =
             tierNumberToNameObject[player.tier?.toString() as TierNumber];
-          const tierSrc = `/tiers/${player.tier}.png`;
+          const tierSrc = `/tiers/${player.tier}.webp`;
 
           const rowBg = (() => {
             if (player.id == me.id) {

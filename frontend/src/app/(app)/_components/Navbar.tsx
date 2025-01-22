@@ -35,7 +35,14 @@ export default function Navbar() {
       >
         <Group justify="space-between" h="100%">
           <Group pl="10">
-            <Image src={LogoImg} w={30} mr={-15} ml={-20} pt={5} />
+            <Image
+              src={LogoImg}
+              w={30}
+              mr={-15}
+              ml={-20}
+              pt={5}
+              alt={"Instalock logo"}
+            />
             <Title className={classes.title} order={1}>
               <Text
                 inherit

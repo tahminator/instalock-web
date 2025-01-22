@@ -98,7 +98,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
           {players.map((player, idx) => {
             const agentName =
               agentUuidToNameObject[player.CharacterID as AgentUuid];
-            const agentSrc = `/agents/${agentName}.png`;
+            const agentSrc = `/agents/${agentName}.webp`;
 
             const avatarColor = (() => {
               if (!player.CharacterSelectionState) {
@@ -148,7 +148,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
         </div>
         <div className="grid mt-4 md:grid-cols-12 grid-cols-4 gap-4 justify-center md:px-24 px-8">
           {agents.map((agent) => {
-            const agentSrc = `/agents/${agent.name}.png`;
+            const agentSrc = `/agents/${agent.name}.webp`;
             return (
               <button onClick={() => selectAgent(agent.uuid)}>
                 <Image

@@ -16,6 +16,7 @@
     "@types/node": "^22.10.2"
   },
   "dependencies": {
-    "@instalock/types": "workspace:^"
+    "@instalock/types": "workspace:^",
+    "sharp": "^0.33.5"
   }
 }

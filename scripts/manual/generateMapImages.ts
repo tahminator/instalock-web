@@ -2,6 +2,7 @@ import { Buffer } from "buffer";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import sharp from "sharp";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,7 +21,7 @@ async function generateMapImages() {
   // 4 is the most newest tier updates.
   json.data.forEach(async (v) => {
     const url = v.splash;
-    const fileName = `${v.displayName}.png`;
+    const fileName = `${v.displayName}.webp`;
     const filePath = path.resolve(
       __dirname,
       "..",
@@ -40,7 +41,10 @@ async function generateMapImages() {
     const buffer = Buffer.from(arrayBuffer);
 
     // await mkdir(filePath, { recursive: true });
-    await writeFile(filePath, buffer);
+    const webpBuffer = await sharp(buffer)
+      .webp({ quality: 80 }) // Set quality for compression
+      .toBuffer();
+    await writeFile(filePath, webpBuffer);
     console.log(`Saved ${fileName} to icons folder`);
   });
 }

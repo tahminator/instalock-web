@@ -2,6 +2,7 @@ import { Buffer } from "buffer";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import sharp from "sharp";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,7 +23,7 @@ async function generateAgentImages() {
   json.data.forEach(async (v) => {
     if (v.isPlayableCharacter) {
       const url = v.displayIcon;
-      const fileName = `${v.displayName.replace("/", "")}.png`;
+      const fileName = `${v.displayName.replace("/", "")}.webp`;
       const filePath = path.resolve(
         __dirname,
         "..",
@@ -42,7 +43,11 @@ async function generateAgentImages() {
       const buffer = Buffer.from(arrayBuffer);
 
       // await mkdir(filePath, { recursive: true });
-      await writeFile(filePath, buffer);
+
+      const webpBuffer = await sharp(buffer)
+        .webp({ quality: 80 }) // Set quality for compression
+        .toBuffer();
+      await writeFile(filePath, webpBuffer);
       console.log(`Saved ${fileName} to icons folder`);
     }
   });
