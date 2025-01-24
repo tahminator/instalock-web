@@ -41,9 +41,9 @@
     <br />
     <a href="https://instalock.app">Go to website</a>
     &middot;
-    <a href="https://github.com/0pengu/instalock-web/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/0pengu/tahminator/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/0pengu/instalock-web/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/0pengu/tahminator/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -71,7 +71,7 @@
 
 Tahmid Ahmed - tahmid@tahmid.io
 
-Project Link: [https://github.com/0pengu/instalock-web](https://github.com/0pengu/instalock-web)
+Project Link: [https://github.com/tahminator/instalock-web](https://github.com/0pengu/instalock-web)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
