@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx --watch src/index.ts",
     "prestart": "prisma migrate deploy",
-    "start": "tsx src/index.ts",
+    "start": "tsx src/index.ts --debug",
     "postinstall": "prisma generate",
     "db:pull": "prisma db pull",
     "db:migrate": "prisma migrate dev",
