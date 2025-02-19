@@ -20,6 +20,8 @@ WORKDIR /app
 
 ENV NODE_ENV=development
 
+RUN npm i -g corepack
+
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm install; \
@@ -38,6 +40,8 @@ COPY frontend ./frontend
 WORKDIR /app/frontend
 
 RUN npm install -g typescript
+
+RUN npm i -g corepack
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
