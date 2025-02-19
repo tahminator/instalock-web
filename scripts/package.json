@@ -6,7 +6,9 @@
   "type": "module",
   "module": "nodenext",
   "scripts": {
-    "start": "pnpx tsx cron/index.ts",
+    "build": "esbuild cron/index.ts --bundle --platform=node --outfile=cron/index.cjs",
+    "start": "node cron/index.cjs",
+    "dev": "pnpx tsx cron/index.ts --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,6 +19,7 @@
   },
   "dependencies": {
     "@instalock/types": "workspace:^",
+    "esbuild": "^0.25.0",
     "sharp": "^0.33.5"
   }
 }
