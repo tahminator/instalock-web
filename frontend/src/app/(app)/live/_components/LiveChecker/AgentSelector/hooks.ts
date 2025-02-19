@@ -11,7 +11,7 @@ export const usePreGameQuery = ({
   riotEntitlement?: string;
 }) =>
   useQuery({
-    queryKey: ["riot", "live", "data", pregameId],
+    queryKey: ["riot", "live", "pre", "data", pregameId],
     queryFn: () => getPreMatchData({ pregameId, riotAuth, riotEntitlement }),
     refetchInterval: 200,
   });

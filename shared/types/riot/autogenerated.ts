@@ -384,6 +384,23 @@ type RiotPreGamePassType = {
 
 export type RiotPreGameApiType = RiotPreGameFailType | RiotPreGamePassType;
 
+type RiotCurrentGamePassType = {
+  httpStatus: undefined;
+  Subject: string;
+  MatchID: string;
+  Version: number;
+};
+
+type RiotCurrentGameFailType = {
+  httpStatus: number;
+  errorCode: string;
+  message: string;
+};
+
+export type RiotCurrentGameApiType =
+  | RiotCurrentGamePassType
+  | RiotCurrentGameFailType;
+
 export type RiotPreGameDataType = {
   ID: string;
   Version: number;
@@ -416,6 +433,45 @@ export type RiotPreGameDataType = {
   altModesFlagADA: boolean;
   TournamentMetadata: null;
   RosterMetadata: null;
+};
+
+export type RiotCurrentGameDataType = {
+  MatchID: string;
+  Version: number;
+  State: string;
+  MapID: string;
+  ModeID: string;
+  ProvisioningFlow: string;
+  GamePodID: string;
+  AllMUCName: string;
+  TeamMUCName: string;
+  TeamVoiceID: string;
+  TeamMatchToken: string;
+  IsReconnectable: boolean;
+  ConnectionDetails: ConnectionDetails;
+  PostGameDetails: null;
+  Players: CurrPlayer[];
+  MatchmakingData: null;
+};
+
+export type CurrPlayer = {
+  Subject: string;
+  TeamID: string;
+  CharacterID: string;
+  PlayerIdentity: PlayerIdentity;
+  SeasonalBadgeInfo: SeasonalBadgeInfo;
+  IsCoach: boolean;
+  IsAssociated: boolean;
+  PlatformType: string;
+};
+
+export type ConnectionDetails = {
+  GameServerHosts: string[];
+  GameServerHost: string;
+  GameServerPort: number;
+  GameServerObfuscatedIP: number;
+  GameClientHash: number;
+  PlayerKey: string;
 };
 
 export type RTeam = {
