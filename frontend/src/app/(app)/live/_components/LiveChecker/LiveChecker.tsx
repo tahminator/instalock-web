@@ -38,6 +38,10 @@ export default function LiveChecker() {
             Go back to dashboard
           </Button>
         </Link>
+        <Text className="pt-8 pb-6">Supported features:</Text>
+        <Text className="pt-2">Select agents in the pre-game lobby</Text>
+        <Text className="pt-2">View ranks of team in pre-game lobby</Text>
+        <Text className="pt-2">View ranks of both teams during the game</Text>
       </div>
     );
   }
