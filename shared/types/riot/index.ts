@@ -120,6 +120,7 @@ export const agentUuidToNameObject = {
   "1dbf2edd-4729-0984-3115-daa5eed44993": "Clove",
   "bb2a4828-46eb-8cd1-e765-15848195d751": "Neon",
   "7f94d92c-4234-0a36-9646-3a87eb8b5c89": "Yoru",
+  "df1cb487-4902-002e-5c17-d28e83e78588": "Waylay",
   "569fdd95-4d10-43ab-ca70-79becc718b46": "Sage",
   "a3bfb853-43b2-7238-a4f1-ad90e9e46bcc": "Reyna",
   "8e253930-4c05-31dd-1b6c-968525494517": "Omen",

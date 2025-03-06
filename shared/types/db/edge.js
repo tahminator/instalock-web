@@ -186,7 +186,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/0pengu/Desktop/gh/instalock-web/shared/types/db",
+      "value": "/Users/tahminator/github/instalock-web/shared/types/db",
       "fromEnvVar": null
     },
     "config": {
@@ -204,7 +204,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/0pengu/Desktop/gh/instalock-web/server/prisma/schema.prisma",
+    "sourceFilePath": "/Users/tahminator/github/instalock-web/server/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -218,7 +218,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
