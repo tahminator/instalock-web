@@ -14,13 +14,14 @@ type Fail = Omit<ErrorType, "_debug">;
  * @param res - The Express.js response method
  * @param statusCode - The response code
  * @param object - The payload of the response. It must be of type {UnknownApiResponse}
+ * @param _debug - The _debug object. You may send anything in this object, but a message key is required. A date key is automatically attached to _debug which is a string of when the response was sent.
  */
 export const sendSuperJson = (
   _req: Request,
   res: Response,
   statusCode: number = 200,
   object: Success | Fail,
-  devTools?: Record<string, unknown> & { message: string },
+  _debug?: Record<string, unknown> & { message: string },
 ) => {
   return res
     .status(statusCode)
@@ -28,7 +29,7 @@ export const sendSuperJson = (
     .send(
       SJ.stringify(
         ["development", "test"].includes(process.env.NODE_ENV)
-          ? { ...object, _debug: { ...devTools, date: new Date() } }
+          ? { ...object, _debug: { ..._debug, date: new Date().toJSON() } }
           : object,
       ),
     );
