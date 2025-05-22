@@ -40,7 +40,7 @@ riotRouterV1.get("/@me", async (req, res) => {
   }
 
   const [userError, user] = await attempt(
-    findPlayerByPuuid({ puuid: res.locals.user.puuid })
+    findPlayerByPuuid({ puuid: res.locals.user.puuid }),
   );
 
   if (userError || !user) {
@@ -55,7 +55,7 @@ riotRouterV1.get("/@me", async (req, res) => {
       {
         message: "This should not be happening. Check data object.",
         data: { error: userError, user },
-      }
+      },
     );
   }
 
@@ -86,7 +86,7 @@ riotRouterV1.get("/@me", async (req, res) => {
   return sendSuperJson(req, res, 200, {
     success: true,
     message: "Authenticated.",
-    data: { authToken: riotAuth, entitlement: riotEntitlement, puuid },
+    payload: { authToken: riotAuth, entitlement: riotEntitlement, puuid },
   });
 });
 
@@ -105,7 +105,7 @@ riotRouterV1.post("/auth", async (req, res) => {
       {
         message: "Parser failed.",
         error: parser.error,
-      }
+      },
     );
   }
 
@@ -134,7 +134,7 @@ riotRouterV1.post("/auth", async (req, res) => {
       {
         message: "Cannot receive access_token",
         data: { authToken },
-      }
+      },
     );
   }
 
@@ -146,7 +146,7 @@ riotRouterV1.post("/auth", async (req, res) => {
         Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json",
       },
-    }
+    },
   );
 
   const riotJson = (await riotRes.json()) as EntitlementApiType;
@@ -163,7 +163,7 @@ riotRouterV1.post("/auth", async (req, res) => {
       {
         message: "Riot Api issue.",
         data: riotJson,
-      }
+      },
     );
   }
 
@@ -189,7 +189,7 @@ riotRouterV1.post("/auth", async (req, res) => {
       {
         message: "Failed to retrieve user info from Riot API.",
         data: { statusCode: riotUserInfoRes.status },
-      }
+      },
     );
   }
 
@@ -207,7 +207,7 @@ riotRouterV1.post("/auth", async (req, res) => {
       {
         message: "Failed to retrieve user info from Riot API.",
         data: { ...riotUserInfoJson },
-      }
+      },
     );
   }
 
@@ -220,7 +220,7 @@ riotRouterV1.post("/auth", async (req, res) => {
       riotEntitlement: entitlementToken,
       riotAuth: authToken,
       riotTag: tagName,
-    })
+    }),
   );
 
   if (updatedUserError || !updatedUser) {
@@ -238,7 +238,7 @@ riotRouterV1.post("/auth", async (req, res) => {
           tokens: { authToken, entitlementToken },
           error: updatedUserError,
         },
-      }
+      },
     );
   }
 
@@ -246,13 +246,13 @@ riotRouterV1.post("/auth", async (req, res) => {
 
   res.appendHeader(
     "Set-Cookie",
-    lucia.createSessionCookie(session.id).serialize()
+    lucia.createSessionCookie(session.id).serialize(),
   );
 
   return sendSuperJson(req, res, 200, {
     success: true,
     message: "Riot authentication succeeded!",
-    data: {
+    payload: {
       authToken,
       entitlementToken,
     },
@@ -268,7 +268,7 @@ riotRouterV1.post("/unauth", async (req, res) => {
   }
 
   const [updatedUserError, updatedUser] = await attempt(
-    removeUserRiotCredentials({ puuid: res.locals.user.puuid })
+    removeUserRiotCredentials({ puuid: res.locals.user.puuid }),
   );
 
   if (updatedUserError || !updatedUser) {
@@ -284,7 +284,7 @@ riotRouterV1.post("/unauth", async (req, res) => {
         message:
           "Database operation of removing Riot credentials failed. Check data object.",
         data: { error: updatedUserError, user: updatedUser },
-      }
+      },
     );
   }
 
@@ -299,12 +299,12 @@ riotRouterV1.post("/unauth", async (req, res) => {
     {
       success: true,
       message: "The Riot account has been successfully removed!",
-      data: {},
+      payload: {},
     },
     {
       message: "Should be successful.",
       data: { updatedUser },
-    }
+    },
   );
 });
 
@@ -329,7 +329,7 @@ riotRouterV1.get("/user", async (req, res) => {
   }
 
   const [userError, user] = await attempt(
-    findPlayerByPuuid({ puuid: res.locals.user.puuid })
+    findPlayerByPuuid({ puuid: res.locals.user.puuid }),
   );
 
   if (userError || !user) {
@@ -344,7 +344,7 @@ riotRouterV1.get("/user", async (req, res) => {
       {
         message: "This should not be happening. Check data object.",
         data: { error: userError, user },
-      }
+      },
     );
   }
 
@@ -385,7 +385,7 @@ riotRouterV1.get("/user", async (req, res) => {
         "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
         "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
       },
-    }
+    },
   );
 
   if (!riotMatchInfoRes.ok) {
@@ -400,7 +400,7 @@ riotRouterV1.get("/user", async (req, res) => {
       {
         message: "Failed to retrieve latest match info from Riot API.",
         data: { statusCode: riotMatchInfoRes.status },
-      }
+      },
     );
   }
 
@@ -419,7 +419,7 @@ riotRouterV1.get("/user", async (req, res) => {
       {
         message: "Failed to retrieve latest match info from Riot API.",
         data: { ...riotMatchInfoJson },
-      }
+      },
     );
   }
 
@@ -434,7 +434,7 @@ riotRouterV1.get("/user", async (req, res) => {
   return sendSuperJson(req, res, 200, {
     success: true,
     message: "Player information retrieved!",
-    data: { ...result },
+    payload: { ...result },
   });
 });
 
@@ -449,7 +449,7 @@ riotRouterV1.get("/matches/shallow", async (req, res) => {
   const { puuid } = res.locals.user;
 
   const [userError, user] = await attempt(
-    findPlayerByPuuid({ puuid: res.locals.user.puuid })
+    findPlayerByPuuid({ puuid: res.locals.user.puuid }),
   );
 
   if (userError || !user) {
@@ -464,7 +464,7 @@ riotRouterV1.get("/matches/shallow", async (req, res) => {
       {
         message: "This should not be happening. Check data object.",
         data: { error: userError, user },
-      }
+      },
     );
   }
 
@@ -478,7 +478,7 @@ riotRouterV1.get("/matches/shallow", async (req, res) => {
   const [matchesError, matches] = await attempt(
     getAllMatchesByUserIdShallow({
       puuid: user.puuid,
-    }) as Prisma.PrismaPromise<ShallowMatchExclude[]>
+    }) as Prisma.PrismaPromise<ShallowMatchExclude[]>,
   );
 
   const newMatches = await Promise.all(
@@ -505,7 +505,7 @@ riotRouterV1.get("/matches/shallow", async (req, res) => {
         queueId: gameModeName,
         me,
       };
-    }) ?? []
+    }) ?? [],
   );
 
   if (matchesError) {
@@ -519,14 +519,14 @@ riotRouterV1.get("/matches/shallow", async (req, res) => {
       },
       {
         message: "Failed to fetch matches.",
-      }
+      },
     );
   }
 
   return sendSuperJson(req, res, 200, {
     success: true,
     message: "Matches found!",
-    data: { matches: newMatches },
+    payload: { matches: newMatches },
   });
 });
 
@@ -556,7 +556,7 @@ riotRouterV1.get("/match/:id", async (req, res) => {
       {
         message: "Parser failed.",
         error: parser.error,
-      }
+      },
     );
   }
 
@@ -577,7 +577,7 @@ riotRouterV1.get("/match/:id", async (req, res) => {
         message:
           "There can either be a match error or the match simple doesn't exist.",
         data: { error: matchError, match: match },
-      }
+      },
     );
   }
 
@@ -609,7 +609,7 @@ riotRouterV1.get("/match/:id", async (req, res) => {
   return sendSuperJson(req, res, 200, {
     success: true,
     message: "The match has been found!",
-    data: { ...newMatch },
+    payload: { ...newMatch },
   });
 });
 
@@ -637,14 +637,14 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
       {
         message: "Parser failed.",
         error: parser.error,
-      }
+      },
     );
   }
 
   const { uuid } = parser.data;
 
   const [foundUserError, foundUser] = await attempt(
-    findPlayerByPuuid({ puuid: uuid })
+    findPlayerByPuuid({ puuid: uuid }),
   );
 
   if (foundUser) {
@@ -653,11 +653,11 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
     return sendSuperJson(req, res, 200, {
       success: true,
       message: "User found!",
-      data: { riotTag, puuid },
+      payload: { riotTag, puuid },
     });
   } else {
     const [userError, user] = await attempt(
-      findPlayerByPuuid({ puuid: res.locals.user.puuid })
+      findPlayerByPuuid({ puuid: res.locals.user.puuid }),
     );
 
     if (userError || !user) {
@@ -672,7 +672,7 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
         {
           message: "This should not be happening. Check data object.",
           data: { error: userError, user },
-        }
+        },
       );
     }
 
@@ -691,7 +691,7 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
           "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
         },
-      }
+      },
     );
 
     if (!riotUserInfoRes.ok) {
@@ -706,7 +706,7 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
         {
           message: "Failed to retrieve user info from Riot API.",
           data: { statusCode: riotUserInfoRes.status },
-        }
+        },
       );
     }
 
@@ -722,7 +722,7 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
     return sendSuperJson(req, res, 200, {
       success: true,
       message: "User found!",
-      data: { riotTag: tagName, puuid: uuid },
+      payload: { riotTag: tagName, puuid: uuid },
     });
   }
 });
@@ -748,7 +748,7 @@ riotRouterV1.get("/player/:id/rank", async (req, res) => {
   const data = { uuid: (req.params as { id: string }).id };
 
   const [userError, user] = await attempt(
-    findPlayerByPuuid({ puuid: res.locals.user.puuid })
+    findPlayerByPuuid({ puuid: res.locals.user.puuid }),
   );
 
   if (userError || !user) {
@@ -763,7 +763,7 @@ riotRouterV1.get("/player/:id/rank", async (req, res) => {
       {
         message: "This should not be happening. Check data object.",
         data: { error: userError, user },
-      }
+      },
     );
   }
 
@@ -789,7 +789,7 @@ riotRouterV1.get("/player/:id/rank", async (req, res) => {
         "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
         "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
       },
-    }
+    },
   );
 
   if (!riotMatchInfoRes.ok) {
@@ -804,7 +804,7 @@ riotRouterV1.get("/player/:id/rank", async (req, res) => {
       {
         message: "Failed to retrieve latest match info from Riot API.",
         data: { statusCode: riotMatchInfoRes.status },
-      }
+      },
     );
   }
 
@@ -823,7 +823,7 @@ riotRouterV1.get("/player/:id/rank", async (req, res) => {
       {
         message: "Failed to retrieve latest match info from Riot API.",
         data: { ...riotMatchInfoJson },
-      }
+      },
     );
   }
 
@@ -845,6 +845,6 @@ riotRouterV1.get("/player/:id/rank", async (req, res) => {
   return sendSuperJson(req, res, 200, {
     success: true,
     message: "Player information retrieved!",
-    data: { ...result },
+    payload: { ...result },
   });
 });
