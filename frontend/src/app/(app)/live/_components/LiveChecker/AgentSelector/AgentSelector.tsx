@@ -45,7 +45,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
     return <CenteredSpinner />;
   }
 
-  if (status === "error" || !pregameData.data) {
+  if (status === "error" || !pregameData.payload) {
     return (
       <div className="flex flex-col items-center justify-center w-screen h-[92vh]">
         <Text>
@@ -60,7 +60,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
     MapID: mapUrl,
     PhaseTimeRemainingNS,
     AllyTeam: team,
-  } = pregameData.data;
+  } = pregameData.payload;
 
   // const { MapID: mapUrl, PhaseTimeRemainingNS, AllyTeam: team } = fakeData;
 
@@ -82,7 +82,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
             refetch();
           }
         },
-      }
+      },
     );
   };
 
@@ -136,7 +136,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
                     alt={agentName}
                     className={clsx(
                       "border-4 aspect-square max-w-36 rounded-full",
-                      avatarColor
+                      avatarColor,
                     )}
                     fallbackSrc="/question-mark.png"
                   />

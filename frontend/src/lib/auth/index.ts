@@ -24,7 +24,7 @@ const checkAuthentication = async () => {
     return { user: undefined, session: undefined };
   }
 
-  const { user, session } = json.data;
+  const { user, session } = json.payload;
 
   return { user, session };
 };

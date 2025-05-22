@@ -27,7 +27,7 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
     return <CenteredSpinner />;
   }
 
-  if (status === "error" || !currentGameData.data) {
+  if (status === "error" || !currentGameData.payload) {
     return (
       <div className="flex flex-col items-center justify-center w-screen h-[92vh]">
         <Text>
@@ -38,7 +38,7 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
     );
   }
 
-  const { MapID: mapUrl, Players: players } = currentGameData.data;
+  const { MapID: mapUrl, Players: players } = currentGameData.payload;
   //   const { MapID: mapUrl, Players: players } = currentGameData;
 
   const bluePlayers = players.filter((p) => p.TeamID === "Blue");

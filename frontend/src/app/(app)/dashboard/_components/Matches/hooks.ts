@@ -19,5 +19,5 @@ const getAllShallowMatches = async () => {
     return { matches: [] };
   }
 
-  return { matches: json.data.matches };
+  return { matches: json.payload.matches };
 };

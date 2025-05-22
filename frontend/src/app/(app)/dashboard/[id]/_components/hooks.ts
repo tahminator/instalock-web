@@ -56,5 +56,5 @@ export const getRiotMatchInfo = async (uuid: string) => {
     return { data: null };
   }
 
-  return { data: json.data };
+  return { data: json.payload };
 };

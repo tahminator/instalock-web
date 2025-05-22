@@ -43,7 +43,7 @@ async function checkRiotAuth() {
     return { authToken: undefined, entitlement: undefined, puuid: undefined };
   }
 
-  const { authToken, entitlement, puuid } = json.data;
+  const { authToken, entitlement, puuid } = json.payload;
 
   return { authToken, entitlement, puuid };
 }

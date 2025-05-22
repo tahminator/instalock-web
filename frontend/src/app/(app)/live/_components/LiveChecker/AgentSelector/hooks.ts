@@ -36,16 +36,16 @@ const getPreMatchData = async ({
         "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
         "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
       },
-    }
+    },
   );
 
   if (!res.ok) {
-    return { data: null };
+    return { payload: null };
   }
 
   const riotJson = (await res.json()) as RiotPreGameDataType;
 
-  return { data: riotJson };
+  return { payload: riotJson };
 };
 
 export const usePreGameSelectAgentMutation = ({
@@ -81,7 +81,7 @@ const selectAgent = async ({
         "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
         "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
       },
-    }
+    },
   );
 
   if (!res.ok) {

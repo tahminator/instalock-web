@@ -24,6 +24,6 @@ const findRank = async ({ puuid }: { puuid: string }) => {
     return { rank: null, rr: null, rankName: null };
   }
 
-  const { rank, rr, rankName } = json.data;
+  const { rank, rr, rankName } = json.payload;
   return { rank, rr, rankName };
 };
