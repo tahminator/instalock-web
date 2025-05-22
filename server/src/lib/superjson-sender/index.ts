@@ -9,12 +9,15 @@ type Fail = Omit<ErrorType, "_debug">;
 /**
  * A helper function that automatically stringifies via superjson,
  * as well as attaching a helpful _debug method in dev & test mode.
+<<<<<<< HEAD
  *
  * @param _req - The Express.js request method
  * @param res - The Express.js response method
  * @param statusCode - The response code
  * @param object - The JSON object sent in the response. It must be of type {UnknownApiResponse}
  * @param _debug - The _debug object. You may send anything in this object, but a message key is required. A date key is automatically attached to _debug which is a string of when the response was sent.
+=======
+>>>>>>> 07ea2a2e (Add comments to sendSuperJson)
  */
 export const sendSuperJson = (
   _req: Request,
