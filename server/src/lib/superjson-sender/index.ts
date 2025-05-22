@@ -9,6 +9,11 @@ type Fail = Omit<ErrorType, "_debug">;
 /**
  * A helper function that automatically stringifies via superjson,
  * as well as attaching a helpful _debug method in dev & test mode.
+ *
+ * @param _req - The Express.js request method
+ * @param res - The Express.js response method
+ * @param statusCode - The response code
+ * @param object - The payload of the response. It must be of type {UnknownApiResponse}
  */
 export const sendSuperJson = (
   _req: Request,
