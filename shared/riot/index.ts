@@ -1,4 +1,10 @@
 import {
+  RiotCurrentGameApiType,
+  RiotCurrentGameDataType,
+  RiotPreGameApiType,
+  RiotPreGameDataType,
+} from "node_modules/@instalock/types";
+import {
   EntitlementApiType,
   RiotMatchInfoType,
   RiotUserInfoType,
@@ -133,5 +139,181 @@ export class RiotClient {
     >;
 
     return { ...response, json };
+  }
+
+  /**
+   * Fetch the pre-match ID (if exists) via a PUUID.
+   *
+   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/pre-game-player)
+   */
+  static async getPreGameMatchId({
+    authToken,
+    entitlementToken,
+    puuid,
+  }: {
+    authToken: string;
+    entitlementToken: string;
+    puuid: string;
+  }) {
+    const response = await fetch(
+      `https://glz-na-1.na.a.pvp.net/pregame/v1/players/${puuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "X-Riot-Entitlements-JWT": entitlementToken,
+          "X-Riot-ClientPlatform":
+            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+        },
+      },
+    );
+
+    const json = response.json as () => Promise<RiotPreGameApiType>;
+
+    return { ...response, json };
+  }
+
+  /**
+   * Retrieve full pre-match details via a preMatchId
+   *
+   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/pre-game-match)
+   */
+  static async getPreGameMatchDetails({
+    authToken,
+    entitlementToken,
+    preMatchId,
+  }: {
+    authToken: string;
+    entitlementToken: string;
+    preMatchId: string;
+  }) {
+    const response = await fetch(
+      `https://glz-na-1.na.a.pvp.net/pregame/v1/matches/${preMatchId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "X-Riot-Entitlements-JWT": entitlementToken,
+          "X-Riot-ClientPlatform":
+            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+        },
+      },
+    );
+
+    const json = response.json as () => Promise<RiotPreGameDataType>;
+
+    return { ...response, json };
+  }
+
+  /**
+   * Fetch the current match ID (if exists) via a PUUID.
+   *
+   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/current-game-player)
+   */
+  static async getCurrentGameMatchId({
+    authToken,
+    entitlementToken,
+    puuid,
+  }: {
+    authToken: string;
+    entitlementToken: string;
+    puuid: string;
+  }) {
+    const response = await fetch(
+      `https://glz-na-1.na.a.pvp.net/core-game/v1/players/${puuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "X-Riot-Entitlements-JWT": entitlementToken,
+          "X-Riot-ClientPlatform":
+            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+        },
+      },
+    );
+
+    const json = response.json as () => Promise<RiotCurrentGameApiType>;
+
+    return { ...response, json };
+  }
+
+  /**
+   * Retrieve full current match details via a currentMatchId
+   *
+   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/pre-game-match)
+   */
+  static async getCurrentGameMatchDetails({
+    authToken,
+    entitlementToken,
+    currentMatchId,
+  }: {
+    authToken: string;
+    entitlementToken: string;
+    currentMatchId: string;
+  }) {
+    const response = await fetch(
+      `https://glz-na-1.na.a.pvp.net/core-game/v1/matches/${currentMatchId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "X-Riot-Entitlements-JWT": entitlementToken,
+          "X-Riot-ClientPlatform":
+            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+        },
+      },
+    );
+
+    const json = response.json as () => Promise<RiotCurrentGameDataType>;
+
+    return { ...response, json };
+  }
+
+  /**
+   * Attempt to lock an agent using a valid agentId. You must pass a preMatchId.
+   *
+   * @note This only returns a boolean based on whether or not the action was accepted by
+   * Riot's servers or not. This does NOT mean the agent was successfully locked. You should
+   * instead re-fetch the pre-match details and display the new changes.
+   *
+
+   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/lock-character)
+  *
+   */
+  static async lockAgent({
+    authToken,
+    entitlementToken,
+    agentId,
+    preMatchId,
+  }: {
+    authToken: string;
+    entitlementToken: string;
+    agentId: string;
+    preMatchId: string;
+  }) {
+    const response = await fetch(
+      `https://glz-na-1.na.a.pvp.net/pregame/v1/matches/${preMatchId}/lock/${agentId}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "X-Riot-Entitlements-JWT": entitlementToken,
+          "X-Riot-ClientPlatform":
+            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      return { success: false };
+    }
+
+    return { success: true };
   }
 }
