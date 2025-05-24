@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^3.9.1",
     "@instalock/sj": "workspace:^",
     "@instalock/types": "workspace:^",
+    "@instalock/riot": "workspace:^",
     "@mantine/core": "^7.15.1",
     "@mantine/hooks": "^7.15.1",
     "@mantine/notifications": "^7.15.1",

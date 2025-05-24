@@ -46,7 +46,7 @@ const checkRiotPreGameStatus = async ({
         "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
         "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
       },
-    }
+    },
   );
 
   const json = (await preGameRes.json()) as RiotPreGameApiType;
@@ -63,7 +63,7 @@ const checkRiotPreGameStatus = async ({
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
           "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
         },
-      }
+      },
     );
 
     const json = (await currentGameRes.json()) as RiotCurrentGameApiType;
