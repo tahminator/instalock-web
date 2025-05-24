@@ -39,6 +39,7 @@
     "oslo": "^1.2.1",
     "prisma": "^5.22.0",
     "rate-limit-redis": "^4.2.0",
+    "@instalock/riot": "workspace:^",
     "tsx": "^4.19.2"
   },
   "devDependencies": {

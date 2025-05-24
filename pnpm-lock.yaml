@@ -144,6 +144,9 @@ importers:
       '@instalock/attempt':
         specifier: workspace:^
         version: link:../shared/attempt
+      '@instalock/riot':
+        specifier: workspace:^
+        version: link:../shared/riot
       '@instalock/sj':
         specifier: workspace:^
         version: link:../shared/sj
@@ -210,6 +213,8 @@ importers:
         version: 1.9.9
 
   shared/attempt: {}
+
+  shared/riot: {}
 
   shared/sj:
     dependencies:
