@@ -1,6 +1,7 @@
 import { lucia } from "@/lib/auth";
 import {
   EntitlementApiType,
+  RiotClient,
   RiotMatchInfoType,
   RiotUserInfoType,
 } from "@instalock/riot";
@@ -68,15 +69,7 @@ riotRouterV1.get("/@me", async (req, res) => {
     });
   }
 
-  const riotRes = await RiotClient;
-
-  const riotRes = await fetch("https://auth.riotgames.com/userinfo", {
-    headers: {
-      Authorization: `Bearer ${riotAuth}`,
-      "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-      "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-    },
-  });
+  const riotRes = await RiotClient.getUserInfo(riotAuth);
 
   if (!riotRes.ok) {
     return sendSuperJson(req, res, 400, {
@@ -140,16 +133,7 @@ riotRouterV1.post("/auth", async (req, res) => {
     );
   }
 
-  const riotRes = await fetch(
-    "https://entitlements.auth.riotgames.com/api/token/v1",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        "Content-Type": "application/json",
-      },
-    },
-  );
+  const riotRes = await RiotClient.getEntitlement(authToken);
 
   const riotJson = (await riotRes.json()) as EntitlementApiType;
 
@@ -171,13 +155,7 @@ riotRouterV1.post("/auth", async (req, res) => {
 
   const { entitlements_token: entitlementToken } = riotJson;
 
-  const riotUserInfoRes = await fetch("https://auth.riotgames.com/userinfo", {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-      "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-      "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-    },
-  });
+  const riotUserInfoRes = await RiotClient.getUserInfo(authToken);
 
   if (!riotUserInfoRes.ok) {
     return sendSuperJson(
@@ -195,7 +173,7 @@ riotRouterV1.post("/auth", async (req, res) => {
     );
   }
 
-  const riotUserInfoJson = (await riotUserInfoRes.json()) as RiotUserInfoType;
+  const riotUserInfoJson = await riotUserInfoRes.json();
 
   if (riotUserInfoJson.error !== undefined) {
     return sendSuperJson(
@@ -376,19 +354,13 @@ riotRouterV1.get("/user", async (req, res) => {
     result.rank = me?.tier ?? undefined;
   }
 
-  const riotMatchInfoRes = await fetch(
-    `https://pd.na.a.pvp.net/mmr/v1/players/${puuid}/competitiveupdates?startIndex=0&endIndex=1&queue=competitive`,
-    {
-      headers: {
-        Authorization: `Bearer ${riotAuth}`,
-        "X-Riot-Entitlements-JWT": riotEntitlement,
-        "X-Riot-ClientPlatform":
-          "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-      },
-    },
-  );
+  const riotMatchInfoRes = await RiotClient.getCompetitiveUpdates({
+    authToken: riotAuth,
+    entitlementToken: riotEntitlement,
+    puuid,
+    startIndex: 0,
+    endIndex: 1,
+  });
 
   if (!riotMatchInfoRes.ok) {
     return sendSuperJson(
@@ -406,8 +378,7 @@ riotRouterV1.get("/user", async (req, res) => {
     );
   }
 
-  const riotMatchInfoJson =
-    (await riotMatchInfoRes.json()) as RiotMatchInfoType;
+  const riotMatchInfoJson = await riotMatchInfoRes.json();
 
   if (riotMatchInfoJson.errorCode !== undefined) {
     return sendSuperJson(
@@ -680,21 +651,18 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
 
     const { riotAuth, riotEntitlement } = user;
 
-    const riotUserInfoRes = await fetch(
-      "https://pd.na.a.pvp.net/name-service/v2/players",
-      {
-        method: "PUT",
-        body: JSON.stringify([uuid]),
-        headers: {
-          Authorization: `Bearer ${riotAuth}`,
-          "X-Riot-Entitlements-JWT": riotEntitlement ?? "",
-          "X-Riot-ClientPlatform":
-            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-        },
-      },
-    );
+    if (!riotAuth || !riotEntitlement) {
+      return sendSuperJson(req, res, 400, {
+        success: false,
+        message: "Not authenticated via Riot.",
+      });
+    }
+
+    const riotUserInfoRes = await RiotClient.getPlayerByPuuid({
+      authToken: riotAuth,
+      entitlementToken: riotEntitlement,
+      playerPuuids: [uuid],
+    });
 
     if (!riotUserInfoRes.ok) {
       return sendSuperJson(
@@ -712,12 +680,7 @@ riotRouterV1.get("/player/:id/name", async (req, res) => {
       );
     }
 
-    const riotUserInfoJson = (await riotUserInfoRes.json()) as {
-      DisplayName: string;
-      Subject: string;
-      GameName: string;
-      TagLine: string;
-    }[];
+    const riotUserInfoJson = await riotUserInfoRes.json();
 
     const tagName = `${riotUserInfoJson[0].GameName}#${riotUserInfoJson[0].TagLine}`;
 
@@ -780,19 +743,13 @@ riotRouterV1.get("/player/:id/rank", async (req, res) => {
     });
   }
 
-  const riotMatchInfoRes = await fetch(
-    `https://pd.na.a.pvp.net/mmr/v1/players/${puuid}/competitiveupdates?startIndex=0&endIndex=1&queue=competitive`,
-    {
-      headers: {
-        Authorization: `Bearer ${riotAuth}`,
-        "X-Riot-Entitlements-JWT": riotEntitlement,
-        "X-Riot-ClientPlatform":
-          "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-      },
-    },
-  );
+  const riotMatchInfoRes = await RiotClient.getCompetitiveUpdates({
+    authToken: riotAuth,
+    entitlementToken: riotEntitlement,
+    puuid,
+    startIndex: 0,
+    endIndex: 1,
+  });
 
   if (!riotMatchInfoRes.ok) {
     return sendSuperJson(
@@ -810,8 +767,7 @@ riotRouterV1.get("/player/:id/rank", async (req, res) => {
     );
   }
 
-  const riotMatchInfoJson =
-    (await riotMatchInfoRes.json()) as RiotMatchInfoType;
+  const riotMatchInfoJson = await riotMatchInfoRes.json();
 
   if (riotMatchInfoJson.errorCode !== undefined) {
     return sendSuperJson(
