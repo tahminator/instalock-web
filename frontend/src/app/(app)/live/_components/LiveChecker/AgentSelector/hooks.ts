@@ -1,4 +1,4 @@
-import { RiotPreGameDataType } from "@instalock/types";
+import { RiotPreGameDataType } from "@instalock/riot";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const usePreGameQuery = ({

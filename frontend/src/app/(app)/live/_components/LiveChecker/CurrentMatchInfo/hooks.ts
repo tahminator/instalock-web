@@ -1,4 +1,4 @@
-import { RiotCurrentGameDataType } from "@instalock/types";
+import { RiotCurrentGameDataType } from "@instalock/riot";
 import { useQuery } from "@tanstack/react-query";
 
 export const useCurrentGameQuery = ({

@@ -20,13 +20,15 @@ import { loadMatchesForNewUser } from "@/lib/riot/loadMatchesNewUser";
 import { sendSuperJson } from "@/lib/superjson-sender";
 import { attempt } from "@instalock/attempt";
 import {
-  authModalSchema,
-  checkIdSchema,
   getGameModeName,
-  Prisma,
-  ShallowMatchExclude,
   TierNumber,
   tierNumberToNameObject,
+} from "@instalock/riot";
+import {
+  authModalSchema,
+  checkIdSchema,
+  Prisma,
+  ShallowMatchExclude,
 } from "@instalock/types";
 import { Router } from "express";
 
