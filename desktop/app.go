@@ -1,0 +1,107 @@
+package main
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"net/http/cookiejar"
+	"os"
+
+	"github.com/joho/godotenv"
+)
+
+// App struct
+type App struct {
+	ctx    context.Context
+	client *http.Client
+
+	serverUrl string
+}
+
+// NewApp creates a new App application struct
+func NewApp() *App {
+	return &App{}
+}
+
+// startup is called when the app starts. The context is saved
+// so we can call the runtime methods
+func (a *App) startup(ctx context.Context) {
+	a.ctx = ctx
+
+	jar, _ := cookiejar.New(nil)
+	a.client = &http.Client{
+		Jar: jar,
+	}
+
+	godotenv.Load()
+	a.serverUrl = os.Getenv("SERVER_URL")
+}
+
+// Greet returns a greeting for the given name
+func (a *App) Greet(name string) string {
+	return fmt.Sprintf("Hello %s, It's show time!", name)
+}
+
+type Response struct {
+	Ok   bool
+	Text string
+}
+
+func (a *App) CheckAuthentication() *Response {
+	resp, err := a.client.Get(a.serverUrl + "/api/riot/v1/@me") // adjust URL if not localhost
+	if err != nil {
+		fmt.Printf("Failed to GET CheckAuthentication: %v\n", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to parse response body: %v\n", err)
+		return nil
+	}
+
+	statusOk := resp.StatusCode >= 200 && resp.StatusCode <= 299
+
+	return &Response{
+		Ok:   statusOk,
+		Text: string(body),
+	}
+}
+
+type AuthenticatePayload struct {
+	Url string `json:"url"`
+}
+
+func (a *App) Authenticate(payload AuthenticatePayload) *Response {
+	jsonBody, err := json.Marshal(payload)
+
+	fmt.Printf("body: %s\n", jsonBody)
+	if err != nil {
+		fmt.Printf("Failed to marshal JSON body: %v\n", err)
+		return nil
+	}
+
+	resp, err := a.client.Post(a.serverUrl+"/api/riot/v1/auth", "application/json", bytes.NewReader(jsonBody))
+	if err != nil {
+		fmt.Printf("Failed to POST Authenticate: %v\n", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to parse response body: %v\n", err)
+		return nil
+	}
+
+	statusOk := resp.StatusCode >= 200 && resp.StatusCode <= 299
+
+	return &Response{
+		Ok:   statusOk,
+		Text: string(body),
+	}
+}
