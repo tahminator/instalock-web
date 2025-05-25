@@ -10,6 +10,10 @@ export function CheckAuthentication() {
   return window['go']['main']['App']['CheckAuthentication']();
 }
 
+export function GetShallowMatches() {
+  return window['go']['main']['App']['GetShallowMatches']();
+}
+
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }

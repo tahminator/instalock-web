@@ -1,6 +1,7 @@
 import { SJ } from "@instalock/sj";
 import { ApiDefault, ShallowMatch } from "@instalock/types";
 import { useQuery } from "@tanstack/react-query";
+import { GetShallowMatches } from "@w/go/main/App";
 
 export const useGetShallowMatchesQuery = () =>
   useQuery({
@@ -9,9 +10,13 @@ export const useGetShallowMatchesQuery = () =>
   });
 
 const getAllShallowMatches = async () => {
-  const res = await fetch("/api/riot/v1/matches/shallow");
+  const res = await GetShallowMatches();
 
-  const json = SJ.parse(await res.text()) as ApiDefault<{
+  if (!res.Ok) {
+    return { matches: [] };
+  }
+
+  const json = SJ.parse(res.Text) as ApiDefault<{
     matches: (ShallowMatch & { characterId?: string })[];
   }>;
 
