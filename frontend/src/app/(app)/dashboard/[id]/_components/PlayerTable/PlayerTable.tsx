@@ -3,7 +3,7 @@ import {
   agentUuidToNameObject,
   TierNumber,
   tierNumberToNameObject,
-} from "@instalock/types/riot";
+} from "@instalock/riot";
 import { PlayerMatch } from "@instalock/types";
 import { Avatar, Table, Tooltip } from "@mantine/core";
 import clsx from "clsx";

@@ -12,7 +12,7 @@ import {
   mapUrlToUuidObject,
   MapUuid,
   mapUuidToNameObject,
-} from "@instalock/types/riot";
+} from "@instalock/riot";
 import { Button, Card, Image, Text, Tooltip } from "@mantine/core";
 import clsx from "clsx";
 import { Link } from "react-router-dom";

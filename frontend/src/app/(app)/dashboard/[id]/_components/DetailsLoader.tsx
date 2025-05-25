@@ -1,7 +1,7 @@
 import { formatGameDuration } from "@/app/(app)/dashboard/[id]/_components/helper";
 import { useGetMatchInfoQuery } from "@/app/(app)/dashboard/[id]/_components/hooks";
 import PlayerTable from "@/app/(app)/dashboard/[id]/_components/PlayerTable/PlayerTable";
-import { MapUuid, mapUuidToNameObject } from "@instalock/types/riot";
+import { MapUuid, mapUuidToNameObject } from "@instalock/riot";
 import { Button, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 
@@ -49,7 +49,7 @@ export default function DetailsLoader({ uuid }: { uuid: string }) {
         </div>
         <Text>
           {formatGameDuration(
-            (gameEnd?.getTime() ?? 0) - (gameStart?.getTime() ?? 0)
+            (gameEnd?.getTime() ?? 0) - (gameStart?.getTime() ?? 0),
           )}
         </Text>
       </div>

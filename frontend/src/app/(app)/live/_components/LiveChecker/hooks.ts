@@ -1,7 +1,4 @@
-import {
-  RiotCurrentGameApiType,
-  RiotPreGameApiType,
-} from "@instalock/types/riot";
+import { RiotCurrentGameApiType, RiotPreGameApiType } from "@instalock/riot";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGameCheckQuery = ({

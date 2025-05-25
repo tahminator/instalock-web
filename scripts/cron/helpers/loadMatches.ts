@@ -3,7 +3,7 @@ import {
   MapUrl,
   mapUrlToUuidObject,
   type RiotMatchInfoType,
-} from "@instalock/types/riot";
+} from "@instalock/riot";
 import { writeFile } from "fs/promises";
 import { db } from "../db/index.js";
 import { randomUUID } from "crypto";
@@ -32,7 +32,7 @@ export const loadMatchesForEachUser = async () => {
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
           "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
         },
-      }
+      },
     );
 
     if (!riotRes.ok) {
@@ -61,7 +61,7 @@ export const loadMatchesForEachUser = async () => {
             "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
             "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
           },
-        }
+        },
       );
 
       // Use the file to generate types, if needed.
@@ -97,7 +97,7 @@ export const loadMatchesForEachUser = async () => {
           gameStart: new Date(matchInfo?.gameStartMillis ?? 0),
           gameEnd: new Date(
             (Number(matchInfo?.gameStartMillis) || 0) +
-              (Number(matchInfo?.gameLengthMillis) || 0)
+              (Number(matchInfo?.gameLengthMillis) || 0),
           ),
           isCompleted: matchInfo?.isCompleted,
           queueId: matchInfo?.queueID,
@@ -151,7 +151,7 @@ export const loadMatchesForEachUser = async () => {
           gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
           gameEnd: new Date(
             (Number(matchInfo?.gameStartMillis) || 0) +
-              (Number(matchInfo?.gameLengthMillis) || 0)
+              (Number(matchInfo?.gameLengthMillis) || 0),
           ),
           isCompleted: matchInfo?.isCompleted,
           queueId: matchInfo?.queueID,

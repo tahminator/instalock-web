@@ -4,7 +4,7 @@ import {
   MapUuid,
   agentUuidToNameObject,
   AgentUuid,
-} from "@instalock/types/riot";
+} from "@instalock/riot";
 import {
   Avatar,
   Badge,
