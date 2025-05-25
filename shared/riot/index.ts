@@ -34,7 +34,7 @@ export class RiotClient {
       response,
     ) as () => Promise<RiotUserInfoType>;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 
   /**
@@ -60,7 +60,7 @@ export class RiotClient {
       response,
     ) as () => Promise<EntitlementApiType>;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 
   /**
@@ -100,7 +100,7 @@ export class RiotClient {
       response,
     ) as () => Promise<RiotMatchInfoType>;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 
   /**
@@ -143,7 +143,7 @@ export class RiotClient {
       }[]
     >;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 
   /**
@@ -178,7 +178,7 @@ export class RiotClient {
       response,
     ) as () => Promise<RiotPreGameApiType>;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 
   /**
@@ -213,7 +213,7 @@ export class RiotClient {
       response,
     ) as () => Promise<RiotPreGameDataType>;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 
   /**
@@ -248,7 +248,7 @@ export class RiotClient {
       response,
     ) as () => Promise<RiotCurrentGameApiType>;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 
   /**
@@ -283,7 +283,7 @@ export class RiotClient {
       response,
     ) as () => Promise<RiotCurrentGameDataType>;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 
   /**
@@ -357,6 +357,6 @@ export class RiotClient {
       response,
     ) as () => Promise<AutoGenMatchMeta>;
 
-    return { ...response, json };
+    return Object.assign(response, { json });
   }
 }
