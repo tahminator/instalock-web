@@ -30,11 +30,10 @@ export class RiotClient {
       },
     });
 
-    const json = response.json.bind(
-      response,
-    ) as () => Promise<RiotUserInfoType>;
+    const json: () => Promise<RiotUserInfoType> = () =>
+      response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 
   /**
@@ -56,11 +55,10 @@ export class RiotClient {
       },
     );
 
-    const json = response.json.bind(
-      response,
-    ) as () => Promise<EntitlementApiType>;
+    const json: () => Promise<EntitlementApiType> = () =>
+      response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 
   /**
@@ -96,11 +94,10 @@ export class RiotClient {
       },
     );
 
-    const json = response.json.bind(
-      response,
-    ) as () => Promise<RiotMatchInfoType>;
+    const json: () => Promise<RiotMatchInfoType> = () =>
+      response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 
   /**
@@ -134,16 +131,16 @@ export class RiotClient {
       },
     );
 
-    const json = response.json.bind(response) as () => Promise<
+    const json: () => Promise<
       {
         DisplayName: string;
         Subject: string;
         GameName: string;
         TagLine: string;
       }[]
-    >;
+    > = () => response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 
   /**
@@ -174,11 +171,10 @@ export class RiotClient {
       },
     );
 
-    const json = response.json.bind(
-      response,
-    ) as () => Promise<RiotPreGameApiType>;
+    const json: () => Promise<RiotPreGameApiType> = () =>
+      response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 
   /**
@@ -209,11 +205,10 @@ export class RiotClient {
       },
     );
 
-    const json = response.json.bind(
-      response,
-    ) as () => Promise<RiotPreGameDataType>;
+    const json: () => Promise<RiotPreGameDataType> = () =>
+      response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 
   /**
@@ -244,11 +239,10 @@ export class RiotClient {
       },
     );
 
-    const json = response.json.bind(
-      response,
-    ) as () => Promise<RiotCurrentGameApiType>;
+    const json: () => Promise<RiotCurrentGameApiType> = () =>
+      response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 
   /**
@@ -279,11 +273,10 @@ export class RiotClient {
       },
     );
 
-    const json = response.json.bind(
-      response,
-    ) as () => Promise<RiotCurrentGameDataType>;
+    const json: () => Promise<RiotCurrentGameDataType> = () =>
+      response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 
   /**
@@ -353,10 +346,9 @@ export class RiotClient {
       },
     );
 
-    const json = response.json.bind(
-      response,
-    ) as () => Promise<AutoGenMatchMeta>;
+    const json: () => Promise<AutoGenMatchMeta> = () =>
+      response.json.call(response);
 
-    return Object.assign(response, { json });
+    return { ...response, json };
   }
 }
