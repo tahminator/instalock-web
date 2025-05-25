@@ -30,7 +30,9 @@ export class RiotClient {
       },
     });
 
-    const json = response.json as () => Promise<RiotUserInfoType>;
+    const json = response.json.bind(
+      response,
+    ) as () => Promise<RiotUserInfoType>;
 
     return { ...response, json };
   }
@@ -54,7 +56,9 @@ export class RiotClient {
       },
     );
 
-    const json = response.json as () => Promise<EntitlementApiType>;
+    const json = response.json.bind(
+      response,
+    ) as () => Promise<EntitlementApiType>;
 
     return { ...response, json };
   }
@@ -92,7 +96,9 @@ export class RiotClient {
       },
     );
 
-    const json = response.json as () => Promise<RiotMatchInfoType>;
+    const json = response.json.bind(
+      response,
+    ) as () => Promise<RiotMatchInfoType>;
 
     return { ...response, json };
   }
@@ -128,7 +134,7 @@ export class RiotClient {
       },
     );
 
-    const json = response.json as () => Promise<
+    const json = response.json.bind(response) as () => Promise<
       {
         DisplayName: string;
         Subject: string;
@@ -168,7 +174,9 @@ export class RiotClient {
       },
     );
 
-    const json = response.json as () => Promise<RiotPreGameApiType>;
+    const json = response.json.bind(
+      response,
+    ) as () => Promise<RiotPreGameApiType>;
 
     return { ...response, json };
   }
@@ -201,7 +209,9 @@ export class RiotClient {
       },
     );
 
-    const json = response.json as () => Promise<RiotPreGameDataType>;
+    const json = response.json.bind(
+      response,
+    ) as () => Promise<RiotPreGameDataType>;
 
     return { ...response, json };
   }
@@ -234,7 +244,9 @@ export class RiotClient {
       },
     );
 
-    const json = response.json as () => Promise<RiotCurrentGameApiType>;
+    const json = response.json.bind(
+      response,
+    ) as () => Promise<RiotCurrentGameApiType>;
 
     return { ...response, json };
   }
@@ -267,7 +279,9 @@ export class RiotClient {
       },
     );
 
-    const json = response.json as () => Promise<RiotCurrentGameDataType>;
+    const json = response.json.bind(
+      response,
+    ) as () => Promise<RiotCurrentGameDataType>;
 
     return { ...response, json };
   }
@@ -339,7 +353,9 @@ export class RiotClient {
       },
     );
 
-    const json = response.json as () => Promise<AutoGenMatchMeta>;
+    const json = response.json.bind(
+      response,
+    ) as () => Promise<AutoGenMatchMeta>;
 
     return { ...response, json };
   }

@@ -137,7 +137,7 @@ riotRouterV1.post("/auth", async (req, res) => {
 
   const riotRes = await RiotClient.getEntitlement(authToken);
 
-  const riotJson = (await riotRes.json()) as EntitlementApiType;
+  const riotJson = await riotRes.json();
 
   if (riotJson.errorCode !== undefined) {
     return sendSuperJson(
