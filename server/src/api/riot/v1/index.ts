@@ -159,6 +159,8 @@ riotRouterV1.post("/auth", async (req, res) => {
 
   const riotUserInfoRes = await RiotClient.getUserInfo(authToken);
 
+  console.log(await riotUserInfoRes.ok);
+
   if (!riotUserInfoRes.ok) {
     return sendSuperJson(
       req,
