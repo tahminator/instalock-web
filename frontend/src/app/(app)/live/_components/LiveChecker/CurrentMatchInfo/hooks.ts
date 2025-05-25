@@ -1,4 +1,4 @@
-import { RiotCurrentGameDataType } from "@instalock/riot";
+import { RiotClient } from "@instalock/riot";
 import { useQuery } from "@tanstack/react-query";
 
 export const useCurrentGameQuery = ({
@@ -25,25 +25,21 @@ const getCurrentMatchData = async ({
   riotAuth?: string;
   riotEntitlement?: string;
 }) => {
-  const res = await fetch(
-    `https://glz-na-1.na.a.pvp.net/core-game/v1/matches/${gameId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${riotAuth ?? ""}`,
-        "X-Riot-Entitlements-JWT": riotEntitlement ?? "",
-        "X-Riot-ClientPlatform":
-          "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-      },
-    },
-  );
+  if (!riotAuth || !riotEntitlement || !gameId) {
+    return { payload: null };
+  }
+
+  const res = await RiotClient.getCurrentGameMatchDetails({
+    authToken: riotAuth,
+    entitlementToken: riotEntitlement,
+    currentMatchId: gameId,
+  });
 
   if (!res.ok) {
     return { payload: null };
   }
 
-  const riotJson = (await res.json()) as RiotCurrentGameDataType;
+  const riotJson = await res.json();
 
   return { payload: riotJson };
 };

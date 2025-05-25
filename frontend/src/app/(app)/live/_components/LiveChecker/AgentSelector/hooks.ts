@@ -1,4 +1,4 @@
-import { RiotPreGameDataType } from "@instalock/riot";
+import { RiotClient } from "@instalock/riot";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const usePreGameQuery = ({
@@ -25,25 +25,21 @@ const getPreMatchData = async ({
   riotAuth?: string;
   riotEntitlement?: string;
 }) => {
-  const res = await fetch(
-    `https://glz-na-1.na.a.pvp.net/pregame/v1/matches/${pregameId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${riotAuth ?? ""}`,
-        "X-Riot-Entitlements-JWT": riotEntitlement ?? "",
-        "X-Riot-ClientPlatform":
-          "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-      },
-    },
-  );
+  if (!riotAuth || !riotEntitlement || !pregameId) {
+    return { payload: null };
+  }
+
+  const res = await RiotClient.getPreGameMatchDetails({
+    authToken: riotAuth,
+    entitlementToken: riotEntitlement,
+    preMatchId: pregameId,
+  });
 
   if (!res.ok) {
     return { payload: null };
   }
 
-  const riotJson = (await res.json()) as RiotPreGameDataType;
+  const riotJson = await res.json();
 
   return { payload: riotJson };
 };
@@ -69,24 +65,16 @@ const selectAgent = async ({
   riotAuth?: string;
   riotEntitlement?: string;
 }) => {
-  const res = await fetch(
-    `https://glz-na-1.na.a.pvp.net/pregame/v1/matches/${matchId}/lock/${agentId}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${riotAuth ?? ""}`,
-        "X-Riot-Entitlements-JWT": riotEntitlement ?? "",
-        "X-Riot-ClientPlatform":
-          "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-        "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-      },
-    },
-  );
-
-  if (!res.ok) {
+  if (!riotAuth || !riotEntitlement) {
     return { success: false };
   }
 
-  return { success: true };
+  const { success } = await RiotClient.lockAgent({
+    authToken: riotAuth,
+    entitlementToken: riotEntitlement,
+    agentId,
+    preMatchId: matchId,
+  });
+
+  return { success };
 };
