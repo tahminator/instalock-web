@@ -1,4 +1,5 @@
 import {
+  AutoGenMatchMeta,
   EntitlementApiType,
   RiotCurrentGameApiType,
   RiotCurrentGameDataType,
@@ -313,5 +314,33 @@ export class RiotClient {
     }
 
     return { success: true };
+  }
+
+  static async getMatchDetails({
+    authToken,
+    entitlementToken,
+    matchId,
+  }: {
+    authToken: string;
+    entitlementToken: string;
+    matchId: string;
+  }) {
+    const response = await fetch(
+      `https://pd.na.a.pvp.net/match-details/v1/matches/${matchId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "X-Riot-Entitlements-JWT": entitlementToken,
+          "X-Riot-ClientPlatform":
+            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+        },
+      },
+    );
+
+    const json = response.json as () => Promise<AutoGenMatchMeta>;
+
+    return { ...response, json };
   }
 }

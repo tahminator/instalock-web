@@ -1,10 +1,4 @@
-import {
-  AutoGenMatchMeta,
-  MapUrl,
-  mapUrlToUuidObject,
-  type RiotMatchInfoType,
-} from "@instalock/riot";
-import { writeFile } from "fs/promises";
+import { MapUrl, mapUrlToUuidObject, RiotClient } from "@instalock/riot";
 import { db } from "../db/index.js";
 import { randomUUID } from "crypto";
 
@@ -21,25 +15,19 @@ export const loadMatchesForEachUser = async () => {
       continue;
     }
 
-    const riotRes = await fetch(
-      `https://pd.na.a.pvp.net/mmr/v1/players/${riotPuuid}/competitiveupdates?startIndex=0&endIndex=20`,
-      {
-        headers: {
-          Authorization: `Bearer ${riotAuth}`,
-          "X-Riot-Entitlements-JWT": riotEntitlement,
-          "X-Riot-ClientPlatform":
-            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-        },
-      },
-    );
+    const riotRes = await RiotClient.getCompetitiveUpdates({
+      authToken: riotAuth,
+      entitlementToken: riotEntitlement,
+      puuid: riotPuuid,
+      startIndex: 0,
+      endIndex: 20,
+    });
 
     if (!riotRes.ok) {
       continue;
     }
 
-    const riotMatchInfoJson = (await riotRes.json()) as RiotMatchInfoType;
+    const riotMatchInfoJson = await riotRes.json();
 
     if (riotMatchInfoJson.errorCode !== undefined) {
       break;
@@ -50,19 +38,11 @@ export const loadMatchesForEachUser = async () => {
     });
 
     for (let j = 0; j < matchIds.length; j++) {
-      const riotMatchRes = await fetch(
-        `https://pd.na.a.pvp.net/match-details/v1/matches/${matchIds[j]}`,
-        {
-          headers: {
-            Authorization: `Bearer ${riotAuth}`,
-            "X-Riot-Entitlements-JWT": riotEntitlement,
-            "X-Riot-ClientPlatform":
-              "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
-            "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-            "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
-          },
-        },
-      );
+      const riotMatchRes = await RiotClient.getMatchDetails({
+        authToken: riotAuth,
+        entitlementToken: riotEntitlement,
+        matchId: matchIds[j],
+      });
 
       // Use the file to generate types, if needed.
       // if (j === 2) {
@@ -76,7 +56,7 @@ export const loadMatchesForEachUser = async () => {
         continue;
       }
 
-      const json = (await riotMatchRes.json()) as AutoGenMatchMeta;
+      const json = await riotMatchRes.json();
 
       const { matchInfo, players, teams } = json;
 
