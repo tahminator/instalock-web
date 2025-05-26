@@ -14,6 +14,10 @@ export function GetPlayerInfo() {
   return window['go']['main']['App']['GetPlayerInfo']();
 }
 
+export function GetRiotMatchInfo(arg1) {
+  return window['go']['main']['App']['GetRiotMatchInfo'](arg1);
+}
+
 export function GetShallowMatches() {
   return window['go']['main']['App']['GetShallowMatches']();
 }

@@ -8,6 +8,8 @@ export function CheckAuthentication():Promise<main.Response>;
 
 export function GetPlayerInfo():Promise<main.Response>;
 
+export function GetRiotMatchInfo(arg1:string):Promise<main.Response>;
+
 export function GetShallowMatches():Promise<main.Response>;
 
 export function Greet(arg1:string):Promise<string>;

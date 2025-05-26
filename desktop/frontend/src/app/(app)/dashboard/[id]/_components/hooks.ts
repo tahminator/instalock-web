@@ -1,7 +1,9 @@
+import { RiotClient } from "@instalock/riot";
 import { SJ } from "@instalock/sj";
 import { ApiDefault, PlayerMatch, Prisma } from "@instalock/types";
 import { notifications } from "@mantine/notifications";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { GetRiotMatchInfo } from "@w/go/main/App";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
@@ -40,13 +42,13 @@ export const useGetMatchInfoQuery = (uuid: string) => {
 };
 
 export const getRiotMatchInfo = async (uuid: string) => {
-  const res = await fetch(`/api/riot/v1/match/${uuid}`);
+  const res = await GetRiotMatchInfo(uuid);
 
-  if (!res.ok) {
+  if (!res || !res.Ok) {
     return { data: null };
   }
 
-  const json = (await SJ.parse(await res.text())) as ApiDefault<
+  const json = (await SJ.parse(res.Text)) as ApiDefault<
     Prisma.RiotMatchGetPayload<{ include: { players: true } }> & {
       me: PlayerMatch;
     }
