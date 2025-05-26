@@ -14,6 +14,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Return type of almost every Go IPC function.
+type Response struct {
+	Ok   bool
+	Text string
+}
+
 // App struct
 type App struct {
 	ctx    context.Context
@@ -32,6 +38,7 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 
+	// TODO - Implement a persistent cookie jar.
 	jar, _ := cookiejar.New(nil)
 	a.client = &http.Client{
 		Jar: jar,
@@ -39,16 +46,6 @@ func (a *App) startup(ctx context.Context) {
 
 	godotenv.Load()
 	a.serverUrl = os.Getenv("SERVER_URL")
-}
-
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
-}
-
-type Response struct {
-	Ok   bool
-	Text string
 }
 
 func (a *App) CheckAuthentication() *Response {
@@ -247,6 +244,7 @@ func (a *App) FindRank(payload FindRankPayload) *Response {
 	}
 }
 
+// TODO - Finish this function.
 func (a *App) LocalAuthenticate() {
 	val, err := token.GrabToken("http://127.0.0.1", a.ctx)
 
