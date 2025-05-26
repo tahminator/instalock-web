@@ -193,3 +193,55 @@ func (a *App) GetRiotMatchInfo(uuid string) *Response {
 		Text: string(body),
 	}
 }
+
+type FindNamePayload struct {
+	Puuid string `json:"puuid"`
+}
+
+func (a *App) FindName(payload FindNamePayload) *Response {
+	resp, err := a.client.Get(a.serverUrl + "/api/riot/v1/player/" + payload.Puuid + "/name")
+	if err != nil {
+		fmt.Printf("Failed to POST FindName: %v\n", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to parse response body: %v\n", err)
+		return nil
+	}
+
+	statusOk := resp.StatusCode >= 200 && resp.StatusCode <= 299
+
+	return &Response{
+		Ok:   statusOk,
+		Text: string(body),
+	}
+}
+
+type FindRankPayload struct {
+	Puuid string `json:"puuid"`
+}
+
+func (a *App) FindRank(payload FindRankPayload) *Response {
+	resp, err := a.client.Get(a.serverUrl + "/api/riot/v1/player/" + payload.Puuid + "/rank")
+	if err != nil {
+		fmt.Printf("Failed to POST FindRank: %v\n", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to parse response body: %v\n", err)
+		return nil
+	}
+
+	statusOk := resp.StatusCode >= 200 && resp.StatusCode <= 299
+
+	return &Response{
+		Ok:   statusOk,
+		Text: string(body),
+	}
+}

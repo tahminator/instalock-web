@@ -2,7 +2,6 @@ import GradientTitle from "@/app/_components/_gradient-title";
 import InitialLandingPage from "@/app/_components/_initial-landing";
 import { motion } from "framer-motion";
 import GetStartedButton from "@/components/ui/get-started-button";
-import GithubButton from "@/components/ui/github-button";
 import { Button } from "@mantine/core";
 import NativeLink from "@/components/native-link";
 

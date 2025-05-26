@@ -1,6 +1,8 @@
 import { SJ } from "@instalock/sj";
 import { ApiDefault } from "@instalock/types";
 import { useQuery } from "@tanstack/react-query";
+import { FindRank } from "@w/go/main/App";
+import { main } from "@w/go/models";
 
 export const useFindRankQuery = ({ puuid }: { puuid: string }) =>
   useQuery({
@@ -9,12 +11,13 @@ export const useFindRankQuery = ({ puuid }: { puuid: string }) =>
   });
 
 const findRank = async ({ puuid }: { puuid: string }) => {
-  const res = await fetch(`/api/riot/v1/player/${puuid}/rank`);
-  if (!res.ok) {
+  const res = await FindRank(new main.FindRankPayload({ puuid }));
+
+  if (!res || !res.Ok) {
     return { rank: null, rr: null, rankName: null };
   }
 
-  const json = SJ.parse(await res.text()) as ApiDefault<{
+  const json = SJ.parse(res.Text) as ApiDefault<{
     rank: number | null;
     rr: number | null;
     rankName: string | null;

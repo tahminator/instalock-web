@@ -41,6 +41,10 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
   const { MapID: mapUrl, Players: players } = currentGameData.payload;
   //   const { MapID: mapUrl, Players: players } = currentGameData;
 
+  if (!players || players.length <= 0) {
+    return <CenteredSpinner />;
+  }
+
   const bluePlayers = players.filter((p) => p.TeamID === "Blue");
   const redPlayers = players.filter((p) => p.TeamID === "Red");
 

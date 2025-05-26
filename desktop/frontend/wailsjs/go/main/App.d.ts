@@ -6,6 +6,10 @@ export function Authenticate(arg1:main.AuthenticatePayload):Promise<main.Respons
 
 export function CheckAuthentication():Promise<main.Response>;
 
+export function FindName(arg1:main.FindNamePayload):Promise<main.Response>;
+
+export function FindRank(arg1:main.FindRankPayload):Promise<main.Response>;
+
 export function GetPlayerInfo():Promise<main.Response>;
 
 export function GetRiotMatchInfo(arg1:string):Promise<main.Response>;

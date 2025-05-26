@@ -10,6 +10,14 @@ export function CheckAuthentication() {
   return window['go']['main']['App']['CheckAuthentication']();
 }
 
+export function FindName(arg1) {
+  return window['go']['main']['App']['FindName'](arg1);
+}
+
+export function FindRank(arg1) {
+  return window['go']['main']['App']['FindRank'](arg1);
+}
+
 export function GetPlayerInfo() {
   return window['go']['main']['App']['GetPlayerInfo']();
 }

@@ -1,6 +1,8 @@
 import { SJ } from "@instalock/sj";
 import { ApiDefault } from "@instalock/types";
 import { useQuery } from "@tanstack/react-query";
+import { FindName } from "@w/go/main/App";
+import { main } from "@w/go/models";
 
 export const useFindNameQuery = ({ puuid }: { puuid: string }) =>
   useQuery({
@@ -9,13 +11,13 @@ export const useFindNameQuery = ({ puuid }: { puuid: string }) =>
   });
 
 const findName = async ({ puuid }: { puuid: string }) => {
-  const res = await fetch(`/api/riot/v1/player/${puuid}/name`);
+  const res = await FindName(new main.FindNamePayload({ puuid }));
 
-  if (!res.ok) {
+  if (!res || !res.Ok) {
     return { name: null };
   }
 
-  const json = SJ.parse(await res.text()) as ApiDefault<{
+  const json = SJ.parse(res.Text) as ApiDefault<{
     riotTag: string;
     puuid: string;
   }>;
