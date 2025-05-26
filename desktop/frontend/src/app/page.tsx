@@ -1,6 +1,3 @@
-import { DownArrow } from "@/components/ui/down-arrow";
-import { Features } from "@/app/_components/_features";
-import { Footer } from "@/app/_components/_footer";
 import GradientTitle from "@/app/_components/_gradient-title";
 import InitialLandingPage from "@/app/_components/_initial-landing";
 import { motion } from "framer-motion";
@@ -10,7 +7,6 @@ import GithubButton from "@/components/ui/github-button";
 export default function LandingPage() {
   return (
     <>
-      <DownArrow />
       <div className="flex flex-row min-h-screen justify-center items-center rounded-md">
         <InitialLandingPage>
           <motion.h1
@@ -50,10 +46,6 @@ export default function LandingPage() {
           </div>
         </InitialLandingPage>
       </div>
-      <div className="flex flex-row min-h-screen justify-center items-center rounded-md">
-        <Features />
-      </div>
-      <Footer />
     </>
   );
 }

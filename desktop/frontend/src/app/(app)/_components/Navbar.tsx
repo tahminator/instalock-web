@@ -28,6 +28,7 @@ export default function Navbar() {
         background: "#242424",
         backgroundClip: "padding-box",
       }}
+      mt={"md"}
     >
       <header
         className={classes.header}

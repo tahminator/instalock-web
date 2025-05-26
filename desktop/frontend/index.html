@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -19,7 +19,19 @@
       }
     </style>
   </head>
-  <body>
+  <body style="background: #242424">
+    <!-- This div is for dragging the application around. It isn't in React-land because the required draggable style is not properly applied. -->
+    <div
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 1.75rem;
+        z-index: 9999;
+        --wails-draggable: drag;
+      "
+    ></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

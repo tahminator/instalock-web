@@ -3,9 +3,9 @@ import DashboardPage from "@/app/(app)/dashboard/page";
 import LiveMatchPage from "@/app/(app)/live/page";
 import LandingPage from "@/app/page";
 import FourOhFour from "@/components/ui/FourOhFour/FourOhFour";
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <LandingPage />,

@@ -1,4 +1,3 @@
-import { RiotClient } from "@instalock/riot";
 import { SJ } from "@instalock/sj";
 import { ApiDefault, PlayerMatch, Prisma } from "@instalock/types";
 import { notifications } from "@mantine/notifications";

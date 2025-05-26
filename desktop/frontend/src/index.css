@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 body {
-    background-color: #242424;
-  }
+  background-color: #242424;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+}
