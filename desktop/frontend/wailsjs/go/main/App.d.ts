@@ -6,6 +6,10 @@ export function Authenticate(arg1:main.AuthenticatePayload):Promise<main.Respons
 
 export function CheckAuthentication():Promise<main.Response>;
 
+export function GetPlayerInfo():Promise<main.Response>;
+
 export function GetShallowMatches():Promise<main.Response>;
 
 export function Greet(arg1:string):Promise<string>;
+
+export function Unauthenticate():Promise<main.Response>;

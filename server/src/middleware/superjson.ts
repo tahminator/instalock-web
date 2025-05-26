@@ -14,6 +14,10 @@ export const superjsonMiddleware = (
     });
 
     req.on("end", () => {
+      if (data.trim() === "") {
+        req.body = undefined;
+        return next();
+      }
       try {
         req.body = SJ.parse(data);
         if (req.body === undefined) {

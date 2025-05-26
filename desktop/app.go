@@ -127,3 +127,47 @@ func (a *App) GetShallowMatches() *Response {
 		Text: string(body),
 	}
 }
+
+func (a *App) GetPlayerInfo() *Response {
+	resp, err := a.client.Get(a.serverUrl + "/api/riot/v1/user")
+	if err != nil {
+		fmt.Printf("Failed to GET GetPlayerInfo: %v\n", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to parse response body: %v\n", err)
+		return nil
+	}
+
+	statusOk := resp.StatusCode >= 200 && resp.StatusCode <= 299
+
+	return &Response{
+		Ok:   statusOk,
+		Text: string(body),
+	}
+}
+
+func (a *App) Unauthenticate() *Response {
+	resp, err := a.client.Post(a.serverUrl+"/api/riot/v1/unauth", "application/json", nil)
+	if err != nil {
+		fmt.Printf("Failed to POST Unauthenticate: %v\n", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to parse response body: %v\n", err)
+		return nil
+	}
+
+	statusOk := resp.StatusCode >= 200 && resp.StatusCode <= 299
+
+	return &Response{
+		Ok:   statusOk,
+		Text: string(body),
+	}
+}

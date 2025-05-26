@@ -12,7 +12,7 @@ export const useGetShallowMatchesQuery = () =>
 const getAllShallowMatches = async () => {
   const res = await GetShallowMatches();
 
-  if (!res.Ok) {
+  if (!res || !res.Ok) {
     return { matches: [] };
   }
 

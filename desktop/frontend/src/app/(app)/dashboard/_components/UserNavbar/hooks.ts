@@ -1,6 +1,7 @@
 import { SJ } from "@instalock/sj";
 import { ApiDefault } from "@instalock/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { GetPlayerInfo, Unauthenticate } from "@w/go/main/App";
 
 const useRiotPlayerInfoQuery = () =>
   useQuery({
@@ -9,9 +10,13 @@ const useRiotPlayerInfoQuery = () =>
   });
 
 const obtainRiotPlayerInfo = async () => {
-  const res = await fetch("/api/riot/v1/user");
+  const res = await GetPlayerInfo();
 
-  const json = SJ.parse(await res.text()) as ApiDefault<{
+  if (!res || !res.Ok) {
+    return { name: "", rank: 0, rr: 0, rankName: "Unranked" };
+  }
+
+  const json = SJ.parse(res.Text) as ApiDefault<{
     name: string;
     rank: number;
     rr: number;
@@ -33,11 +38,13 @@ const useDisconnectRiotPlayerQuery = () =>
   });
 
 const removeRiotPlayer = async () => {
-  const res = await fetch("/api/riot/v1/unauth", {
-    method: "POST",
-  });
+  const res = await Unauthenticate();
 
-  const json = SJ.parse(await res.text()) as ApiDefault;
+  if (!res || !res.Ok) {
+    return { success: false, message: "Something went wrong." };
+  }
+
+  const json = SJ.parse(res.Text) as ApiDefault;
   const { success, message } = json;
 
   return { success, message };
