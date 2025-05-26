@@ -3,6 +3,8 @@ import InitialLandingPage from "@/app/_components/_initial-landing";
 import { motion } from "framer-motion";
 import GetStartedButton from "@/components/ui/get-started-button";
 import GithubButton from "@/components/ui/github-button";
+import { Button } from "@mantine/core";
+import NativeLink from "@/components/native-link";
 
 export default function LandingPage() {
   return (
@@ -42,7 +44,14 @@ export default function LandingPage() {
                 </Button>
               </Link>
             )} */}
-            <GithubButton to="https://github.com/0pengu/instalock-web" />
+            <NativeLink to={"https://instalock.app"}>
+              <Button size="xl" visibleFrom="sm" color={"deep-red"} my={"sm"}>
+                Visit the Website
+              </Button>
+              <Button size="md" hiddenFrom="sm" color={"deep-red"} my={"sm"}>
+                Visit the Website
+              </Button>
+            </NativeLink>
           </div>
         </InitialLandingPage>
       </div>

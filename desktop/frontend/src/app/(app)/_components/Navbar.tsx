@@ -1,4 +1,5 @@
 import classes from "@/app/(app)/_components/navbar.module.css";
+import NativeLink from "@/components/native-link";
 import {
   Box,
   Burger,
@@ -13,9 +14,9 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Link, NavLink } from "react-router-dom";
+import { FaGlobe } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 import LogoImg from "/logo.png";
-import { FaGithub } from "react-icons/fa6";
 
 export default function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -110,12 +111,12 @@ export default function Navbar() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Link to={"https://github.com/0pengu/instalock-web"} reloadDocument>
-              <Button color={"gray.6"}>
-                <FaGithub className="mr-1" />
-                Github
+            <NativeLink to={"https://instalock.app"}>
+              <Button color={"deep-red"}>
+                <FaGlobe className="mr-1" />
+                Instalock Web
               </Button>
-            </Link>
+            </NativeLink>
           </Group>
 
           <Burger
@@ -174,12 +175,12 @@ export default function Navbar() {
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
-            <Link to={"https://github.com/0pengu/instalock-web"} reloadDocument>
-              <Button color={"gray.6"} fullWidth>
-                <FaGithub className="mr-1" />
-                Github
+            <NativeLink to={"https://instalock.app"}>
+              <Button color={"deep-red"} fullWidth>
+                <FaGlobe className="mr-1" />
+                Instalock Web
               </Button>
-            </Link>
+            </NativeLink>
           </Group>
         </ScrollArea>
       </Drawer>

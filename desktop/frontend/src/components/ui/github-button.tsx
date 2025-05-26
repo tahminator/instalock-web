@@ -1,9 +1,9 @@
+import NativeLink from "@/components/native-link";
 import { Button } from "@mantine/core";
-import { Link } from "react-router-dom";
 
 export default function GithubButton({ to }: { to: string }) {
   return (
-    <Link to={to}>
+    <NativeLink to={to}>
       <Button
         size="xl"
         visibleFrom="sm"
@@ -18,6 +18,6 @@ export default function GithubButton({ to }: { to: string }) {
       >
         GitHub
       </Button>
-    </Link>
+    </NativeLink>
   );
 }
