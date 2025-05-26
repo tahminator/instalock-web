@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	token "desktop/helper"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -244,4 +245,14 @@ func (a *App) FindRank(payload FindRankPayload) *Response {
 		Ok:   statusOk,
 		Text: string(body),
 	}
+}
+
+func (a *App) LocalAuthenticate() {
+	val, err := token.GrabToken("http://127.0.0.1", a.ctx)
+
+	data, tErr := json.MarshalIndent(val, "", "  ")
+	if tErr != nil {
+		return
+	}
+	fmt.Printf("%s\n%s\n", string(data), err.Error())
 }

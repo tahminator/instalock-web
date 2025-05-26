@@ -30,6 +30,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 import { BrowserOpenURL } from "@w/runtime";
+import { LocalAuthenticate } from "@w/go/main/App";
 
 export default function RiotAuthenticationModal() {
   const queryClient = useQueryClient();
@@ -207,6 +208,18 @@ export default function RiotAuthenticationModal() {
                 </Link>
                 . Please hover over Why? for more information.
               </Text>
+              <Box bg={"dark.5"} m={"xs"} p={"xs"}>
+                <Button
+                  onClick={() => {
+                    async function fetchMe() {
+                      await LocalAuthenticate();
+                    }
+                    fetchMe();
+                  }}
+                >
+                  CLick me
+                </Button>
+              </Box>
               <Group
                 justify="space-between"
                 mt="lg"

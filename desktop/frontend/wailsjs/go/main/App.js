@@ -34,6 +34,10 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
+export function LocalAuthenticate() {
+  return window['go']['main']['App']['LocalAuthenticate']();
+}
+
 export function Unauthenticate() {
   return window['go']['main']['App']['Unauthenticate']();
 }
