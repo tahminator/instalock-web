@@ -43,7 +43,10 @@ func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
 		return nil, fmt.Errorf("failed to get current user: %w", err)
 	}
 
-	lockfilePath := fmt.Sprintf("C:/Users/%s/AppData/Local/Riot Games/Riot Client/Config/lockfile", currentUser.Username)
+	// currentUser.Username returns "comp\name", but we only need "name"
+	actualName := strings.Split(currentUser.Username, "\\")[1]
+
+	lockfilePath := fmt.Sprintf("C:/Users/%s/AppData/Local/Riot Games/Riot Client/Config/lockfile", actualName)
 
 	file, err := os.Open(lockfilePath)
 	if err != nil {
