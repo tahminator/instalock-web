@@ -25,7 +25,7 @@ type RiotAuthInfo struct {
 	Password         string
 }
 
-type tokenResponse struct {
+type TokenResponse struct {
 	Subject          string `json:"subject"`
 	AccessToken      string `json:"accessToken"`
 	EntitlementToken string `json:"token"`
@@ -99,7 +99,7 @@ func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
 		return nil, exitWithMessage(1, "Connection refused. Are you sure Valorant is running?")
 	}
 
-	var token tokenResponse
+	var token TokenResponse
 	if err := json.NewDecoder(resp.Body).Decode(&token); err != nil {
 		return nil, fmt.Errorf("failed to decode token response: %w", err)
 	}
