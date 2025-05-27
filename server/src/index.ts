@@ -17,7 +17,7 @@ let port = 3050;
 
 export const app = express();
 
-app.set('trust proxy', 1 /* number of proxies between user and server */)
+app.set("trust proxy", 1 /* number of proxies between user and server */);
 
 // TODO - Might have to adjust these values, let's see.
 app.use(
@@ -39,7 +39,7 @@ app.use(
           "You have been rate limited (sending too many requests). Please try again later.",
       });
     },
-  })
+  }),
 );
 
 app.use(cookieParser());
@@ -88,13 +88,13 @@ app.use(async (req, res, next) => {
   if (session && session.fresh) {
     res.appendHeader(
       "Set-Cookie",
-      lucia.createSessionCookie(session.id).serialize()
+      lucia.createSessionCookie(session.id).serialize(),
     );
   }
   if (!session) {
     res.appendHeader(
       "Set-Cookie",
-      lucia.createBlankSessionCookie().serialize()
+      lucia.createBlankSessionCookie().serialize(),
     );
   }
   res.locals.session = session;
@@ -111,15 +111,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const server = app.listen(port);
+const server = app.listen(port, "0.0.0.0");
 
 try {
-  const serverMetadata = server.address() as { address: string; port: number };
-  console.log(
-    `\n\nServer listening on http://${
-      serverMetadata.address === "::" ? "127.0.0.1" : serverMetadata.address
-    }:${serverMetadata.port}`
-  );
 } catch (e) {
   console.error(e);
 }

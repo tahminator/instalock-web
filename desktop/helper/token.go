@@ -34,7 +34,7 @@ type tokenResponse struct {
 func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
 	platform := runtime.Environment(ctx).Platform
 
-	if platform != "Windows" {
+	if platform != "windows" {
 		return nil, fmt.Errorf("this feature is only available on windows")
 	}
 
