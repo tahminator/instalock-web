@@ -22,6 +22,7 @@ import {
 import {
   authModalSchema,
   checkIdSchema,
+  localAuthSchema,
   Prisma,
   ShallowMatchExclude,
 } from "@instalock/types";
@@ -234,6 +235,28 @@ riotRouterV1.post("/auth", async (req, res) => {
       entitlementToken,
     },
   });
+});
+
+riotRouterV1.post("/auth/desktop", async (req, res) => {
+  const parser = await localAuthSchema.safeParseAsync(req.body);
+
+  if (!parser.success) {
+    return sendSuperJson(
+      req,
+      res,
+      400,
+      {
+        success: false,
+        message: "Request body is malformed/improper.",
+      },
+      {
+        message: "Parser failed.",
+        error: parser.error,
+      },
+    );
+  }
+
+  // TODO - Complete
 });
 
 riotRouterV1.post("/unauth", async (req, res) => {
