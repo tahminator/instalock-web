@@ -246,7 +246,7 @@ func (a *App) FindRank(payload FindRankPayload) *Response {
 
 // TODO - Finish this function.
 func (a *App) LocalAuthenticate() {
-	val, err := token.GrabToken("http://127.0.0.1", a.ctx)
+	val, err := token.GrabToken("https://127.0.0.1", a.ctx)
 
 	data, tErr := json.MarshalIndent(val, "", "  ")
 	if tErr != nil {
