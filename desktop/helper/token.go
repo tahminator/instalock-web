@@ -73,7 +73,7 @@ func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
 	_ = pid
 	_ = protocol
 
-	url := fmt.Sprintf("%s%s/entitlements/v1/token", BaseURL, port)
+	url := fmt.Sprintf("%s:%s/entitlements/v1/token", BaseURL, port)
 
 	// Ignore TLS verification like verify=False
 	httpClient := &http.Client{
