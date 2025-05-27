@@ -1,10 +1,5 @@
 import { lucia } from "@/lib/auth";
-import {
-  EntitlementApiType,
-  RiotClient,
-  RiotMatchInfoType,
-  RiotUserInfoType,
-} from "@instalock/riot";
+import { RiotClient } from "@instalock/riot";
 import { db } from "@/lib/db";
 import {
   getAllMatchesByUserIdShallow,
