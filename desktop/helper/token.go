@@ -5,7 +5,6 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -17,6 +16,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
+// Return typr
 type RiotAuthInfo struct {
 	Puuid            string
 	AccessToken      string
@@ -25,17 +25,18 @@ type RiotAuthInfo struct {
 	Password         string
 }
 
+// Parse JSON Response from local server (only the things we care about)
 type TokenResponse struct {
 	Subject          string `json:"subject"`
 	AccessToken      string `json:"accessToken"`
 	EntitlementToken string `json:"token"`
 }
 
-func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
+func GrabToken(ctx context.Context) (*RiotAuthInfo, error) {
 	platform := runtime.Environment(ctx).Platform
 
 	if platform != "windows" {
-		return nil, fmt.Errorf("this feature is only available on windows")
+		return nil, fmt.Errorf("this feature is only available on windows, while your platform is %s", platform)
 	}
 
 	currentUser, err := user.Current()
@@ -51,7 +52,7 @@ func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
 	file, err := os.Open(lockfilePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return nil, exitWithMessage(1000, "Error: Valorant does not exist in the machine!")
+			return nil, fmt.Errorf("error: valorant does not appear to exist on the machine. %w", err)
 		}
 		return nil, fmt.Errorf("failed to open lockfile: %w", err)
 	}
@@ -65,21 +66,21 @@ func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
 
 	parts := strings.Split(strings.TrimSpace(line), ":")
 	if len(parts) < 5 {
-		return nil, errors.New("invalid lockfile format")
+		return nil, fmt.Errorf("invalid lockfile format: expected 5 parts, found %d", len(parts))
 	}
 
 	name, pid, port, password, protocol := parts[0], parts[1], parts[2], parts[3], parts[4]
+	// unused right now
 	_ = name
 	_ = pid
 	_ = protocol
 
-	url := fmt.Sprintf("%s:%s/entitlements/v1/token", BaseURL, port)
+	url := fmt.Sprintf("https://127.0.0.1:%s/entitlements/v1/token", port)
 
-	// Ignore TLS verification like verify=False
 	httpClient := &http.Client{
 		Timeout: time.Second * 5,
 		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // NOTE: Use cautiously
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		},
 	}
 
@@ -87,16 +88,17 @@ func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
+	req.Header.Add("Content-Type", "application/json")
 	req.SetBasicAuth("riot", password)
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
-		return nil, exitWithMessage(1, "Connection refused. Are you sure Valorant is running?")
+		return nil, fmt.Errorf("failed to fetch entitlement token: %w", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, exitWithMessage(1, "Connection refused. Are you sure Valorant is running?")
+		return nil, fmt.Errorf("failed to fetch entitlement token, expected %d, received %d", http.StatusOK, resp.StatusCode)
 	}
 
 	var token TokenResponse
@@ -111,11 +113,4 @@ func GrabToken(BaseURL string, ctx context.Context) (*RiotAuthInfo, error) {
 		Port:             port,
 		Password:         password,
 	}, nil
-}
-
-func exitWithMessage(code int, msg string) error {
-	fmt.Printf("%s\nExiting in 3 seconds...\n", msg)
-	time.Sleep(3 * time.Second)
-	os.Exit(code)
-	return nil // unreachable
 }
