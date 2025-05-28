@@ -245,8 +245,8 @@ func (a *App) FindRank(payload FindRankPayload) *Response {
 }
 
 type DesktopAuthenticationPayload struct {
-	AuthToken        string
-	EntitlementToken string
+	AuthToken        string `json:"authToken"`
+	EntitlementToken string `json:"EntitlementToken"`
 }
 
 // TODO - Finish this function.
