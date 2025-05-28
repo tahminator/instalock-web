@@ -256,7 +256,90 @@ riotRouterV1.post("/auth/desktop", async (req, res) => {
     );
   }
 
-  // TODO - Complete
+  const { authToken, entitlementToken } = parser.data;
+
+  const riotUserInfoRes = await RiotClient.getUserInfo(authToken);
+
+  if (!riotUserInfoRes.ok) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "Failed to retrieve user info from Riot API.",
+        data: { statusCode: riotUserInfoRes.status },
+      },
+    );
+  }
+
+  const riotUserInfoJson = await riotUserInfoRes.json();
+
+  if (riotUserInfoJson.error !== undefined) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "Failed to retrieve user info from Riot API.",
+        data: { ...riotUserInfoJson },
+      },
+    );
+  }
+
+  const tagName = `${riotUserInfoJson.acct.game_name}#${riotUserInfoJson.acct.tag_line}`;
+  const puuid = riotUserInfoJson.sub;
+
+  const [updatedUserError, updatedUser] = await attempt(
+    createOrUpdatePlayer({
+      puuid,
+      riotEntitlement: entitlementToken,
+      riotAuth: authToken,
+      riotTag: tagName,
+    }),
+  );
+
+  if (updatedUserError || !updatedUser) {
+    return sendSuperJson(
+      req,
+      res,
+      500,
+      {
+        success: false,
+        message: "Internal server error.",
+      },
+      {
+        message: "Failed to save Riot credentials to database.",
+        data: {
+          tokens: { authToken, entitlementToken },
+          error: updatedUserError,
+        },
+      },
+    );
+  }
+
+  const session = await lucia.createSession(updatedUser.puuid, {});
+
+  res.appendHeader(
+    "Set-Cookie",
+    lucia.createSessionCookie(session.id).serialize(),
+  );
+
+  return sendSuperJson(req, res, 200, {
+    success: true,
+    message: "Riot authentication succeeded!",
+    payload: {
+      authToken,
+      entitlementToken,
+    },
+  });
 });
 
 riotRouterV1.post("/unauth", async (req, res) => {
