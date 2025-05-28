@@ -244,13 +244,49 @@ func (a *App) FindRank(payload FindRankPayload) *Response {
 	}
 }
 
-// TODO - Finish this function.
-func (a *App) LocalAuthenticate() {
-	val, err := token.GrabToken(a.ctx)
+type DesktopAuthenticationPayload struct {
+	AuthToken        string
+	EntitlementToken string
+}
 
-	data, tErr := json.MarshalIndent(val, "", "  ")
-	if tErr != nil {
-		return
+// TODO - Finish this function.
+func (a *App) LocalAuthenticate() *Response {
+	riotAuthObject, err := token.GrabToken(a.ctx)
+	if err != nil {
+		return &Response{
+			Ok:   false,
+			Text: err.Error(),
+		}
 	}
-	fmt.Printf("%s\n%s\n", string(data), err.Error())
+
+	payload := &DesktopAuthenticationPayload{
+		AuthToken:        riotAuthObject.AccessToken,
+		EntitlementToken: riotAuthObject.EntitlementToken,
+	}
+
+	jsonBody, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Printf("Failed to marshal JSON body: %v\n", err)
+		return nil
+	}
+
+	resp, err := a.client.Post(a.serverUrl+"/api/riot/v1/auth/desktop", "application/json", bytes.NewReader(jsonBody))
+	if err != nil {
+		fmt.Printf("Failed to POST LocalAuthenticate: %v\n", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to parse response body: %v\n", err)
+		return nil
+	}
+
+	statusOk := resp.StatusCode >= 200 && resp.StatusCode <= 299
+
+	return &Response{
+		Ok:   statusOk,
+		Text: string(body),
+	}
 }
