@@ -56,22 +56,22 @@ app.use((req, res, next) => {
     return next();
   }
 
-  if (
-    process.env.NODE_ENV === "development" ||
-    process.env.NODE_ENV == "test"
-  ) {
-    return next();
-  }
-  const originHeader = req.headers.origin;
-  const hostHeader = req.headers.host;
-
-  if (
-    !originHeader ||
-    !hostHeader ||
-    !verifyRequestOrigin(originHeader, [hostHeader])
-  ) {
-    return res.status(403).end();
-  }
+  // if (
+  //   process.env.NODE_ENV === "development" ||
+  //   process.env.NODE_ENV == "test"
+  // ) {
+  //   return next();
+  // }
+  // const originHeader = req.headers.origin;
+  // const hostHeader = req.headers.host;
+  //
+  // if (
+  //   !originHeader ||
+  //   !hostHeader ||
+  //   !verifyRequestOrigin(originHeader, [hostHeader])
+  // ) {
+  //   return res.status(403).end();
+  // }
   return next();
 });
 
