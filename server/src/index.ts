@@ -11,6 +11,7 @@ import rateLimit from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
 import { redis } from "@/lib/redis";
 import { sendSuperJson } from "@/lib/superjson-sender";
+import cors from "cors";
 
 dotenv.config();
 let port = 3050;
@@ -18,6 +19,7 @@ let port = 3050;
 export const app = express();
 
 app.set("trust proxy", 1 /* number of proxies between user and server */);
+app.use(cors());
 
 // TODO - Might have to adjust these values, let's see.
 app.use(
