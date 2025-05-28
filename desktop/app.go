@@ -47,13 +47,13 @@ func (a *App) startup(ctx context.Context) {
 
 	envInfo := runtime.Environment(ctx)
 
-	if envInfo.BuildType == "production" {
-		godotenv.Load("env.production")
-	} else {
-		godotenv.Load()
-	}
+	godotenv.Load()
 
-	a.serverUrl = os.Getenv("SERVER_URL")
+	if envInfo.BuildType == "production" {
+		a.serverUrl = "https://staging.instalock.app"
+	} else {
+		a.serverUrl = os.Getenv("SERVER_URL")
+	}
 }
 
 func (a *App) CheckAuthentication() *Response {
