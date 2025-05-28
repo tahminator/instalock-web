@@ -12,6 +12,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // Return type of almost every Go IPC function.
@@ -44,7 +45,14 @@ func (a *App) startup(ctx context.Context) {
 		Jar: jar,
 	}
 
-	godotenv.Load()
+	envInfo := runtime.Environment(ctx)
+
+	if envInfo.BuildType == "production" {
+		godotenv.Load("env.production")
+	} else {
+		godotenv.Load()
+	}
+
 	a.serverUrl = os.Getenv("SERVER_URL")
 }
 
