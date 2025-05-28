@@ -96,6 +96,56 @@ export default function RiotAuthenticationModal() {
     }
   };
 
+  const onLocalAuthClick = () => {
+    async function fetchMe() {
+      setLoading(true);
+      const id = notifications.show({
+        message:
+          "Please wait, attempting to resolve credentials from server...",
+      });
+      try {
+        const res = await LocalAuthenticate();
+
+        if (!res || !res.Ok) {
+          return notifications.update({
+            id,
+            message: "Something went wrong, please try again later.",
+            color: "red",
+          });
+        }
+
+        const json = SJ.parse(res.Text) as ApiDefault<{
+          authToken: string;
+          entitlementToken: string;
+        }>;
+
+        if (!json.success) {
+          return notifications.update({
+            id,
+            message: json.message,
+            color: "red",
+          });
+        }
+
+        notifications.update({
+          id,
+          message: json.message,
+          color: "green",
+        });
+        queryClient.invalidateQueries({ queryKey: ["riot", "auth"] });
+      } catch {
+        return notifications.update({
+          id,
+          message: "Oops, something went wrong. Please refresh the page.",
+          color: "red",
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchMe();
+  };
+
   return (
     <>
       <Modal
@@ -214,12 +264,7 @@ export default function RiotAuthenticationModal() {
               <Flex bg={"dark.5"} m={"xs"} p={"xs"} direction={"column"}>
                 <Button
                   disabled={status !== "success" || platform !== "windows"}
-                  onClick={() => {
-                    async function fetchMe() {
-                      await LocalAuthenticate();
-                    }
-                    fetchMe();
-                  }}
+                  onClick={onLocalAuthClick}
                   color={"deep-red"}
                 >
                   <IconBrandValorant className="mr-2" />
