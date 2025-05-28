@@ -11,6 +11,7 @@ import {
   Code,
   Container,
   Divider,
+  Flex,
   Group,
   HoverCard,
   Modal,
@@ -31,9 +32,11 @@ import { Link } from "react-router-dom";
 import { z } from "zod";
 import { BrowserOpenURL } from "@w/runtime";
 import { LocalAuthenticate } from "@w/go/main/App";
+import { usePlatformQuery } from "@/app/(app)/dashboard/_components/RiotAuth/hooks";
 
 export default function RiotAuthenticationModal() {
   const queryClient = useQueryClient();
+  const { data: platform, status } = usePlatformQuery();
 
   const [opened, { open, close }] = useDisclosure(false);
   const [highlighted, setHighlighted] = useState(false);
@@ -208,18 +211,21 @@ export default function RiotAuthenticationModal() {
                 </Link>
                 . Please hover over Why? for more information.
               </Text>
-              <Box bg={"dark.5"} m={"xs"} p={"xs"}>
+              <Flex bg={"dark.5"} m={"xs"} p={"xs"} direction={"column"}>
                 <Button
+                  disabled={status !== "success" || platform !== "windows"}
                   onClick={() => {
                     async function fetchMe() {
                       await LocalAuthenticate();
                     }
                     fetchMe();
                   }}
+                  color={"deep-red"}
                 >
-                  CLick me
+                  <IconBrandValorant className="mr-2" />
+                  Click to authenticate locally
                 </Button>
-              </Box>
+              </Flex>
               <Group
                 justify="space-between"
                 mt="lg"
