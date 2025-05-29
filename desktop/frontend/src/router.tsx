@@ -11,14 +11,6 @@ const router = createHashRouter([
     element: <LandingPage />,
     ErrorBoundary: FourOhFour,
   },
-  // {
-  //   path: "/login",
-  //   element: <LoginPage />,
-  // },
-  // {
-  //   path: "/login/callback",
-  //   element: <LoginCallbackPage />,
-  // },
   {
     path: "/dashboard",
     element: <DashboardPage />,

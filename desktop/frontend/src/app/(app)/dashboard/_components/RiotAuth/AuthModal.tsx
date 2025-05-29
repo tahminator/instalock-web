@@ -119,6 +119,17 @@ export default function RiotAuthenticationModal() {
           entitlementToken: string;
         }>;
 
+        // This looks weird, but local auth can specifically return strings
+        // from the Go layer if the failure happens before hitting the API.
+        // For example: "Platform not supported", "Valorant not installed", etc.
+        if (typeof json === "string") {
+          return notifications.update({
+            id,
+            message: json,
+            color: "red",
+          });
+        }
+
         if (!json.success) {
           return notifications.update({
             id,
