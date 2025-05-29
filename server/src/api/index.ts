@@ -1,3 +1,4 @@
+import { desktopRouter } from "@/api/desktop";
 import { riotRouter } from "@/api/riot";
 import express from "express";
 
@@ -8,3 +9,4 @@ apiRouter.get("", (_, res) => {
 });
 
 apiRouter.use("/riot", riotRouter);
+apiRouter.use("/desktop", desktopRouter);
