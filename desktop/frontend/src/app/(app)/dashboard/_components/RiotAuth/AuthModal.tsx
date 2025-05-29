@@ -106,14 +106,6 @@ export default function RiotAuthenticationModal() {
       try {
         const res = await LocalAuthenticate();
 
-        if (!res || !res.Ok) {
-          return notifications.update({
-            id,
-            message: "Something went wrong, please try again later.",
-            color: "red",
-          });
-        }
-
         const json = SJ.parse(res.Text) as ApiDefault<{
           authToken: string;
           entitlementToken: string;
@@ -126,6 +118,14 @@ export default function RiotAuthenticationModal() {
           return notifications.update({
             id,
             message: json,
+            color: "red",
+          });
+        }
+
+        if (!res || !res.Ok) {
+          return notifications.update({
+            id,
+            message: "Something went wrong, please try again later.",
             color: "red",
           });
         }
