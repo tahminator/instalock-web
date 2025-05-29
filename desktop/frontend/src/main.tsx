@@ -8,6 +8,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 import "./index.css";
+import VersionManager from "@/lib/version-manager/version-manager";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -31,9 +32,11 @@ createRoot(document.getElementById("root")!).render(
           },
         }}
       >
-        <RouterProvider router={router} />
+        <VersionManager>
+          <RouterProvider router={router} />
+        </VersionManager>
         <Notifications />
       </MantineProvider>
     </QueryClientProvider>
-  </StrictMode>
+  </StrictMode>,
 );

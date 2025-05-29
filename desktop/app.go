@@ -298,3 +298,25 @@ func (a *App) LocalAuthenticate() *Response {
 		Text: string(body),
 	}
 }
+
+func (a *App) GetVersion() *Response {
+	resp, err := a.client.Get(a.serverUrl + "/api/desktop/v1/version")
+	if err != nil {
+		fmt.Printf("Failed to GET GetVersion: %v\n", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to parse response body: %v\n", err)
+		return nil
+	}
+
+	statusOk := resp.StatusCode >= 200 && resp.StatusCode <= 299
+
+	return &Response{
+		Ok:   statusOk,
+		Text: string(body),
+	}
+}

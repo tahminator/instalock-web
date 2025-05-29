@@ -16,6 +16,8 @@ export function GetRiotMatchInfo(arg1:string):Promise<main.Response>;
 
 export function GetShallowMatches():Promise<main.Response>;
 
+export function GetVersion():Promise<main.Response>;
+
 export function LocalAuthenticate():Promise<main.Response>;
 
 export function Unauthenticate():Promise<main.Response>;

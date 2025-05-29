@@ -30,6 +30,10 @@ export function GetShallowMatches() {
   return window['go']['main']['App']['GetShallowMatches']();
 }
 
+export function GetVersion() {
+  return window['go']['main']['App']['GetVersion']();
+}
+
 export function LocalAuthenticate() {
   return window['go']['main']['App']['LocalAuthenticate']();
 }
