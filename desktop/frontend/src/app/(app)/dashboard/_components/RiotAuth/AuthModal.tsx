@@ -106,18 +106,19 @@ export default function RiotAuthenticationModal() {
       try {
         const res = await LocalAuthenticate();
 
-        const json = SJ.parse(res.Text) as ApiDefault<{
+        let json: ApiDefault<{
           authToken: string;
           entitlementToken: string;
         }>;
-
-        // This looks weird, but local auth can specifically return strings
-        // from the Go layer if the failure happens before hitting the API.
-        // For example: "Platform not supported", "Valorant not installed", etc.
-        if (typeof json === "string") {
+        try {
+          json = SJ.parse(res.Text) as ApiDefault<{
+            authToken: string;
+            entitlementToken: string;
+          }>;
+        } catch {
           return notifications.update({
             id,
-            message: json,
+            message: res.Text,
             color: "red",
           });
         }
@@ -144,10 +145,11 @@ export default function RiotAuthenticationModal() {
           color: "green",
         });
         queryClient.invalidateQueries({ queryKey: ["riot", "auth"] });
-      } catch {
+      } catch (e) {
+        const err = e as Error;
         return notifications.update({
           id,
-          message: "Oops, something went wrong. Please refresh the page.",
+          message: err.message,
           color: "red",
         });
       } finally {
