@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@instalock/types": "workspace:^",
+    "@instalock/riot": "workspace:^",
     "esbuild": "^0.25.0",
     "sharp": "^0.33.5"
   }

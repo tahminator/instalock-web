@@ -4,7 +4,7 @@ import {
   MapUrl,
   mapUrlToUuidObject,
   type RiotMatchInfoType,
-} from "@instalock/types/riot";
+} from "@instalock/riot";
 import { randomUUID } from "crypto";
 
 export const loadMatchesForNewUser = async (userId: string) => {
@@ -22,7 +22,7 @@ export const loadMatchesForNewUser = async (userId: string) => {
 
   if (!riotAuth || !riotEntitlement || !riotPuuid || !riotTag) {
     throw new Error(
-      "User auth info was not found. This shouldn't be happening."
+      "User auth info was not found. This shouldn't be happening.",
     );
   }
 
@@ -37,7 +37,7 @@ export const loadMatchesForNewUser = async (userId: string) => {
         "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
         "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
       },
-    }
+    },
   );
 
   if (!riotRes.ok) {
@@ -66,7 +66,7 @@ export const loadMatchesForNewUser = async (userId: string) => {
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
           "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
         },
-      }
+      },
     );
 
     // Use the file to generate types, if needed.
@@ -102,7 +102,7 @@ export const loadMatchesForNewUser = async (userId: string) => {
         gameStart: new Date(matchInfo?.gameStartMillis ?? 0),
         gameEnd: new Date(
           (Number(matchInfo?.gameStartMillis) || 0) +
-            (Number(matchInfo?.gameLengthMillis) || 0)
+            (Number(matchInfo?.gameLengthMillis) || 0),
         ),
         isCompleted: matchInfo?.isCompleted,
         queueId: matchInfo?.queueID,
@@ -152,7 +152,7 @@ export const loadMatchesForNewUser = async (userId: string) => {
         gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
         gameEnd: new Date(
           (Number(matchInfo?.gameStartMillis) || 0) +
-            (Number(matchInfo?.gameLengthMillis) || 0)
+            (Number(matchInfo?.gameLengthMillis) || 0),
         ),
         isCompleted: matchInfo?.isCompleted,
         queueId: matchInfo?.queueID,

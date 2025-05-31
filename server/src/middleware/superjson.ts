@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from "express";
 export const superjsonMiddleware = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   if (req.is("application/json")) {
     let data = "";
@@ -14,10 +14,26 @@ export const superjsonMiddleware = (
     });
 
     req.on("end", () => {
+      if (data.trim() === "") {
+        req.body = undefined;
+        return next();
+      }
       try {
         req.body = SJ.parse(data);
+        if (req.body === undefined) {
+          try {
+            req.body = JSON.parse(data);
+          } catch {
+            next(new Error("Invalid JSON"));
+          }
+        }
         next();
       } catch {
+        try {
+          req.body = JSON.parse(data);
+        } catch {
+          next(new Error("Invalid JSON"));
+        }
         next(new Error("Invalid SuperJSON"));
       }
     });

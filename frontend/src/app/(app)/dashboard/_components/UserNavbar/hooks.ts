@@ -22,7 +22,7 @@ const obtainRiotPlayerInfo = async () => {
     return { name: "", rank: 0, rr: 0, rankName: "Unranked" };
   }
 
-  const { name, rank, rr, rankName } = json.data;
+  const { name, rank, rr, rankName } = json.payload;
   return { name, rank, rr, rankName };
 };
 

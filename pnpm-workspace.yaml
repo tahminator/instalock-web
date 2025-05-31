@@ -1,5 +1,6 @@
 packages:
-  - 'frontend'
-  - 'shared/*'
-  - 'server'
-  - 'scripts'
+  - "frontend"
+  - "shared/*"
+  - "server"
+  - "scripts"
+  - "desktop/frontend"

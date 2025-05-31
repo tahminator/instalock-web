@@ -24,5 +24,5 @@ const findName = async ({ puuid }: { puuid: string }) => {
     return { name: null };
   }
 
-  return { name: json.data.riotTag };
+  return { name: json.payload.riotTag };
 };

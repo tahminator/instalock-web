@@ -5,7 +5,7 @@ type Prettify<T> = {
 export type SuccessType<T = unknown, TDebug = never> = {
   success: true;
   message: string;
-  data: T;
+  payload: T;
   _debug: TDebug;
 };
 
