@@ -1,6 +1,7 @@
 import {
   AutoGenMatchMeta,
   EntitlementApiType,
+  PartyDetailsApiType,
   RiotCurrentGameApiType,
   RiotCurrentGameDataType,
   RiotMatchInfoType,
@@ -364,5 +365,42 @@ export class RiotClient {
     const json: () => Promise<AutoGenMatchMeta> = response.json.bind(response);
 
     return Object.assign(response, { json }) as _Response<AutoGenMatchMeta>;
+  }
+
+  /**
+   * Fetch party details, if exists, for a given PUUID. 
+   *
+   * @note - This only works for your own PUUID, not others.
+   *
+   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/party-player)
+   *
+   */
+  static async getPartyDetailsByPuuid({
+    authToken,
+    entitlementToken,
+    puuid,
+  }: {
+    authToken: string;
+    entitlementToken: string;
+    puuid: string;
+  }) {
+    const response = await fetch(
+      `https://glz-na-1.na.a.pvp.net/parties/v1/players/${puuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "X-Riot-Entitlements-JWT": entitlementToken,
+          "X-Riot-ClientPlatform":
+            "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
+          "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
+        },
+      },
+    );
+
+    const json: () => Promise<PartyDetailsApiType> =
+      response.json.bind(response);
+
+    return Object.assign(response, { json }) as _Response<PartyDetailsApiType>;
   }
 }

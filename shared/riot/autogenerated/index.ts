@@ -14,6 +14,27 @@ type SucessfulEntitlement = {
 
 export type EntitlementApiType = WebApplicationError | SucessfulEntitlement;
 
+type SuccessfulPartyDetails = {
+  Subject?: string;
+  Version?: number;
+  CurrentPartyID?: string;
+  Invites?: null;
+  Requests?: any[];
+  PlatformInfo?: PartyPlatformInfo;
+  IsCrossPlayEnabled?: boolean;
+  errorCode: undefined;
+};
+
+type PartyPlatformInfo = {
+  platformType?: string;
+  platformOS?: string;
+  platformOSVersion?: string;
+  platformChipset?: string;
+  platformDevice?: string;
+};
+
+export type PartyDetailsApiType = WebApplicationError | SuccessfulPartyDetails;
+
 type ErrorRiotUserType = {
   error: string;
   error_description: string;
