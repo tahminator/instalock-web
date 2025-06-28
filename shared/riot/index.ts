@@ -31,7 +31,7 @@ export class RiotClient {
       headers: {
         Authorization: `Bearer ${authToken}`,
         "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-        "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+        "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
       },
     });
 
@@ -93,7 +93,7 @@ export class RiotClient {
           "X-Riot-ClientPlatform":
             "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
         },
       },
     );
@@ -129,7 +129,7 @@ export class RiotClient {
           "X-Riot-ClientPlatform":
             "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
         },
       },
     );
@@ -177,7 +177,7 @@ export class RiotClient {
           "X-Riot-ClientPlatform":
             "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
         },
       },
     );
@@ -211,7 +211,7 @@ export class RiotClient {
           "X-Riot-ClientPlatform":
             "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
         },
       },
     );
@@ -245,7 +245,7 @@ export class RiotClient {
           "X-Riot-ClientPlatform":
             "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
         },
       },
     );
@@ -281,7 +281,7 @@ export class RiotClient {
           "X-Riot-ClientPlatform":
             "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
         },
       },
     );
@@ -326,7 +326,7 @@ export class RiotClient {
           "X-Riot-ClientPlatform":
             "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
         },
       },
     );
@@ -356,7 +356,7 @@ export class RiotClient {
           "X-Riot-ClientPlatform":
             "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9",
           "User-Agent": "ShooterGame/13 Windows/10.0.19043.1.256.64bit",
-          "X-Riot-ClientVersion": "release-08.07-shipping-9-2444158",
+          "X-Riot-ClientVersion": "release-11.00-shipping-14-3581174",
         },
       },
     );
