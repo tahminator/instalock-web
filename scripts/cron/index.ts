@@ -1,6 +1,7 @@
 import { loadMatchesForEachUser } from "./helpers/loadMatches.js";
 
 const tasks = async () => {
+  console.time("tasks");
   console.log(
     `\nRunning the following tasks at ${new Date().toLocaleString()}`
   );
@@ -13,6 +14,7 @@ const tasks = async () => {
     console.error(e);
   }
 
+  console.timeEnd("tasks");
   console.log("Match populator should be complete.\n");
 };
 
