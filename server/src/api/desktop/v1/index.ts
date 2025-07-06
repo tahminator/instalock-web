@@ -9,7 +9,7 @@ desktopRouterV1.get("/version", async (req, res) => {
     success: true,
     message: "Latest Desktop client version - staging",
     payload: {
-      version: "0.0.1",
+      version: "0.0.1b",
     },
   });
 });
