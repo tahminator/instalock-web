@@ -50,7 +50,7 @@ func (a *App) startup(ctx context.Context) {
 	godotenv.Load()
 
 	if envInfo.BuildType == "production" {
-		a.serverUrl = "https://staging.instalock.app"
+		a.serverUrl = "https://instalock.app"
 	} else {
 		a.serverUrl = os.Getenv("SERVER_URL")
 	}
