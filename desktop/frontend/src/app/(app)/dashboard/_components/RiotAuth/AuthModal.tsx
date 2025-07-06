@@ -126,7 +126,8 @@ export default function RiotAuthenticationModal() {
         if (!res || !res.Ok) {
           return notifications.update({
             id,
-            message: "Something went wrong, please try again later.",
+            message:
+              res.Text ?? "Something went wrong, please try again later.",
             color: "red",
           });
         }
