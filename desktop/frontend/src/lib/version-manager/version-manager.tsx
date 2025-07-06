@@ -4,7 +4,7 @@ import { useVersionQuery } from "@/lib/version-manager/hooks";
 import { Button, Modal } from "@mantine/core";
 import { ReactNode } from "react";
 
-const version = "0.0.1";
+const version = "0.0.1b";
 
 // TODO - Move the version logic to the Go layer.
 export default function VersionManager({ children }: { children: ReactNode }) {
