@@ -124,10 +124,11 @@ export default function RiotAuthenticationModal() {
         }
 
         if (!res || !res.Ok) {
-          return notifications.update({
+          notifications.update({
             id,
             message:
-              res.Text ?? "Something went wrong, please try again later.",
+              (json && json.message) ??
+              "Something went wrong, please try again later.",
             color: "red",
           });
         }
