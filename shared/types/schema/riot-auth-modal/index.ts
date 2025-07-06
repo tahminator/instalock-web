@@ -10,16 +10,6 @@ export const authModalSchema = z.object({
 });
 
 export const localAuthSchema = z.object({
-  entitlementToken: z
-    .string()
-    .trim()
-    .startsWith(
-      "eyJraWQiOiJrMSIsImFsZyI6IlJTMjU2In0.eyJlbnRpdGxlbWVudHMiOltdLCJhdF9oYXNoIjoi",
-    ),
-  authToken: z
-    .string()
-    .trim()
-    .startsWith(
-      "eyJraWQiOiJyc28tcHJvZC0yMDI0LTExIiwiYWxnIjoiUlMyNTYifQ.eyJwcCI6eyJjIjoi",
-    ),
+  entitlementToken: z.string().trim().startsWith("eyJ"),
+  authToken: z.string().trim().startsWith("eyJ"),
 });
