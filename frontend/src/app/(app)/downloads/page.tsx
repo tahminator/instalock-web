@@ -71,10 +71,14 @@ export default function DownloadPage() {
         <Box maw={"80%"} my={"lg"}>
           <Text size="sm" c="dimmed" my={"sm"}>
             Instalock Desktop DOES NOT interact with Vanguard in any way.
-            Although no guarantees can be made, you should not get banned for
-            having the application. What is more likely is API abuse ban, which
-            is only one week and to date, has never been handed out for these
-            types of applications.
+            Instalock Desktop is a thin wrapper over instalock.app, with the
+            ability to read a local file instead of using the regular exploit.
+            It still will not modify any sort of game data via memory or
+            locally. All requests go to the API on instalock.app. Although no
+            guarantees can be made, you should not get banned for having the
+            application. What is more likely is API abuse ban, which is only one
+            week and to date, has never been handed out for these types of
+            applications.
           </Text>
           <Text size="sm" c="dimmed" my={"sm"}>
             From the auth modal of this website: Can I get banned? The answer is
