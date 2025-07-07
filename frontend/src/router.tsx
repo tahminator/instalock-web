@@ -1,6 +1,7 @@
 import DetailedMatchPage from "@/app/(app)/dashboard/[id]/page";
 import DashboardPage from "@/app/(app)/dashboard/page";
 import LiveMatchPage from "@/app/(app)/live/page";
+import DownloadPage from "@/app/(app)/downloads/page";
 import LandingPage from "@/app/page";
 import FourOhFour from "@/components/ui/FourOhFour/FourOhFour";
 import { createBrowserRouter } from "react-router-dom";
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardPage />,
+  },
+  {
+    path: "/download",
+    element: <DownloadPage />,
   },
   {
     path: "/dashboard/:id?",

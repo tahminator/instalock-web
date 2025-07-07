@@ -35,5 +35,5 @@ createRoot(document.getElementById("root")!).render(
         <Notifications />
       </MantineProvider>
     </QueryClientProvider>
-  </StrictMode>
+  </StrictMode>,
 );

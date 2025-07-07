@@ -106,6 +106,9 @@ export default function Navbar() {
             <NavLink to="/dashboard" className={classes.link}>
               <Text inherit>Dashboard</Text>
             </NavLink>
+            <NavLink to="/download" className={classes.link}>
+              <Text inherit>Download</Text>
+            </NavLink>
           </Group>
 
           <Group visibleFrom="sm">
@@ -156,6 +159,9 @@ export default function Navbar() {
           </NavLink>
           <NavLink to="/dashboard" className={classes.link}>
             <Text className={classes.link}>Dashboard</Text>
+          </NavLink>
+          <NavLink to="/download" className={classes.link}>
+            <Text className={classes.link}>Download</Text>
           </NavLink>
           {/* <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>

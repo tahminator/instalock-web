@@ -6,6 +6,7 @@ import InitialLandingPage from "@/app/_components/_initial-landing";
 import { motion } from "framer-motion";
 import GetStartedButton from "@/components/ui/get-started-button";
 import GithubButton from "@/components/ui/github-button";
+import Banner from "@/components/ui/banner";
 
 export default function LandingPage() {
   return (
@@ -48,6 +49,7 @@ export default function LandingPage() {
             )} */}
             <GithubButton to="https://github.com/0pengu/instalock-web" />
           </div>
+          <Banner />
         </InitialLandingPage>
       </div>
       <div className="flex flex-row min-h-screen justify-center items-center rounded-md">
