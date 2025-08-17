@@ -186,7 +186,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/tahminator/github/instalock-web/shared/types/db",
+      "value": "/Users/tahminator/personal/github/instalock-web/shared/types/db",
       "fromEnvVar": null
     },
     "config": {
@@ -204,7 +204,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/tahminator/github/instalock-web/server/prisma/schema.prisma",
+    "sourceFilePath": "/Users/tahminator/personal/github/instalock-web/server/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

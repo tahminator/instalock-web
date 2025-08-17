@@ -26,6 +26,24 @@ export const getAllMatchesByUserIdShallow = ({
     },
   });
 
+export const getMostRecentTierByUserId = ({ puuid }: { puuid: string }) =>
+  db.playerMatch.findFirst({
+    where: {
+      playerId: puuid,
+      tier: {
+        not: 0,
+      },
+    },
+    orderBy: {
+      match: {
+        gameStart: "desc",
+      },
+    },
+    select: {
+      tier: true,
+    },
+  });
+
 export const getMatchByUuid = ({ uuid }: { uuid: string }) =>
   db.riotMatch.findUnique({
     where: { id: uuid },
