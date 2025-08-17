@@ -6,6 +6,8 @@ import InitialLandingPage from "@/app/_components/_initial-landing";
 import { motion } from "framer-motion";
 import GetStartedButton from "@/components/ui/get-started-button";
 import GithubButton from "@/components/ui/github-button";
+import { Link } from "react-router-dom";
+import { Button } from "@mantine/core";
 
 export default function LandingPage() {
   return (
@@ -21,8 +23,30 @@ export default function LandingPage() {
           >
             Welcome to <GradientTitle />, the comprehensive Valorant companion.
           </motion.h1>
-          <div className="flex flex-row justify-center items-center space-x-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center space-x-0 sm:space-x-4">
             <GetStartedButton to="/dashboard" />
+            <Button
+              component={Link}
+              to={"/search"}
+              size="xl"
+              visibleFrom="sm"
+              variant="gradient"
+              gradient={{ from: "deep-red.4", to: "deep-red" }}
+              className="my-4"
+            >
+              View Database (No login needed)
+            </Button>
+            <Button
+              component={Link}
+              to={"/search"}
+              size="md"
+              hiddenFrom="sm"
+              variant="gradient"
+              gradient={{ from: "deep-red.4", to: "deep-red" }}
+              className="my-0"
+            >
+              View Database (No login needed)
+            </Button>
             {/* {data && !isLoading && !isError ? (
               <Link to="/dashboard">
                 <Button
