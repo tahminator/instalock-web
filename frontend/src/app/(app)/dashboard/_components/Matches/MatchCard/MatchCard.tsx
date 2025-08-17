@@ -17,7 +17,13 @@ import {
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 
-export default function MatchCard({ match }: { match: ShallowMatch }) {
+export default function MatchCard({
+  match,
+  viewMore = true,
+}: {
+  match: ShallowMatch;
+  viewMore?: boolean;
+}) {
   const {
     id,
     queueId,
@@ -98,11 +104,18 @@ export default function MatchCard({ match }: { match: ShallowMatch }) {
           </div>
         )}
       </Group>
-      <Link to={`/dashboard/${id}`}>
-        <Button variant="outline" color="red" fullWidth mt="md" radius="md">
-          View Details
-        </Button>
-      </Link>
+      <Button
+        variant="outline"
+        color="red"
+        fullWidth
+        mt="md"
+        radius="md"
+        component={Link}
+        disabled={!viewMore}
+        to={viewMore ? `/dashboard/${id}` : "#"}
+      >
+        View Details
+      </Button>
     </Card>
   );
 }
