@@ -1,7 +1,7 @@
 import { useFetchPossibleUsersByQuery } from "@/app/(app)/search/_components/SearchBar/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clientQueryByRiotNameSchema } from "@instalock/types/schema/user-query-by-riot-name";
-import { Autocomplete, Button, Center, Loader, rem, Text } from "@mantine/core";
+import { Autocomplete, Button, Center, Loader, rem } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconSend2 } from "@tabler/icons-react";
 import { useEffect } from "react";
