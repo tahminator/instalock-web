@@ -11,6 +11,7 @@ export const useFetchTotalUserCount = () => {
       const json = SJ.parse(await res.text()) as ApiDefault<{
         total: number;
         registered: number;
+        totalMatches: number;
       }>;
 
       return json;

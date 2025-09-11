@@ -21,6 +21,7 @@ riotRouterV2.get("/user/count", async (req, res) => {
     },
   });
   const total = await db.user.count();
+  const totalMatches = await db.riotMatch.count();
 
   return sendSuperJson(req, res, 200, {
     success: true,
@@ -28,6 +29,7 @@ riotRouterV2.get("/user/count", async (req, res) => {
     payload: {
       total,
       registered,
+      totalMatches,
     },
   });
 });
