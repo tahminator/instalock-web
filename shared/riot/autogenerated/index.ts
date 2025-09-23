@@ -645,6 +645,7 @@ export const mapUuidToNameObject = {
   "e2ad5c54-4114-a870-9641-8ea21279579a": "Icebox",
   "ee613ee9-28b7-4beb-9666-08db13bb2244": "The Range",
   "5914d1e0-40c4-cfdd-6b88-eba06347686c": "The Range",
+  "1c18ab1f-420d-0d8b-71d0-77ad3c439115": "Corrode",
   "2bee0dc9-4ffe-519b-1cbd-7fbe763a6047": "Haven",
 } as const;
 export type MapUuid = keyof typeof mapUuidToNameObject;
@@ -671,6 +672,7 @@ export const mapUrlToUuidObject = {
   "/Game/Maps/Port/Port": "e2ad5c54-4114-a870-9641-8ea21279579a",
   "/Game/Maps/Poveglia/Range": "ee613ee9-28b7-4beb-9666-08db13bb2244",
   "/Game/Maps/PovegliaV2/RangeV2": "5914d1e0-40c4-cfdd-6b88-eba06347686c",
+  "/Game/Maps/Rook/Rook": "1c18ab1f-420d-0d8b-71d0-77ad3c439115",
   "/Game/Maps/Triad/Triad": "2bee0dc9-4ffe-519b-1cbd-7fbe763a6047",
 };
 export type MapUrl = keyof typeof mapUrlToUuidObject;
