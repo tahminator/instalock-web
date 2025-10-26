@@ -3,8 +3,8 @@ run-name: Deploying to staging on ${{ github.actor }}'s commits
 
 on:
   push:
-    # branches:
-    #   - staging
+    branches:
+      - staging
 
 concurrency:
   group: ci-stg-${{ github.ref }}
