@@ -1,0 +1,54 @@
+on:
+  push:
+    # branches:
+    #   - main
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  buildImage:
+    name: Build Image & Deploy to Docker Hub
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run script
+        run: bash .github/scripts/build-image.sh
+        env:
+          TYPE: cron
+          DOCKER_UPLOAD: true
+          DOCKER_HUB_PAT: ${{ secrets.DOCKER_HUB_PAT }}
+
+  redeploy:
+    name: Redeploy on Coolify
+    runs-on: ubuntu-latest
+    enviornment: staging
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Coolify Redeploy
+        run: |
+          RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" \
+          -X POST \
+          -H "Authorization: Bearer ${{ secrets.DIGITAL_OCEAN_PAT }}" \
+          -H "Content-Type: application/json" \
+          https://coolify.tahmid.io/v1/deploy?uuid=${{ secrets.COOLIFY_UUID }}/deployments)
+
+          HTTP_BODY=$(echo "$RESPONSE" | sed -e 's/HTTPSTATUS:.*//g')
+          HTTP_STATUS=$(echo "$RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+
+          echo "$HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
+              exit 1
+          fi
+
+          DEPLOYMENT_ID=$(echo "$HTTP_BODY" | jq -r '.deployment.id')
+
+          echo "deployment_id=$DEPLOYMENT_ID" >> $GITHUB_ENV
