@@ -1,3 +1,6 @@
+name: deploy-stg
+run-name: Deploying to staging on ${{ github.actor }}'s commits
+
 on:
   push:
     # branches:
