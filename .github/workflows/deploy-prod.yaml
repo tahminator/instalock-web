@@ -110,7 +110,6 @@ jobs:
           DOCKER_HUB_PAT: ${{ secrets.DOCKER_HUB_PAT }}
           TYPE: web
           DOCKER_UPLOAD: true
-          TAG_PREFIX: staging-
           DOCKER_FILE_NAME: Dockerfile.web
 
   redeployWeb:
