@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export TZ="America/New_York"
+
 TIMESTAMP="$(date +%Y.%m.%d-%H.%M.%S)"
 GIT_SHA="$(git rev-parse --short HEAD)"
 TAG_PREFIX="${TAG_PREFIX:-}"
