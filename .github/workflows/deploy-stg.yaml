@@ -7,7 +7,7 @@ on:
     #   - staging
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-stg-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
