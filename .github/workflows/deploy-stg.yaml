@@ -1,0 +1,182 @@
+name: deploy-stg
+run-name: Deploying to staging on ${{ github.actor }}'s commits
+
+on:
+  push:
+    branches:
+      - staging
+
+concurrency:
+  group: ci-stg-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  buildCronImage:
+    name: Build Cron Image & Deploy to Docker Hub
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run script
+        run: bash .github/scripts/build-image.sh
+        env:
+          DOCKER_HUB_PAT: ${{ secrets.DOCKER_HUB_PAT }}
+          TYPE: cron
+          DOCKER_UPLOAD: true
+          TAG_PREFIX: staging-
+          DOCKER_FILE_NAME: Dockerfile.scripts
+
+  redeployCron:
+    name: Redeploy Cron on Coolify
+    needs: buildCronImage
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Coolify Redeploy
+        run: |
+          RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" \
+          -X POST \
+          -H "Authorization: Bearer ${{ secrets.COOLIFY_PAT }}" \
+          -H "Content-Type: application/json" \
+          https://coolify.tahmid.io/api/v1/deploy?uuid=${{ secrets.COOLIFY_CRON_UUID }})
+
+          HTTP_BODY=$(echo "$RESPONSE" | sed -e 's/HTTPSTATUS:.*//g')
+          HTTP_STATUS=$(echo "$RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+
+          echo "$HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
+              exit 1
+          fi
+
+          DEPLOYMENT_ID=$(echo "$HTTP_BODY" | jq -r '.deployments[0].deployment_uuid')
+
+          echo "deployment_id=$DEPLOYMENT_ID" >> $GITHUB_ENV
+
+      - name: Poll Deployment Status
+        run: |
+          DEPLOYMENT_ID="$deployment_id"
+
+           if [ -z "$DEPLOYMENT_ID" ]; then
+               echo "Deployment ID is empty."
+               exit 1
+           fi
+
+          echo "Waiting for deployment to be promoted."
+
+          for i in {1..60}; do
+              RESPONSE=$(curl -s -X GET \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer ${{ secrets.COOLIFY_PAT }}" \
+                  "https://coolify.tahmid.io/api/v1/deployments/$DEPLOYMENT_ID")
+
+              PHASE=$(echo "$RESPONSE" | jq -r '.status')
+
+              echo "Deployment phase: $PHASE"
+
+              if [ "$PHASE" == "finished" ]; then
+                  echo "Deployment is active."
+                  exit 0
+              elif [ "$PHASE" == "failed" ] || [ "$PHASE" == "error" ] || [ "$PHASE" == "canceled" ]; then
+                  echo "Deployment failed with phase: $PHASE"
+                  exit 1
+              fi
+
+              echo "Waiting for deployment to complete, sleep 10... ($i/60)"
+              sleep 10
+          done
+
+          echo "Deployment did not reach a valid state within 10 minutes."
+          exit 1
+
+  buildWebImage:
+    name: Build Web Image & Deploy to Docker Hub
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run script
+        run: bash .github/scripts/build-image.sh
+        env:
+          DOCKER_HUB_PAT: ${{ secrets.DOCKER_HUB_PAT }}
+          TYPE: web
+          DOCKER_UPLOAD: true
+          TAG_PREFIX: staging-
+          DOCKER_FILE_NAME: Dockerfile.web
+
+  redeployWeb:
+    name: Redeploy Web on Coolify
+    needs: buildWebImage
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Coolify Redeploy
+        run: |
+          RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" \
+          -X POST \
+          -H "Authorization: Bearer ${{ secrets.COOLIFY_PAT }}" \
+          -H "Content-Type: application/json" \
+          https://coolify.tahmid.io/api/v1/deploy?uuid=${{ secrets.COOLIFY_WEB_UUID }})
+
+          HTTP_BODY=$(echo "$RESPONSE" | sed -e 's/HTTPSTATUS:.*//g')
+          HTTP_STATUS=$(echo "$RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+
+          echo "$HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
+              exit 1
+          fi
+
+          DEPLOYMENT_ID=$(echo "$HTTP_BODY" | jq -r '.deployments[0].deployment_uuid')
+
+          echo "deployment_id=$DEPLOYMENT_ID" >> $GITHUB_ENV
+
+      - name: Poll Deployment Status
+        run: |
+          DEPLOYMENT_ID="$deployment_id"
+
+           if [ -z "$DEPLOYMENT_ID" ]; then
+               echo "Deployment ID is empty."
+               exit 1
+           fi
+
+          echo "Waiting for deployment to be promoted."
+
+          for i in {1..60}; do
+              RESPONSE=$(curl -s -X GET \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer ${{ secrets.COOLIFY_PAT }}" \
+                  "https://coolify.tahmid.io/api/v1/deployments/$DEPLOYMENT_ID")
+
+              PHASE=$(echo "$RESPONSE" | jq -r '.status')
+
+              echo "Deployment phase: $PHASE"
+
+              if [ "$PHASE" == "finished" ]; then
+                  echo "Deployment is active."
+                  exit 0
+              elif [ "$PHASE" == "failed" ] || [ "$PHASE" == "error" ] || [ "$PHASE" == "canceled" ]; then
+                  echo "Deployment failed with phase: $PHASE"
+                  exit 1
+              fi
+
+              echo "Waiting for deployment to complete, sleep 10... ($i/60)"
+              sleep 10
+          done
+
+          echo "Deployment did not reach a valid state within 10 minutes."
+          exit 1
