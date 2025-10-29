@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../../shared/types/db"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  puuid   String    @unique
+  Session Session[]
+
+  riotEntitlement String?
+  riotAuth        String?
+  riotTag         String?
+
+  // My attributes
+  newUser Boolean @default(true)
+
+  riotMatches PlayerMatch[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+
+  user User @relation(references: [puuid], fields: [userId], onDelete: Cascade)
+}
+
+model PlayerMatch {
+  id       String @id @default(uuid())
+  playerId String
+  matchId  String
+
+  riotTag String?
+
+  teamId      String?
+  characterId String?
+
+  kills   Int?
+  deaths  Int?
+  assists Int?
+
+  tier Int?
+
+  playerCard  String?
+  playerTitle String?
+
+  teamColor     RiotMatchTeamColor?
+  teamWon       Boolean?
+  teamRoundsWon Int?
+
+  player User      @relation(fields: [playerId], references: [puuid])
+  match  RiotMatch @relation(fields: [matchId], references: [id])
+
+  @@unique([playerId, matchId])
+}
+
+model RiotMatch {
+  id String @id
+
+  players PlayerMatch[]
+
+  mapId       String?
+  gameVersion String?
+
+  gameStart DateTime?
+  gameEnd   DateTime?
+
+  isCompleted Boolean?
+
+  queueId  String?
+  isRanked Boolean?
+
+  seasonId String?
+
+  roundsPlayed Int?
+
+  teamWon           RiotMatchTeamColor?
+  teamRedRoundsWon  Int?
+  teamBlueRoundsWon Int?
+
+  raw Json?
+}
+
+enum RiotMatchTeamColor {
+  Red
+  Blue
+}

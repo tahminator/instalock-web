@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2015", "DOM"],
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src"]
+}
