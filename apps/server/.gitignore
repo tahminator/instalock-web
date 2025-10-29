@@ -1,0 +1,8 @@
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
+
+# Built at deploy time
+index.js
