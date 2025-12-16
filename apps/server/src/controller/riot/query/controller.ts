@@ -353,7 +353,6 @@ export class RiotQueryController implements IRiotQueryController {
     });
 
     if (!riotMatchInfoRes.ok) {
-      console.log(await riotMatchInfoRes.json());
       throw new Error(
         `Failed to fetch riot match information with status of ${riotMatchInfoRes.status}`,
       );

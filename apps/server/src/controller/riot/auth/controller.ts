@@ -62,14 +62,9 @@ export class RiotAuthController implements IRiotAuthController {
       );
     }
 
-    console.log(riotAuth);
-
     const riotRes = await RiotClient.getUserInfo(riotAuth);
 
-    console.log(await riotRes.text());
-
     if (!riotRes.ok) {
-      console.log("heyy");
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
         "You are not logged in.",

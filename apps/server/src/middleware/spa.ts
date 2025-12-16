@@ -20,7 +20,7 @@ export class SpaMiddleware {
     return this.plugin(request, response, next);
   }
 
-  @GET(/^(?!.*\.[a-zA-Z0-9]+$).*$/)
+  @GET(/^(?!\/api(?:\/|$))(?!.*\.[a-zA-Z0-9]+$).*$/)
   async loadSpa(_req: Request, res: Response) {
     const html = await fs.readFile(
       path.join(process.cwd(), "dist", "index.html"),
