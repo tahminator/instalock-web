@@ -3,7 +3,6 @@ import { IBaseController } from "../../../utils/controller";
 import { MetricsDto } from "../../../dto/UserMetricsDto";
 import { ApiDefault } from "../../../utils/api";
 import { RiotPlayerDataShallow } from "../../../dto/RiotPlayerDataShallow";
-import { RiotMatchDetailed } from "../../../dto/RiotMatchShallow";
 import { ResponseEntity } from "@tahminator/sapling";
 import { RiotPlayerDataDetailed } from "../../../dto/RiotPlayerDataDetailed";
 
