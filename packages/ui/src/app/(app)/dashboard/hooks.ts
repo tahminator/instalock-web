@@ -1,24 +1,48 @@
-import { SJ } from "@instalock/sj";
-import { ApiDefault } from "@instalock/types";
+import { AuthenticationObjectDto, RiotAuthRouteObject } from "@instalock/api";
+import { fetcher } from "@instalock/fetcher";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 
 const useRiotAuthQuery = (autoNavigate = false) => {
   const navigate = useNavigate();
 
+  const queryFn = fetcher().api.riot.auth.getMe.fetcher(
+    RiotAuthRouteObject.getMe,
+  );
+
   const query = useQuery({
     queryKey: ["riot", "auth"],
-    queryFn: checkRiotAuth,
+    queryFn: () => {
+      return queryFn({
+        queryParams: undefined,
+        requestBody: undefined,
+        pathParams: undefined,
+      });
+    },
   });
 
-  const { status, data } = query;
+  const { status } = query;
+
+  const data = useMemo<AuthenticationObjectDto>((): AuthenticationObjectDto => {
+    if (status === "success" && query.data.success) {
+      return query.data.payload;
+    }
+    return {
+      user: null,
+      session: null,
+    };
+  }, [query, status]);
 
   useEffect(() => {
     // Only do this if opted-in.
     if (autoNavigate) {
-      if (status === "error" || !data?.authToken || !data?.entitlement) {
+      if (
+        status === "error" ||
+        !data?.user?.riotAuth ||
+        !data?.user?.riotEntitlement
+      ) {
         notifications.show({
           message: "You are not authorized. Please authenticate.",
         });
@@ -27,25 +51,7 @@ const useRiotAuthQuery = (autoNavigate = false) => {
     }
   }, [autoNavigate, navigate, status, data]);
 
-  return query;
+  return { ...query, data };
 };
-
-async function checkRiotAuth() {
-  const res = await fetch("/api/riot/v1/@me");
-
-  const json = (await SJ.parse(await res.text())) as ApiDefault<{
-    authToken?: string;
-    entitlement?: string;
-    puuid?: string;
-  }>;
-
-  if (!json.success) {
-    return { authToken: undefined, entitlement: undefined, puuid: undefined };
-  }
-
-  const { authToken, entitlement, puuid } = json.payload;
-
-  return { authToken, entitlement, puuid };
-}
 
 export default useRiotAuthQuery;

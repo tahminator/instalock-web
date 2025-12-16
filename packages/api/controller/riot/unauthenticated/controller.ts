@@ -7,7 +7,7 @@ import { RiotMatchDetailed } from "../../../dto/RiotMatchShallow";
 import { ResponseEntity } from "@tahminator/sapling";
 import { RiotPlayerDataDetailed } from "../../../dto/RiotPlayerDataDetailed";
 
-export interface IUnauthenticatedRiotController extends IBaseController {
+export interface IRiotUnauthenticatedController extends IBaseController {
   getMetrics(
     request: Request,
     response: Response,

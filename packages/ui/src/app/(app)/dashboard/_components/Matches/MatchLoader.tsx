@@ -16,7 +16,7 @@ import { ReactNode } from "react";
 export default function MatchLoader() {
   const { data, status } = useGetShallowMatchesQuery();
 
-  if (status === "pending" || status === "error") {
+  if (status === "pending" || status === "error" || !data.success) {
     return (
       <MatchLoaderWrapper>
         <LiveMatchCard />
@@ -30,7 +30,7 @@ export default function MatchLoader() {
   return (
     <MatchLoaderWrapper>
       <LiveMatchCard />
-      {data.matches.map((match) => (
+      {data.payload.map((match) => (
         <MatchCard match={match} />
       ))}
     </MatchLoaderWrapper>

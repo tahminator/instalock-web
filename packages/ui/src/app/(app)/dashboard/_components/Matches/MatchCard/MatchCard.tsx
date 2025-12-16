@@ -1,4 +1,4 @@
-import { ShallowMatch } from "@instalock/types";
+import { RiotMatchDetailed } from "@instalock/api";
 import {
   mapUuidToNameObject,
   MapUuid,
@@ -21,24 +21,18 @@ export default function MatchCard({
   match,
   viewMore = true,
 }: {
-  match: ShallowMatch;
+  match: RiotMatchDetailed;
   viewMore?: boolean;
 }) {
-  const {
-    id,
-    queueId,
-    isCompleted,
-    characterId,
-    mapId,
-    teamBlueRoundsWon,
-    teamRedRoundsWon,
-    me,
-  } = match;
+  const { gameModeName } = match;
+  const { id, isCompleted, mapId, teamBlueRoundsWon, teamRedRoundsWon } =
+    match.matchData;
+  const me = match.playerData;
 
   const mapName = mapUuidToNameObject[mapId as MapUuid];
   const mapSrc = `/maps/${mapName}.webp`;
 
-  const agentName = agentUuidToNameObject[characterId as AgentUuid];
+  const agentName = agentUuidToNameObject[me?.characterId as AgentUuid];
   const agentSrc = `/agents/${agentName}.webp`;
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder bg={"dark.8"}>
@@ -55,7 +49,7 @@ export default function MatchCard({
       <Group justify="space-between" mt="md" mb="xs">
         <Text fw={500}>{mapName}</Text>
         <Text size="xs" c="dimmed">
-          {queueId}
+          {gameModeName}
         </Text>
         <Badge
           variant="gradient"
@@ -92,7 +86,7 @@ export default function MatchCard({
         >
           <Avatar src={agentSrc} alt={agentName} className="" />
         </Tooltip>
-        {queueId !== "Deathmatch" && (
+        {gameModeName !== "Deathmatch" && (
           <div className="flex space-x-2">
             <Text c={"blue"}>
               {me?.teamColor === "Blue" ? teamBlueRoundsWon : teamRedRoundsWon}

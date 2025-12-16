@@ -9,6 +9,8 @@ import {
 } from "@instalock/api";
 import {
   getGameModeName,
+  MapUrl,
+  mapUrlToUuidObject,
   RiotClient,
   TierNumber,
   tierNumberToNameObject,
@@ -20,6 +22,7 @@ import {
   ResponseEntity,
   ResponseStatusError,
 } from "@tahminator/sapling";
+import { randomUUID } from "crypto";
 import { Request, Response } from "express";
 
 @Controller({
@@ -140,12 +143,17 @@ export class RiotQueryController implements IRiotQueryController {
 
     const puuid = response.locals.user.id;
 
-    const user = await this.userRepository.getUserByPuuid(puuid);
+    let user = await this.userRepository.getUserByPuuid(puuid);
     if (!user) {
       throw new ResponseStatusError(
         HttpStatus.NOT_FOUND,
         "The user with the given PUUID was not found.",
       );
+    }
+
+    if (user.newUser) {
+      await this.loadMatchesForNewUser(user.puuid);
+      user = await this.userRepository.updateUser({ ...user, newUser: false });
     }
 
     const matches =
@@ -196,13 +204,13 @@ export class RiotQueryController implements IRiotQueryController {
   }
 
   @_Route({
-    method: RiotQueryRouteObject.getMatchShallow.method,
-    path: RiotQueryRouteObject.getMatchShallow.path(":matchId"),
+    method: RiotQueryRouteObject.getMatch.method,
+    path: RiotQueryRouteObject.getMatch.path(":matchId"),
   })
-  async getMatchShallow(
+  async getMatch(
     request: Request,
     response: Response,
-  ): Promise<Awaited<ReturnType<IRiotQueryController["getMatchShallow"]>>> {
+  ): Promise<Awaited<ReturnType<IRiotQueryController["getMatch"]>>> {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -211,8 +219,8 @@ export class RiotQueryController implements IRiotQueryController {
     }
 
     const parser =
-      await RiotQueryRouteObject.getMatchShallow.schema.pathParams.safeParseAsync(
-        request.params,
+      await RiotQueryRouteObject.getMatch.schema.pathParams.safeParseAsync(
+        request.params["matchId"],
       );
 
     if (!parser.success) {
@@ -258,6 +266,11 @@ export class RiotQueryController implements IRiotQueryController {
       raw: undefined,
     };
 
+    const allPlayers =
+      await this.playerMatchRepository.getPlayerMatchesByMatchId(
+        playerMatch.matchId,
+      );
+
     return ResponseEntity.ok().body({
       success: true,
       message: "User matches received!",
@@ -265,6 +278,7 @@ export class RiotQueryController implements IRiotQueryController {
         playerData: playerMatch,
         matchData: riotMatchWithoutRaw,
         gameModeName: getGameModeName(riotMatchWithoutRaw.queueId ?? "Unknown"),
+        players: allPlayers,
       },
     });
   }
@@ -370,5 +384,156 @@ export class RiotQueryController implements IRiotQueryController {
         rankName: tierName,
       },
     });
+  }
+
+  private async loadMatchesForNewUser(userId: string) {
+    const matchIds: string[] = [];
+
+    const user = await this.userRepository.getUserByPuuid(userId);
+
+    if (!user) {
+      throw new Error("Expected user to exist but did not.");
+    }
+
+    const { riotAuth, riotEntitlement, puuid: riotPuuid, riotTag } = user;
+
+    if (!riotAuth || !riotEntitlement || !riotPuuid || !riotTag) {
+      return;
+    }
+
+    const riotRes = await RiotClient.getCompetitiveUpdates({
+      authToken: riotAuth,
+      entitlementToken: riotEntitlement,
+      puuid: riotPuuid,
+      startIndex: 0,
+      endIndex: 20,
+    });
+
+    if (!riotRes.ok) {
+      return;
+    }
+
+    const riotMatchInfoJson = await riotRes.json();
+
+    if (riotMatchInfoJson.errorCode !== undefined) {
+      return;
+    }
+
+    riotMatchInfoJson.Matches.forEach((match) => {
+      matchIds.push(match.MatchID);
+    });
+
+    for (let j = 0; j < matchIds.length; j++) {
+      const riotMatchRes = await RiotClient.getMatchDetails({
+        authToken: riotAuth,
+        entitlementToken: riotEntitlement,
+        matchId: matchIds[j],
+      });
+
+      if (!riotMatchRes.ok) {
+        continue;
+      }
+
+      const json = await riotMatchRes.json();
+
+      const { matchInfo, players, teams } = json;
+
+      const teamBlue =
+        teams && teams[0].teamId === "Blue" ? teams[0] : teams && teams[1];
+      const teamRed =
+        teams && teams[0].teamId === "Red" ? teams[0] : teams && teams[1];
+
+      const matchId = matchInfo?.matchId ?? randomUUID();
+
+      const existingMatch =
+        await this.riotMatchRepository.getMatchById(matchId);
+
+      const matchData = {
+        id: matchId,
+        raw: JSON.stringify(json),
+        mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl] ?? null,
+        gameVersion: matchInfo?.gameVersion ?? null,
+        gameStart: matchInfo?.gameStartMillis
+          ? new Date(matchInfo.gameStartMillis)
+          : null,
+        gameEnd:
+          matchInfo?.gameStartMillis && matchInfo?.gameLengthMillis
+            ? new Date(
+                Number(matchInfo.gameStartMillis) +
+                  Number(matchInfo.gameLengthMillis),
+              )
+            : null,
+        isCompleted: matchInfo?.isCompleted ?? false,
+        queueId: matchInfo?.queueID ?? null,
+        isRanked: matchInfo?.isRanked ?? null,
+        seasonId: matchInfo?.seasonId ?? null,
+        roundsPlayed: teams?.[0]?.roundsPlayed ?? null,
+        teamWon:
+          (teams &&
+            (teams[0].teamId === "Red" && teams[0].won === true
+              ? ("Red" as const)
+              : ("Blue" as const))) ??
+          null,
+        teamBlueRoundsWon: teamBlue?.roundsWon ?? null,
+        teamRedRoundsWon: teamRed?.roundsWon ?? null,
+      };
+
+      if (existingMatch) {
+        await this.riotMatchRepository.updateMatch(matchData);
+      } else {
+        await this.riotMatchRepository.createMatch(matchData);
+      }
+
+      if (players && players.length > 0) {
+        for (const player of players) {
+          const playerPuuid = player.subject ?? randomUUID();
+
+          const existingUser =
+            await this.userRepository.getUserByPuuid(playerPuuid);
+          if (!existingUser) {
+            await this.userRepository.createUser({
+              puuid: playerPuuid,
+              riotAuth: null,
+              riotEntitlement: null,
+              riotTag: `${player.gameName}#${player.tagLine}`,
+            });
+          }
+
+          const existingPlayerMatch =
+            await this.playerMatchRepository.getPlayerMatchByPlayerAndMatch(
+              playerPuuid,
+              matchId,
+            );
+
+          const playerMatchData = {
+            id: existingPlayerMatch?.id ?? randomUUID(),
+            playerId: playerPuuid,
+            matchId: matchId,
+            riotTag: `${player.gameName}#${player.tagLine}`,
+            teamId: player.teamId ?? null,
+            characterId: player.characterId ?? null,
+            kills: player.stats?.kills ?? 0,
+            deaths: player.stats?.deaths ?? 0,
+            assists: player.stats?.assists ?? 0,
+            tier: player.competitiveTier ?? null,
+            playerCard: player.playerCard ?? null,
+            playerTitle: player.playerTitle ?? null,
+            teamColor:
+              player.teamId === "Blue" ? ("Blue" as const) : ("Red" as const),
+            teamWon:
+              teams?.find((team) => team.teamId === player.teamId)?.won ?? null,
+            teamRoundsWon:
+              teams?.find((team) => team.teamId === player.teamId)
+                ?.roundsPlayed ?? null,
+          };
+
+          if (existingPlayerMatch) {
+            await this.playerMatchRepository.updatePlayerMatch(playerMatchData);
+          } else {
+            await this.playerMatchRepository.createPlayerMatch(playerMatchData);
+          }
+        }
+      }
+    }
   }
 }

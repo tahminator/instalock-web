@@ -9,11 +9,13 @@ export default function RankSearcher({
   puuid: string;
   className?: string;
 }) {
-  const { data, status } = useFindRankQuery({ puuid });
+  const { data: p, status } = useFindRankQuery({ puuid });
 
-  if (status !== "success") {
+  if (status !== "success" || !p.success || p.payload.riotTag === "") {
     return <span className={className}>Loading...</span>;
   }
+
+  const data = p.payload;
 
   const rankImage = `/tiers/${data.rank}.webp`;
 

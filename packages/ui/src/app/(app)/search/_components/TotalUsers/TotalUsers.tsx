@@ -16,7 +16,7 @@ export default function TotalUsers() {
     return <div>{data.message}</div>;
   }
 
-  const { total, registered, totalMatches } = data.payload;
+  const { totalUsers, registeredUsers, totalMatches } = data.payload;
 
   return (
     <Center>
@@ -27,7 +27,7 @@ export default function TotalUsers() {
           variant={"gradient"}
           gradient={{ from: "deep-red.4", to: "deep-red" }}
         >
-          {total}
+          {totalUsers}
         </Text>{" "}
         users, of which{" "}
         <Text
@@ -35,7 +35,7 @@ export default function TotalUsers() {
           variant={"gradient"}
           gradient={{ from: "purple", to: "red" }}
         >
-          {registered}
+          {registeredUsers}
         </Text>{" "}
         have registered to Instalock, with{" "}
         <Text span variant={"gradient"} gradient={{ from: "blue", to: "cyan" }}>

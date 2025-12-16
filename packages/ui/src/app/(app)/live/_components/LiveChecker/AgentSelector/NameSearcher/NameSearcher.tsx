@@ -11,15 +11,15 @@ export default function NameSearcher({
   idx: number;
   className?: string;
 }) {
-  const { data, status } = useFindNameQuery({ puuid });
+  const { data: p, status } = useFindNameQuery({ puuid });
 
   if (puuid === myPuuid) {
     return <span className={className}>Me</span>;
   }
 
-  if (status !== "success" || data.name === "") {
+  if (status !== "success" || !p.success || p.payload.riotTag === "") {
     return <span className={className}>#{idx + 1}</span>;
   }
 
-  return <span className={className}>{data.name}</span>;
+  return <span className={className}>{p.payload.riotTag}</span>;
 }

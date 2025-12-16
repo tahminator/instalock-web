@@ -49,7 +49,11 @@ export default function UserNavbar() {
     return <UserNavbarWrapper />;
   }
 
-  const { name, rr, rank, rankName } = data;
+  if (!data.success) {
+    return <UserNavbarWrapper />;
+  }
+
+  const { riotTag, rr, rank, rankName } = data.payload;
   const rankImage = `/tiers/${rank}.webp`;
 
   const handleRefresh = () => {
@@ -101,7 +105,7 @@ export default function UserNavbar() {
           onClose={closeDrawer}
           size="80%"
           padding="md"
-          title={name}
+          title={riotTag}
           hiddenFrom="sm"
         >
           <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
@@ -152,11 +156,11 @@ export default function UserNavbar() {
                   {
                     [classes.userActive]: opened,
                   },
-                  "p-3"
+                  "p-3",
                 )}
               >
                 <Group gap={7}>
-                  <Text>{name}</Text>
+                  <Text>{riotTag}</Text>
                   {/* <Avatar src={user.image} alt={user.name} radius="xl" size={20} /> */}
                   {/* <Text fw={500} size="sm" lh={1} mr={3}>
                     {user.name}

@@ -16,7 +16,7 @@ export interface IRiotQueryController extends IBaseController {
     response: Response,
   ): Promise<ResponseEntity<ApiDefault<RiotMatchDetailed[]>>>;
 
-  getMatchShallow(
+  getMatch(
     request: Request,
     response: Response,
   ): Promise<ResponseEntity<ApiDefault<RiotMatchDetailed>>>;

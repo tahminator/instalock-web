@@ -2,7 +2,7 @@ import Navbar from "@/app/(app)/_components/Navbar";
 import DetailsLoader from "@/app/(app)/dashboard/[id]/_components/DetailsLoader";
 import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
-import { checkIdSchema } from "@instalock/types/schema";
+import { checkIdSchema } from "@instalock/api";
 import { notifications } from "@mantine/notifications";
 import { Suspense, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -15,10 +15,10 @@ export default function DetailedMatchPage() {
   // Check implementation for details.
   const { data, status } = useRiotAuthQuery(true);
 
-  const parseSuccess = checkIdSchema.safeParse({ uuid: id }).success;
+  const parser = checkIdSchema.safeParse(id);
 
   useEffect(() => {
-    if (!id || !parseSuccess) {
+    if (!id || !parser.success) {
       notifications.show({
         message:
           "This is an invalid match page. Please try selecting another match.",
@@ -26,14 +26,14 @@ export default function DetailedMatchPage() {
       });
       navigate("/dashboard");
     }
-  }, [id, navigate, parseSuccess]);
+  }, [id, navigate, parser.error, parser.success]);
 
   if (status === "pending") {
     return <CenteredSpinner />;
   }
 
   // Return an empty fragment because we will end up showing a toast and redirecting out anyways.
-  if (status === "error" || !data || !id || !parseSuccess) {
+  if (status === "error" || !data || !id || !parser.success) {
     return <></>;
   }
 

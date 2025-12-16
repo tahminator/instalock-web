@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@instalock/riot": "workspace:^",
     "@instalock/db": "workspace:^",
+    "@instalock/riot": "workspace:^",
     "@tahminator/sapling": "^1.3.3",
-    "zod": "^4.2.0"
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.0"

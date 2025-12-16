@@ -10,28 +10,31 @@ export default function DetailsLoader({ uuid }: { uuid: string }) {
 
   // The logic for these situations gets handled inside of the custom hook.
   // Please check the implementation for more details.
-  if (status === "error" || !result.data) {
+  if (status === "error" || !result.success) {
     return <></>;
   }
+
+  const { playerData, matchData, players: p } = result.payload;
+  const players = p ?? [];
 
   const {
     mapId,
     teamBlueRoundsWon,
     teamRedRoundsWon,
-    players,
     gameStart,
     gameEnd,
-    me,
     queueId,
-  } = result.data;
+  } = matchData;
+
+  const me = playerData;
 
   const mapName = mapUuidToNameObject[mapId as MapUuid];
 
   const friendlyPlayers = players
-    .filter((p) => p.teamColor === me.teamColor)
+    .filter((p) => p.teamColor === me?.teamColor)
     .sort((a, b) => (b.kills ?? 0) - (a.kills ?? 0));
   const enemyPlayers = players
-    .filter((p) => p.teamColor !== me.teamColor)
+    .filter((p) => p.teamColor !== me?.teamColor)
     .sort((a, b) => (b.kills ?? 0) - (a.kills ?? 0));
 
   return (

@@ -22,29 +22,35 @@ const useAuthStore = create<authStoreType>()((set) => ({
 }));
 
 export const useAuthUpdater = () => {
-  const { data } = useRiotAuthQuery();
+  const { data, status } = useRiotAuthQuery();
 
   const state = useAuthStore(useShallow((state) => ({ ...state })));
 
   const { setRiotAuth, setRiotEntitlement, setPuuid } = state;
 
   useEffect(() => {
-    if (data) {
-      setRiotAuth(data.authToken);
-      setRiotEntitlement(data.entitlement);
-      setPuuid(data.puuid);
+    console.log(status, data);
+    if (
+      status === "success" &&
+      data &&
+      data.user &&
+      data.user.riotAuth &&
+      data.user.riotEntitlement
+    ) {
+      console.log("YIPEEEEE");
+      setRiotAuth(data.user.riotAuth);
+      setRiotEntitlement(data.user.riotEntitlement);
+      setPuuid(data.user.puuid);
     }
-  }, [data, setPuuid, setRiotAuth, setRiotEntitlement]);
+  }, [
+    data,
+    data.user?.riotAuth,
+    data.user?.riotEntitlement,
+    setPuuid,
+    setRiotAuth,
+    setRiotEntitlement,
+    status,
+  ]);
 
   return { ...state };
 };
-
-// type preGameStoreType = {
-//   pregameId: string | undefined;
-//   setPregameId: (pregameId: string | undefined) => void;
-// };
-
-// export const usePreGameStore = create<preGameStoreType>()((set) => ({
-//   pregameId: undefined,
-//   setPregameId: (pregameId) => set({ pregameId }),
-// }));

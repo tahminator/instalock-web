@@ -6,4 +6,5 @@ export interface RiotMatchDetailed {
   playerData: PlayerMatch | null;
   matchData: Omit<RiotMatch, "raw">;
   gameModeName: ReturnType<typeof getGameModeName>;
+  players?: PlayerMatch[];
 }

@@ -1,6 +1,6 @@
 import { useFetchPossibleUsersByQuery } from "@/app/(app)/search/_components/SearchBar/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { clientQueryByRiotNameSchema } from "@instalock/types/schema/user-query-by-riot-name";
+import { queryByRiotNameSchema } from "@instalock/api";
 import { Autocomplete, Button, Center, Loader, rem } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconSend2 } from "@tabler/icons-react";
@@ -12,7 +12,7 @@ import { z } from "zod";
 export default function SearchBar() {
   const navigate = useNavigate();
   const form = useForm({
-    resolver: zodResolver(clientQueryByRiotNameSchema),
+    resolver: zodResolver(queryByRiotNameSchema),
     defaultValues: {
       query: "",
       fetchStatus: "pending",
@@ -25,12 +25,10 @@ export default function SearchBar() {
     form.setValue("fetchStatus", status);
   }, [status]);
 
-  const tags = data?.payload.users
-    .map((user) => user.riotTag)
-    .filter((tag) => tag != null);
+  const tags = data.map((user) => user.riotTag).filter((tag) => tag != null);
 
-  const onSubmit = ({ query }: z.infer<typeof clientQueryByRiotNameSchema>) => {
-    const puuid = data?.payload.users
+  const onSubmit = ({ query }: z.infer<typeof queryByRiotNameSchema>) => {
+    const puuid = data
       .filter((user) => user.riotTag === query)
       .map((user) => user.puuid);
 

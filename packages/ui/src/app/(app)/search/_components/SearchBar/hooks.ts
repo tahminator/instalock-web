@@ -1,34 +1,38 @@
-import { SJ } from "@instalock/sj";
-import { ApiDefault, User } from "@instalock/types";
+import { RiotUnauthenticatedRouteObject } from "@instalock/api";
+import { fetcher } from "@instalock/fetcher";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 
-export const useFetchPossibleUsersByQuery = (query?: string) => {
-  return useQuery({
-    queryKey: ["search", "query", query],
+export const useFetchPossibleUsersByQuery = (q?: string) => {
+  const queryFn =
+    fetcher().api.riot.unauthenticated.getUsersListsSearchable.fetcher(
+      RiotUnauthenticatedRouteObject.getUsersListsSearchable,
+    );
+
+  const query = useQuery({
+    queryKey: ["search", "query", q],
     queryFn: async () => {
-      const res = await fetch(`/api/riot/v2/user/search?q=${query}`);
-
-      const json = SJ.parse(await res.text()) as ApiDefault<{
-        users: Pick<User, "puuid" | "riotTag">[];
-      }>;
-
-      if (!json.success) {
-        return {
-          success: false,
-          payload: {
-            users: [] as Pick<User, "puuid" | "riotTag">[],
-          },
-          message: "Failed to fetch users.",
-        };
-      }
-
-      return {
-        success: json.success,
-        payload: {
-          users: json.payload.users,
+      return await queryFn({
+        queryParams: {
+          query: q ?? "",
         },
-        message: json.message,
-      };
+        pathParams: undefined,
+        requestBody: undefined,
+      });
     },
   });
+
+  const data = useMemo(() => {
+    if (query.status !== "success") {
+      return [];
+    }
+
+    if (!query.data.success) {
+      return [];
+    }
+
+    return query.data.payload;
+  }, [query]);
+
+  return { ...query, data };
 };

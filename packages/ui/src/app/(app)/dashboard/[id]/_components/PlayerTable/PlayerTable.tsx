@@ -1,10 +1,10 @@
+import { PlayerMatch } from "@instalock/api";
 import {
   AgentUuid,
   agentUuidToNameObject,
   TierNumber,
   tierNumberToNameObject,
 } from "@instalock/riot";
-import { PlayerMatch } from "@instalock/types";
 import { Avatar, Table, Tooltip } from "@mantine/core";
 import clsx from "clsx";
 
@@ -14,7 +14,7 @@ export default function PlayerTable({
   className,
 }: {
   players: PlayerMatch[];
-  me: PlayerMatch;
+  me: PlayerMatch | null;
   className?: string;
 }) {
   return (
@@ -37,7 +37,7 @@ export default function PlayerTable({
           const tierSrc = `/tiers/${player.tier}.webp`;
 
           const rowBg = (() => {
-            if (player.id == me.id) {
+            if (player.id == me?.id) {
               return "bg-yellow-500";
             }
 

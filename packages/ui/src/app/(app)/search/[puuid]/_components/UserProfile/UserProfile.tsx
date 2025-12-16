@@ -19,10 +19,11 @@ export default function UserProfile({ puuid }: { puuid: string }) {
     return <div>{data.message}</div>;
   }
 
-  const { tier, riotTag, matches } = data.payload;
+  const { rank, riotTag, matches } = data.payload;
 
-  const rankImage = `/tiers/${tier}.webp`;
-  const rankName = tierNumberToNameObject[tier.toString() as TierNumber];
+  const rankImage = `/tiers/${rank}.webp`;
+  const rankName =
+    tierNumberToNameObject[(rank?.toString() ?? "0") as TierNumber];
 
   return (
     <>

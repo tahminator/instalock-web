@@ -4,7 +4,11 @@
   "description": "Instalock's core functionality to define fetchers to re-use across all frontend clients.",
   "main": "index.ts",
   "scripts": {},
-  "dependencies": {},
+  "dependencies": {
+    "@instalock/api": "workspace:^",
+    "@tahminator/sapling": "^1.3.3",
+    "zod": "^4.2.1"
+  },
   "author": "Tahmid Ahmed",
   "packageManager": "pnpm@10.5.2"
 }

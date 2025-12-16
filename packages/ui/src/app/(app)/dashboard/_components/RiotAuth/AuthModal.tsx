@@ -1,9 +1,8 @@
 import classes from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal.module.css";
 import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SJ } from "@instalock/sj";
-import { ApiDefault } from "@instalock/types";
-import { authModalSchema } from "@instalock/types/schema/riot-auth-modal";
+import { RiotAuthRouteObject } from "@instalock/api";
+import { authModalSchema } from "@instalock/api";
 import {
   Box,
   Button,
@@ -27,6 +26,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
+import { fetcher } from "@instalock/fetcher";
 
 export default function RiotAuthenticationModal() {
   const queryClient = useQueryClient();
@@ -49,18 +49,14 @@ export default function RiotAuthenticationModal() {
       message: "Please wait, attempting to resolve credentials from server...",
     });
     try {
-      const res = await fetch("/api/riot/v1/auth", {
-        method: "POST",
-        body: SJ.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const queryFn = fetcher().api.riot.auth.authenticate.fetcher(
+        RiotAuthRouteObject.authenticate,
+      );
+      const json = await queryFn({
+        queryParams: undefined,
+        requestBody: data,
+        pathParams: undefined,
       });
-
-      const json = SJ.parse(await res.text()) as ApiDefault<{
-        authToken: string;
-        entitlementToken: string;
-      }>;
 
       if (!json.success) {
         return notifications.update({
@@ -147,7 +143,7 @@ export default function RiotAuthenticationModal() {
                   color="red"
                   onClick={() =>
                     window.open(
-                      "https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid"
+                      "https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid",
                     )
                   }
                   disabled={loading}

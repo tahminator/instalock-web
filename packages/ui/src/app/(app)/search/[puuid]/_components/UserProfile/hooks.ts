@@ -1,21 +1,20 @@
-import { SJ } from "@instalock/sj";
-import { ApiDefault, ShallowMatch, User } from "@instalock/types";
+import { RiotUnauthenticatedRouteObject } from "@instalock/api";
+import { fetcher } from "@instalock/fetcher";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetProfileByPuuid = (puuid: string) => {
+  const queryFn =
+    fetcher().api.riot.unauthenticated.getUserMatchesByPuuid.fetcher(
+      RiotUnauthenticatedRouteObject.getUserMatchesByPuuid,
+    );
+
   return useQuery({
     queryKey: ["search", puuid],
-    queryFn: async () => {
-      const res = await fetch(`/api/riot/v2/user/${puuid}`);
-
-      const json = SJ.parse(await res.text()) as ApiDefault<
-        Pick<User, "puuid" | "riotTag"> & {
-          tier: number;
-          matches: ShallowMatch[];
-        }
-      >;
-
-      return json;
-    },
+    queryFn: async () =>
+      await queryFn({
+        queryParams: undefined,
+        pathParams: puuid,
+        requestBody: undefined,
+      }),
   });
 };

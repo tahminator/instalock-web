@@ -1,3 +1,4 @@
+import { SJ } from "@instalock/sj";
 import { ResponseStatusError } from "@tahminator/sapling";
 import { Request, Response, NextFunction } from "express";
 
@@ -13,10 +14,15 @@ export class ErrorMiddleware {
     res: Response,
     _next: NextFunction,
   ) {
-    res.status(err.status).json({
-      success: false,
-      message: err.message,
-    });
+    res
+      .status(err.status)
+      .contentType("application/json")
+      .send(
+        SJ.stringify({
+          success: false,
+          message: err.message,
+        }),
+      );
   }
 
   static anyErrorMiddleware(
@@ -34,9 +40,14 @@ export class ErrorMiddleware {
     const message =
       err instanceof Error ? err.message : "Internal Server Error";
 
-    res.status(status).json({
-      success: false,
-      message,
-    });
+    res
+      .status(status)
+      .contentType("application/json")
+      .send(
+        SJ.stringify({
+          success: false,
+          message,
+        }),
+      );
   }
 }

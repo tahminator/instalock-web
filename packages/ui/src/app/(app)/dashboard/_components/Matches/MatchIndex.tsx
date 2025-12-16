@@ -9,7 +9,7 @@ import { ReactNode } from "react";
 export default function MatchIndex() {
   const { data, status } = useRiotAuthQuery();
 
-  const valid = !!data?.authToken && !!data?.entitlement;
+  const valid = !!data?.user?.riotAuth && !!data?.user?.riotEntitlement;
 
   if (status === "pending") {
     return <CenteredSpinner />;

@@ -1,23 +1,19 @@
-import { SJ } from "@instalock/sj";
-import { ApiDefault, ShallowMatch } from "@instalock/types";
+import { RiotQueryRouteObject } from "@instalock/api";
+import { fetcher } from "@instalock/fetcher";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetShallowMatchesQuery = () =>
-  useQuery({
+export const useGetShallowMatchesQuery = () => {
+  const queryFn = fetcher().api.riot.query.getMyMatchesShallow.fetcher(
+    RiotQueryRouteObject.getMyMatchesShallow,
+  );
+
+  return useQuery({
     queryKey: ["riot", "match", "all"],
-    queryFn: getAllShallowMatches,
+    queryFn: async () =>
+      await queryFn({
+        queryParams: undefined,
+        requestBody: undefined,
+        pathParams: undefined,
+      }),
   });
-
-const getAllShallowMatches = async () => {
-  const res = await fetch("/api/riot/v1/matches/shallow");
-
-  const json = SJ.parse(await res.text()) as ApiDefault<{
-    matches: (ShallowMatch & { characterId?: string })[];
-  }>;
-
-  if (!json.success) {
-    return { matches: [] };
-  }
-
-  return { matches: json.payload.matches };
 };

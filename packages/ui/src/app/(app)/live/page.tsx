@@ -12,7 +12,12 @@ export default function LiveMatchPage() {
     return <CenteredSpinner />;
   }
 
-  if (status === "error" || !data.authToken || !data.entitlement) {
+  if (
+    status === "error" ||
+    !data.user ||
+    !data.user.riotAuth ||
+    !data.user.riotEntitlement
+  ) {
     return <></>;
   }
 

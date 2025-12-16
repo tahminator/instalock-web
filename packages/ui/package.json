@@ -5,13 +5,15 @@
   "description": "Shared UI for Instalock.",
   "main": "index.ts",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@instalock/riot": "workspace:^",
     "@instalock/sj": "workspace:^",
     "@instalock/fetcher": "workspace:^",
+    "@instalock/api": "workspace:^",
     "@mantine/core": "^7.15.1",
     "@mantine/hooks": "^7.15.1",
     "@mantine/notifications": "^7.15.1",
@@ -26,7 +28,7 @@
     "react-icons": "^5.4.0",
     "react-router": "6",
     "react-router-dom": "6",
-    "zod": "^3.24.1",
+    "zod": "^4.2.1",
     "zustand": "^5.0.2"
   },
   "peerDependencies": {

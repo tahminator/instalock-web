@@ -7,13 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
     "@instalock/fetcher": "workspace:^",
     "@instalock/ui": "workspace:^",
+    "@instalock/sj": "workspace:^",
     "react": "18",
-    "react-dom": "18"
+    "react-dom": "18",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

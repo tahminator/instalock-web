@@ -6,7 +6,7 @@ import { ErrorMiddleware } from "@/middleware/static/error";
 import { AuthMiddleware } from "@/middleware/auth";
 import { RateLimiterMiddleware } from "@/middleware/limit";
 import { SpaMiddleware } from "@/middleware/spa";
-import { UnauthenticatedRiotController } from "@/controller/riot/unauthenticated/controller";
+import { RiotUnauthenticatedController } from "@/controller/riot/unauthenticated/controller";
 import { RiotQueryController } from "@/controller/riot/query/controller";
 import { CorsMiddleware } from "@/middleware/cors";
 import { CookieParserMiddleware } from "@/middleware/cookie";
@@ -19,8 +19,8 @@ export const app = express();
 
 app.set("trust proxy", 1 /* number of proxies between user and server */);
 
-// Sapling.setSerializeFn(SJ.stringify);
-// Sapling.setDeserializeFn(SJ.parse);
+Sapling.setSerializeFn(SJ.stringify);
+Sapling.setDeserializeFn(SJ.parse);
 Sapling.registerApp(app);
 
 const middlewares: Class<any>[] = [
@@ -35,7 +35,7 @@ middlewares.map(Sapling.resolve).forEach((r) => app.use(r));
 
 const controllers: Class<any>[] = [
   RiotAuthController,
-  UnauthenticatedRiotController,
+  RiotUnauthenticatedController,
   RiotQueryController,
 ];
 controllers.map(Sapling.resolve).forEach((r) => app.use(r));

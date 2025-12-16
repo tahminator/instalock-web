@@ -1,28 +1,19 @@
-import { SJ } from "@instalock/sj";
-import { ApiDefault } from "@instalock/types";
+import { RiotQueryRouteObject } from "@instalock/api";
+import { fetcher } from "@instalock/fetcher";
 import { useQuery } from "@tanstack/react-query";
 
-export const useFindNameQuery = ({ puuid }: { puuid: string }) =>
-  useQuery({
-    queryKey: ["riot", "live", "player", "name", puuid],
-    queryFn: () => findName({ puuid }),
+export const useFindNameQuery = ({ puuid }: { puuid: string }) => {
+  const queryFn = fetcher().api.riot.query.getPlayerData.fetcher(
+    RiotQueryRouteObject.getPlayerData,
+  );
+
+  return useQuery({
+    queryKey: ["riot", "live", "player", "data", puuid],
+    queryFn: async () =>
+      queryFn({
+        pathParams: puuid,
+        queryParams: undefined,
+        requestBody: undefined,
+      }),
   });
-
-const findName = async ({ puuid }: { puuid: string }) => {
-  const res = await fetch(`/api/riot/v1/player/${puuid}/name`);
-
-  if (!res.ok) {
-    return { name: null };
-  }
-
-  const json = SJ.parse(await res.text()) as ApiDefault<{
-    riotTag: string;
-    puuid: string;
-  }>;
-
-  if (!json.success) {
-    return { name: null };
-  }
-
-  return { name: json.payload.riotTag };
 };

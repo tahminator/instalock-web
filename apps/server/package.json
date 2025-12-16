@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "tsx --watch src/index.ts",
+    "typecheck": "tsc -b --noEmit",
     "prestart": "prisma migrate deploy",
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=src/index.js",
     "start": "node src/index.js",
