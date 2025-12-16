@@ -6,12 +6,8 @@
   "scripts": {
     "dev": "tsx --watch src/index.ts",
     "typecheck": "tsc -b --noEmit",
-    "prestart": "prisma migrate deploy",
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=src/index.js",
     "start": "node src/index.js",
-    "db:pull": "prisma db pull",
-    "db:migrate": "prisma migrate dev",
-    "db:generate": "prisma generate",
     "env:pull": "pnpx dotenv-vault@latest pull",
     "env:push": "pnpx dotenv-vault@latest push",
     "env:open": "pnpx dotenv-vault@latest open",
