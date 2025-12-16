@@ -1,11 +1,7 @@
 import { Buffer } from "buffer";
-import { writeFile, mkdir } from "fs/promises";
+import { writeFile } from "fs/promises";
 import path from "path";
-import { fileURLToPath } from "url";
 import sharp from "sharp";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 async function generateMapImages() {
   const res = await fetch("https://valorant-api.com/v1/maps");
@@ -29,7 +25,7 @@ async function generateMapImages() {
       "frontend",
       "public",
       "maps",
-      fileName
+      fileName,
     );
     const iconRes = await fetch(url);
 

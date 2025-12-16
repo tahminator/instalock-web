@@ -1,13 +1,19 @@
 import { MapUrl, mapUrlToUuidObject, RiotClient } from "@instalock/riot";
-import { db } from "../db/index.js";
 import { randomUUID } from "crypto";
+import {
+  playerMatchRepository,
+  riotMatchRepository,
+  userRepository,
+} from "repository/user";
 
 export const loadMatchesForEachUser = async () => {
-  const users = await db.user.findMany();
+  const users = await userRepository.getUsers();
 
   for (let i = 0; i < users.length; i++) {
     const user = users[i];
     const matchIds: string[] = [];
+
+    console.log(`Now running for user #${i + 1}: ${user.riotTag}`);
 
     const { riotAuth, riotEntitlement, puuid: riotPuuid, riotTag } = user;
 
@@ -65,158 +71,95 @@ export const loadMatchesForEachUser = async () => {
       const teamRed =
         teams && teams[0].teamId === "Red" ? teams[0] : teams && teams[1];
 
-      await db.riotMatch.upsert({
-        where: {
-          id: matchInfo?.matchId ?? randomUUID(),
-        },
-        create: {
-          id: matchInfo?.matchId ?? randomUUID(),
-          raw: json,
-          mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
-          gameVersion: matchInfo?.gameVersion,
-          gameStart: new Date(matchInfo?.gameStartMillis ?? 0),
-          gameEnd: new Date(
-            (Number(matchInfo?.gameStartMillis) || 0) +
-              (Number(matchInfo?.gameLengthMillis) || 0),
-          ),
-          isCompleted: matchInfo?.isCompleted,
-          queueId: matchInfo?.queueID,
-          isRanked: matchInfo?.isRanked,
-          seasonId: matchInfo?.seasonId,
-          roundsPlayed: teams && teams[0].roundsPlayed,
-          teamWon:
-            teams &&
+      const matchId = matchInfo?.matchId ?? randomUUID();
+
+      const existingMatch = await riotMatchRepository.getMatchById(matchId);
+
+      const matchData = {
+        id: matchId,
+        raw: JSON.stringify(json),
+        mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl] ?? null,
+        gameVersion: matchInfo?.gameVersion ?? null,
+        gameStart: matchInfo?.gameStartMillis
+          ? new Date(matchInfo.gameStartMillis)
+          : null,
+        gameEnd:
+          matchInfo?.gameStartMillis && matchInfo?.gameLengthMillis
+            ? new Date(
+                Number(matchInfo.gameStartMillis) +
+                  Number(matchInfo.gameLengthMillis),
+              )
+            : null,
+        isCompleted: matchInfo?.isCompleted ?? false,
+        queueId: matchInfo?.queueID ?? null,
+        isRanked: matchInfo?.isRanked ?? null,
+        seasonId: matchInfo?.seasonId ?? null,
+        roundsPlayed: teams?.[0]?.roundsPlayed ?? null,
+        teamWon:
+          (teams &&
             (teams[0].teamId === "Red" && teams[0].won === true
-              ? "Red"
-              : "Blue"),
-          teamBlueRoundsWon: teamBlue?.roundsWon,
-          teamRedRoundsWon: teamRed?.roundsWon,
-          players: {
-            create: players?.map((player) => ({
+              ? ("Red" as const)
+              : ("Blue" as const))) ??
+          null,
+        teamBlueRoundsWon: teamBlue?.roundsWon ?? null,
+        teamRedRoundsWon: teamRed?.roundsWon ?? null,
+      };
+
+      if (existingMatch) {
+        await riotMatchRepository.updateMatch(matchData);
+      } else {
+        await riotMatchRepository.createMatch(matchData);
+      }
+
+      if (players && players.length > 0) {
+        for (const player of players) {
+          const playerPuuid = player.subject ?? randomUUID();
+
+          const existingUser = await userRepository.getUserByPuuid(playerPuuid);
+          if (!existingUser) {
+            await userRepository.createUser({
+              puuid: playerPuuid,
+              riotAuth: null,
+              riotEntitlement: null,
               riotTag: `${player.gameName}#${player.tagLine}`,
-              teamId: player.teamId,
-              characterId: player.characterId,
-              kills: player.stats?.kills ?? 0,
-              deaths: player.stats?.deaths ?? 0,
-              assists: player.stats?.assists ?? 0,
-              tier: player.competitiveTier,
-              playerCard: player.playerCard,
-              playerTitle: player.playerTitle,
-              teamColor: player.teamId === "Blue" ? "Blue" : "Red",
-              teamWon:
-                teams &&
-                teams.find((team) => team.teamId === player.teamId)?.won,
-              teamRoundsWon:
-                teams &&
-                teams.find((team) => team.teamId === player.teamId)
-                  ?.roundsPlayed,
-              player: {
-                connectOrCreate: {
-                  where: { puuid: player.subject ?? randomUUID() },
-                  create: {
-                    puuid: player.subject ?? randomUUID(),
-                    riotAuth: null,
-                    riotEntitlement: null,
-                    riotTag: `${player.gameName}#${player.tagLine}`,
-                  },
-                },
-              },
-            })),
-          },
-        },
-        update: {
-          raw: json,
-          mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl],
-          gameVersion: matchInfo?.gameVersion,
-          gameStart: new Date(matchInfo?.gameStartMillis ?? ""),
-          gameEnd: new Date(
-            (Number(matchInfo?.gameStartMillis) || 0) +
-              (Number(matchInfo?.gameLengthMillis) || 0),
-          ),
-          isCompleted: matchInfo?.isCompleted,
-          queueId: matchInfo?.queueID,
-          isRanked: matchInfo?.isRanked,
-          seasonId: matchInfo?.seasonId,
-          roundsPlayed: teams && teams[0].roundsPlayed,
-          teamWon:
-            teams &&
-            (teams[0].teamId === "Red" && teams[0].won === true
-              ? "Red"
-              : "Blue"),
-          teamBlueRoundsWon: teamBlue?.roundsWon,
-          teamRedRoundsWon: teamRed?.roundsWon,
-          players: {
-            upsert: players?.map((player) => ({
-              where: {
-                playerId_matchId: {
-                  playerId: player.subject ?? randomUUID(),
-                  matchId: matchInfo?.matchId ?? randomUUID(),
-                },
-              },
-              create: {
-                riotTag: `${player.gameName}#${player.tagLine}`,
-                teamId: player.teamId,
-                characterId: player.characterId,
-                kills: player.stats?.kills ?? 0,
-                deaths: player.stats?.deaths ?? 0,
-                assists: player.stats?.assists ?? 0,
-                tier: player.competitiveTier,
-                playerCard: player.playerCard,
-                playerTitle: player.playerTitle,
-                teamColor: player.teamId === "Blue" ? "Blue" : "Red",
-                teamWon:
-                  teams &&
-                  teams.find((team) => team.teamId === player.teamId)?.won,
-                teamRoundsWon:
-                  teams &&
-                  teams.find((team) => team.teamId === player.teamId)
-                    ?.roundsPlayed,
-                player: {
-                  connectOrCreate: {
-                    where: { puuid: player.subject ?? randomUUID() },
-                    create: {
-                      puuid: player.subject ?? randomUUID(),
-                      riotAuth: null,
-                      riotEntitlement: null,
-                      riotTag: `${player.gameName}#${player.tagLine}`,
-                    },
-                  },
-                },
-              },
-              update: {
-                riotTag: `${player.gameName}#${player.tagLine}`,
-                teamId: player.teamId,
-                characterId: player.characterId,
-                kills: player.stats?.kills ?? 0,
-                deaths: player.stats?.deaths ?? 0,
-                assists: player.stats?.assists ?? 0,
-                tier: player.competitiveTier,
-                playerCard: player.playerCard,
-                playerTitle: player.playerTitle,
-                teamColor: player.teamId === "Blue" ? "Blue" : "Red",
-                teamWon:
-                  teams &&
-                  teams.find((team) => team.teamId === player.teamId)?.won,
-                teamRoundsWon:
-                  teams &&
-                  teams.find((team) => team.teamId === player.teamId)
-                    ?.roundsPlayed,
-                player: {
-                  connectOrCreate: {
-                    where: { puuid: player.subject ?? randomUUID() },
-                    create: {
-                      puuid: player.subject ?? randomUUID(),
-                      riotAuth: null,
-                      riotEntitlement: null,
-                      riotTag: `${player.gameName}#${player.tagLine}`,
-                    },
-                  },
-                },
-              },
-            })),
-          },
-        },
-      });
+            });
+          }
+
+          const existingPlayerMatch =
+            await playerMatchRepository.getPlayerMatchByPlayerAndMatch(
+              playerPuuid,
+              matchId,
+            );
+
+          const playerMatchData = {
+            id: existingPlayerMatch?.id ?? randomUUID(),
+            playerId: playerPuuid,
+            matchId: matchId,
+            riotTag: `${player.gameName}#${player.tagLine}`,
+            teamId: player.teamId ?? null,
+            characterId: player.characterId ?? null,
+            kills: player.stats?.kills ?? 0,
+            deaths: player.stats?.deaths ?? 0,
+            assists: player.stats?.assists ?? 0,
+            tier: player.competitiveTier ?? null,
+            playerCard: player.playerCard ?? null,
+            playerTitle: player.playerTitle ?? null,
+            teamColor:
+              player.teamId === "Blue" ? ("Blue" as const) : ("Red" as const),
+            teamWon:
+              teams?.find((team) => team.teamId === player.teamId)?.won ?? null,
+            teamRoundsWon:
+              teams?.find((team) => team.teamId === player.teamId)
+                ?.roundsPlayed ?? null,
+          };
+
+          if (existingPlayerMatch) {
+            await playerMatchRepository.updatePlayerMatch(playerMatchData);
+          } else {
+            await playerMatchRepository.createPlayerMatch(playerMatchData);
+          }
+        }
+      }
     }
   }
 };

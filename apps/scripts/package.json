@@ -2,25 +2,25 @@
   "name": "@instalock/scripts",
   "version": "1.0.0",
   "description": "Do not install these into the other packages - Scripts to pull certain data about Valorant required for core functionality of Instalock.",
-  "main": "index.js",
-  "type": "module",
+  "main": "index.ts",
   "module": "nodenext",
   "scripts": {
     "build": "esbuild cron/index.ts --bundle --platform=node --outfile=cron/index.cjs",
     "start": "node cron/index.cjs",
-    "dev": "pnpx tsx cron/index.ts --watch",
+    "dev": "dotenvx run -- pnpx tsx cron/index.ts --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.10.2"
+    "@types/node": "^22.13.9"
   },
   "dependencies": {
-    "@instalock/types": "workspace:^",
+    "@instalock/db": "workspace:^",
     "@instalock/riot": "workspace:^",
     "esbuild": "^0.25.0",
+    "postgres": "^3.4.7",
     "sharp": "^0.33.5"
   }
 }

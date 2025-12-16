@@ -1,9 +1,3 @@
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 function toTitleCase(input: string): string {
   return input
     .split(" ") // Split the string into words

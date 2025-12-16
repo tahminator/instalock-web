@@ -1,0 +1,21 @@
+{
+  "name": "@instalock/api",
+  "version": "1.0.0",
+  "description": "Full API contract/interface of the Instalock server.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@instalock/riot": "workspace:^",
+    "@instalock/db": "workspace:^",
+    "@tahminator/sapling": "^1.3.3",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}

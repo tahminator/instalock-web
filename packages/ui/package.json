@@ -12,7 +12,6 @@
     "@instalock/riot": "workspace:^",
     "@instalock/sj": "workspace:^",
     "@instalock/fetcher": "workspace:^",
-    "@instalock/types": "workspace:^",
     "@mantine/core": "^7.15.1",
     "@mantine/hooks": "^7.15.1",
     "@mantine/notifications": "^7.15.1",

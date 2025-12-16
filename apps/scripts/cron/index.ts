@@ -1,4 +1,4 @@
-import { loadMatchesForEachUser } from "./helpers/loadMatches.js";
+import { loadMatchesForEachUser } from "./helpers/loadMatches";
 
 const tasks = async () => {
   console.time("tasks");

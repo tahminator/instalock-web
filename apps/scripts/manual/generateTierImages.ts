@@ -1,11 +1,7 @@
 import { Buffer } from "buffer";
 import { writeFile } from "fs/promises";
 import path from "path";
-import { fileURLToPath } from "url";
 import sharp from "sharp";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 async function generateTierImages() {
   const res = await fetch("https://valorant-api.com/v1/competitivetiers");
@@ -39,7 +35,7 @@ async function generateTierImages() {
         "frontend",
         "public",
         "tiers",
-        fileName
+        fileName,
       );
       const iconRes = await fetch(url);
 

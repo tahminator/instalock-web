@@ -2,7 +2,7 @@
  * Try-catch with an outputted error value, similar to Go.
  * @example
  * ```ts
- * const [error, user] = await attempt(getUserWithEmail(email));
+ * const [user, error] = await attempt(getUserWithEmail(email));
  *
  * if (error) {
  *   return;
@@ -12,13 +12,13 @@
  * ```
  */
 export async function attempt<T>(
-  promise: Promise<T>
-): Promise<[undefined, T] | [Error]> {
+  promise: Promise<T>,
+): Promise<[T, undefined] | [undefined, Error]> {
   return promise
     .then((data) => {
-      return [undefined, data] as [undefined, T];
+      return [data, undefined] as [T, undefined];
     })
     .catch((error) => {
-      return [error as Error];
+      return [undefined, error as Error];
     });
 }

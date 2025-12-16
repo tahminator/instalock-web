@@ -1,0 +1,18 @@
+{
+  "name": "@instalock/db",
+  "version": "1.0.0",
+  "description": "Empty database shell & repository to interface with Instalock database.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate:dev": "dotenvx run -- pnpm run migrate",
+    "migrate": "migrate -source file://migrations -database \"pgx5://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" -verbose"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@instalock/api": "workspace:^",
+    "postgres": "^3.4.7"
+  }
+}
