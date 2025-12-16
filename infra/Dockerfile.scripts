@@ -7,9 +7,19 @@ WORKDIR /app
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
 COPY pnpm-workspace.yaml ./
 
-COPY scripts/package.json scripts/yarn.lock* scripts/package-lock.json* scripts/pnpm-lock.yaml* scripts/.npmrc* ./scripts/
+# Copy all package.json files for workspace packages
+COPY apps/scripts/package.json apps/scripts/yarn.lock* apps/scripts/package-lock.json* apps/scripts/pnpm-lock.yaml* apps/scripts/.npmrc* ./apps/scripts/
 
-COPY shared/ ./shared/
+COPY packages/api/package.json ./packages/api/
+COPY packages/attempt/package.json ./packages/attempt/
+COPY packages/db/package.json ./packages/db/
+COPY packages/fetcher/package.json ./packages/fetcher/
+COPY packages/riot/package.json ./packages/riot/
+COPY packages/sj/package.json ./packages/sj/
+COPY packages/ui/package.json ./packages/ui/
+
+# Copy necessary package files for dependencies
+COPY packages/db/migrations ./packages/db/migrations
 
 WORKDIR /app
 
@@ -29,13 +39,13 @@ FROM base AS runner
 WORKDIR /app
 
 COPY --from=deps ./app ./
-COPY scripts ./scripts
+COPY apps/scripts ./apps/scripts
+COPY packages ./packages
 
-WORKDIR /app/scripts
+WORKDIR /app/apps/scripts
 RUN corepack enable pnpm
 RUN npm install -g typescript
 RUN pnpm install
-# RUN npm run generate
 RUN pnpm run build
 
 CMD ["pnpm", "run", "start"]
