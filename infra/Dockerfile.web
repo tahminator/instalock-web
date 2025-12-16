@@ -65,7 +65,7 @@ COPY apps/server ./apps/server
 COPY packages ./packages
 
 WORKDIR /app/apps/server
-COPY --from=builder ./app/apps/frontend/dist ./src/dist
+COPY --from=builder ./app/apps/frontend/dist ./dist
 
 RUN corepack enable pnpm
 RUN pnpm install
