@@ -1,7 +1,8 @@
 import { passthrough } from "@/lib/express";
-import { Controller, GET, Middleware } from "@tahminator/sapling";
+import { Controller, GET, HttpStatus, Middleware } from "@tahminator/sapling";
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
+import fs from "fs/promises";
 
 @Controller()
 export class SpaMiddleware {
@@ -9,7 +10,7 @@ export class SpaMiddleware {
 
   constructor() {
     this.plugin =
-      process.env.NODE_ENV === "production"
+      process.env.NODE_ENV !== "production"
         ? express.static(path.join(process.cwd(), "dist"))
         : passthrough();
   }
@@ -19,8 +20,12 @@ export class SpaMiddleware {
     return this.plugin(request, response, next);
   }
 
-  @GET("'/{*any}'")
-  loadSpa(_req: Request, res: Response) {
-    res.sendFile(path.join(process.cwd(), "dist", "index.html"));
+  @GET(/^(?!.*\.[a-zA-Z0-9]+$).*$/)
+  async loadSpa(_req: Request, res: Response) {
+    const html = await fs.readFile(
+      path.join(process.cwd(), "dist", "index.html"),
+      "utf8",
+    );
+    res.status(HttpStatus.OK).send(html);
   }
 }
