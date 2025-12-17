@@ -15,7 +15,6 @@ COPY packages/attempt/package.json ./packages/attempt/
 COPY packages/db/package.json ./packages/db/
 COPY packages/fetcher/package.json ./packages/fetcher/
 COPY packages/riot/package.json ./packages/riot/
-COPY packages/sj/package.json ./packages/sj/
 COPY packages/ui/package.json ./packages/ui/
 
 # Copy necessary package files for dependencies
