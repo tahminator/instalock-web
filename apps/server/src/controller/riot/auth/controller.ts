@@ -78,7 +78,7 @@ export class RiotAuthController implements IRiotAuthController {
         user,
         session,
       },
-    });
+    }) satisfies Awaited<ReturnType<IRiotAuthController["getMe"]>>;
   }
 
   @_Route({
@@ -185,7 +185,7 @@ export class RiotAuthController implements IRiotAuthController {
       success: true,
       message: "Riot authentication succeeded!",
       payload: {},
-    });
+    }) satisfies Awaited<ReturnType<IRiotAuthController["authenticate"]>>;
   }
 
   @_Route({
@@ -231,6 +231,6 @@ export class RiotAuthController implements IRiotAuthController {
       success: true,
       message: "Your credentials have been successfully removed!",
       payload: {},
-    });
+    }) satisfies Awaited<ReturnType<IRiotAuthController["logout"]>>;
   }
 }

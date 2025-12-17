@@ -1,7 +1,7 @@
 import { init } from "@instalock/fetcher";
 import { Fetcher } from "@instalock/fetcher/types";
 import { App } from "@instalock/ui";
-import { SJ } from "@instalock/sj";
+import SJ from "superjson";
 
 const fetcher: Fetcher = {
   api: {

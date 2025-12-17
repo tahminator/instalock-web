@@ -56,7 +56,9 @@ export class RiotUnauthenticatedController
         totalMatches,
         totalUsers,
       },
-    });
+    }) satisfies Awaited<
+      ReturnType<IRiotUnauthenticatedController["getMetrics"]>
+    >;
   }
 
   @_Route({
@@ -93,7 +95,9 @@ export class RiotUnauthenticatedController
       success: true,
       message: "List of users retrieved!",
       payload: playerData,
-    });
+    }) satisfies Awaited<
+      ReturnType<IRiotUnauthenticatedController["getUsersListsSearchable"]>
+    >;
   }
 
   @_Route({
@@ -181,6 +185,8 @@ export class RiotUnauthenticatedController
       success: true,
       message: "User matches received!",
       payload,
-    });
+    }) satisfies Awaited<
+      ReturnType<IRiotUnauthenticatedController["getUserMatchesByPuuid"]>
+    >;
   }
 }

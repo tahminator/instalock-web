@@ -13,9 +13,9 @@
   "dependencies": {
     "@instalock/fetcher": "workspace:^",
     "@instalock/ui": "workspace:^",
-    "@instalock/sj": "workspace:^",
-    "react": "18",
-    "react-dom": "18",
+    "superjson": "catalog:superjson",
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18",
     "zod": "^4.2.1"
   },
   "devDependencies": {

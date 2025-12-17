@@ -11,7 +11,7 @@ import { RiotQueryController } from "@/controller/riot/query/controller";
 import { CorsMiddleware } from "@/middleware/cors";
 import { CookieParserMiddleware } from "@/middleware/cookie";
 import { CsrfMiddleware } from "@/middleware/csrf";
-import { SJ } from "@instalock/sj";
+import SJ from "superjson";
 
 const port = 3050;
 

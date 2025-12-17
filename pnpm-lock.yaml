@@ -4,6 +4,27 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  express5:
+    express:
+      specifier: ^5.2.1
+      version: 5.2.1
+  react18:
+    react:
+      specifier: ^18.3.1
+      version: 18.3.1
+    react-dom:
+      specifier: ^18.3.1
+      version: 18.3.1
+  sapling:
+    '@tahminator/sapling':
+      specifier: ^1.5.0
+      version: 1.5.0
+  superjson:
+    superjson:
+      specifier: 2.2.6
+      version: 2.2.6
+
 importers:
 
   .: {}
@@ -13,18 +34,18 @@ importers:
       '@instalock/fetcher':
         specifier: workspace:^
         version: link:../../packages/fetcher
-      '@instalock/sj':
-        specifier: workspace:^
-        version: link:../../packages/sj
       '@instalock/ui':
         specifier: workspace:^
         version: link:../../packages/ui
       react:
-        specifier: '18'
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: '18'
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
+      superjson:
+        specifier: catalog:superjson
+        version: 2.2.6
       zod:
         specifier: ^4.2.1
         version: 4.2.1
@@ -117,11 +138,8 @@ importers:
       '@instalock/riot':
         specifier: workspace:^
         version: link:../../packages/riot
-      '@instalock/sj':
-        specifier: workspace:^
-        version: link:../../packages/sj
       '@tahminator/sapling':
-        specifier: ^1.5.0
+        specifier: catalog:sapling
         version: 1.5.0
       arctic:
         specifier: ^2.3.1
@@ -139,7 +157,7 @@ importers:
         specifier: ^0.25.0
         version: 0.25.0
       express:
-        specifier: ^5.2.1
+        specifier: catalog:express5
         version: 5.2.1
       express-rate-limit:
         specifier: ^7.5.0
@@ -162,6 +180,9 @@ importers:
       rate-limit-redis:
         specifier: ^4.2.0
         version: 4.2.3(express-rate-limit@7.5.1(express@5.2.1))
+      superjson:
+        specifier: catalog:superjson
+        version: 2.2.6
       tsx:
         specifier: ^4.19.2
         version: 4.19.3
@@ -191,8 +212,8 @@ importers:
         specifier: workspace:^
         version: link:../riot
       '@tahminator/sapling':
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: catalog:sapling
+        version: 1.5.0
       zod:
         specifier: ^4.2.1
         version: 4.2.1
@@ -218,19 +239,13 @@ importers:
         specifier: workspace:^
         version: link:../api
       '@tahminator/sapling':
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: catalog:sapling
+        version: 1.5.0
       zod:
         specifier: ^4.2.1
         version: 4.2.1
 
   packages/riot: {}
-
-  packages/sj:
-    dependencies:
-      superjson:
-        specifier: ^2.2.2
-        version: 2.2.2
 
   packages/ui:
     dependencies:
@@ -246,9 +261,6 @@ importers:
       '@instalock/riot':
         specifier: workspace:^
         version: link:../riot
-      '@instalock/sj':
-        specifier: workspace:^
-        version: link:../sj
       '@mantine/core':
         specifier: ^7.15.1
         version: 7.17.1(@mantine/hooks@7.17.1(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -274,10 +286,10 @@ importers:
         specifier: ^11.14.4
         version: 11.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       react-hook-form:
         specifier: ^7.54.1
@@ -1143,9 +1155,6 @@ packages:
   '@tabler/icons@3.31.0':
     resolution: {integrity: sha512-dblAdeKY3+GA1U+Q9eziZ0ooVlZMHsE8dqP0RkwvRtEsAULoKOYaCUOcJ4oW1DjWegdxk++UAt2SlQVnmeHv+g==}
 
-  '@tahminator/sapling@1.4.0':
-    resolution: {integrity: sha512-lJvaxXT8bsuyV2zcc9UTg2ETfqOidN9OyLIBwxe626eBp2Hblb8JsHjiXIaVJfsY9iTpZuDL6fCL1OX4YEAcHA==}
-
   '@tahminator/sapling@1.5.0':
     resolution: {integrity: sha512-deqB04d4Svso//GzfDxHz4t3JuTwwmpRjHsyJMbiI/hS+Df/MXZCH7CIY26mGZv58GpKXAJJISUxqt3kHXuQEA==}
 
@@ -1464,9 +1473,9 @@ packages:
     resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
     engines: {node: '>= 0.6'}
 
-  copy-anything@3.0.5:
-    resolution: {integrity: sha512-yCEafptTtb4bk7GLEQoM8KVJpxAfdBJYaXyzQEgQQQgYrZiDp8SJmGKlYza6CYjEDNstAdNdKA3UuoULlEbS6w==}
-    engines: {node: '>=12.13'}
+  copy-anything@4.0.5:
+    resolution: {integrity: sha512-7Vv6asjS4gMOuILabD3l739tsaxFQmC+a7pLZm02zyvs8p977bL3zEgq3yDk5rn9B0PbYgIv++jmHcuUab4RhA==}
+    engines: {node: '>=18'}
 
   cors@2.8.5:
     resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
@@ -1864,9 +1873,9 @@ packages:
   is-promise@4.0.0:
     resolution: {integrity: sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==}
 
-  is-what@4.1.16:
-    resolution: {integrity: sha512-ZhMwEosbFJkA0YhFnNDgTM4ZxDRsS6HqTo7qsZM08fehyRYIYa0yHu5R6mgo1n/8MgaPBXiPimPD77baVFYg+A==}
-    engines: {node: '>=12.13'}
+  is-what@5.5.0:
+    resolution: {integrity: sha512-oG7cgbmg5kLYae2N5IVd3jm2s+vldjxJzK1pcu9LfpGuQ93MQSzo0okvRna+7y5ifrD+20FE8FvjusyGaz14fw==}
+    engines: {node: '>=18'}
 
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
@@ -2458,8 +2467,8 @@ packages:
     peerDependencies:
       postcss: ^8.3.3
 
-  superjson@2.2.2:
-    resolution: {integrity: sha512-5JRxVqC8I8NuOUjzBbvVJAKNM8qoVuH0O77h4WInc/qC2q5IreqKxYwgkga3PfA22OayK2ikceb/B26dztPl+Q==}
+  superjson@2.2.6:
+    resolution: {integrity: sha512-H+ue8Zo4vJmV2nRjpx86P35lzwDT3nItnIsocgumgr0hHMQ+ZGq5vrERg9kJBo5AWGmxZDhzDo+WVIJqkB0cGA==}
     engines: {node: '>=16'}
 
   supports-color@7.2.0:
@@ -3377,13 +3386,6 @@ snapshots:
 
   '@tabler/icons@3.31.0': {}
 
-  '@tahminator/sapling@1.4.0':
-    dependencies:
-      '@types/express': 5.0.6
-      express: 5.2.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@tahminator/sapling@1.5.0':
     dependencies:
       '@types/express': 5.0.6
@@ -3761,9 +3763,9 @@ snapshots:
 
   cookie@0.7.2: {}
 
-  copy-anything@3.0.5:
+  copy-anything@4.0.5:
     dependencies:
-      is-what: 4.1.16
+      is-what: 5.5.0
 
   cors@2.8.5:
     dependencies:
@@ -4189,7 +4191,7 @@ snapshots:
 
   is-promise@4.0.0: {}
 
-  is-what@4.1.16: {}
+  is-what@5.5.0: {}
 
   isexe@2.0.0: {}
 
@@ -4792,9 +4794,9 @@ snapshots:
     dependencies:
       postcss: 8.5.3
 
-  superjson@2.2.2:
+  superjson@2.2.6:
     dependencies:
-      copy-anything: 3.0.5
+      copy-anything: 4.0.5
 
   supports-color@7.2.0:
     dependencies:

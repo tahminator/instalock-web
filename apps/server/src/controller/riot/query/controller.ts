@@ -124,7 +124,9 @@ export class RiotQueryController implements IRiotQueryController {
         rr: latestMatch.RankedRatingAfterUpdate,
         rankName: tierName,
       },
-    });
+    }) satisfies Awaited<
+      ReturnType<IRiotQueryController["getMyRiotDataShallow"]>
+    >;
   }
 
   @_Route({
@@ -200,7 +202,9 @@ export class RiotQueryController implements IRiotQueryController {
       success: true,
       message: "User matches received!",
       payload: finalMatches,
-    });
+    }) satisfies Awaited<
+      ReturnType<IRiotQueryController["getMyMatchesShallow"]>
+    >;
   }
 
   @_Route({
@@ -280,7 +284,7 @@ export class RiotQueryController implements IRiotQueryController {
         gameModeName: getGameModeName(riotMatchWithoutRaw.queueId ?? "Unknown"),
         players: allPlayers,
       },
-    });
+    }) satisfies Awaited<ReturnType<IRiotQueryController["getMatch"]>>;
   }
 
   @_Route({
@@ -382,7 +386,7 @@ export class RiotQueryController implements IRiotQueryController {
         rr: latestMatch.RankedRatingAfterUpdate,
         rankName: tierName,
       },
-    });
+    }) satisfies Awaited<ReturnType<IRiotQueryController["getPlayerData"]>>;
   }
 
   private async loadMatchesForNewUser(userId: string) {
