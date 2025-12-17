@@ -313,26 +313,50 @@ export class RiotQueryController implements IRiotQueryController {
 
     const puuid = parser.data;
 
-    const user = await this.userRepository.getUserByPuuid(
+    const authenticatedUser = await this.userRepository.getUserByPuuid(
       response.locals.user.id,
     );
 
-    if (!user) {
+    if (!authenticatedUser) {
       throw new Error("Expected user to exist but did not.");
     }
 
-    const { riotAuth, riotEntitlement, riotTag } = user;
+    const { riotAuth, riotEntitlement } = authenticatedUser;
 
-    if (!riotAuth || !riotEntitlement || !puuid || !riotTag) {
+    if (!riotAuth || !riotEntitlement || !puuid) {
       throw new ResponseStatusError(
         HttpStatus.BAD_REQUEST,
         "Some data is missing. Please logout & re-authenticate.",
       );
     }
 
+    let riotTag: string | null;
+    const user = await this.userRepository.getUserByPuuid(puuid);
+
+    if (user) {
+      riotTag = user.riotTag;
+    } else {
+      const riotUserInfoRes = await RiotClient.getPlayerByPuuid({
+        authToken: riotAuth,
+        entitlementToken: riotEntitlement,
+        playerPuuids: [puuid],
+      });
+
+      if (!riotUserInfoRes.ok) {
+        console.error(
+          "Something went wrong when trying to fetch user info from Riot Games",
+        );
+        riotTag = null;
+      }
+
+      const riotUserInfoJson = await riotUserInfoRes.json();
+
+      riotTag = `${riotUserInfoJson[0].GameName}#${riotUserInfoJson[0].TagLine}`;
+    }
+
     const myRank = await (async () => {
       const mostRecentMatch = (
-        await this.riotMatchRepository.getMatchesByPlayerPuuid(user.puuid, 1)
+        await this.riotMatchRepository.getMatchesByPlayerPuuid(puuid, 1)
       )[0];
 
       if (!mostRecentMatch) {
@@ -341,7 +365,7 @@ export class RiotQueryController implements IRiotQueryController {
 
       const pm =
         await this.playerMatchRepository.getPlayerMatchByPlayerAndMatch(
-          user.puuid,
+          puuid,
           mostRecentMatch.id,
         );
 

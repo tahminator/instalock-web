@@ -1,4 +1,4 @@
-import { SJ } from "@instalock/sj";
+import SJ from "superjson";
 import { ResponseStatusError } from "@tahminator/sapling";
 import { Request, Response, NextFunction } from "express";
 

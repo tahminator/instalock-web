@@ -5,12 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 
-const queryFn = fetcher().api.riot.auth.getMe.fetcher(
-  RiotAuthRouteObject.getMe,
-);
-
 const useRiotAuthQuery = (autoNavigate = false) => {
   const navigate = useNavigate();
+
+  const queryFn = fetcher().api.riot.auth.getMe.fetcher(
+    RiotAuthRouteObject.getMe,
+  );
 
   const query = useQuery({
     queryKey: ["riot", "auth"],
