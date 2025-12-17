@@ -1,17 +1,17 @@
-import { Redis, RedisClient } from "@/lib/redis";
+import { Redis, RateLimitRedisClient } from "@/lib/redis/rateLimiter";
 import { Controller, HttpStatus, Middleware } from "@tahminator/sapling";
 import { NextFunction, Request, Response } from "express";
 import rateLimit, { RateLimitRequestHandler } from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
 
 @Controller({
-  deps: [RedisClient],
+  deps: [RateLimitRedisClient],
 })
 export class RateLimiterMiddleware {
   private readonly redis: Redis;
   private readonly plugin: RateLimitRequestHandler;
 
-  constructor(readonly redisClient: RedisClient) {
+  constructor(readonly redisClient: RateLimitRedisClient) {
     this.redis = redisClient.get;
     this.plugin = rateLimit({
       windowMs: 1 * 60 * 1000, // 1 minute

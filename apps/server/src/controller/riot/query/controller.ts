@@ -2,6 +2,7 @@ import { ZodParserError } from "@/error/parser";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user";
+import { CachingLookupService } from "@/service/lookup";
 import {
   IRiotQueryController,
   RiotMatchEnriched,
@@ -26,13 +27,19 @@ import { randomUUID } from "crypto";
 import { Request, Response } from "express";
 
 @Controller({
-  deps: [UserRepository, RiotMatchRepository, PlayerMatchRepository],
+  deps: [
+    UserRepository,
+    RiotMatchRepository,
+    PlayerMatchRepository,
+    CachingLookupService,
+  ],
 })
 export class RiotQueryController implements IRiotQueryController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,
     private readonly playerMatchRepository: PlayerMatchRepository,
+    private readonly cachingLookupService: CachingLookupService,
   ) {}
 
   @_Route({
@@ -336,86 +343,16 @@ export class RiotQueryController implements IRiotQueryController {
       );
     }
 
-    let riotTag: string | null;
-    const user = await this.userRepository.getUserByPuuid(puuid);
-
-    if (user) {
-      riotTag = user.riotTag;
-    } else {
-      const riotUserInfoRes = await RiotClient.getPlayerByPuuid({
-        authToken: riotAuth,
-        entitlementToken: riotEntitlement,
-        playerPuuids: [puuid],
-      });
-
-      if (!riotUserInfoRes.ok) {
-        console.error(
-          "Something went wrong when trying to fetch user info from Riot Games",
-        );
-        riotTag = null;
-      }
-
-      const riotUserInfoJson = await riotUserInfoRes.json();
-
-      riotTag = `${riotUserInfoJson[0].GameName}#${riotUserInfoJson[0].TagLine}`;
-    }
-
-    const myRank = await (async () => {
-      const mostRecentMatch = (
-        await this.riotMatchRepository.getMatchesByPlayerPuuid(puuid, 1)
-      )[0];
-
-      if (!mostRecentMatch) {
-        return null;
-      }
-
-      const pm =
-        await this.playerMatchRepository.getPlayerMatchByPlayerAndMatch(
-          puuid,
-          mostRecentMatch.id,
-        );
-
-      return pm ? pm.tier : null;
-    })();
-
-    const riotMatchInfoRes = await RiotClient.getCompetitiveUpdates({
-      authToken: riotAuth,
-      entitlementToken: riotEntitlement,
+    const playerData = await this.cachingLookupService.getPlayer(
       puuid,
-      startIndex: 0,
-      endIndex: 1,
-    });
-
-    if (!riotMatchInfoRes.ok) {
-      throw new Error(
-        `Failed to fetch riot match information with status of ${riotMatchInfoRes.status}`,
-      );
-    }
-
-    const riotMatchInfoJson = await riotMatchInfoRes.json();
-
-    if (riotMatchInfoJson.errorCode !== undefined) {
-      throw new Error(`Failed to deserialized riot match info`);
-    }
-
-    const latestMatch = riotMatchInfoJson.Matches[0];
-
-    const tierKey = latestMatch.TierAfterUpdate.toString() as TierNumber;
-    const tierName = tierNumberToNameObject[tierKey];
+      riotAuth,
+      riotEntitlement,
+    );
 
     return ResponseEntity.ok().body({
       success: true,
       message: "Your riot data has been successfully retrieved!",
-      payload: {
-        puuid,
-        riotTag,
-        rank:
-          myRank && !(myRank == null || myRank == 0)
-            ? myRank
-            : latestMatch.TierAfterUpdate,
-        rr: latestMatch.RankedRatingAfterUpdate,
-        rankName: tierName,
-      },
+      payload: playerData,
     }) satisfies Awaited<
       ReturnType<IRiotQueryController["getRiotPlayerDataByPuuid"]>
     >;

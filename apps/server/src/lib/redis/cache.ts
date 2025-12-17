@@ -1,10 +1,8 @@
-import RC from "ioredis";
+import { Redis } from "@/lib/redis/types";
 import { Injectable } from "@tahminator/sapling";
 
-export type Redis = RC;
-
 @Injectable()
-export class RedisClient {
+export class CachingRedisClient {
   private instance: Redis | null = null;
 
   constructor() {
@@ -12,18 +10,18 @@ export class RedisClient {
   }
 
   private launchInstance(): void {
-    if (!process.env.REDIS_URL) {
-      throw new Error("Redis URL is not set in environment.");
+    if (!process.env.CACHING_REDIS_URL) {
+      throw new Error("Caching Redis URL is not set in environment.");
     }
 
-    this.instance = new RC(process.env.REDIS_URL, {
+    this.instance = new Redis(process.env.CACHING_REDIS_URL, {
       lazyConnect: true,
     });
   }
 
   get get(): Redis {
     if (this.instance == null) {
-      throw new Error("Redis instance failed to be initialized.");
+      throw new Error("Caching Redis instance failed to be initialized.");
     }
     return this.instance;
   }

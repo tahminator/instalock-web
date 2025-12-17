@@ -4,9 +4,9 @@
   "description": "",
   "scripts": {
     "generate": "cd scripts/manual && tsx generateMapImages.ts && tsx generateTierImages.ts",
-    "client:dev": "cd frontend && pnpm run dev",
-    "server:dev": "cd server && pnpm run dev",
-    "dev": "concurrently \"pnpm run client:dev\" \"pnpm run server:dev\""
+    "frontend:dev": "cd apps/frontend && pnpm run dev",
+    "server:dev": "cd apps/server && pnpm run dev",
+    "dev": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:dev\""
   },
   "keywords": [],
   "author": "Tahmid Ahmed",
