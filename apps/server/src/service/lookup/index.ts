@@ -25,7 +25,11 @@ export class CachingLookupService {
     const buffer = await this.redis.get(puuid);
 
     if (buffer) {
-      return Sapling.deserialize<RiotPlayerData>(buffer);
+      const playerData = Sapling.deserialize<RiotPlayerData>(buffer);
+
+      if (this.isPlayerDataComplete(playerData)) {
+        return playerData;
+      }
     }
 
     const player = await this.ifPlayerNotExists(
@@ -40,6 +44,15 @@ export class CachingLookupService {
       this.THIRTY_MINUTES,
     );
     return player;
+  }
+
+  private isPlayerDataComplete(playerData: RiotPlayerData) {
+    return (
+      playerData.riotTag != null &&
+      playerData.rank != null &&
+      playerData.rr != null &&
+      playerData.rankName != null
+    );
   }
 
   private getRiotTag({
