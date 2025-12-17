@@ -7,14 +7,20 @@ WORKDIR /app
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
 COPY pnpm-workspace.yaml ./
 
-COPY server/package.json server/yarn.lock* server/package-lock.json* server/pnpm-lock.yaml* server/.npmrc* ./server/
-COPY server/prisma ./server/prisma
+# Copy all package.json files for apps
+COPY apps/server/package.json apps/server/yarn.lock* apps/server/package-lock.json* apps/server/pnpm-lock.yaml* apps/server/.npmrc* ./apps/server/
+COPY apps/frontend/package.json apps/frontend/yarn.lock* apps/frontend/package-lock.json* apps/frontend/pnpm-lock.yaml* apps/frontend/.npmrc* ./apps/frontend/
 
-COPY frontend/package.json frontend/yarn.lock* frontend/package-lock.json* frontend/pnpm-lock.yaml* frontend/.npmrc* ./frontend/
-# COPY scripts/package.json scripts/yarn.lock* scripts/package-lock.json* scripts/pnpm-lock.yaml* scripts/.npmrc* ./scripts/
+# Copy all package.json files for workspace packages
+COPY packages/api/package.json ./packages/api/
+COPY packages/attempt/package.json ./packages/attempt/
+COPY packages/db/package.json ./packages/db/
+COPY packages/fetcher/package.json ./packages/fetcher/
+COPY packages/riot/package.json ./packages/riot/
+COPY packages/ui/package.json ./packages/ui/
 
-
-COPY shared/ ./shared/
+# Copy necessary package files for dependencies
+COPY packages/db/migrations ./packages/db/migrations
 
 WORKDIR /app
 
@@ -29,15 +35,15 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-RUN ls -la ./frontend
 FROM base AS builder
 
 WORKDIR /app
 
 COPY --from=deps ./app .
-COPY frontend ./frontend
+COPY apps/frontend ./apps/frontend
+COPY packages ./packages
 
-WORKDIR /app/frontend
+WORKDIR /app/apps/frontend
 
 RUN npm install -g typescript
 
@@ -54,13 +60,13 @@ FROM base AS runner
 
 WORKDIR /app
 COPY --from=deps ./app ./
-COPY server ./server
+COPY apps/server ./apps/server
+COPY packages ./packages
 
-WORKDIR /app/server
-COPY --from=builder ./app/frontend/dist ./src/dist
+WORKDIR /app/apps/server
+COPY --from=builder ./app/apps/frontend/dist ./dist
 
 RUN corepack enable pnpm
-RUN ls -la .
 RUN pnpm install
 RUN pnpm run build
 

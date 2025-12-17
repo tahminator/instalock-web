@@ -1,6 +1,17 @@
+catalogs:
+  superjson:
+    superjson: "2.2.6"
+
+  react18:
+    react: "^18.3.1"
+    react-dom: "^18.3.1"
+
+  express5:
+    express: "^5.2.1"
+
+  sapling:
+    "@tahminator/sapling": "^1.5.0"
+
 packages:
-  - "frontend"
-  - "shared/*"
-  - "server"
-  - "scripts"
-  - "desktop/frontend"
+  - "apps/*"
+  - "packages/*"
