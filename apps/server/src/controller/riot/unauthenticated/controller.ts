@@ -4,7 +4,7 @@ import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user";
 import {
   IRiotUnauthenticatedController,
-  RiotMatchDetailed,
+  RiotMatchEnriched,
   RiotPlayerDataShallow,
   RiotUnauthenticatedRouteObject,
 } from "@instalock/api";
@@ -62,18 +62,16 @@ export class RiotUnauthenticatedController
   }
 
   @_Route({
-    ...RiotUnauthenticatedRouteObject.getUsersListsSearchable,
+    ...RiotUnauthenticatedRouteObject.getUsersShallow,
   })
-  async getUsersListsSearchable(
+  async getUsersShallow(
     request: Request,
     _response: Response,
   ): Promise<
-    Awaited<
-      ReturnType<IRiotUnauthenticatedController["getUsersListsSearchable"]>
-    >
+    Awaited<ReturnType<IRiotUnauthenticatedController["getUsersShallow"]>>
   > {
     const parser =
-      await RiotUnauthenticatedRouteObject.getUsersListsSearchable.schema.queryParams.safeParseAsync(
+      await RiotUnauthenticatedRouteObject.getUsersShallow.schema.queryParams.safeParseAsync(
         request.query,
       );
 
@@ -96,22 +94,29 @@ export class RiotUnauthenticatedController
       message: "List of users retrieved!",
       payload: playerData,
     }) satisfies Awaited<
-      ReturnType<IRiotUnauthenticatedController["getUsersListsSearchable"]>
+      ReturnType<IRiotUnauthenticatedController["getUsersShallow"]>
     >;
   }
 
   @_Route({
-    method: RiotUnauthenticatedRouteObject.getUserMatchesByPuuid.method,
-    path: RiotUnauthenticatedRouteObject.getUserMatchesByPuuid.path(":puuid"),
+    method:
+      RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid.method,
+    path: RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid.path(
+      ":puuid",
+    ),
   })
-  async getUserMatchesByPuuid(
+  async getRiotPlayerDataDetailedByPuuid(
     request: Request,
     _response: Response,
   ): Promise<
-    Awaited<ReturnType<IRiotUnauthenticatedController["getUserMatchesByPuuid"]>>
+    Awaited<
+      ReturnType<
+        IRiotUnauthenticatedController["getRiotPlayerDataDetailedByPuuid"]
+      >
+    >
   > {
     const parser =
-      await RiotUnauthenticatedRouteObject.getUserMatchesByPuuid.schema.pathParams.safeParseAsync(
+      await RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid.schema.pathParams.safeParseAsync(
         request.params["puuid"],
       );
 
@@ -154,7 +159,7 @@ export class RiotUnauthenticatedController
       playerMatches.map((pm) => [`${pm.playerId}:${pm.matchId}`, pm]),
     );
 
-    const finalMatches: RiotMatchDetailed[] = matchesWithoutRawField.map(
+    const finalMatches: RiotMatchEnriched[] = matchesWithoutRawField.map(
       (m) => {
         const playerMatch =
           joinIdsToPlayerMatchMap.get(`${puuid}:${m.id}`) ?? null;
@@ -186,7 +191,9 @@ export class RiotUnauthenticatedController
       message: "User matches received!",
       payload,
     }) satisfies Awaited<
-      ReturnType<IRiotUnauthenticatedController["getUserMatchesByPuuid"]>
+      ReturnType<
+        IRiotUnauthenticatedController["getRiotPlayerDataDetailedByPuuid"]
+      >
     >;
   }
 }
