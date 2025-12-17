@@ -5,7 +5,7 @@ import z from "zod";
 import { UnwrapResponseEntity } from "../../../utils";
 
 export const RiotUnauthenticatedRouteObject = {
-  getUserMatchesByPuuid: {
+  getRiotPlayerDataDetailedByPuuid: {
     path: (puuid: string) => `/api/riot/public/user/${puuid}/matches` as const,
     method: "GET",
     schema: {
@@ -15,7 +15,9 @@ export const RiotUnauthenticatedRouteObject = {
     },
     fe: (input) =>
       input as UnwrapResponseEntity<
-        ReturnType<IRiotUnauthenticatedController["getUserMatchesByPuuid"]>
+        ReturnType<
+          IRiotUnauthenticatedController["getRiotPlayerDataDetailedByPuuid"]
+        >
       >,
   },
   getMetrics: {
@@ -31,17 +33,20 @@ export const RiotUnauthenticatedRouteObject = {
         ReturnType<IRiotUnauthenticatedController["getMetrics"]>
       >,
   },
-  getUsersListsSearchable: {
+  getUsersShallow: {
     path: "/api/riot/public/user" as const,
     method: "GET",
     schema: {
+      /**
+       * @apiNote q is required.
+       */
       queryParams: queryByRiotNameSchema,
       requestBody: z.undefined(),
       pathParams: z.undefined(),
     },
     fe: (input) =>
       input as UnwrapResponseEntity<
-        ReturnType<IRiotUnauthenticatedController["getUsersListsSearchable"]>
+        ReturnType<IRiotUnauthenticatedController["getUsersShallow"]>
       >,
   },
 } as const satisfies RouteObject<IRiotUnauthenticatedController>;

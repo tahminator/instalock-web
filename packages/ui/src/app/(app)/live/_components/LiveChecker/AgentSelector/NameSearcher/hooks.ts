@@ -3,8 +3,8 @@ import { fetcher } from "@instalock/fetcher";
 import { useQuery } from "@tanstack/react-query";
 
 export const useFindNameQuery = ({ puuid }: { puuid: string }) => {
-  const queryFn = fetcher().api.riot.query.getPlayerData.fetcher(
-    RiotQueryRouteObject.getPlayerData,
+  const queryFn = fetcher().api.riot.query.getRiotPlayerDataByPuuid.fetcher(
+    RiotQueryRouteObject.getRiotPlayerDataByPuuid,
   );
 
   return useQuery({

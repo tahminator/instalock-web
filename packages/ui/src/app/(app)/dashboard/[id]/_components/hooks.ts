@@ -8,9 +8,10 @@ import { useNavigate } from "react-router";
 export const useGetMatchInfoQuery = (uuid: string) => {
   const navigate = useNavigate();
 
-  const queryFn = fetcher().api.riot.query.getMatch.fetcher(
-    RiotQueryRouteObject.getMatch,
-  );
+  const queryFn =
+    fetcher().api.riot.query.getRiotMatchEnrichedByMatchId.fetcher(
+      RiotQueryRouteObject.getRiotMatchEnrichedByMatchId,
+    );
 
   const query = useSuspenseQuery({
     queryKey: ["riot", "match", uuid],

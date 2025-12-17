@@ -1,27 +1,27 @@
 import { RiotPlayerData } from "../../../dto/RiotPlayerData";
-import { RiotMatchDetailed } from "../../../dto/RiotMatchShallow";
+import { RiotMatchEnriched } from "../../../dto/RiotMatchEnriched";
 import { ApiDefault } from "../../../utils/api";
 import { IBaseController } from "../../../utils/controller";
 import { Request, Response } from "express";
 import { ResponseEntity } from "@tahminator/sapling";
 
 export interface IRiotQueryController extends IBaseController {
-  getMyRiotDataShallow(
+  getMyRiotPlayerData(
     request: Request,
     response: Response,
   ): Promise<ResponseEntity<ApiDefault<RiotPlayerData>>>;
 
-  getMyMatchesShallow(
+  getMyRiotMatchesEnriched(
     request: Request,
     response: Response,
-  ): Promise<ResponseEntity<ApiDefault<RiotMatchDetailed[]>>>;
+  ): Promise<ResponseEntity<ApiDefault<RiotMatchEnriched[]>>>;
 
-  getMatch(
+  getRiotMatchEnrichedByMatchId(
     request: Request,
     response: Response,
-  ): Promise<ResponseEntity<ApiDefault<RiotMatchDetailed>>>;
+  ): Promise<ResponseEntity<ApiDefault<RiotMatchEnriched>>>;
 
-  getPlayerData(
+  getRiotPlayerDataByPuuid(
     request: Request,
     response: Response,
   ): Promise<ResponseEntity<ApiDefault<RiotPlayerData>>>;

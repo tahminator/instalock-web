@@ -4,10 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 
 export const useFetchPossibleUsersByQuery = (q?: string) => {
-  const queryFn =
-    fetcher().api.riot.unauthenticated.getUsersListsSearchable.fetcher(
-      RiotUnauthenticatedRouteObject.getUsersListsSearchable,
-    );
+  const queryFn = fetcher().api.riot.unauthenticated.getUsersShallow.fetcher(
+    RiotUnauthenticatedRouteObject.getUsersShallow,
+  );
 
   const query = useQuery({
     queryKey: ["search", "query", q],

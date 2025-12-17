@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetProfileByPuuid = (puuid: string) => {
   const queryFn =
-    fetcher().api.riot.unauthenticated.getUserMatchesByPuuid.fetcher(
-      RiotUnauthenticatedRouteObject.getUserMatchesByPuuid,
+    fetcher().api.riot.unauthenticated.getRiotPlayerDataDetailedByPuuid.fetcher(
+      RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid,
     );
 
   return useQuery({

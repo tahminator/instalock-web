@@ -12,12 +12,12 @@ export interface IRiotUnauthenticatedController extends IBaseController {
     response: Response,
   ): Promise<ResponseEntity<ApiDefault<MetricsDto>>>;
 
-  getUsersListsSearchable(
+  getUsersShallow(
     request: Request,
     response: Response,
   ): Promise<ResponseEntity<ApiDefault<RiotPlayerDataShallow[]>>>;
 
-  getUserMatchesByPuuid(
+  getRiotPlayerDataDetailedByPuuid(
     request: Request,
     response: Response,
   ): Promise<ResponseEntity<ApiDefault<RiotPlayerDataDetailed>>>;

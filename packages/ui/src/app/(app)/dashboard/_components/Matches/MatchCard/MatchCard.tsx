@@ -1,4 +1,4 @@
-import { RiotMatchDetailed } from "@instalock/api";
+import { RiotMatchEnriched } from "@instalock/api";
 import {
   mapUuidToNameObject,
   MapUuid,
@@ -21,7 +21,7 @@ export default function MatchCard({
   match,
   viewMore = true,
 }: {
-  match: RiotMatchDetailed;
+  match: RiotMatchEnriched;
   viewMore?: boolean;
 }) {
   const { gameModeName } = match;

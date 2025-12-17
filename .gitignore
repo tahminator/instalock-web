@@ -32,4 +32,6 @@ dist-ssr
 # This is for testing APIs
 test*.json
 
+tsconfig.tsbuildinfo
+
 venv/

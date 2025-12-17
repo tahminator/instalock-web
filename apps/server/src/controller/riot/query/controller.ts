@@ -4,7 +4,7 @@ import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user";
 import {
   IRiotQueryController,
-  RiotMatchDetailed,
+  RiotMatchEnriched,
   RiotQueryRouteObject,
 } from "@instalock/api";
 import {
@@ -36,14 +36,12 @@ export class RiotQueryController implements IRiotQueryController {
   ) {}
 
   @_Route({
-    ...RiotQueryRouteObject.getMyRiotDataShallow,
+    ...RiotQueryRouteObject.getMyRiotPlayerData,
   })
-  async getMyRiotDataShallow(
+  async getMyRiotPlayerData(
     _request: Request,
     response: Response,
-  ): Promise<
-    Awaited<ReturnType<IRiotQueryController["getMyRiotDataShallow"]>>
-  > {
+  ): Promise<Awaited<ReturnType<IRiotQueryController["getMyRiotPlayerData"]>>> {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -125,17 +123,19 @@ export class RiotQueryController implements IRiotQueryController {
         rankName: tierName,
       },
     }) satisfies Awaited<
-      ReturnType<IRiotQueryController["getMyRiotDataShallow"]>
+      ReturnType<IRiotQueryController["getMyRiotPlayerData"]>
     >;
   }
 
   @_Route({
-    ...RiotQueryRouteObject.getMyMatchesShallow,
+    ...RiotQueryRouteObject.getMyRiotMatchesEnriched,
   })
-  async getMyMatchesShallow(
+  async getMyRiotMatchesEnriched(
     _request: Request,
     response: Response,
-  ): Promise<Awaited<ReturnType<IRiotQueryController["getMyMatchesShallow"]>>> {
+  ): Promise<
+    Awaited<ReturnType<IRiotQueryController["getMyRiotMatchesEnriched"]>>
+  > {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -183,7 +183,7 @@ export class RiotQueryController implements IRiotQueryController {
       playerMatches.map((pm) => [`${pm.playerId}:${pm.matchId}`, pm]),
     );
 
-    const finalMatches: RiotMatchDetailed[] = matchesWithoutRawField.map(
+    const finalMatches: RiotMatchEnriched[] = matchesWithoutRawField.map(
       (m) => {
         const playerMatch =
           joinIdsToPlayerMatchMap.get(`${puuid}:${m.id}`) ?? null;
@@ -203,18 +203,20 @@ export class RiotQueryController implements IRiotQueryController {
       message: "User matches received!",
       payload: finalMatches,
     }) satisfies Awaited<
-      ReturnType<IRiotQueryController["getMyMatchesShallow"]>
+      ReturnType<IRiotQueryController["getMyRiotMatchesEnriched"]>
     >;
   }
 
   @_Route({
-    method: RiotQueryRouteObject.getMatch.method,
-    path: RiotQueryRouteObject.getMatch.path(":matchId"),
+    method: RiotQueryRouteObject.getRiotMatchEnrichedByMatchId.method,
+    path: RiotQueryRouteObject.getRiotMatchEnrichedByMatchId.path(":matchId"),
   })
-  async getMatch(
+  async getRiotMatchEnrichedByMatchId(
     request: Request,
     response: Response,
-  ): Promise<Awaited<ReturnType<IRiotQueryController["getMatch"]>>> {
+  ): Promise<
+    Awaited<ReturnType<IRiotQueryController["getRiotMatchEnrichedByMatchId"]>>
+  > {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -223,7 +225,7 @@ export class RiotQueryController implements IRiotQueryController {
     }
 
     const parser =
-      await RiotQueryRouteObject.getMatch.schema.pathParams.safeParseAsync(
+      await RiotQueryRouteObject.getRiotMatchEnrichedByMatchId.schema.pathParams.safeParseAsync(
         request.params["matchId"],
       );
 
@@ -284,17 +286,21 @@ export class RiotQueryController implements IRiotQueryController {
         gameModeName: getGameModeName(riotMatchWithoutRaw.queueId ?? "Unknown"),
         players: allPlayers,
       },
-    }) satisfies Awaited<ReturnType<IRiotQueryController["getMatch"]>>;
+    }) satisfies Awaited<
+      ReturnType<IRiotQueryController["getRiotMatchEnrichedByMatchId"]>
+    >;
   }
 
   @_Route({
-    method: RiotQueryRouteObject.getPlayerData.method,
-    path: RiotQueryRouteObject.getPlayerData.path(":puuid"),
+    method: RiotQueryRouteObject.getRiotPlayerDataByPuuid.method,
+    path: RiotQueryRouteObject.getRiotPlayerDataByPuuid.path(":puuid"),
   })
-  async getPlayerData(
+  async getRiotPlayerDataByPuuid(
     request: Request,
     response: Response,
-  ): Promise<Awaited<ReturnType<IRiotQueryController["getPlayerData"]>>> {
+  ): Promise<
+    Awaited<ReturnType<IRiotQueryController["getRiotPlayerDataByPuuid"]>>
+  > {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -303,7 +309,7 @@ export class RiotQueryController implements IRiotQueryController {
     }
 
     const parser =
-      await RiotQueryRouteObject.getPlayerData.schema.pathParams.safeParseAsync(
+      await RiotQueryRouteObject.getRiotPlayerDataByPuuid.schema.pathParams.safeParseAsync(
         request.params["puuid"],
       );
 
@@ -410,7 +416,9 @@ export class RiotQueryController implements IRiotQueryController {
         rr: latestMatch.RankedRatingAfterUpdate,
         rankName: tierName,
       },
-    }) satisfies Awaited<ReturnType<IRiotQueryController["getPlayerData"]>>;
+    }) satisfies Awaited<
+      ReturnType<IRiotQueryController["getRiotPlayerDataByPuuid"]>
+    >;
   }
 
   private async loadMatchesForNewUser(userId: string) {

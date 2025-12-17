@@ -52,7 +52,7 @@ const fetcher: Fetcher = {
         },
       },
       query: {
-        getMatch: {
+        getRiotMatchEnrichedByMatchId: {
           fetcher: (route) => {
             return async (params) => {
               const response = await fetch(route.path(params.pathParams), {
@@ -66,7 +66,7 @@ const fetcher: Fetcher = {
             };
           },
         },
-        getMyMatchesShallow: {
+        getMyRiotMatchesEnriched: {
           fetcher: (route) => {
             return async (_) => {
               const response = await fetch(route.path, {
@@ -80,7 +80,7 @@ const fetcher: Fetcher = {
             };
           },
         },
-        getMyRiotDataShallow: {
+        getMyRiotPlayerData: {
           fetcher: (route) => {
             return async (_) => {
               const response = await fetch(route.path, {
@@ -94,7 +94,7 @@ const fetcher: Fetcher = {
             };
           },
         },
-        getPlayerData: {
+        getRiotPlayerDataByPuuid: {
           fetcher: (route) => {
             return async (params) => {
               const response = await fetch(route.path(params.pathParams), {
@@ -124,7 +124,7 @@ const fetcher: Fetcher = {
             };
           },
         },
-        getUserMatchesByPuuid: {
+        getRiotPlayerDataDetailedByPuuid: {
           fetcher: (route) => {
             return async (params) => {
               const response = await fetch(route.path(params.pathParams), {
@@ -138,7 +138,7 @@ const fetcher: Fetcher = {
             };
           },
         },
-        getUsersListsSearchable: {
+        getUsersShallow: {
           fetcher: (route) => {
             return async (params) => {
               const url = new URL(route.path, window.location.origin);

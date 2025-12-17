@@ -3,8 +3,8 @@ import { fetcher } from "@instalock/fetcher";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const useRiotPlayerInfoQuery = () => {
-  const queryFn = fetcher().api.riot.query.getMyRiotDataShallow.fetcher(
-    RiotQueryRouteObject.getMyRiotDataShallow,
+  const queryFn = fetcher().api.riot.query.getMyRiotPlayerData.fetcher(
+    RiotQueryRouteObject.getMyRiotPlayerData,
   );
 
   return useQuery({

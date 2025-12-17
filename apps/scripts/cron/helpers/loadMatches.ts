@@ -4,7 +4,7 @@ import {
   playerMatchRepository,
   riotMatchRepository,
   userRepository,
-} from "repository/user";
+} from "repository";
 
 export const loadMatchesForEachUser = async () => {
   const users = await userRepository.getUsers();

@@ -3,8 +3,8 @@ import { fetcher } from "@instalock/fetcher";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetShallowMatchesQuery = () => {
-  const queryFn = fetcher().api.riot.query.getMyMatchesShallow.fetcher(
-    RiotQueryRouteObject.getMyMatchesShallow,
+  const queryFn = fetcher().api.riot.query.getMyRiotMatchesEnriched.fetcher(
+    RiotQueryRouteObject.getMyRiotMatchesEnriched,
   );
 
   return useQuery({

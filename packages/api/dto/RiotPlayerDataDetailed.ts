@@ -1,4 +1,4 @@
-import { RiotMatchDetailed } from "./RiotMatchShallow";
+import { RiotMatchEnriched } from "./RiotMatchEnriched";
 
 export interface RiotPlayerDataDetailed {
   riotTag: string | null;
@@ -6,5 +6,5 @@ export interface RiotPlayerDataDetailed {
   name: string | null;
   rank: number | null;
   rankName: string | null;
-  matches: RiotMatchDetailed[];
+  matches: RiotMatchEnriched[];
 }
