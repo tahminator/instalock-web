@@ -48,7 +48,12 @@ jobs:
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          UNLOAD_ENVIRONMENTS: ci
+          UNLOAD_ENVIRONMENTS: ci,production
+
+      - name: Update Coolify Environment Variables
+        run: bash .github/scripts/update-coolify-env.sh .env.production ${{ env.PROD_COOLIFY_CRON_UUID }}
+        env:
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
 
       - name: Trigger Coolify Redeploy
         run: |
@@ -144,7 +149,12 @@ jobs:
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          UNLOAD_ENVIRONMENTS: ci
+          UNLOAD_ENVIRONMENTS: ci,production
+
+      - name: Update Coolify Environment Variables
+        run: bash .github/scripts/update-coolify-env.sh .env.production ${{ env.PROD_COOLIFY_WEB_UUID }}
+        env:
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
 
       - name: Trigger Coolify Redeploy
         run: |
