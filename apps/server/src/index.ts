@@ -1,5 +1,4 @@
 import express from "express";
-import "dotenv/config";
 import { Class, Sapling } from "@tahminator/sapling";
 import { RiotAuthController } from "@/controller/riot/auth/controller";
 import { ErrorMiddleware } from "@/middleware/static/error";

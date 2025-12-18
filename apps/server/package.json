@@ -4,13 +4,10 @@
   "description": "Server Entrypoint for Instalock",
   "main": "index.ts",
   "scripts": {
-    "dev": "tsx --watch src/index.ts",
+    "dev": "dotenvx run -f ../../.env -- tsx --watch src/index.ts",
     "typecheck": "tsc -b --noEmit",
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=src/index.js",
     "start": "node src/index.js",
-    "env:pull": "pnpx dotenv-vault@latest pull",
-    "env:push": "pnpx dotenv-vault@latest push",
-    "env:open": "pnpx dotenv-vault@latest open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -26,7 +23,6 @@
     "arctic": "^2.3.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
     "esbuild": "^0.25.0",
     "express": "catalog:express5",
     "express-rate-limit": "^7.5.0",

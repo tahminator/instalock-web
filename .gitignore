@@ -24,6 +24,11 @@ dist-ssr
 *.sw?
 
 .env*
+!.env
+!.env.ci
+!.env.production
+!.env.staging
+
 .flaskenv*
 !.env.project
 !.env.vault

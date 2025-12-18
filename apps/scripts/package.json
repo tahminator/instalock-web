@@ -7,7 +7,7 @@
   "scripts": {
     "build": "esbuild cron/index.ts --bundle --platform=node --outfile=cron/index.cjs",
     "start": "node cron/index.cjs",
-    "dev": "dotenvx run -- pnpx tsx cron/index.ts --watch",
+    "dev": "dotenvx run -f ../../.env -- pnpx tsx cron/index.ts --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

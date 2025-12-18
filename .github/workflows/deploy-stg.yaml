@@ -1,10 +1,13 @@
 name: deploy-stg
 run-name: Deploying to staging on ${{ github.actor }}'s commits
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 on:
-  push:
-    branches:
-      - staging
+  pull_request:
 
 concurrency:
   group: ci-stg-${{ github.ref }}
@@ -14,16 +17,22 @@ jobs:
   buildCronImage:
     name: Build Cron Image & Deploy to Docker Hub
     runs-on: ubuntu-latest
-    environment: staging
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci
+
       - name: Run script
         run: bash .github/scripts/build-image.sh
         env:
-          DOCKER_HUB_PAT: ${{ secrets.DOCKER_HUB_PAT }}
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
           TYPE: cron
           DOCKER_UPLOAD: true
           TAG_PREFIX: staging-
@@ -33,19 +42,25 @@ jobs:
     name: Redeploy Cron on Coolify
     needs: buildCronImage
     runs-on: ubuntu-latest
-    environment: staging
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci
+
       - name: Trigger Coolify Redeploy
         run: |
           RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" \
           -X POST \
-          -H "Authorization: Bearer ${{ secrets.COOLIFY_PAT }}" \
+          -H "Authorization: Bearer ${{ env.COOLIFY_PAT }}" \
           -H "Content-Type: application/json" \
-          https://coolify.tahmid.io/api/v1/deploy?uuid=${{ secrets.COOLIFY_CRON_UUID }})
+          https://coolify.tahmid.io/api/v1/deploy?uuid=${{ env.STAGING_COOLIFY_CRON_UUID }})
 
           HTTP_BODY=$(echo "$RESPONSE" | sed -e 's/HTTPSTATUS:.*//g')
           HTTP_STATUS=$(echo "$RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
@@ -74,7 +89,7 @@ jobs:
           for i in {1..60}; do
               RESPONSE=$(curl -s -X GET \
                   -H "Content-Type: application/json" \
-                  -H "Authorization: Bearer ${{ secrets.COOLIFY_PAT }}" \
+                  -H "Authorization: Bearer ${{ env.COOLIFY_PAT }}" \
                   "https://coolify.tahmid.io/api/v1/deployments/$DEPLOYMENT_ID")
 
               PHASE=$(echo "$RESPONSE" | jq -r '.status')
@@ -99,16 +114,22 @@ jobs:
   buildWebImage:
     name: Build Web Image & Deploy to Docker Hub
     runs-on: ubuntu-latest
-    environment: staging
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci
+
       - name: Run script
         run: bash .github/scripts/build-image.sh
         env:
-          DOCKER_HUB_PAT: ${{ secrets.DOCKER_HUB_PAT }}
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
           TYPE: web
           DOCKER_UPLOAD: true
           TAG_PREFIX: staging-
@@ -118,19 +139,25 @@ jobs:
     name: Redeploy Web on Coolify
     needs: buildWebImage
     runs-on: ubuntu-latest
-    environment: staging
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci
+
       - name: Trigger Coolify Redeploy
         run: |
           RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" \
           -X POST \
-          -H "Authorization: Bearer ${{ secrets.COOLIFY_PAT }}" \
+          -H "Authorization: Bearer ${{ env.COOLIFY_PAT }}" \
           -H "Content-Type: application/json" \
-          https://coolify.tahmid.io/api/v1/deploy?uuid=${{ secrets.COOLIFY_WEB_UUID }})
+          https://coolify.tahmid.io/api/v1/deploy?uuid=${{ env.STAGING_COOLIFY_WEB_UUID }})
 
           HTTP_BODY=$(echo "$RESPONSE" | sed -e 's/HTTPSTATUS:.*//g')
           HTTP_STATUS=$(echo "$RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
@@ -159,7 +186,7 @@ jobs:
           for i in {1..60}; do
               RESPONSE=$(curl -s -X GET \
                   -H "Content-Type: application/json" \
-                  -H "Authorization: Bearer ${{ secrets.COOLIFY_PAT }}" \
+                  -H "Authorization: Bearer ${{ env.COOLIFY_PAT }}" \
                   "https://coolify.tahmid.io/api/v1/deployments/$DEPLOYMENT_ID")
 
               PHASE=$(echo "$RESPONSE" | jq -r '.status')
