@@ -63,10 +63,8 @@ done <"$ENV_FILE"
 
 ENV_VARS+="]"
 
-echo "Prepared environment variables JSON (keys only):"
-echo "$ENV_VARS" | jq -r '.[].key' 2>/dev/null || echo "jq not available, skipping preview"
-
-echo "$ENV_VARS"
+# echo "Prepared environment variables JSON (keys only):"
+# echo "$ENV_VARS" | jq -r '.[].key' 2>/dev/null || echo "jq not available, skipping preview"
 
 RESPONSE=$(curl -s -w "\nHTTPSTATUS:%{http_code}" \
 	-X PATCH \
@@ -87,4 +85,4 @@ if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
 fi
 
 echo "Successfully updated environment variables in Coolify"
-echo "Response: $HTTP_BODY"
+# echo "Response: $HTTP_BODY"
