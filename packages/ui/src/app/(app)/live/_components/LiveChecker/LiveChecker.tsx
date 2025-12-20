@@ -29,19 +29,19 @@ export default function LiveChecker() {
     return (
       <div className="flex flex-col items-center justify-center w-screen h-[92vh]">
         <Loader size={"lg"} color={"red"} />
-        <Text className="pt-8 text-center p-4">
+        <Text className="pt-8! text-center p-4!">
           👋 Hey! This screen will automatically update once a match state has
           been detected.
         </Text>
         <Link to="/dashboard">
-          <Button className="mt-4" variant="outline" color="red">
+          <Button className="mt-4!" variant="outline" color="red">
             Go back to dashboard
           </Button>
         </Link>
-        <Text className="pt-8 pb-6">Supported features:</Text>
-        <Text className="pt-2">Select agents in the pre-game lobby</Text>
-        <Text className="pt-2">View ranks of team in pre-game lobby</Text>
-        <Text className="pt-2">View ranks of both teams during the game</Text>
+        <Text className="pt-8! pb-6!">Supported features:</Text>
+        <Text className="pt-2!">Select agents in the pre-game lobby</Text>
+        <Text className="pt-2!">View ranks of team in pre-game lobby</Text>
+        <Text className="pt-2!">View ranks of both teams during the game</Text>
       </div>
     );
   }

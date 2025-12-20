@@ -57,8 +57,8 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
     <div className="flex flex-col items-center p-4">
       <Card>
         <div className="flex flex-col space-y-2 items-center">
-          <Text className="text-5xl">Live Match</Text>
-          <Text className="text-3xl">{mapName}</Text>
+          <Text className="text-5xl!">Live Match</Text>
+          <Text className="text-3xl!">{mapName}</Text>
           <div className="flex flex-row">
             {bluePlayers.map((player, idx) => {
               const agentName =
@@ -82,7 +82,7 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
                       src={agentSrc}
                       alt={agentName}
                       className={
-                        "border-4 aspect-square max-w-36 rounded-full border-blue-400"
+                        "border-4 aspect-square max-w-36 rounded-full! border-blue-400"
                       }
                       fallbackSrc="/question-mark.png"
                     />
@@ -115,7 +115,7 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
                       src={agentSrc}
                       alt={agentName}
                       className={
-                        "border-4 aspect-square max-w-36 rounded-full border-red-400"
+                        "border-4 aspect-square max-w-36 rounded-full! border-red-400"
                       }
                       fallbackSrc="/question-mark.png"
                     />

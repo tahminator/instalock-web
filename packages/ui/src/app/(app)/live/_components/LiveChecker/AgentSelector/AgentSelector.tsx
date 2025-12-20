@@ -87,14 +87,14 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
   };
 
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="flex flex-col items-center p-4!">
       <Card>
-        <div className="flex flex-col space-y-2 items-center">
-          <Text className="text-5xl">Pregame</Text>
-          <Text className="text-3xl">{mapName}</Text>
+        <div className="flex flex-col space-y-2! items-center">
+          <Text className="text-5xl!">Pregame</Text>
+          <Text className="text-3xl!">{mapName}</Text>
           <Countdown start={remainingTime} />
         </div>
-        <div className="flex mt-2 md:space-x-8 space-x-2 justify-center w-full">
+        <div className="flex mt-2! md:space-x-8 space-x-2 justify-center w-full">
           {players.map((player, idx) => {
             const agentName =
               agentUuidToNameObject[player.CharacterID as AgentUuid];
@@ -135,7 +135,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
                     src={agentSrc}
                     alt={agentName}
                     className={clsx(
-                      "border-4 aspect-square max-w-36 rounded-full",
+                      "border-4 aspect-square max-w-36 rounded-full!",
                       avatarColor,
                     )}
                     fallbackSrc="/question-mark.png"
