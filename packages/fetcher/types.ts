@@ -11,6 +11,11 @@ import {
   UnwrapResponseEntity,
 } from "@instalock/api/utils/unwrap";
 
+export enum Location {
+  WEB,
+  DESKTOP,
+}
+
 export type Fetcher = {
   api: {
     riot: {

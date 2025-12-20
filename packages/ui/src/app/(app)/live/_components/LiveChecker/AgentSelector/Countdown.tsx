@@ -12,7 +12,7 @@ export default function Countdown({ start }: { start: number }) {
   }, 1000);
 
   return (
-    <Text c={countdown >= 10 ? "blue" : "red"} className="text-3xl">
+    <Text c={countdown >= 10 ? "blue" : "red"} className="text-3xl!">
       {countdown}
     </Text>
   );

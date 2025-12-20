@@ -35,7 +35,7 @@ const features = [
 export function Features() {
   const items = features.map((feature) => (
     <div key={feature.title} className="mb-6">
-      <div className="w-11 h-11 rounded-md transition-all bg-gradient-to-r from-deep-red-400 to-deep-red-700 bg-size-200 bg-pos-0 hover:bg-pos-100 flex items-center justify-center">
+      <div className="w-11 h-11 rounded-md transition-all bg-linear-to-r from-deep-red-400 to-deep-red-700 bg-size-200 bg-pos-0 hover:bg-pos-100 flex items-center justify-center">
         <img
           src={feature.icon}
           className="w-11 h-11 rounded-md"
@@ -63,7 +63,7 @@ export function Features() {
           </p>
 
           <Link to="/dashboard">
-            <Button className="transition-all bg-gradient-to-r from-deep-red-400 to-deep-red-700 bg-size-200 bg-pos-0 hover:bg-pos-100">
+            <Button className="transition-all bg-linear-to-r from-deep-red-400 to-deep-red-700 bg-size-200 bg-pos-0 hover:bg-pos-100">
               Get started
             </Button>
           </Link>

@@ -38,14 +38,14 @@ export default function PlayerTable({
 
           const rowBg = (() => {
             if (player.id == me?.id) {
-              return "bg-yellow-500";
+              return "bg-yellow-500!";
             }
 
             if (player.teamColor === "Blue") {
-              return "bg-blue-300";
+              return "bg-blue-300!";
             }
 
-            return "bg-red-300";
+            return "bg-red-300!";
           })();
           return (
             <Table.Tr key={idx} className={"text-black " + rowBg}>

@@ -1,5 +1,5 @@
 import { init } from "@instalock/fetcher";
-import { Fetcher } from "@instalock/fetcher/types";
+import { Fetcher, Location } from "@instalock/fetcher/types";
 import { App } from "@instalock/ui";
 import SJ from "superjson";
 
@@ -165,6 +165,6 @@ const fetcher: Fetcher = {
   },
 };
 
-init(fetcher);
+init(fetcher, Location.WEB);
 
 App.render();
