@@ -23,7 +23,7 @@ export default function GradientTitle() {
       variants={typingVariants}
       initial="hidden"
       animate="visible"
-      className="bg-gradient-to-r from-deep-red-400 to-deep-red-700 text-transparent bg-clip-text inline-flex"
+      className="bg-linear-to-r from-deep-red-400 to-deep-red-700 text-transparent bg-clip-text inline-flex"
     >
       {text.split("").map((char, index) => (
         <motion.span key={index} variants={letterVariants}>

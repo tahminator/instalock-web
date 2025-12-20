@@ -1,7 +1,43 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@source "./src/**/*.{ts,tsx,js,jsx}";
+
+@theme {
+  --background-size-size-200: 200% 200%;
+
+  --background-position-pos-0: 0% 0%;
+  --background-position-pos-100: 100% 100%;
+
+  --color-deep-red-50: #ffeaec;
+  --color-deep-red-100: #fdd4d6;
+  --color-deep-red-200: #f4a7ac;
+  --color-deep-red-300: #ec777e;
+  --color-deep-red-400: #e64f57;
+  --color-deep-red-500: #e3353f;
+  --color-deep-red-600: #e22732;
+  --color-deep-red-700: #c91a25;
+  --color-deep-red-800: #b31220;
+  --color-deep-red-900: #9e0419;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 body {
-    background-color: #242424;
-  }
+  background-color: #242424;
+}

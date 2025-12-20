@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function LiveMatchCard() {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder bg={"dark.8"}>
-      <div className="flex flex-col items-center justify-center text-center flex-grow">
+      <div className="flex flex-col items-center justify-center text-center grow">
         Looking for the Live Match features? Click the button below.
       </div>
 

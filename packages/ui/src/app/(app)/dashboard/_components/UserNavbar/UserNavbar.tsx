@@ -172,7 +172,7 @@ export default function UserNavbar() {
                 </Group>
               </UnstyledButton>
             </Menu.Target>
-            <Menu.Dropdown className="!z-[350]">
+            <Menu.Dropdown className="z-350!">
               <Menu.Item
                 color="red"
                 onClick={handleDisconnect}
@@ -226,7 +226,7 @@ function UserNavbarWrapper({
         ` sticky top-0 transition-all ${
           isSticky ? "top-4 w-5/6 rounded-full shadow-blue-500" : "w-full"
         }
-          ${opened ? "z-0" : "z-[350]"}`
+          ${opened ? "z-0" : "z-350"}`
       }
     >
       <Container className={classes.mainSection} size="md">

@@ -1,9 +1,11 @@
-import { Fetcher } from "./types";
+import { Fetcher, Location } from "./types";
 
 let f: Fetcher | null;
+let l: Location | null;
 
-export function init(fetcher: Fetcher): void {
+export function init(fetcher: Fetcher, location: Location): void {
   f = fetcher;
+  l = location;
 }
 
 export function fetcher(): Fetcher {
@@ -14,4 +16,14 @@ export function fetcher(): Fetcher {
   }
 
   return f;
+}
+
+export function location(): Location {
+  if (l == null) {
+    throw Error(
+      "Location is not defined. Please call `init()` in the entry file and define the location first.",
+    );
+  }
+
+  return l;
 }

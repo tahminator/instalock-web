@@ -10,7 +10,7 @@ export class SpaMiddleware {
 
   constructor() {
     this.plugin =
-      process.env.NODE_ENV === "production"
+      process.env.NODE_ENV !== "production"
         ? express.static(path.join(process.cwd(), "dist"))
         : passthrough();
   }
