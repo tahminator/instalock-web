@@ -133,7 +133,6 @@ export interface IRiotClient {
    * Riot's servers or not. This does NOT mean the agent was successfully locked. You should
    * instead re-fetch the pre-match details and display the new changes.
    *
-
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/lock-character)
    */
   lockAgent(params: LockAgentRequest): Promise<{ success: boolean }>;
