@@ -120,7 +120,7 @@ export interface IRiotClient {
   /**
    * Retrieve full current match details via a currentMatchId
    *
-   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/pre-game-match)
+   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/current-game-match)
    */
   getCurrentGameMatchDetails(
     params: CurrentGameDetailsRequest,
