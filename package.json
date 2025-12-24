@@ -7,7 +7,7 @@
     "frontend:dev": "cd apps/frontend && pnpm run dev",
     "server:dev": "cd apps/server && pnpm run dev",
     "test": "pnpm run typecheck && pnpm run lint",
-    "typecheck": "find . -name \"tsconfig.json\" -not -path \"*/node_modules/*\" -exec sh -c 'echo \"Checking: $1\" && cd \"$(dirname \"$1\")\" && pnpm run typecheck' sh {} \\;",
+    "typecheck": "sh -c 'set -e; for config in $(find . -name \"tsconfig.json\" -not -path \"*/node_modules/*\"); do echo \"Checking: $config\"; (cd \"$(dirname \"$config\")\" && pnpm run typecheck) || exit 1; done'",
     "lint": "pnpm run eslint",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
