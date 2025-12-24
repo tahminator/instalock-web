@@ -156,4 +156,4 @@ export interface IRiotClient {
   getPartyDetailsByPuuid(
     params: PuuidAuthRequest,
   ): Promise<_Response<PartyDetailsApiType>>;
-} // Strip the json method from the type.
+}
