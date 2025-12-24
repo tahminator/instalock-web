@@ -1,7 +1,3 @@
-import { ZodParserError } from "@/error/parser";
-import { SessionRepository } from "@/repository/session";
-import { UserRepository } from "@/repository/user";
-import { AuthService } from "@/service/auth";
 import { IRiotAuthController, RiotAuthRouteObject } from "@instalock/api";
 import { RiotClient } from "@instalock/riot";
 import {
@@ -12,6 +8,11 @@ import {
   ResponseStatusError,
 } from "@tahminator/sapling";
 import { Request, Response } from "express";
+
+import { ZodParserError } from "@/error/parser";
+import { SessionRepository } from "@/repository/session";
+import { UserRepository } from "@/repository/user";
+import { AuthService } from "@/service/auth";
 
 @Controller({
   deps: [UserRepository, SessionRepository, AuthService],

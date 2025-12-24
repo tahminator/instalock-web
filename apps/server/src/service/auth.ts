@@ -5,10 +5,11 @@ import {
   Session as LuciaSession,
   User as LuciaUser,
 } from "lucia";
+
 import { SessionRepository } from "@/repository/session";
 import { UserRepository } from "@/repository/user";
+
 import { AuthPostgresAdapter } from "../lib/auth/adapter";
-import { attempt } from "@instalock/attempt";
 
 export interface AuthSession extends LuciaSession {}
 export interface AuthUser extends LuciaUser {}
@@ -18,8 +19,8 @@ export class AuthService {
   private readonly lucia: Lucia;
 
   constructor(
-    private readonly sessionRepository: SessionRepository,
-    private readonly userRepository: UserRepository,
+    readonly sessionRepository: SessionRepository,
+    readonly userRepository: UserRepository,
   ) {
     const adapter = new AuthPostgresAdapter(sessionRepository, userRepository);
 
@@ -41,7 +42,7 @@ export class AuthService {
 
   async createSession(
     userId: string,
-    attributes: Record<string, any> = {},
+    attributes: Record<string, unknown> = {},
   ): Promise<LuciaSession> {
     return await this.lucia.createSession(userId, attributes);
   }

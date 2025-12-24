@@ -1,4 +1,7 @@
+// TODO: Find out why any works and not unknown
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
+
 import { IBaseController } from "./controller";
 import { UnwrapResponseEntity } from "./unwrap";
 
@@ -15,8 +18,8 @@ export type Route<TController, K extends keyof TController> = {
     requestBody?: z.ZodTypeAny;
   };
   fe: (
-    input: unknown,
-  ) => TController[K] extends (...args: any[]) => any
+    input: any,
+  ) => TController[K] extends (...args: any[]) => unknown
     ? UnwrapResponseEntity<ReturnType<TController[K]>>
     : never;
 };

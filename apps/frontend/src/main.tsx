@@ -2,6 +2,7 @@ import { init } from "@instalock/fetcher";
 import { Fetcher, Location } from "@instalock/fetcher/types";
 import { App } from "@instalock/ui";
 import SJ from "superjson";
+
 import { changeRiotClientImpl } from "../../../packages/riot";
 
 if (import.meta.env.DEV) {

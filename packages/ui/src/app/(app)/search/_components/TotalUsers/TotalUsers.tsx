@@ -1,5 +1,6 @@
-import { useFetchTotalUserCount } from "@/app/(app)/search/_components/TotalUsers/hooks";
 import { Center, Loader, Text } from "@mantine/core";
+
+import { useFetchTotalUserCount } from "@/app/(app)/search/_components/TotalUsers/hooks";
 
 export default function TotalUsers() {
   const { status, data } = useFetchTotalUserCount();

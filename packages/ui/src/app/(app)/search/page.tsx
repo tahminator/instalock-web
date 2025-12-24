@@ -1,7 +1,8 @@
+import { Center } from "@mantine/core";
+
 import Navbar from "@/app/(app)/_components/Navbar";
 import SearchBar from "@/app/(app)/search/_components/SearchBar/SearchBar";
 import TotalUsers from "@/app/(app)/search/_components/TotalUsers/TotalUsers";
-import { Center } from "@mantine/core";
 
 export default function SearchPage() {
   return (

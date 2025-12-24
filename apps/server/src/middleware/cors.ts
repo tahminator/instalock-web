@@ -1,6 +1,6 @@
 import { Controller, Middleware } from "@tahminator/sapling";
-import { NextFunction, Request, Response } from "express";
 import cors from "cors";
+import { NextFunction, Request, Response } from "express";
 
 @Controller()
 export class CorsMiddleware {

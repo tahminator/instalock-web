@@ -1,5 +1,6 @@
-import { Redis } from "@/lib/redis/types";
 import { Injectable } from "@tahminator/sapling";
+
+import { Redis } from "@/lib/redis/types";
 
 @Injectable()
 export class RateLimitRedisClient {

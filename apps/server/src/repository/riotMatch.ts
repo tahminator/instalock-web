@@ -1,6 +1,7 @@
-import { Injectable } from "@tahminator/sapling";
-import { DbClient } from "@/lib/db";
 import { BaseRiotMatchRepository } from "@instalock/db";
+import { Injectable } from "@tahminator/sapling";
+
+import { DbClient } from "@/lib/db";
 
 @Injectable([DbClient])
 export class RiotMatchRepository extends BaseRiotMatchRepository {

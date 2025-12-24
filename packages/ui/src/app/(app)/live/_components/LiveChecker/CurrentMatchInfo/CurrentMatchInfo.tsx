@@ -1,8 +1,3 @@
-import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
-import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
-import { useCurrentGameQuery } from "@/app/(app)/live/_components/LiveChecker/CurrentMatchInfo/hooks";
-import { useAuthUpdater } from "@/app/(app)/live/hooks";
-import CenteredSpinner from "@/components/ui/centered-spinner";
 import {
   AgentUuid,
   agentUuidToNameObject,
@@ -13,6 +8,12 @@ import {
 } from "@instalock/riot";
 import { Button, Card, Image, Text, Tooltip } from "@mantine/core";
 import { Link } from "react-router-dom";
+
+import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
+import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
+import { useCurrentGameQuery } from "@/app/(app)/live/_components/LiveChecker/CurrentMatchInfo/hooks";
+import { useAuthUpdater } from "@/app/(app)/live/hooks";
+import CenteredSpinner from "@/components/ui/centered-spinner";
 // import currentGameData from "./test.json";
 
 export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
@@ -66,7 +67,7 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
               const agentSrc = `/agents/${agentName}.webp`;
 
               return (
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center" key={idx}>
                   <NameSearcher
                     puuid={player.Subject}
                     myPuuid={puuid ?? ""}
@@ -99,7 +100,10 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
               const agentSrc = `/agents/${agentName}.webp`;
 
               return (
-                <div className="flex flex-col items-center w-full flex-1">
+                <div
+                  className="flex flex-col items-center w-full flex-1"
+                  key={idx}
+                >
                   <NameSearcher
                     puuid={player.Subject}
                     myPuuid={puuid ?? ""}

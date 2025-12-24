@@ -2,7 +2,10 @@ name: deploy-prod
 run-name: Deploying to production on ${{ github.actor }}'s commits
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI-CD"]
+    types:
+      - completed
     branches:
       - main
 

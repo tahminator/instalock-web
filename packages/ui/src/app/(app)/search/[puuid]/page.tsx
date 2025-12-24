@@ -1,7 +1,8 @@
-import Navbar from "@/app/(app)/_components/Navbar";
-import UserProfile from "@/app/(app)/search/[puuid]/_components/UserProfile/UserProfile";
 import { notifications } from "@mantine/notifications";
 import { useNavigate, useParams } from "react-router";
+
+import Navbar from "@/app/(app)/_components/Navbar";
+import UserProfile from "@/app/(app)/search/[puuid]/_components/UserProfile/UserProfile";
 
 export default function UserProfilePage() {
   const navigate = useNavigate();

@@ -1,6 +1,7 @@
-import { passthrough } from "@/lib/express";
 import { Controller, Middleware } from "@tahminator/sapling";
 import { NextFunction, Request, Response } from "express";
+
+import { passthrough } from "@/lib/express";
 
 @Controller()
 export class CsrfMiddleware {

@@ -8,6 +8,7 @@
     "build": "esbuild cron/index.ts --bundle --platform=node --outfile=cron/index.cjs",
     "start": "node cron/index.cjs",
     "dev": "dotenvx run -f ../../.env -- pnpx tsx cron/index.ts --watch",
+    "typecheck": "tsc -b --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -1,8 +1,3 @@
-import { ZodParserError } from "@/error/parser";
-import { PlayerMatchRepository } from "@/repository/playerMatch";
-import { RiotMatchRepository } from "@/repository/riotMatch";
-import { UserRepository } from "@/repository/user";
-import { CachingLookupService } from "@/service/lookup";
 import {
   IRiotQueryController,
   RiotMatchEnriched,
@@ -25,6 +20,12 @@ import {
 } from "@tahminator/sapling";
 import { randomUUID } from "crypto";
 import { Request, Response } from "express";
+
+import { ZodParserError } from "@/error/parser";
+import { PlayerMatchRepository } from "@/repository/playerMatch";
+import { RiotMatchRepository } from "@/repository/riotMatch";
+import { UserRepository } from "@/repository/user";
+import { CachingLookupService } from "@/service/lookup";
 
 @Controller({
   deps: [

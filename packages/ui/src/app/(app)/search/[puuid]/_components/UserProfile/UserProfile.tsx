@@ -1,8 +1,9 @@
+import { TierNumber, tierNumberToNameObject } from "@instalock/riot";
+import { Card, Flex, Group, Image, Text } from "@mantine/core";
+
 import MatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/MatchCard";
 import { useGetProfileByPuuid } from "@/app/(app)/search/[puuid]/_components/UserProfile/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
-import { TierNumber, tierNumberToNameObject } from "@instalock/riot";
-import { Card, Flex, Group, Image, Text } from "@mantine/core";
 
 export default function UserProfile({ puuid }: { puuid: string }) {
   const { status, data } = useGetProfileByPuuid(puuid);
@@ -44,8 +45,8 @@ export default function UserProfile({ puuid }: { puuid: string }) {
         </Group>
       </Card>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 w-screen px-8 pt-4">
-        {matches.map((match) => (
-          <MatchCard match={match} viewMore={false} />
+        {matches.map((match, idx) => (
+          <MatchCard match={match} viewMore={false} key={idx} />
         ))}
       </div>
     </>

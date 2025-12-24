@@ -45,7 +45,6 @@ export default function MatchCard({
           <Image src={mapSrc} height={160} alt={mapName} />
         </Tooltip>
       </Card.Section>
-
       <Group justify="space-between" mt="md" mb="xs">
         <Text fw={500}>{mapName}</Text>
         <Text size="xs" c="dimmed">
@@ -63,7 +62,6 @@ export default function MatchCard({
           {isCompleted ? "COMPLETED" : "LIVE"}
         </Badge>
       </Group>
-
       <Group justify="space-between" align="center" mt="xs" mb="xs">
         {/* <Stack gap="0">
             <Text size="sm" c="dimmed">

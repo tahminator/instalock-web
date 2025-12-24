@@ -1,6 +1,7 @@
-import { useInterval } from "@/lib/use-interval";
 import { Text } from "@mantine/core";
 import { useState } from "react";
+
+import { useInterval } from "@/lib/use-interval";
 
 export default function Countdown({ start }: { start: number }) {
   const [countdown, setCountdown] = useState(start);

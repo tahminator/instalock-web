@@ -6,11 +6,26 @@
     "generate": "cd scripts/manual && tsx generateMapImages.ts && tsx generateTierImages.ts",
     "frontend:dev": "cd apps/frontend && pnpm run dev",
     "server:dev": "cd apps/server && pnpm run dev",
+    "test": "pnpm run typecheck && pnpm run lint",
+    "typecheck": "sh -c 'set -e; for config in $(find . -name \"tsconfig.json\" -not -path \"*/node_modules/*\"); do echo \"Checking: $config\"; (cd \"$(dirname \"$config\")\" && pnpm run typecheck) || exit 1; done'",
+    "lint": "pnpm run eslint",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint . --fix",
     "dev": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:dev\""
   },
   "keywords": [],
   "author": "Tahmid Ahmed",
   "license": "ISC",
-  "dependencies": {},
-  "packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b"
+  "packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b",
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-perfectionist": "^5.1.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.15.0",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.15.0"
+  }
 }

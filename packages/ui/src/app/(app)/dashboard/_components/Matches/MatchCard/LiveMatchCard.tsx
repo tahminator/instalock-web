@@ -7,7 +7,6 @@ export default function LiveMatchCard() {
       <div className="flex flex-col items-center justify-center text-center grow">
         Looking for the Live Match features? Click the button below.
       </div>
-
       <div className="mt-auto">
         <Link to={"/live"}>
           <Button

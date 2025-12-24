@@ -19,7 +19,7 @@ type SuccessfulPartyDetails = {
   Version?: number;
   CurrentPartyID?: string;
   Invites?: null;
-  Requests?: any[];
+  Requests?: unknown[];
   PlatformInfo?: PartyPlatformInfo;
   IsCrossPlayEnabled?: boolean;
   errorCode: undefined;
@@ -105,8 +105,8 @@ type Match = {
 export type AutoGenMatchMeta = {
   matchInfo?: MatchInfo;
   players?: Player[];
-  bots?: any[];
-  coaches?: any[];
+  bots?: unknown[];
+  coaches?: unknown[];
   teams?: Team[];
   roundResults?: RoundResultElement[];
   kills?: Kill[];
@@ -483,17 +483,17 @@ export type RiotPreGameDataType = {
   Teams: RTeam[];
   AllyTeam: RTeam;
   EnemyTeam: null;
-  ObserverSubjects: any[];
-  MatchCoaches: any[];
+  ObserverSubjects: unknown[];
+  MatchCoaches: unknown[];
   EnemyTeamSize: number;
   EnemyTeamLockCount: number;
   PregameState: string;
   LastUpdated: string;
   MapID: string;
-  MapSelectPool: any[];
-  BannedMapIDs: any[];
+  MapSelectPool: unknown[];
+  BannedMapIDs: unknown[];
   CastedVotes: CastedVotes;
-  MapSelectSteps: any[];
+  MapSelectSteps: unknown[];
   MapSelectStep: number;
   Team1: string;
   GamePodID: string;

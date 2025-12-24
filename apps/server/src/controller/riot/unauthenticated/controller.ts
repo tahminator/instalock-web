@@ -1,7 +1,3 @@
-import { ZodParserError } from "@/error/parser";
-import { PlayerMatchRepository } from "@/repository/playerMatch";
-import { RiotMatchRepository } from "@/repository/riotMatch";
-import { UserRepository } from "@/repository/user";
 import {
   IRiotUnauthenticatedController,
   RiotMatchEnriched,
@@ -22,6 +18,11 @@ import {
   ResponseStatusError,
 } from "@tahminator/sapling";
 import { Request, Response } from "express";
+
+import { ZodParserError } from "@/error/parser";
+import { PlayerMatchRepository } from "@/repository/playerMatch";
+import { RiotMatchRepository } from "@/repository/riotMatch";
+import { UserRepository } from "@/repository/user";
 
 @Controller({
   deps: [UserRepository, RiotMatchRepository, PlayerMatchRepository],

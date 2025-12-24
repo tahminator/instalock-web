@@ -1,4 +1,3 @@
-import classes from "@/app/(app)/_components/navbar.module.css";
 import {
   Box,
   Burger,
@@ -13,9 +12,12 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Link, NavLink } from "react-router-dom";
-import LogoImg from "/logo.png";
 import { FaGithub } from "react-icons/fa6";
+import { Link, NavLink } from "react-router-dom";
+
+import classes from "@/app/(app)/_components/navbar.module.css";
+
+import LogoImg from "/logo.png";
 
 export default function Navbar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -54,7 +56,6 @@ export default function Navbar() {
               </Text>
             </Title>{" "}
           </Group>
-
           <Group justify="center" h="100%" gap={0} visibleFrom="sm" mr="50">
             <NavLink to="/" className={classes.link}>
               <Text inherit>Home</Text>
@@ -110,7 +111,6 @@ export default function Navbar() {
               <Text inherit>DB Search</Text>
             </NavLink>
           </Group>
-
           <Group visibleFrom="sm">
             <Link to={"https://github.com/0pengu/instalock-web"} reloadDocument>
               <Button color={"gray.6"}>
@@ -119,7 +119,6 @@ export default function Navbar() {
               </Button>
             </Link>
           </Group>
-
           <Burger
             opened={drawerOpened}
             onClick={toggleDrawer}
@@ -127,7 +126,6 @@ export default function Navbar() {
           />
         </Group>
       </header>
-
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
@@ -153,7 +151,6 @@ export default function Navbar() {
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
-
           <NavLink to="/" className={classes.link}>
             <Text className={classes.link}>Home</Text>
           </NavLink>
@@ -177,7 +174,6 @@ export default function Navbar() {
           {/* <Collapse in={linksOpened}>{links}</Collapse> */}
 
           <Divider my="sm" />
-
           <Group justify="center" grow pb="xl" px="md">
             <Link to={"https://github.com/0pengu/instalock-web"} reloadDocument>
               <Button color={"gray.6"} fullWidth>
