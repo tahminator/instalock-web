@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import { writeFile, mkdir } from "fs/promises";
+import { writeFile } from "fs/promises";
 import path from "path";
 import sharp from "sharp";
 
@@ -27,7 +27,7 @@ async function generateAgentImages() {
         "frontend",
         "public",
         "agents",
-        fileName
+        fileName,
       );
       const iconRes = await fetch(url);
 

@@ -1,4 +1,3 @@
-import { useFetchPossibleUsersByQuery } from "@/app/(app)/search/_components/SearchBar/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { queryByRiotNameSchema } from "@instalock/api";
 import { Autocomplete, Button, Center, Loader, rem } from "@mantine/core";
@@ -8,6 +7,8 @@ import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { z } from "zod";
+
+import { useFetchPossibleUsersByQuery } from "@/app/(app)/search/_components/SearchBar/hooks";
 
 export default function SearchBar() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function SearchBar() {
 
   useEffect(() => {
     form.setValue("fetchStatus", status);
-  }, [status]);
+  }, [form, status]);
 
   const tags = data.map((user) => user.riotTag).filter((tag) => tag != null);
 

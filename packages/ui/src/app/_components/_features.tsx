@@ -1,9 +1,10 @@
 import { Button } from "@mantine/core";
+import { Link } from "react-router-dom";
+
 import JettImg from "@/assets/landing/jett-small-display-icon.png";
 import PhxImg from "@/assets/landing/pheonix-small-display-icon.png";
 import ViperImg from "@/assets/landing/viper-small-display-icon.png";
 import VyseImg from "@/assets/landing/vyse-small-display-icon.png";
-import { Link } from "react-router-dom";
 
 const features = [
   {
@@ -61,7 +62,6 @@ export function Features() {
             your stats to selecting your favorite agent, Instalock has you
             covered.
           </p>
-
           <Link to="/dashboard">
             <Button className="transition-all bg-linear-to-r from-deep-red-400 to-deep-red-700 bg-size-200 bg-pos-0 hover:bg-pos-100">
               Get started

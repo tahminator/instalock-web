@@ -1,8 +1,7 @@
-import classes from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal.module.css";
-import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RiotAuthRouteObject } from "@instalock/api";
 import { authModalSchema } from "@instalock/api";
+import { fetcher } from "@instalock/fetcher";
 import {
   Box,
   Button,
@@ -26,7 +25,9 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
-import { fetcher } from "@instalock/fetcher";
+
+import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
+import classes from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal.module.css";
 
 export default function RiotAuthenticationModal() {
   const queryClient = useQueryClient();

@@ -1,12 +1,13 @@
-import { CachingRedisClient } from "@/lib/redis/cache";
-import { Redis } from "@/lib/redis/types";
 import { RiotPlayerData } from "@instalock/api";
-import { Injectable, Sapling } from "@tahminator/sapling";
 import {
   RiotClient,
   TierNumber,
   tierNumberToNameObject,
 } from "@instalock/riot";
+import { Injectable, Sapling } from "@tahminator/sapling";
+
+import { CachingRedisClient } from "@/lib/redis/cache";
+import { Redis } from "@/lib/redis/types";
 
 @Injectable([CachingRedisClient])
 export class CachingLookupService {

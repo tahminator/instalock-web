@@ -7,11 +7,12 @@
 //   );
 // }
 
+import { ReactNode } from "react";
+
 import { useGetShallowMatchesQuery } from "@/app/(app)/dashboard/_components/Matches/hooks";
 import LiveMatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/LiveMatchCard";
 import MatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/MatchCard";
 import SkeletonMatchCardComponent from "@/app/(app)/dashboard/_components/Matches/MatchCard/SkeletonCard/SkeletonCard";
-import { ReactNode } from "react";
 
 export default function MatchLoader() {
   const { data, status } = useGetShallowMatchesQuery();
@@ -20,8 +21,8 @@ export default function MatchLoader() {
     return (
       <MatchLoaderWrapper>
         <LiveMatchCard />
-        {Array.from({ length: 20 }, () => (
-          <SkeletonMatchCardComponent />
+        {Array.from({ length: 20 }, (_, k) => (
+          <SkeletonMatchCardComponent key={k} />
         ))}
       </MatchLoaderWrapper>
     );
@@ -30,8 +31,8 @@ export default function MatchLoader() {
   return (
     <MatchLoaderWrapper>
       <LiveMatchCard />
-      {data.payload.map((match) => (
-        <MatchCard match={match} />
+      {data.payload.map((match, i) => (
+        <MatchCard match={match} key={i} />
       ))}
     </MatchLoaderWrapper>
   );

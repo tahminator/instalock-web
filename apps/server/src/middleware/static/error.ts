@@ -1,6 +1,6 @@
-import SJ from "superjson";
 import { ResponseStatusError } from "@tahminator/sapling";
 import { Request, Response, NextFunction } from "express";
+import SJ from "superjson";
 
 export type ErrorResponse = {
   success: boolean;
@@ -35,7 +35,7 @@ export class ErrorMiddleware {
 
     const status =
       typeof err === "object" && err !== null && "status" in err
-        ? (err as any).status
+        ? (err as { status: number }).status
         : 500;
     const message =
       err instanceof Error ? err.message : "Internal Server Error";

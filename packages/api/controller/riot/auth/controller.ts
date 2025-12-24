@@ -1,9 +1,10 @@
+import { ResponseEntity } from "@tahminator/sapling";
 import { Request, Response } from "express";
+
 import { AuthenticationObjectDto } from "../../../dto/AuthenticationObjectDto";
 import { ApiDefault } from "../../../utils/api";
 import { IBaseController } from "../../../utils/controller";
 import { Empty } from "../../../utils/empty";
-import { ResponseEntity } from "@tahminator/sapling";
 
 export interface IRiotAuthController extends IBaseController {
   getMe(

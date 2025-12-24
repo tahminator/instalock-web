@@ -1,9 +1,10 @@
-import { RiotPlayerData } from "../../../dto/RiotPlayerData";
+import { ResponseEntity } from "@tahminator/sapling";
+import { Request, Response } from "express";
+
 import { RiotMatchEnriched } from "../../../dto/RiotMatchEnriched";
+import { RiotPlayerData } from "../../../dto/RiotPlayerData";
 import { ApiDefault } from "../../../utils/api";
 import { IBaseController } from "../../../utils/controller";
-import { Request, Response } from "express";
-import { ResponseEntity } from "@tahminator/sapling";
 
 export interface IRiotQueryController extends IBaseController {
   getMyRiotPlayerData(

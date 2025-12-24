@@ -7,7 +7,10 @@ permissions:
   pull-requests: write
 
 on:
-  pull_request:
+  workflow_run:
+    workflows: ["ci-cd"]
+    types:
+      - completed
 
 concurrency:
   group: ci-stg-${{ github.ref }}

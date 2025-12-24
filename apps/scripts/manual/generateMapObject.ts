@@ -1,5 +1,3 @@
-import path from "path";
-
 async function generateMapObject() {
   const res = await fetch("https://valorant-api.com/v1/maps");
 

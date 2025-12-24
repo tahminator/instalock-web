@@ -1,10 +1,11 @@
+import { ResponseEntity } from "@tahminator/sapling";
 import { Request, Response } from "express";
-import { IBaseController } from "../../../utils/controller";
+
+import { RiotPlayerDataDetailed } from "../../../dto/RiotPlayerDataDetailed";
+import { RiotPlayerDataShallow } from "../../../dto/RiotPlayerDataShallow";
 import { MetricsDto } from "../../../dto/UserMetricsDto";
 import { ApiDefault } from "../../../utils/api";
-import { RiotPlayerDataShallow } from "../../../dto/RiotPlayerDataShallow";
-import { ResponseEntity } from "@tahminator/sapling";
-import { RiotPlayerDataDetailed } from "../../../dto/RiotPlayerDataDetailed";
+import { IBaseController } from "../../../utils/controller";
 
 export interface IRiotUnauthenticatedController extends IBaseController {
   getMetrics(

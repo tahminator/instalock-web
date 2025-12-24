@@ -1,11 +1,12 @@
-import Navbar from "@/app/(app)/_components/Navbar";
-import DetailsLoader from "@/app/(app)/dashboard/[id]/_components/DetailsLoader";
-import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
-import CenteredSpinner from "@/components/ui/centered-spinner";
 import { checkIdSchema } from "@instalock/api";
 import { notifications } from "@mantine/notifications";
 import { Suspense, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
+
+import Navbar from "@/app/(app)/_components/Navbar";
+import DetailsLoader from "@/app/(app)/dashboard/[id]/_components/DetailsLoader";
+import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
+import CenteredSpinner from "@/components/ui/centered-spinner";
 
 export default function DetailedMatchPage() {
   const navigate = useNavigate();

@@ -1,8 +1,10 @@
-import { Redis, RateLimitRedisClient } from "@/lib/redis/rateLimiter";
 import { Controller, HttpStatus, Middleware } from "@tahminator/sapling";
 import { NextFunction, Request, Response } from "express";
 import rateLimit, { RateLimitRequestHandler } from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
+
+import { RateLimitRedisClient } from "@/lib/redis/rateLimiter";
+import { Redis } from "@/lib/redis/types";
 
 @Controller({
   deps: [RateLimitRedisClient],

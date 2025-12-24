@@ -1,10 +1,3 @@
-import Countdown from "@/app/(app)/live/_components/LiveChecker/AgentSelector/Countdown";
-import {
-  usePreGameQuery,
-  usePreGameSelectAgentMutation,
-} from "@/app/(app)/live/_components/LiveChecker/AgentSelector/hooks";
-import { useAuthUpdater } from "@/app/(app)/live/hooks";
-import CenteredSpinner from "@/components/ui/centered-spinner";
 import {
   AgentUuid,
   agentUuidToNameObject,
@@ -16,9 +9,17 @@ import {
 import { Button, Card, Image, Text, Tooltip } from "@mantine/core";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+
+import Countdown from "@/app/(app)/live/_components/LiveChecker/AgentSelector/Countdown";
+import {
+  usePreGameQuery,
+  usePreGameSelectAgentMutation,
+} from "@/app/(app)/live/_components/LiveChecker/AgentSelector/hooks";
 // import fakeData from "./test.json";
 import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
 import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
+import { useAuthUpdater } from "@/app/(app)/live/hooks";
+import CenteredSpinner from "@/components/ui/centered-spinner";
 
 const agents = (() => {
   const agentsListList = Object.entries(agentUuidToNameObject);
@@ -117,7 +118,7 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
             })();
 
             return (
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center" key={idx}>
                 <NameSearcher
                   puuid={player.Subject}
                   myPuuid={puuid ?? ""}
@@ -147,10 +148,10 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
           })}
         </div>
         <div className="grid mt-4 md:grid-cols-12 grid-cols-4 gap-4 justify-center md:px-24 px-8">
-          {agents.map((agent) => {
+          {agents.map((agent, idx) => {
             const agentSrc = `/agents/${agent.name}.webp`;
             return (
-              <button onClick={() => selectAgent(agent.uuid)}>
+              <button onClick={() => selectAgent(agent.uuid)} key={idx}>
                 <Image
                   src={agentSrc}
                   alt={agent.name}

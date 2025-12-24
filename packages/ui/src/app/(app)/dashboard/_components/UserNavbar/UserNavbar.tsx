@@ -1,8 +1,3 @@
-import classes from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar.module.css";
-import {
-  useDisconnectRiotPlayerQuery,
-  useRiotPlayerInfoQuery,
-} from "@/app/(app)/dashboard/_components/UserNavbar/hooks";
 import {
   Burger,
   Button,
@@ -25,6 +20,12 @@ import { IconChevronDown, IconRefresh, IconTrash } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import cx from "clsx";
 import { ReactNode, useEffect, useState } from "react";
+
+import {
+  useDisconnectRiotPlayerQuery,
+  useRiotPlayerInfoQuery,
+} from "@/app/(app)/dashboard/_components/UserNavbar/hooks";
+import classes from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar.module.css";
 
 export default function UserNavbar() {
   const queryClient = useQueryClient();

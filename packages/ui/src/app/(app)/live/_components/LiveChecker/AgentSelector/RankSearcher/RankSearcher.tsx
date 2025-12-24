@@ -1,6 +1,7 @@
-import { useFindRankQuery } from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/hooks";
 import { Image } from "@mantine/core";
 import clsx from "clsx";
+
+import { useFindRankQuery } from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/hooks";
 
 export default function RankSearcher({
   puuid,

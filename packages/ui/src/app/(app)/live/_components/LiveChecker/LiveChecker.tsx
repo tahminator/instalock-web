@@ -1,10 +1,11 @@
+import { Button, Loader, Text } from "@mantine/core";
+import { Link } from "react-router-dom";
+
 import AgentSelector from "@/app/(app)/live/_components/LiveChecker/AgentSelector/AgentSelector";
 import CurrentMatchInfo from "@/app/(app)/live/_components/LiveChecker/CurrentMatchInfo/CurrentMatchInfo";
 import { useGameCheckQuery } from "@/app/(app)/live/_components/LiveChecker/hooks";
 import { useAuthUpdater } from "@/app/(app)/live/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
-import { Button, Loader, Text } from "@mantine/core";
-import { Link } from "react-router-dom";
 
 export default function LiveChecker() {
   const { riotAuth, riotEntitlement, puuid } = useAuthUpdater();
@@ -47,6 +48,8 @@ export default function LiveChecker() {
   }
 
   if (!matchId) {
+    // TODO: Augment type so it is understood that if both are not null & matchId = null, then currentMatchId != null
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return <CurrentMatchInfo matchId={currentMatchId!} />;
   }
 

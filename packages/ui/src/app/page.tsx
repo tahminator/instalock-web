@@ -1,13 +1,14 @@
-import { DownArrow } from "@/components/ui/down-arrow";
+import { Button } from "@mantine/core";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+
 import { Features } from "@/app/_components/_features";
 import { Footer } from "@/app/_components/_footer";
 import GradientTitle from "@/app/_components/_gradient-title";
 import InitialLandingPage from "@/app/_components/_initial-landing";
-import { motion } from "framer-motion";
+import { DownArrow } from "@/components/ui/down-arrow";
 import GetStartedButton from "@/components/ui/get-started-button";
 import GithubButton from "@/components/ui/github-button";
-import { Link } from "react-router-dom";
-import { Button } from "@mantine/core";
 
 export default function LandingPage() {
   return (

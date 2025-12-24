@@ -1,16 +1,17 @@
-import express from "express";
 import { Class, Sapling } from "@tahminator/sapling";
+import express from "express";
+import SJ from "superjson";
+
 import { RiotAuthController } from "@/controller/riot/auth/controller";
-import { ErrorMiddleware } from "@/middleware/static/error";
+import { RiotQueryController } from "@/controller/riot/query/controller";
+import { RiotUnauthenticatedController } from "@/controller/riot/unauthenticated/controller";
 import { AuthMiddleware } from "@/middleware/auth";
+import { CookieParserMiddleware } from "@/middleware/cookie";
+import { CorsMiddleware } from "@/middleware/cors";
+import { CsrfMiddleware } from "@/middleware/csrf";
 import { RateLimiterMiddleware } from "@/middleware/limit";
 import { SpaMiddleware } from "@/middleware/spa";
-import { RiotUnauthenticatedController } from "@/controller/riot/unauthenticated/controller";
-import { RiotQueryController } from "@/controller/riot/query/controller";
-import { CorsMiddleware } from "@/middleware/cors";
-import { CookieParserMiddleware } from "@/middleware/cookie";
-import { CsrfMiddleware } from "@/middleware/csrf";
-import SJ from "superjson";
+import { ErrorMiddleware } from "@/middleware/static/error";
 
 const port = 3050;
 
@@ -22,7 +23,7 @@ Sapling.setSerializeFn(SJ.stringify);
 Sapling.setDeserializeFn(SJ.parse);
 Sapling.registerApp(app);
 
-const middlewares: Class<any>[] = [
+const middlewares: Class<unknown>[] = [
   CookieParserMiddleware,
   CorsMiddleware,
   CsrfMiddleware,
@@ -32,7 +33,7 @@ const middlewares: Class<any>[] = [
 ];
 middlewares.map(Sapling.resolve).forEach((r) => app.use(r));
 
-const controllers: Class<any>[] = [
+const controllers: Class<unknown>[] = [
   RiotAuthController,
   RiotUnauthenticatedController,
   RiotQueryController,

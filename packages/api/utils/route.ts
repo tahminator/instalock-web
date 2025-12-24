@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { IBaseController } from "./controller";
 import { UnwrapResponseEntity } from "./unwrap";
 
@@ -6,7 +7,7 @@ export type Method = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 export type Url = string;
 
 export type Route<TController, K extends keyof TController> = {
-  path: string | ((...params: any[]) => string);
+  path: string | ((...params: unknown[]) => string);
   method: Method;
   queryParams?: Record<string, string>;
   schema: {
@@ -16,7 +17,7 @@ export type Route<TController, K extends keyof TController> = {
   };
   fe: (
     input: unknown,
-  ) => TController[K] extends (...args: any[]) => any
+  ) => TController[K] extends (...args: unknown[]) => unknown
     ? UnwrapResponseEntity<ReturnType<TController[K]>>
     : never;
 };

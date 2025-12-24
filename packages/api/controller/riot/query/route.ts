@@ -1,8 +1,9 @@
 import z from "zod";
+
+import { UnwrapResponseEntity } from "../../../utils";
 import { RouteObject } from "../../../utils/route";
 import { checkIdSchema } from "../../../zod";
 import { IRiotQueryController } from "./controller";
-import { UnwrapResponseEntity } from "../../../utils";
 
 export const RiotQueryRouteObject = {
   getMyRiotPlayerData: {

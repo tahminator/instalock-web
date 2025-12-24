@@ -1,8 +1,9 @@
-import { passthrough } from "@/lib/express";
 import { Controller, GET, HttpStatus, Middleware } from "@tahminator/sapling";
 import express, { NextFunction, Request, Response } from "express";
-import path from "path";
 import fs from "fs/promises";
+import path from "path";
+
+import { passthrough } from "@/lib/express";
 
 @Controller()
 export class SpaMiddleware {

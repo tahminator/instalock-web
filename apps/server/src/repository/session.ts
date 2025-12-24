@@ -1,6 +1,7 @@
-import { Injectable } from "@tahminator/sapling";
-import { DbClient } from "@/lib/db";
 import { BaseSessionRepository } from "@instalock/db";
+import { Injectable } from "@tahminator/sapling";
+
+import { DbClient } from "@/lib/db";
 
 @Injectable([DbClient])
 export class SessionRepository extends BaseSessionRepository {

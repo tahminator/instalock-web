@@ -1,9 +1,10 @@
-import { formatGameDuration } from "@/app/(app)/dashboard/[id]/_components/helper";
-import { useGetMatchInfoQuery } from "@/app/(app)/dashboard/[id]/_components/hooks";
-import PlayerTable from "@/app/(app)/dashboard/[id]/_components/PlayerTable/PlayerTable";
 import { MapUuid, mapUuidToNameObject } from "@instalock/riot";
 import { Button, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
+
+import { formatGameDuration } from "@/app/(app)/dashboard/[id]/_components/helper";
+import { useGetMatchInfoQuery } from "@/app/(app)/dashboard/[id]/_components/hooks";
+import PlayerTable from "@/app/(app)/dashboard/[id]/_components/PlayerTable/PlayerTable";
 
 export default function DetailsLoader({ uuid }: { uuid: string }) {
   const { data: result, status } = useGetMatchInfoQuery(uuid);
