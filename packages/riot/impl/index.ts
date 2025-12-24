@@ -230,7 +230,7 @@ export class RiotClientImpl {
   /**
    * Retrieve full current match details via a currentMatchId
    *
-   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/pre-game-match)
+   * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/current-game-match)
    */
   static async getCurrentGameMatchDetails({
     authToken,
