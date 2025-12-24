@@ -78,7 +78,7 @@ export class MockRiotClient extends RiotClientImpl {
         const json =
           GET_PRE_GAME_MATCH_ID_NOT_FOUND satisfies RiotPreGameApiType;
         return new Response(JSON.stringify(json), {
-          status: 200,
+          status: 404,
         }) satisfies _Response<RiotPreGameApiType>;
       }
       case "real":
