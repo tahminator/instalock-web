@@ -3,7 +3,7 @@ run-name: Deploying to production on ${{ github.actor }}'s commits
 
 on:
   workflow_run:
-    workflows: ["ci-cd"]
+    workflows: ["CI-CD"]
     types:
       - completed
     branches:
