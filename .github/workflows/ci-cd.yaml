@@ -37,3 +37,107 @@ jobs:
 
       - name: Run Tests
         run: pnpm run test
+
+  deploy-staging-cron:
+    name: Deploy Cron to Staging
+    needs: test
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci,staging
+
+      - name: Deploy Cron Service
+        uses: ./.github/composite/deploy-cron
+        with:
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
+          COOLIFY_UUID: ${{ env.STAGING_COOLIFY_CRON_UUID }}
+          TAG_PREFIX: staging-
+          ENV_FILE: .env.staging
+
+  deploy-staging-web:
+    name: Deploy Web to Staging
+    needs: test
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci,staging
+
+      - name: Deploy Web Service
+        uses: ./.github/composite/deploy-web
+        with:
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
+          COOLIFY_UUID: ${{ env.STAGING_COOLIFY_WEB_UUID }}
+          TAG_PREFIX: staging-
+          ENV_FILE: .env.staging
+
+  deploy-production-cron:
+    name: Deploy Cron to Production
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci,production
+
+      - name: Deploy Cron Service
+        uses: ./.github/composite/deploy-cron
+        with:
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
+          COOLIFY_UUID: ${{ env.PROD_COOLIFY_CRON_UUID }}
+          TAG_PREFIX: ""
+          ENV_FILE: .env.production
+
+  deploy-production-web:
+    name: Deploy Web to Production
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci,production
+
+      - name: Deploy Web Service
+        uses: ./.github/composite/deploy-web
+        with:
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
+          COOLIFY_UUID: ${{ env.PROD_COOLIFY_WEB_UUID }}
+          TAG_PREFIX: ""
+          ENV_FILE: .env.production
