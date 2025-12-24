@@ -2,11 +2,14 @@ name: Deploy Cron Service
 description: Builds cron image and deploys to Coolify
 
 inputs:
-  GPG_PRIVATE_KEY:
-    description: GPG private key for decrypting secrets
+  DOCKER_HUB_PAT:
+    description: Docker Hub personal access token
     required: true
-  GPG_PASSPHRASE:
-    description: GPG passphrase
+  COOLIFY_PAT:
+    description: Coolify personal access token
+    required: true
+  COOLIFY_UUID:
+    description: Coolify service UUID
     required: true
   TAG_PREFIX:
     description: Docker tag prefix (e.g., staging-, empty for prod)
@@ -15,24 +18,15 @@ inputs:
   ENV_FILE:
     description: Environment file to use (.env.staging or .env.production)
     required: true
-  ENVIRONMENT:
-    description: Environment name (staging or production)
-    required: true
 
 runs:
   using: composite
   steps:
-    - name: Load secrets
-      uses: ./.github/composite/load-secrets
-      with:
-        GPG_PRIVATE_KEY: ${{ inputs.GPG_PRIVATE_KEY }}
-        GPG_PASSPHRASE: ${{ inputs.GPG_PASSPHRASE }}
-        UNLOAD_ENVIRONMENTS: ci,${{ inputs.ENVIRONMENT }}
-
     - name: Build and push cron image
       shell: bash
       run: bash .github/scripts/build-image.sh
       env:
+        DOCKER_HUB_PAT: ${{ inputs.DOCKER_HUB_PAT }}
         TYPE: cron
         DOCKER_UPLOAD: true
         TAG_PREFIX: ${{ inputs.TAG_PREFIX }}
@@ -40,16 +34,18 @@ runs:
 
     - name: Update Coolify Environment Variables
       shell: bash
-      run: bash .github/scripts/update-coolify-env.sh ${{ inputs.ENV_FILE }} ${{ env.COOLIFY_CRON_UUID }}
+      run: bash .github/scripts/update-coolify-env.sh ${{ inputs.ENV_FILE }} ${{ inputs.COOLIFY_UUID }}
+      env:
+        COOLIFY_PAT: ${{ inputs.COOLIFY_PAT }}
 
     - name: Trigger Coolify Redeploy
       shell: bash
       run: |
         RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" \
         -X POST \
-        -H "Authorization: Bearer ${{ env.COOLIFY_PAT }}" \
+        -H "Authorization: Bearer ${{ inputs.COOLIFY_PAT }}" \
         -H "Content-Type: application/json" \
-        https://coolify.tahmid.io/api/v1/deploy?uuid=${{ env.COOLIFY_CRON_UUID }})
+        https://coolify.tahmid.io/api/v1/deploy?uuid=${{ inputs.COOLIFY_UUID }})
 
         HTTP_BODY=$(echo "$RESPONSE" | sed -e 's/HTTPSTATUS:.*//g')
         HTTP_STATUS=$(echo "$RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
@@ -79,7 +75,7 @@ runs:
         for i in {1..60}; do
             RESPONSE=$(curl -s -X GET \
                 -H "Content-Type: application/json" \
-                -H "Authorization: Bearer ${{ env.COOLIFY_PAT }}" \
+                -H "Authorization: Bearer ${{ inputs.COOLIFY_PAT }}" \
                 "https://coolify.tahmid.io/api/v1/deployments/$DEPLOYMENT_ID")
 
             PHASE=$(echo "$RESPONSE" | jq -r '.status')

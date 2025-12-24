@@ -48,14 +48,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy Cron Service
-        uses: ./.github/composite/deploy-cron
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci,staging
+
+      - name: Deploy Cron Service
+        uses: ./.github/composite/deploy-cron
+        with:
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
+          COOLIFY_UUID: ${{ env.STAGING_COOLIFY_CRON_UUID }}
           TAG_PREFIX: staging-
           ENV_FILE: .env.staging
-          ENVIRONMENT: staging
 
   deploy-staging-web:
     name: Deploy Web to Staging
@@ -67,14 +74,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy Web Service
-        uses: ./.github/composite/deploy-web
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci,staging
+
+      - name: Deploy Web Service
+        uses: ./.github/composite/deploy-web
+        with:
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
+          COOLIFY_UUID: ${{ env.STAGING_COOLIFY_WEB_UUID }}
           TAG_PREFIX: staging-
           ENV_FILE: .env.staging
-          ENVIRONMENT: staging
 
   deploy-production-cron:
     name: Deploy Cron to Production
@@ -86,14 +100,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy Cron Service
-        uses: ./.github/composite/deploy-cron
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci,production
+
+      - name: Deploy Cron Service
+        uses: ./.github/composite/deploy-cron
+        with:
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
+          COOLIFY_UUID: ${{ env.PROD_COOLIFY_CRON_UUID }}
           TAG_PREFIX: ""
           ENV_FILE: .env.production
-          ENVIRONMENT: production
 
   deploy-production-web:
     name: Deploy Web to Production
@@ -105,11 +126,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy Web Service
-        uses: ./.github/composite/deploy-web
+      - name: Load secrets
+        uses: ./.github/composite/load-secrets
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          UNLOAD_ENVIRONMENTS: ci,production
+
+      - name: Deploy Web Service
+        uses: ./.github/composite/deploy-web
+        with:
+          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
+          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
+          COOLIFY_UUID: ${{ env.PROD_COOLIFY_WEB_UUID }}
           TAG_PREFIX: ""
           ENV_FILE: .env.production
-          ENVIRONMENT: production
