@@ -37,3 +37,79 @@ jobs:
 
       - name: Run Tests
         run: pnpm run test
+
+  deploy-staging-cron:
+    name: Deploy Cron to Staging
+    needs: test
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Cron Service
+        uses: ./.github/composite/deploy-cron
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          TAG_PREFIX: staging-
+          ENV_FILE: .env.staging
+          ENVIRONMENT: staging
+
+  deploy-staging-web:
+    name: Deploy Web to Staging
+    needs: test
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Web Service
+        uses: ./.github/composite/deploy-web
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          TAG_PREFIX: staging-
+          ENV_FILE: .env.staging
+          ENVIRONMENT: staging
+
+  deploy-production-cron:
+    name: Deploy Cron to Production
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Cron Service
+        uses: ./.github/composite/deploy-cron
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          TAG_PREFIX: ""
+          ENV_FILE: .env.production
+          ENVIRONMENT: production
+
+  deploy-production-web:
+    name: Deploy Web to Production
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Web Service
+        uses: ./.github/composite/deploy-web
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          TAG_PREFIX: ""
+          ENV_FILE: .env.production
+          ENVIRONMENT: production
