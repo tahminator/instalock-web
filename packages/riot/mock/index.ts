@@ -133,7 +133,6 @@ export class MockRiotClient extends RiotClientImpl {
    *
 
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/lock-character)
-  *
    */
   async lockAgent(props: LockAgentRequest) {
     return RiotClientImpl.lockAgent(props);
