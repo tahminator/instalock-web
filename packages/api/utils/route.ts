@@ -1,3 +1,5 @@
+// TODO: Find out why any works and not unknown
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
 
 import { IBaseController } from "./controller";
@@ -7,7 +9,7 @@ export type Method = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 export type Url = string;
 
 export type Route<TController, K extends keyof TController> = {
-  path: string | ((...params: unknown[]) => string);
+  path: string | ((...params: any[]) => string);
   method: Method;
   queryParams?: Record<string, string>;
   schema: {
@@ -16,8 +18,8 @@ export type Route<TController, K extends keyof TController> = {
     requestBody?: z.ZodTypeAny;
   };
   fe: (
-    input: unknown,
-  ) => TController[K] extends (...args: unknown[]) => unknown
+    input: any,
+  ) => TController[K] extends (...args: any[]) => unknown
     ? UnwrapResponseEntity<ReturnType<TController[K]>>
     : never;
 };
