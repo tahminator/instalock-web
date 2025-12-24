@@ -438,6 +438,13 @@ export type Team = {
   numPoints?: number;
 };
 
+export type PlayerData = {
+  DisplayName: string;
+  Subject: string;
+  GameName: string;
+  TagLine: string;
+};
+
 type RiotPreGameFailType = {
   httpStatus: number;
   errorCode: string;
@@ -445,7 +452,7 @@ type RiotPreGameFailType = {
 };
 
 type RiotPreGamePassType = {
-  httpStatus: undefined;
+  httpStatus?: undefined;
   Subject: string;
   MatchID: string;
   Version: number;
@@ -481,7 +488,7 @@ export type RiotPreGameDataType = {
   EnemyTeamSize: number;
   EnemyTeamLockCount: number;
   PregameState: string;
-  LastUpdated: Date;
+  LastUpdated: string;
   MapID: string;
   MapSelectPool: any[];
   BannedMapIDs: any[];
