@@ -35,7 +35,7 @@ export default function UserProfile({ puuid }: { puuid: string }) {
               src={rankImage}
               className={"aspect-square max-w-24 rounded-full"}
             />
-            <Text color={"gray.6"} size={"xs"}>
+            <Text c={"gray.6"} size={"xs"}>
               {rankName} (may be out-of-date)
             </Text>
           </Flex>

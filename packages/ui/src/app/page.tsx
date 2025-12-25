@@ -48,29 +48,6 @@ export default function LandingPage() {
             >
               View Database (No login needed)
             </Button>
-            {/* {data && !isLoading && !isError ? (
-              <Link to="/dashboard">
-                <Button
-                  size="xl"
-                  variant="gradient"
-                  gradient={{ from: "purple", to: "red" }}
-                  className="my-4"
-                >
-                  Welcome back, {data.username}
-                </Button>
-              </Link>
-            ) : (
-              <Link to="/login">
-                <Button
-                  size="xl"
-                  variant="gradient"
-                  gradient={{ from: "purple", to: "red" }}
-                  className="my-4"
-                >
-                  Get Started
-                </Button>
-              </Link>
-            )} */}
             <GithubButton to="https://github.com/0pengu/instalock-web" />
           </div>
         </InitialLandingPage>

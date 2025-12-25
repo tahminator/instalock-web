@@ -11,12 +11,20 @@ import { Link } from "react-router-dom";
 
 import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
 import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
-import { useAuthUpdater } from "@/app/(app)/live/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
 import { useCurrentGameQuery } from "@/lib/api/queries/riot";
 
-export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
-  const { riotAuth, riotEntitlement, puuid } = useAuthUpdater();
+export default function CurrentMatchInfo({
+  matchId,
+  riotAuth,
+  riotEntitlement,
+  puuid,
+}: {
+  matchId: string;
+  riotAuth: string;
+  riotEntitlement: string;
+  puuid: string;
+}) {
   const { data: currentGameData, status } = useCurrentGameQuery({
     gameId: matchId,
     riotAuth,

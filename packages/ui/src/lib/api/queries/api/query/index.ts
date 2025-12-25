@@ -1,9 +1,6 @@
 import { RiotQueryRouteObject } from "@instalock/api";
 import { fetcher } from "@instalock/fetcher";
-import { notifications } from "@mantine/notifications";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 
 export const useRiotPlayerInfoQuery = () => {
   const queryFn = fetcher().api.riot.query.getMyRiotPlayerData.fetcher(
@@ -56,14 +53,12 @@ export const useFindNameQuery = ({ puuid }: { puuid: string }) => {
 export const useFindRankQuery = useFindNameQuery;
 
 export const useGetMatchInfoQuery = (uuid: string) => {
-  const navigate = useNavigate();
-
   const queryFn =
     fetcher().api.riot.query.getRiotMatchEnrichedByMatchId.fetcher(
       RiotQueryRouteObject.getRiotMatchEnrichedByMatchId,
     );
 
-  const query = useSuspenseQuery({
+  const query = useQuery({
     queryKey: ["riot", "match", uuid],
     queryFn: async () =>
       await queryFn({
@@ -72,29 +67,6 @@ export const useGetMatchInfoQuery = (uuid: string) => {
         requestBody: undefined,
       }),
   });
-
-  const { status, data: result } = query;
-
-  useEffect(() => {
-    if (status === "error") {
-      notifications.show({
-        message:
-          "This is an invalid match page. Please try selecting another match.",
-        color: "red",
-      });
-      navigate("/dashboard");
-    }
-  }, [navigate, status]);
-
-  useEffect(() => {
-    if (!result.success) {
-      notifications.show({
-        message: "Something went wrong. Please try selecting another match.",
-        color: "red",
-      });
-      navigate("/dashboard");
-    }
-  }, [result.success, navigate]);
 
   return query;
 };

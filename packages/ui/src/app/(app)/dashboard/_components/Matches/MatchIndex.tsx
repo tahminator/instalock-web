@@ -10,8 +10,6 @@ import { useRiotAuthQuery } from "@/lib/api/queries/api/auth";
 export default function MatchIndex() {
   const { data, status } = useRiotAuthQuery();
 
-  const valid = !!data?.user?.riotAuth && !!data?.user?.riotEntitlement;
-
   if (status === "pending") {
     return <CenteredSpinner />;
   }
@@ -24,7 +22,14 @@ export default function MatchIndex() {
     );
   }
 
-  if (!valid) {
+  const invalid =
+    !data.success ||
+    !data.payload.user ||
+    !data.payload.session ||
+    !data.payload.user.riotAuth ||
+    !data.payload.user.riotEntitlement;
+
+  if (invalid) {
     return (
       <MatchIndexWrapper>
         <RiotAuthenticationModal />

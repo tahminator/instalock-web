@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 
 import AgentSelector from "@/app/(app)/live/_components/LiveChecker/AgentSelector/AgentSelector";
 import CurrentMatchInfo from "@/app/(app)/live/_components/LiveChecker/CurrentMatchInfo/CurrentMatchInfo";
-import { useAuthUpdater } from "@/app/(app)/live/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
 import { useGameCheckQuery } from "@/lib/api/queries/riot";
 
-export default function LiveChecker() {
-  const { riotAuth, riotEntitlement, puuid } = useAuthUpdater();
+export default function LiveChecker(props: {
+  riotAuth: string;
+  riotEntitlement: string;
+  puuid: string;
+}) {
+  const { riotAuth, riotEntitlement, puuid } = props;
 
   const { data, status } = useGameCheckQuery({
     puuid,
@@ -50,8 +53,8 @@ export default function LiveChecker() {
   if (!matchId) {
     // TODO: Augment type so it is understood that if both are not null & matchId = null, then currentMatchId != null
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return <CurrentMatchInfo matchId={currentMatchId!} />;
+    return <CurrentMatchInfo matchId={currentMatchId!} {...props} />;
   }
 
-  return <AgentSelector matchId={matchId} />;
+  return <AgentSelector matchId={matchId} {...props} />;
 }

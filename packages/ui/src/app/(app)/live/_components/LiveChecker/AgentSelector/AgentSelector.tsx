@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 import Countdown from "@/app/(app)/live/_components/LiveChecker/AgentSelector/Countdown";
 import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
 import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
-import { useAuthUpdater } from "@/app/(app)/live/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
 import {
   usePreGameQuery,
@@ -28,8 +27,17 @@ const agents = (() => {
   });
 })();
 
-export default function AgentSelector({ matchId }: { matchId: string }) {
-  const { riotAuth, riotEntitlement, puuid } = useAuthUpdater();
+export default function AgentSelector({
+  matchId,
+  riotAuth,
+  riotEntitlement,
+  puuid,
+}: {
+  matchId: string;
+  riotAuth: string;
+  riotEntitlement: string;
+  puuid: string;
+}) {
   const {
     data: pregameData,
     status,

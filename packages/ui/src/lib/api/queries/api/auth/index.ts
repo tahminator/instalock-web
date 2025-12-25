@@ -1,13 +1,9 @@
-import { RiotAuthRouteObject, AuthenticationObjectDto } from "@instalock/api";
+import { RiotAuthRouteObject } from "@instalock/api";
 import { fetcher } from "@instalock/fetcher";
 import { notifications } from "@mantine/notifications";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo } from "react";
-import { useNavigate } from "react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useRiotAuthQuery = (autoNavigate = false) => {
-  const navigate = useNavigate();
-
+export const useRiotAuthQuery = () => {
   const queryFn = fetcher().api.riot.auth.getMe.fetcher(
     RiotAuthRouteObject.getMe,
   );
@@ -23,35 +19,7 @@ export const useRiotAuthQuery = (autoNavigate = false) => {
     },
   });
 
-  const { status } = query;
-
-  const data = useMemo<AuthenticationObjectDto>((): AuthenticationObjectDto => {
-    if (status === "success" && query.data.success) {
-      return query.data.payload;
-    }
-    return {
-      user: null,
-      session: null,
-    };
-  }, [query, status]);
-
-  useEffect(() => {
-    // Only do this if opted-in.
-    if (autoNavigate) {
-      if (
-        status === "error" ||
-        !data?.user?.riotAuth ||
-        !data?.user?.riotEntitlement
-      ) {
-        notifications.show({
-          message: "You are not authorized. Please authenticate.",
-        });
-        navigate("/dashboard");
-      }
-    }
-  }, [autoNavigate, navigate, status, data]);
-
-  return { ...query, data };
+  return query;
 };
 
 export const useDisconnectRiotPlayerMutation = () => {
@@ -67,5 +35,31 @@ export const useDisconnectRiotPlayerMutation = () => {
         pathParams: undefined,
         requestBody: undefined,
       }),
+  });
+};
+
+export const useAuthenticateMutation = () => {
+  const queryClient = useQueryClient();
+  const queryFn = fetcher().api.riot.auth.authenticate.fetcher(
+    RiotAuthRouteObject.authenticate,
+  );
+
+  return useMutation({
+    mutationFn: async (data: { url: string }) =>
+      await queryFn({
+        queryParams: undefined,
+        requestBody: data,
+        pathParams: undefined,
+      }),
+    onSuccess: (data) => {
+      notifications.show({
+        message: data.message,
+        color: data.success ? undefined : "red",
+      });
+
+      if (data.success) {
+        queryClient.invalidateQueries({ queryKey: ["riot", "auth"] });
+      }
+    },
   });
 };
