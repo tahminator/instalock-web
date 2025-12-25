@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { z } from "zod";
 
-import { useFetchPossibleUsersByQuery } from "@/app/(app)/search/_components/SearchBar/hooks";
+import { useFetchPossibleUsersByQuery } from "@/lib/api/queries/api/unauthenticated";
 
 export default function SearchBar() {
   const navigate = useNavigate();

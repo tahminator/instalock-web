@@ -2,8 +2,8 @@ import { TierNumber, tierNumberToNameObject } from "@instalock/riot";
 import { Card, Flex, Group, Image, Text } from "@mantine/core";
 
 import MatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/MatchCard";
-import { useGetProfileByPuuid } from "@/app/(app)/search/[puuid]/_components/UserProfile/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
+import { useGetProfileByPuuid } from "@/lib/api/queries/api/unauthenticated";
 
 export default function UserProfile({ puuid }: { puuid: string }) {
   const { status, data } = useGetProfileByPuuid(puuid);

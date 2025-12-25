@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
 
-import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
+import { useRiotAuthQuery } from "@/lib/api/queries/api/auth";
 
 type authStoreType = {
   riotAuth: string | undefined;

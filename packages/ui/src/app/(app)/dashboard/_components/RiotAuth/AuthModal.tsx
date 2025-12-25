@@ -27,7 +27,6 @@ import { Link } from "react-router-dom";
 import { z } from "zod";
 
 import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
-import classes from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal.module.css";
 
 export default function RiotAuthenticationModal() {
   const queryClient = useQueryClient();
@@ -199,11 +198,7 @@ export default function RiotAuthenticationModal() {
                 </Link>
                 . Please hover over Why? for more information.
               </Text>
-              <Group
-                justify="space-between"
-                mt="lg"
-                className={classes.controls}
-              >
+              <Group justify="space-between" mt="lg">
                 <Button onClick={close} disabled={loading}>
                   Close
                 </Button>

@@ -11,10 +11,9 @@ import { Link } from "react-router-dom";
 
 import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
 import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
-import { useCurrentGameQuery } from "@/app/(app)/live/_components/LiveChecker/CurrentMatchInfo/hooks";
 import { useAuthUpdater } from "@/app/(app)/live/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
-// import currentGameData from "./test.json";
+import { useCurrentGameQuery } from "@/lib/api/queries/riot";
 
 export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
   const { riotAuth, riotEntitlement, puuid } = useAuthUpdater();
@@ -40,7 +39,6 @@ export default function CurrentMatchInfo({ matchId }: { matchId: string }) {
   }
 
   const { MapID: mapUrl, Players: players } = currentGameData.payload;
-  //   const { MapID: mapUrl, Players: players } = currentGameData;
 
   if (!players || players.length <= 0) {
     return <CenteredSpinner />;

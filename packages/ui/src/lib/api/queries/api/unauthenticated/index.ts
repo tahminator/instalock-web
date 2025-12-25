@@ -35,3 +35,36 @@ export const useFetchPossibleUsersByQuery = (q?: string) => {
 
   return { ...query, data };
 };
+
+export const useFetchTotalUserCount = () => {
+  const queryFn = fetcher().api.riot.unauthenticated.getMetrics.fetcher(
+    RiotUnauthenticatedRouteObject.getMetrics,
+  );
+
+  return useQuery({
+    queryKey: ["search", "user", "count"],
+    queryFn: async () =>
+      await queryFn({
+        queryParams: undefined,
+        pathParams: undefined,
+        requestBody: undefined,
+      }),
+  });
+};
+
+export const useGetProfileByPuuid = (puuid: string) => {
+  const queryFn =
+    fetcher().api.riot.unauthenticated.getRiotPlayerDataDetailedByPuuid.fetcher(
+      RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid,
+    );
+
+  return useQuery({
+    queryKey: ["search", puuid],
+    queryFn: async () =>
+      await queryFn({
+        queryParams: undefined,
+        pathParams: puuid,
+        requestBody: undefined,
+      }),
+  });
+};

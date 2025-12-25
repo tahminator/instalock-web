@@ -5,8 +5,8 @@ import { useNavigate, useParams } from "react-router";
 
 import Navbar from "@/app/(app)/_components/Navbar";
 import DetailsLoader from "@/app/(app)/dashboard/[id]/_components/DetailsLoader";
-import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
+import { useRiotAuthQuery } from "@/lib/api/queries/api/auth";
 
 export default function DetailedMatchPage() {
   const navigate = useNavigate();

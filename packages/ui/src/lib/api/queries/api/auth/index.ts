@@ -1,11 +1,11 @@
-import { AuthenticationObjectDto, RiotAuthRouteObject } from "@instalock/api";
+import { RiotAuthRouteObject, AuthenticationObjectDto } from "@instalock/api";
 import { fetcher } from "@instalock/fetcher";
 import { notifications } from "@mantine/notifications";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 
-const useRiotAuthQuery = (autoNavigate = false) => {
+export const useRiotAuthQuery = (autoNavigate = false) => {
   const navigate = useNavigate();
 
   const queryFn = fetcher().api.riot.auth.getMe.fetcher(
@@ -54,4 +54,18 @@ const useRiotAuthQuery = (autoNavigate = false) => {
   return { ...query, data };
 };
 
-export default useRiotAuthQuery;
+export const useDisconnectRiotPlayerMutation = () => {
+  const queryFn = fetcher().api.riot.auth.logout.fetcher(
+    RiotAuthRouteObject.logout,
+  );
+
+  return useMutation({
+    mutationKey: ["riot", "remove"],
+    mutationFn: async () =>
+      await queryFn({
+        queryParams: undefined,
+        pathParams: undefined,
+        requestBody: undefined,
+      }),
+  });
+};

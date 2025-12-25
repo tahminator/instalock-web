@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 import AgentSelector from "@/app/(app)/live/_components/LiveChecker/AgentSelector/AgentSelector";
 import CurrentMatchInfo from "@/app/(app)/live/_components/LiveChecker/CurrentMatchInfo/CurrentMatchInfo";
-import { useGameCheckQuery } from "@/app/(app)/live/_components/LiveChecker/hooks";
 import { useAuthUpdater } from "@/app/(app)/live/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
+import { useGameCheckQuery } from "@/lib/api/queries/riot";
 
 export default function LiveChecker() {
   const { riotAuth, riotEntitlement, puuid } = useAuthUpdater();

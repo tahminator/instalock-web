@@ -1,7 +1,7 @@
 import Navbar from "@/app/(app)/_components/Navbar";
-import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
 import LiveChecker from "@/app/(app)/live/_components/LiveChecker/LiveChecker";
 import CenteredSpinner from "@/components/ui/centered-spinner";
+import { useRiotAuthQuery } from "@/lib/api/queries/api/auth";
 
 export default function LiveMatchPage() {
   // This boolean input is a custom implementation to handle unauthenticated cases.
