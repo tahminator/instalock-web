@@ -21,11 +21,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import cx from "clsx";
 import { ReactNode, useEffect, useState } from "react";
 
-import {
-  useDisconnectRiotPlayerQuery,
-  useRiotPlayerInfoQuery,
-} from "@/app/(app)/dashboard/_components/UserNavbar/hooks";
 import classes from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar.module.css";
+import { useDisconnectRiotPlayerMutation } from "@/lib/api/queries/api/auth";
+import { useRiotPlayerInfoQuery } from "@/lib/api/queries/api/query";
 
 export default function UserNavbar() {
   const queryClient = useQueryClient();
@@ -34,7 +32,7 @@ export default function UserNavbar() {
   const [opened, setOpened] = useState(false);
 
   const { data, status } = useRiotPlayerInfoQuery();
-  const { mutate } = useDisconnectRiotPlayerQuery();
+  const { mutate } = useDisconnectRiotPlayerMutation();
 
   if (status === "pending") {
     return (

@@ -2,21 +2,14 @@ import { Button, Center, MantineThemeProvider, rem } from "@mantine/core";
 import { IconCheck, IconCopy } from "@tabler/icons-react";
 import { useState } from "react";
 import "react-hook-form";
-import { UseFormReturn } from "react-hook-form";
 
 export function PasteButton({
-  form,
+  onPaste,
+  isFormUrlError,
   highlighted,
 }: {
-  // TODO - Fix the type for this
-  form: UseFormReturn<
-    {
-      url: string;
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any,
-    undefined
-  >;
+  onPaste: (url: string) => void;
+  isFormUrlError: boolean;
   highlighted: boolean;
 }) {
   const [pasted, setPasted] = useState(false);
@@ -26,19 +19,19 @@ export function PasteButton({
         <Button
           className=""
           color={
-            form.formState.errors.url
+            isFormUrlError
               ? "red"
               : pasted
-              ? "green"
-              : highlighted
-              ? "blue"
-              : "gray"
+                ? "green"
+                : highlighted
+                  ? "blue"
+                  : "gray"
           }
           size="sm"
           w={40}
           onClick={async () => {
             const text = await navigator.clipboard.readText();
-            form.setValue("url", text);
+            onPaste(text);
             setPasted(true);
             setTimeout(() => {
               setPasted(false);

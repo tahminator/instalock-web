@@ -2,17 +2,30 @@ import { MapUuid, mapUuidToNameObject } from "@instalock/riot";
 import { Button, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 
-import { formatGameDuration } from "@/app/(app)/dashboard/[id]/_components/helper";
-import { useGetMatchInfoQuery } from "@/app/(app)/dashboard/[id]/_components/hooks";
 import PlayerTable from "@/app/(app)/dashboard/[id]/_components/PlayerTable/PlayerTable";
+import CenteredSpinner from "@/components/ui/centered-spinner";
+import ToastWithRedirect from "@/components/ui/toast-with-redirect";
+import { useGetMatchInfoQuery } from "@/lib/api/queries/api/query";
+import { formatGameDuration } from "@/lib/utils/gameDuration";
 
 export default function DetailsLoader({ uuid }: { uuid: string }) {
   const { data: result, status } = useGetMatchInfoQuery(uuid);
 
-  // The logic for these situations gets handled inside of the custom hook.
-  // Please check the implementation for more details.
-  if (status === "error" || !result.success) {
-    return <></>;
+  if (status === "pending") {
+    return <CenteredSpinner />;
+  }
+
+  if (status === "error") {
+    return (
+      <ToastWithRedirect
+        to={"/dashboard"}
+        message={"Hmm, something went wrong when trying to load this match."}
+      />
+    );
+  }
+
+  if (!result.success) {
+    return <ToastWithRedirect to={"/dashboard"} message={result.message} />;
   }
 
   const { playerData, matchData, players: p } = result.payload;

@@ -11,15 +11,13 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 
 import Countdown from "@/app/(app)/live/_components/LiveChecker/AgentSelector/Countdown";
+import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
+import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
+import CenteredSpinner from "@/components/ui/centered-spinner";
 import {
   usePreGameQuery,
   usePreGameSelectAgentMutation,
-} from "@/app/(app)/live/_components/LiveChecker/AgentSelector/hooks";
-// import fakeData from "./test.json";
-import NameSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/NameSearcher";
-import RankSearcher from "@/app/(app)/live/_components/LiveChecker/AgentSelector/RankSearcher/RankSearcher";
-import { useAuthUpdater } from "@/app/(app)/live/hooks";
-import CenteredSpinner from "@/components/ui/centered-spinner";
+} from "@/lib/api/queries/riot";
 
 const agents = (() => {
   const agentsListList = Object.entries(agentUuidToNameObject);
@@ -29,8 +27,17 @@ const agents = (() => {
   });
 })();
 
-export default function AgentSelector({ matchId }: { matchId: string }) {
-  const { riotAuth, riotEntitlement, puuid } = useAuthUpdater();
+export default function AgentSelector({
+  matchId,
+  riotAuth,
+  riotEntitlement,
+  puuid,
+}: {
+  matchId: string;
+  riotAuth: string;
+  riotEntitlement: string;
+  puuid: string;
+}) {
   const {
     data: pregameData,
     status,
@@ -62,8 +69,6 @@ export default function AgentSelector({ matchId }: { matchId: string }) {
     PhaseTimeRemainingNS,
     AllyTeam: team,
   } = pregameData.payload;
-
-  // const { MapID: mapUrl, PhaseTimeRemainingNS, AllyTeam: team } = fakeData;
 
   const remainingTime = Math.floor(PhaseTimeRemainingNS / 1000000000);
 

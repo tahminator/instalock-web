@@ -1,7 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RiotAuthRouteObject } from "@instalock/api";
 import { authModalSchema } from "@instalock/api";
-import { fetcher } from "@instalock/fetcher";
 import {
   Box,
   Button,
@@ -20,22 +18,19 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconBrandValorant } from "@tabler/icons-react";
-import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 
 import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
-import classes from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal.module.css";
+import { useAuthenticateMutation } from "@/lib/api/queries/api/auth";
 
 export default function RiotAuthenticationModal() {
-  const queryClient = useQueryClient();
+  const { mutate, isPending } = useAuthenticateMutation();
 
   const [opened, { open, close }] = useDisclosure(false);
   const [highlighted, setHighlighted] = useState(false);
-
-  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(authModalSchema),
@@ -45,53 +40,24 @@ export default function RiotAuthenticationModal() {
   });
 
   const onSubmit = async (data: z.infer<typeof authModalSchema>) => {
-    setLoading(true);
-    const id = notifications.show({
+    notifications.show({
       message: "Please wait, attempting to resolve credentials from server...",
     });
-    try {
-      const queryFn = fetcher().api.riot.auth.authenticate.fetcher(
-        RiotAuthRouteObject.authenticate,
-      );
-      const json = await queryFn({
-        queryParams: undefined,
-        requestBody: data,
-        pathParams: undefined,
-      });
+    mutate(data);
+  };
 
-      if (!json.success) {
-        return notifications.update({
-          id,
-          message: json.message,
-          color: "red",
-        });
-      }
-
-      notifications.update({
-        id,
-        message: json.message,
-        color: "green",
-      });
-      queryClient.invalidateQueries({ queryKey: ["riot", "auth"] });
-    } catch {
-      return notifications.update({
-        id,
-        message: "Oops, something went wrong. Please refresh the page.",
-        color: "red",
-      });
-    } finally {
-      setLoading(false);
-    }
+  const onPaste = (url: string) => {
+    form.setValue("url", url);
   };
 
   return (
     <>
       <Modal
-        opened={loading ? true : opened}
+        opened={isPending ? true : opened}
         onClose={close}
         title="Riot Authentication"
         centered
-        withCloseButton={!loading}
+        withCloseButton={!isPending}
       >
         <Container>
           <Box>
@@ -147,7 +113,7 @@ export default function RiotAuthenticationModal() {
                       "https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid",
                     )
                   }
-                  disabled={loading}
+                  disabled={isPending}
                 >
                   Open Riot Login Page
                 </Button>
@@ -169,16 +135,14 @@ export default function RiotAuthenticationModal() {
                     label="Valorant Return URL"
                     placeholder="https://playvalorant.com/opt_in#access_token..."
                     required
-                    disabled={loading}
+                    disabled={isPending}
                     {...field}
-                    // value={form.values.url}
-                    // onChange={(event) =>
-                    //   form.setFieldValue("url", event.currentTarget.value)
-                    // }
-                    // error={form.errors.url}
-                    // disabled={isSubmitting}
                     rightSection={
-                      <PasteButton form={form} highlighted={highlighted} />
+                      <PasteButton
+                        onPaste={onPaste}
+                        isFormUrlError={!!form.formState.errors.url}
+                        highlighted={highlighted}
+                      />
                     }
                   />
                 )}
@@ -199,15 +163,11 @@ export default function RiotAuthenticationModal() {
                 </Link>
                 . Please hover over Why? for more information.
               </Text>
-              <Group
-                justify="space-between"
-                mt="lg"
-                className={classes.controls}
-              >
-                <Button onClick={close} disabled={loading}>
+              <Group justify="space-between" mt="lg">
+                <Button onClick={close} disabled={isPending}>
                   Close
                 </Button>
-                <Button type="submit" disabled={loading}>
+                <Button type="submit" disabled={isPending}>
                   Authenticate
                 </Button>
               </Group>

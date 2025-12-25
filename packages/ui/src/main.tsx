@@ -1,7 +1,6 @@
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { StrictMode } from "react";
-import "@mantine/core/styles.css";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 
@@ -9,6 +8,7 @@ import QueryClientProvider from "@/lib/query-provider";
 import router from "@/router";
 
 import "./index.css";
+import "@mantine/core/styles.css";
 
 export class App {
   private static app() {

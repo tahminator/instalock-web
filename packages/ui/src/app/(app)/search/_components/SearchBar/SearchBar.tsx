@@ -1,14 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { queryByRiotNameSchema } from "@instalock/api";
 import { Autocomplete, Button, Center, Loader, rem } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import { IconSend2 } from "@tabler/icons-react";
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { z } from "zod";
 
-import { useFetchPossibleUsersByQuery } from "@/app/(app)/search/_components/SearchBar/hooks";
+import { useFetchPossibleUsersByQuery } from "@/lib/api/queries/api/unauthenticated";
 
 export default function SearchBar() {
   const navigate = useNavigate();
@@ -16,15 +14,10 @@ export default function SearchBar() {
     resolver: zodResolver(queryByRiotNameSchema),
     defaultValues: {
       query: "",
-      fetchStatus: "pending",
     },
   });
   const query = form.watch("query");
   const { data, status } = useFetchPossibleUsersByQuery(query);
-
-  useEffect(() => {
-    form.setValue("fetchStatus", status);
-  }, [form, status]);
 
   const tags = data.map((user) => user.riotTag).filter((tag) => tag != null);
 
@@ -34,11 +27,6 @@ export default function SearchBar() {
       .map((user) => user.puuid);
 
     if (!puuid || !puuid[0]) {
-      notifications.show({
-        color: "red",
-        message:
-          "This user does not exist in the database. If this user's data should exist, please wait up to 5 minutes while the data on the backend catches up, and try again.",
-      });
       return;
     }
 
@@ -62,6 +50,10 @@ export default function SearchBar() {
             p={"sm"}
             placeholder={"Search Riot user here"}
             value={query}
+            onChange={(v) => {
+              field.onChange(v);
+              onSubmit({ query: v });
+            }}
             data={tags}
             error={form.formState.errors.query?.message}
             rightSection={

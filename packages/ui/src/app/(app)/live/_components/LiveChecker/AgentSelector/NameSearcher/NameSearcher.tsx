@@ -1,4 +1,4 @@
-import { useFindNameQuery } from "@/app/(app)/live/_components/LiveChecker/AgentSelector/NameSearcher/hooks";
+import { useFindNameQuery } from "@/lib/api/queries/api/query";
 
 export default function NameSearcher({
   puuid,

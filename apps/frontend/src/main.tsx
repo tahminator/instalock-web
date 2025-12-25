@@ -153,8 +153,6 @@ const fetcher: Fetcher = {
                 url.searchParams.append(k, v);
               });
 
-              console.log(url.toString());
-
               const response = await fetch(url, {
                 method: route.method,
                 headers: {

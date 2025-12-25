@@ -4,13 +4,11 @@ import { ReactNode } from "react";
 import MatchLoader from "@/app/(app)/dashboard/_components/Matches/MatchLoader";
 import RiotAuthenticationModal from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal";
 import UserNavbar from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar";
-import useRiotAuthQuery from "@/app/(app)/dashboard/hooks";
 import CenteredSpinner from "@/components/ui/centered-spinner";
+import { useRiotAuthQuery } from "@/lib/api/queries/api/auth";
 
 export default function MatchIndex() {
   const { data, status } = useRiotAuthQuery();
-
-  const valid = !!data?.user?.riotAuth && !!data?.user?.riotEntitlement;
 
   if (status === "pending") {
     return <CenteredSpinner />;
@@ -24,7 +22,14 @@ export default function MatchIndex() {
     );
   }
 
-  if (!valid) {
+  const invalid =
+    !data.success ||
+    !data.payload.user ||
+    !data.payload.session ||
+    !data.payload.user.riotAuth ||
+    !data.payload.user.riotEntitlement;
+
+  if (invalid) {
     return (
       <MatchIndexWrapper>
         <RiotAuthenticationModal />
