@@ -12,6 +12,8 @@ import { CsrfMiddleware } from "@/middleware/csrf";
 import { RateLimiterMiddleware } from "@/middleware/limit";
 import { SpaMiddleware } from "@/middleware/spa";
 import { ErrorMiddleware } from "@/middleware/static/error";
+import { PrometheusMiddleware } from "@/middleware/prom";
+import { PrometheusAuthMiddleware } from "@/middleware/prom/auth";
 
 const port = 3050;
 
@@ -27,6 +29,8 @@ const middlewares: Class<unknown>[] = [
   CookieParserMiddleware,
   CorsMiddleware,
   CsrfMiddleware,
+  PrometheusAuthMiddleware,
+  PrometheusMiddleware,
   RateLimiterMiddleware,
   AuthMiddleware,
   SpaMiddleware,
