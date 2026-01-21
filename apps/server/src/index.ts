@@ -10,10 +10,10 @@ import { CookieParserMiddleware } from "@/middleware/cookie";
 import { CorsMiddleware } from "@/middleware/cors";
 import { CsrfMiddleware } from "@/middleware/csrf";
 import { RateLimiterMiddleware } from "@/middleware/limit";
-import { SpaMiddleware } from "@/middleware/spa";
-import { ErrorMiddleware } from "@/middleware/static/error";
 import { PrometheusMiddleware } from "@/middleware/prom";
 import { PrometheusAuthMiddleware } from "@/middleware/prom/auth";
+import { SpaMiddleware } from "@/middleware/spa";
+import { ErrorMiddleware } from "@/middleware/static/error";
 
 const port = 3050;
 
