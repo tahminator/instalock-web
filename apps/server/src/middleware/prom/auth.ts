@@ -36,8 +36,14 @@ export class PrometheusAuthMiddleware {
       const credentials = Buffer.from(base64Credentials, "base64").toString(
         "ascii",
       );
-      const [u, p] = credentials.split(":");
+      const parts = credentials.split(":");
 
+      if (parts.length !== 2 || !parts[0] || !parts[1]) {
+        res.setHeader("WWW-Authenticate", 'Basic realm="Prometheus"');
+        return res.status(401).send("Invalid credentials");
+      }
+
+      const [u, p] = parts;
       if (u === username && p === password) {
         return next();
       }

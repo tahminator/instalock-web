@@ -11,6 +11,9 @@ export class PrometheusMiddleware {
       includeMethod: true,
       includePath: true,
       metricsPath: "/api/metrics",
+      normalizePath: (req, _) => {
+        return req.route?.path ?? "NULL";
+      },
       promClient: {
         collectDefaultMetrics: {},
       },
