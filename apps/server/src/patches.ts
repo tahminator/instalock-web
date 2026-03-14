@@ -1,9 +1,9 @@
 import { pino } from "pino";
 
-const oldLog_ = console.log;
-const oldWarn_ = console.warn;
-const oldError_ = console.error;
-const oldDebug_ = console.debug;
+const _oldLog = console.log;
+const _oldWarn = console.warn;
+const _oldError = console.error;
+const _oldDebug = console.debug;
 
 const logger = pino({
   transport: {
