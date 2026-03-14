@@ -15,18 +15,22 @@ const logger = pino({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 console.log = function (...args: any[]) {
   logger.info(args);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 console.warn = function (...args: any[]) {
   logger.warn(args);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 console.error = function (...args: any[]) {
   logger.error(args);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 console.debug = function (...args: any[]) {
   logger.debug(args);
 };
