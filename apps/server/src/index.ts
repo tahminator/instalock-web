@@ -1,3 +1,6 @@
+// this must be first
+import "@/patches";
+
 import { Class, Sapling } from "@tahminator/sapling";
 import express from "express";
 import SJ from "superjson";
@@ -50,4 +53,6 @@ Sapling.loadResponseStatusErrorMiddleware(
 );
 app.use(ErrorMiddleware.anyErrorMiddleware);
 
-app.listen(port, "0.0.0.0");
+app.listen(port, "0.0.0.0", () => {
+  console.log("Server is ready.");
+});
