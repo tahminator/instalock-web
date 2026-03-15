@@ -21,10 +21,6 @@ runs:
   steps:
     - name: Build and push cron image
       shell: bash
-      run: bun run .github/scripts/src/build-image
+      run: bun run .github/scripts/src/build-image --tagPrefix "${{ inputs.TAG_PREFIX }}" --dockerUpload --type cron --dockerFileName Dockerfile.scripts
       env:
         DOCKER_HUB_PAT: ${{ inputs.DOCKER_HUB_PAT }}
-        TYPE: cron
-        DOCKER_UPLOAD: true
-        TAG_PREFIX: ${{ inputs.TAG_PREFIX }}
-        DOCKER_FILE_NAME: Dockerfile.scripts
