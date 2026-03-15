@@ -1,9 +1,11 @@
+// this must be first
+import "./patches";
 import { loadMatchesForEachUser } from "./helpers/loadMatches";
 
 const tasks = async () => {
   console.time("tasks");
   console.log(
-    `\nRunning the following tasks at ${new Date().toLocaleString()}`
+    `\nRunning the following tasks at ${new Date().toLocaleString()}`,
   );
 
   console.log(`Running the match populator now`);
@@ -21,6 +23,9 @@ const tasks = async () => {
 console.log("Script has been loaded in.");
 tasks();
 
-setInterval(async () => {
-  tasks();
-}, 1000 * 60 * 4);
+setInterval(
+  async () => {
+    tasks();
+  },
+  1000 * 60 * 4,
+);
