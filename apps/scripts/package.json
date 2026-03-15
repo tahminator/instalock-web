@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "build": "esbuild cron/index.ts --bundle --platform=node --outfile=cron/index.cjs",
-    "start": "node cron/index.cjs",
-    "dev": "dotenvx run -f ../../.env -- pnpx tsx cron/index.ts --watch",
+    "start": "NODE_ENV=production node cron/index.cjs",
+    "dev": "NODE_ENV=development dotenvx run -f ../../.env -- pnpx tsx cron/index.ts --watch",
     "typecheck": "tsc -b --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,12 +14,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.13.9"
+    "@types/node": "^22.13.9",
+    "pino-pretty": "^13.1.3"
   },
   "dependencies": {
     "@instalock/db": "workspace:^",
     "@instalock/riot": "workspace:^",
     "esbuild": "^0.25.0",
+    "pino": "^10.3.1",
     "postgres": "^3.4.7",
     "sharp": "^0.33.5"
   }
