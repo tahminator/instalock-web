@@ -20,8 +20,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Disable man-db
-        uses: ./.github/composite/disable-mandb
+      - name: Setup CI
+        uses: ./.github/composite/setup-ci
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -48,12 +48,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Load secrets
-        uses: ./.github/composite/load-secrets
+      - name: Setup CI
+        uses: ./.github/composite/setup-ci
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          UNLOAD_ENVIRONMENTS: ci,staging
 
       - name: Deploy Cron Service
         uses: ./.github/composite/deploy-cron
@@ -74,12 +73,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Load secrets
-        uses: ./.github/composite/load-secrets
+      - name: Setup CI
+        uses: ./.github/composite/setup-ci
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          UNLOAD_ENVIRONMENTS: ci,staging
 
       - name: Deploy Web Service
         uses: ./.github/composite/deploy-web
@@ -100,12 +98,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Load secrets
-        uses: ./.github/composite/load-secrets
+      - name: Setup CI
+        uses: ./.github/composite/setup-ci
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          UNLOAD_ENVIRONMENTS: ci,production
 
       - name: Deploy Cron Service
         uses: ./.github/composite/deploy-cron
@@ -126,12 +123,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Load secrets
-        uses: ./.github/composite/load-secrets
+      - name: Setup CI
+        uses: ./.github/composite/setup-ci
         with:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          UNLOAD_ENVIRONMENTS: ci,production
 
       - name: Deploy Web Service
         uses: ./.github/composite/deploy-web
