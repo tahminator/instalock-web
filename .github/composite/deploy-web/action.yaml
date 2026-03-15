@@ -15,9 +15,6 @@ inputs:
     description: Docker tag prefix (e.g., staging-, empty for prod)
     required: false
     default: ""
-  ENV_FILE:
-    description: Environment file to use (.env.staging or .env.production)
-    required: true
 
 runs:
   using: composite
