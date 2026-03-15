@@ -5,15 +5,18 @@ const _oldWarn = console.warn;
 const _oldError = console.error;
 const _oldDebug = console.debug;
 
-const logger = pino({
-  transport: {
-    target:
-      process.env.NODE_ENV === "development" ? "pino-pretty" : "pino/file",
-    options: {
-      colorize: true,
-    },
-  },
-});
+const logger = pino(
+  process.env.NODE_ENV === "development"
+    ? {
+        transport: {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+          },
+        },
+      }
+    : undefined,
+);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 console.log = function (...args: any[]) {
