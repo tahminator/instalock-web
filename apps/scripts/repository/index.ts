@@ -4,7 +4,7 @@ import {
   BaseSessionRepository,
   BaseUserRepository,
 } from "@instalock/db";
-import { db } from "db/index.js";
+import { db } from "db/index";
 
 export const userRepository = new BaseUserRepository(db);
 export const sessionRepository = new BaseSessionRepository(db);

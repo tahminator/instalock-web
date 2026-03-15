@@ -1,2 +1,2 @@
-import baseConfig from "../../eslint.config";
+import baseConfig from "../../eslint.config.mts";
 export default baseConfig;

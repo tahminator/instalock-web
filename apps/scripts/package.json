@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Do not install these into the other packages - Scripts to pull certain data about Valorant required for core functionality of Instalock.",
   "main": "index.ts",
-  "module": "nodenext",
   "scripts": {
     "build": "esbuild cron/index.ts --bundle --platform=node --outfile=cron/index.cjs",
     "start": "node cron/index.cjs",
