@@ -2,24 +2,45 @@ import { $ } from "bun";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
+import type { Environment, Type } from "@/types";
+
 import { getEnvVariables } from "@/utils/load-env";
 
 process.env.TZ = "America/New_York";
 
-const { tagPrefix, dockerUpload, type, dockerFileName } = await yargs(
-  hideBin(process.argv),
-)
-  .option("tagPrefix", {
-    type: "string",
-    default: "",
+const {
+  environment,
+  dockerUpload,
+  type,
+  dockerFileName,
+  getGhaOutput,
+  githubOutputFile,
+} = await yargs(hideBin(process.argv))
+  .option("environment", {
+    choices: ["staging", "production"] satisfies Environment[],
+    describe: "Deployment environment (staging or production)",
+    demandOption: true,
   })
   .option("dockerUpload", {
     type: "boolean",
     default: true,
   })
-  .option("type", {
+  .option("getGhaOutput", {
+    type: "boolean",
+    describe:
+      "Enable GitHub Actions output to receive latest built tag version",
+    default: false,
+  })
+  .option("githubOutputFile", {
     type: "string",
-    default: "web",
+    describe:
+      "Path to GITHUB_OUTPUT (this will be passed in automatically in CI)",
+    default: process.env.GITHUB_OUTPUT,
+  })
+  .option("type", {
+    choices: ["cron", "web"] satisfies Type[],
+    describe: "Deployment environment (staging or production)",
+    demandOption: true,
   })
   .option("dockerFileName", {
     type: "string",
@@ -31,6 +52,8 @@ const { tagPrefix, dockerUpload, type, dockerFileName } = await yargs(
 async function main() {
   const ciEnv = await getEnvVariables(["ci"]);
   const { dockerHubPat } = parseCiEnv(ciEnv);
+
+  const tagPrefix = environment === "staging" ? "staging-" : "";
 
   // copy old tz format from build-image.sh
   const timestamp = new Date()
@@ -82,6 +105,14 @@ async function main() {
               .`;
 
   console.log("Image pushed successfully.");
+
+  if (getGhaOutput && githubOutputFile) {
+    console.log("Outputting Notion context...");
+    const w = Bun.file(githubOutputFile).writer();
+    await w.write(`tag<<EOF\n${tagPrefix}${gitSha}\nEOF\n`);
+    await w.flush();
+    await w.end();
+  }
 }
 
 function parseCiEnv(ciEnv: Record<string, string>) {

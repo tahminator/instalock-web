@@ -2,25 +2,18 @@ name: Deploy Web Service
 description: Builds web image and deploys to Coolify
 
 inputs:
-  DOCKER_HUB_PAT:
-    description: Docker Hub personal access token
+  ENVIRONMENT:
+    description: "'staging' or 'production'"
     required: true
-  COOLIFY_PAT:
-    description: Coolify personal access token
-    required: true
-  COOLIFY_UUID:
-    description: Coolify service UUID
-    required: true
-  TAG_PREFIX:
-    description: Docker tag prefix (e.g., staging-, empty for prod)
-    required: false
-    default: ""
 
 runs:
   using: composite
   steps:
     - name: Build and push web image
       shell: bash
-      run: bun run .github/scripts/src/build-image --tagPrefix "${{ inputs.TAG_PREFIX }}" --dockerUpload --type web --dockerFileName Dockerfile.web
-      env:
-        DOCKER_HUB_PAT: ${{ inputs.DOCKER_HUB_PAT }}
+      id: build-image
+      run: bun run .github/scripts/src/build-image --environment "${{ inputs.ENVIRONMENT }}" --dockerUpload --type web --dockerFileName Dockerfile.web --getGhaOutput=true
+
+    - name: Deploy web image tag
+      shell: bash
+      run: bun run .github/scripts/src/deploy --environment "${{ inputs.ENVIRONMENT }}" --type web --newTagVersion "${{ steps.build-image.outputs.tag }}"
