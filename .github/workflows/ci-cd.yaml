@@ -57,10 +57,7 @@ jobs:
       - name: Deploy Cron Service
         uses: ./.github/composite/deploy-cron
         with:
-          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
-          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
-          COOLIFY_UUID: ${{ env.STAGING_COOLIFY_CRON_UUID }}
-          TAG_PREFIX: staging-
+          ENVIRONMENT: staging
 
   deploy-staging-web:
     name: Deploy Web to Staging
@@ -81,10 +78,7 @@ jobs:
       - name: Deploy Web Service
         uses: ./.github/composite/deploy-web
         with:
-          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
-          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
-          COOLIFY_UUID: ${{ env.STAGING_COOLIFY_WEB_UUID }}
-          TAG_PREFIX: staging-
+          ENVIRONMENT: staging
 
   deploy-production-cron:
     name: Deploy Cron to Production
@@ -105,10 +99,7 @@ jobs:
       - name: Deploy Cron Service
         uses: ./.github/composite/deploy-cron
         with:
-          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
-          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
-          COOLIFY_UUID: ${{ env.PROD_COOLIFY_CRON_UUID }}
-          TAG_PREFIX: ""
+          ENVIRONMENT: production
 
   deploy-production-web:
     name: Deploy Web to Production
@@ -129,7 +120,4 @@ jobs:
       - name: Deploy Web Service
         uses: ./.github/composite/deploy-web
         with:
-          DOCKER_HUB_PAT: ${{ env.DOCKER_HUB_PAT }}
-          COOLIFY_PAT: ${{ env.COOLIFY_PAT }}
-          COOLIFY_UUID: ${{ env.PROD_COOLIFY_WEB_UUID }}
-          TAG_PREFIX: ""
+          ENVIRONMENT: production
