@@ -30,7 +30,7 @@ jobs:
 
       - name: Get Parent SHA
         id: prev
-        run: echo "sha=$(git rev-parse ${{ github.sha }}^1)" >> $GITHUB_OUTPUT
+        run: echo "sha=$(git rev-parse --short=7 ${{ github.sha }}^1)" >> $GITHUB_OUTPUT
 
       - name: Promote cron image
         uses: ./.github/composite/promote-image
@@ -55,7 +55,7 @@ jobs:
 
       - name: Get Parent SHA
         id: prev
-        run: echo "sha=$(git rev-parse ${{ github.sha }}^1)" >> $GITHUB_OUTPUT
+        run: echo "sha=$(git rev-parse --short=7 ${{ github.sha }}^1)" >> $GITHUB_OUTPUT
 
       - name: Promote web image
         uses: ./.github/composite/promote-image
