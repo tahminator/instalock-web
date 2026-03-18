@@ -29,7 +29,7 @@ export async function main() {
 
   await promoteDockerImage({
     originalTag,
-    newGithubTag,
+    newGithubTags: [newGithubTag, "latest"],
     dockerHubCredentials: {
       username: "tahminator",
       repository: `instalock-${type}`,

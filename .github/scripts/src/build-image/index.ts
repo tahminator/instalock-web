@@ -72,7 +72,6 @@ async function main() {
   const gitSha = (await $`git rev-parse --short HEAD`.text()).trim();
 
   const tags = [
-    `tahminator/instalock-${type}:${tagPrefix}latest`,
     `tahminator/instalock-${type}:${tagPrefix}${timestamp}`,
     `tahminator/instalock-${type}:${tagPrefix}${gitSha}`,
   ];
