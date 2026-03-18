@@ -1,10 +1,9 @@
+import { GitHubClient, Utils, type Environment } from "@tahminator/pipeline";
 import { $ } from "bun";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
-import type { Environment, Type } from "@/types";
-
-import { getEnvVariables } from "@/utils/load-env";
+import type { Type } from "@/types";
 
 process.env.TZ = "America/New_York";
 
@@ -50,7 +49,9 @@ const {
   .parse();
 
 async function main() {
-  const ciEnv = await getEnvVariables(["ci"]);
+  const ghClient = new GitHubClient();
+
+  const ciEnv = await Utils.getEnvVariables(["ci"]);
   const { dockerHubPat } = parseCiEnv(ciEnv);
 
   const tagPrefix = environment === "staging" ? "staging-" : "";
@@ -105,12 +106,13 @@ async function main() {
 
   console.log("Image pushed successfully.");
 
-  if (getGhaOutput && githubOutputFile) {
-    console.log("Outputting GitHub output...");
-    const w = Bun.file(githubOutputFile).writer();
-    await w.write(`tag<<EOF\n${tagPrefix}${gitSha}\nEOF\n`);
-    await w.flush();
-    await w.end();
+  if (getGhaOutput) {
+    ghClient.outputToGithubOutput({
+      overrideGithubOutputFile: githubOutputFile ? githubOutputFile : undefined,
+      ctx: {
+        tag: `${tagPrefix}${gitSha}`,
+      },
+    });
   }
 }
 

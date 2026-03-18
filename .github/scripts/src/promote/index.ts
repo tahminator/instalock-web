@@ -1,10 +1,8 @@
+import { DockerClient, Utils } from "@tahminator/pipeline";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
 import { type Type } from "@/types";
-import { getEnvVariables } from "@/utils/load-env";
-
-import { promoteDockerImage } from "../utils/promote-image";
 
 const { originalTag, newGithubTag, type } = await yargs(hideBin(process.argv))
   .option("originalTag", {
@@ -24,18 +22,19 @@ const { originalTag, newGithubTag, type } = await yargs(hideBin(process.argv))
   .parse();
 
 export async function main() {
-  const ciEnv = await getEnvVariables(["ci"]);
+  const ciEnv = await Utils.getEnvVariables(["ci"]);
   const { dockerHubPat } = parseCiEnv(ciEnv);
+  const dockerClient = await DockerClient.create("tahminator", dockerHubPat);
 
-  await promoteDockerImage({
-    originalTag,
-    newGithubTags: [newGithubTag, "latest"],
-    dockerHubCredentials: {
-      username: "tahminator",
+  try {
+    await dockerClient.promoteDockerImage({
+      originalTag,
+      newGithubTags: [newGithubTag, "latest"],
       repository: `instalock-${type}`,
-      pat: dockerHubPat,
-    },
-  });
+    });
+  } finally {
+    dockerClient.cleanup();
+  }
 }
 
 function parseCiEnv(ciEnv: Record<string, string>) {

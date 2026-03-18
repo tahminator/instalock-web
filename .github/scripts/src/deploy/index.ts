@@ -1,10 +1,8 @@
+import { GitHubClient, Utils, type Environment } from "@tahminator/pipeline";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
-import type { Environment, Type } from "@/types";
-
-import { updateK8sTagWithPR } from "@/utils/create-k8s-pr";
-import { getEnvVariables } from "@/utils/load-env";
+import type { Type } from "@/types";
 
 const { environment, newTagVersion, type } = await yargs(hideBin(process.argv))
   .option("newTagVersion", {
@@ -25,13 +23,15 @@ const { environment, newTagVersion, type } = await yargs(hideBin(process.argv))
   .parse();
 
 async function main() {
-  const ciEnv = await getEnvVariables(["ci"]);
+  const ciEnv = await Utils.getEnvVariables(["ci"]);
   const { githubPat } = parseCiEnv(ciEnv);
+  const ghClient = new GitHubClient(githubPat);
 
   if (environment === "production") {
     if (type === "web") {
-      await updateK8sTagWithPR({
-        githubPat,
+      await ghClient.updateK8sTagWithPR({
+        manifestRepo: ["tahminator", "k8s-personal"],
+        originRepo: ["tahminator", "instalock-web"],
         kustomizationFilePath:
           "apps/production/instalock-web/kustomization.yaml",
         imageName: "tahminator/instalock-web",
@@ -41,8 +41,9 @@ async function main() {
     }
 
     if (type === "cron") {
-      await updateK8sTagWithPR({
-        githubPat,
+      await ghClient.updateK8sTagWithPR({
+        manifestRepo: ["tahminator", "k8s-personal"],
+        originRepo: ["tahminator", "instalock-web"],
         kustomizationFilePath:
           "apps/production/instalock-cron/kustomization.yaml",
         imageName: "tahminator/instalock-cron",
@@ -54,8 +55,9 @@ async function main() {
 
   if (environment === "staging") {
     if (type === "web") {
-      await updateK8sTagWithPR({
-        githubPat,
+      await ghClient.updateK8sTagWithPR({
+        manifestRepo: ["tahminator", "k8s-personal"],
+        originRepo: ["tahminator", "instalock-web"],
         kustomizationFilePath: "apps/staging/instalock-web/kustomization.yaml",
         imageName: "tahminator/instalock-web",
         newTag: newTagVersion,
@@ -64,8 +66,9 @@ async function main() {
     }
 
     if (type === "cron") {
-      await updateK8sTagWithPR({
-        githubPat,
+      await ghClient.updateK8sTagWithPR({
+        manifestRepo: ["tahminator", "k8s-personal"],
+        originRepo: ["tahminator", "instalock-web"],
         kustomizationFilePath: "apps/staging/instalock-cron/kustomization.yaml",
         imageName: "tahminator/instalock-cron",
         newTag: newTagVersion,
