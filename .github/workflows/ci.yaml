@@ -64,6 +64,7 @@ jobs:
 
       - name: Build cron image
         uses: ./.github/composite/build-cron
+        id: build
         with:
           ENVIRONMENT: ${{ github.event.pull_request && 'staging' || 'production' }}
 
