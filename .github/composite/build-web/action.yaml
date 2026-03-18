@@ -1,0 +1,20 @@
+name: Build Web Service
+description: Builds web image and pushes to Docker Hub
+
+inputs:
+  ENVIRONMENT:
+    description: "'staging' or 'production'"
+    required: true
+
+outputs:
+  tag:
+    description: "The tag of the built image"
+    value: ${{ steps.build-image.outputs.tag }}
+
+runs:
+  using: composite
+  steps:
+    - name: Build and push web image
+      shell: bash
+      id: build-image
+      run: bun run .github/scripts/src/build-image --environment "${{ inputs.ENVIRONMENT }}" --dockerUpload --type web --dockerFileName Dockerfile.web --getGhaOutput=true

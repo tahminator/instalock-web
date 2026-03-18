@@ -34,7 +34,7 @@ async function main() {
         githubPat,
         kustomizationFilePath:
           "apps/production/instalock-web/kustomization.yaml",
-        imageName: "docker.io/tahminator/instalock-web",
+        imageName: "tahminator/instalock-web",
         newTag: newTagVersion,
         environment: "production",
       });
@@ -45,7 +45,7 @@ async function main() {
         githubPat,
         kustomizationFilePath:
           "apps/production/instalock-cron/kustomization.yaml",
-        imageName: "docker.io/tahminator/instalock-cron",
+        imageName: "tahminator/instalock-cron",
         newTag: newTagVersion,
         environment: "production",
       });
@@ -57,7 +57,7 @@ async function main() {
       await updateK8sTagWithPR({
         githubPat,
         kustomizationFilePath: "apps/staging/instalock-web/kustomization.yaml",
-        imageName: "docker.io/tahminator/instalock-web",
+        imageName: "tahminator/instalock-web",
         newTag: newTagVersion,
         environment: "staging",
       });
@@ -67,7 +67,7 @@ async function main() {
       await updateK8sTagWithPR({
         githubPat,
         kustomizationFilePath: "apps/staging/instalock-cron/kustomization.yaml",
-        imageName: "docker.io/tahminator/instalock-cron",
+        imageName: "tahminator/instalock-cron",
         newTag: newTagVersion,
         environment: "staging",
       });

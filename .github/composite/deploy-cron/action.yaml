@@ -1,19 +1,17 @@
-name: Build & Deploy Cron Service
-description: Builds cron image and deploys to Coolify
+name: Deploy Cron Service
+description: Deploys cron service to k8s cluster
 
 inputs:
   ENVIRONMENT:
     description: "'staging' or 'production'"
     required: true
+  VERSION:
+    description: "For example, '1.2.34' or 'staging-abc3133'"
+    required: true
 
 runs:
   using: composite
   steps:
-    - name: Build and push cron image
-      shell: bash
-      id: build-image
-      run: bun run .github/scripts/src/build-image --environment "${{ inputs.ENVIRONMENT }}" --dockerUpload --type cron --dockerFileName Dockerfile.scripts --getGhaOutput=true
-
     - name: Deploy cron image tag
       shell: bash
-      run: bun run .github/scripts/src/deploy --environment "${{ inputs.ENVIRONMENT }}" --type cron --newTagVersion "${{ steps.build-image.outputs.tag }}"
+      run: bun run .github/scripts/src/deploy --environment "${{ inputs.ENVIRONMENT }}" --type cron --newTagVersion "${{ inputs.VERSION }}"

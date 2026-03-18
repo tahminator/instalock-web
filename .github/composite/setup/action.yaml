@@ -1,5 +1,5 @@
-name: "Setup CI"
-description: "Setup dependencies required to run CI (disable man-db)"
+name: "Setup"
+description: "Setup dependencies required to run pipelines"
 
 inputs:
   GPG_PASSPHRASE:
