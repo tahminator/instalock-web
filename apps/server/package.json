@@ -1,6 +1,6 @@
 {
   "name": "@instalock/server",
-  "version": "1.0.0",
+  "version": "1.0.9",
   "description": "Server Entrypoint for Instalock",
   "main": "index.ts",
   "scripts": {
