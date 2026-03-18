@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/refs/heads/master/src/schemas/json/github-workflow.json
+name: CI
+run-name: Running continuous deployment on ${{ github.actor }}'s commits
+
+permissions:
+  contents: read
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  promoteImageCron:
+    name: Promote Cron Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # so we can reach latest commit before tag
+          fetch-depth: 2
+
+      - name: Setup Pipeline
+        uses: ./.github/composite/setup
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Get Parent SHA
+        id: prev
+        run: echo "sha=$(git rev-parse ${{ github.sha }}^1)" >> $GITHUB_OUTPUT
+
+      - name: Promote cron image
+        uses: ./.github/composite/promote-image
+        with:
+          ORIGINAL_TAG: ${{ steps.prev.outputs.sha }}
+          NEW_GITHUB_TAG: ${{ github.ref_name }}
+          TYPE: cron
+
+  promoteImageWeb:
+    name: Promote Web Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pipeline
+        uses: ./.github/composite/setup
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Get Parent SHA
+        id: prev
+        run: echo "sha=$(git rev-parse ${{ github.sha }}^1)" >> $GITHUB_OUTPUT
+
+      - name: Promote web image
+        uses: ./.github/composite/promote-image
+        with:
+          ORIGINAL_TAG: ${{ steps.prev.outputs.sha }}
+          NEW_GITHUB_TAG: ${{ github.ref_name }}
+          TYPE: web
+
+  deployToProductionCron:
+    name: Deploy Cron to Production
+    runs-on: ubuntu-latest
+    needs: [promoteImageCron]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pipeline
+        uses: ./.github/composite/setup
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Deploy Cron Service
+        uses: ./.github/composite/deploy-cron
+        with:
+          ENVIRONMENT: production
+          VERSION: ${{ github.ref_name }}
+
+  deployToProductionWeb:
+    name: Deploy Web to Production
+    runs-on: ubuntu-latest
+    needs: [promoteImageWeb]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pipeline
+        uses: ./.github/composite/setup
+        with:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Deploy Web Service
+        uses: ./.github/composite/deploy-web
+        with:
+          ENVIRONMENT: production
+          VERSION: ${{ github.ref_name }}

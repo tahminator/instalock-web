@@ -1,19 +1,17 @@
 name: Deploy Web Service
-description: Builds web image and deploys to Coolify
+description: Deploys web service to k8s cluster
 
 inputs:
   ENVIRONMENT:
     description: "'staging' or 'production'"
     required: true
+  VERSION:
+    description: "For example, '1.2.34' or 'staging-abc3133'"
+    required: true
 
 runs:
   using: composite
   steps:
-    - name: Build and push web image
-      shell: bash
-      id: build-image
-      run: bun run .github/scripts/src/build-image --environment "${{ inputs.ENVIRONMENT }}" --dockerUpload --type web --dockerFileName Dockerfile.web --getGhaOutput=true
-
     - name: Deploy web image tag
       shell: bash
-      run: bun run .github/scripts/src/deploy --environment "${{ inputs.ENVIRONMENT }}" --type web --newTagVersion "${{ steps.build-image.outputs.tag }}"
+      run: bun run .github/scripts/src/deploy --environment "${{ inputs.ENVIRONMENT }}" --type web --newTagVersion "${{ inputs.VERSION }}"

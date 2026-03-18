@@ -107,7 +107,7 @@ async function main() {
   console.log("Image pushed successfully.");
 
   if (getGhaOutput && githubOutputFile) {
-    console.log("Outputting Notion context...");
+    console.log("Outputting GitHub output...");
     const w = Bun.file(githubOutputFile).writer();
     await w.write(`tag<<EOF\n${tagPrefix}${gitSha}\nEOF\n`);
     await w.flush();

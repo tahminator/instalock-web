@@ -1,0 +1,20 @@
+name: Build Cron Service
+description: Builds cron image and pushes to Docker Hub
+
+inputs:
+  ENVIRONMENT:
+    description: "'staging' or 'production'"
+    required: true
+
+outputs:
+  tag:
+    description: "The tag of the built image"
+    value: ${{ steps.build-image.outputs.tag }}
+
+runs:
+  using: composite
+  steps:
+    - name: Build and push cron image
+      shell: bash
+      id: build-image
+      run: bun run .github/scripts/src/build-image --environment "${{ inputs.ENVIRONMENT }}" --dockerUpload --type cron --dockerFileName Dockerfile.scripts --getGhaOutput=true

@@ -1,0 +1,10 @@
+name: Create new tag
+description: Creates new tag and triggers continuous deployment.
+
+runs:
+  using: composite
+  steps:
+    - name: Create new tag
+      shell: bash
+      id: build-image
+      run: bun run .github/scripts/src/create-tag
