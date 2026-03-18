@@ -42,7 +42,7 @@ const kustomizeSchema = z.object({
  *   environment: production
  * # This part specifically
  * images:
- *   - name: docker.io/tahminator/instalock-web
+ *   - name: tahminator/instalock-web
  *     newTag: a70ee0e
  * ```
  */
