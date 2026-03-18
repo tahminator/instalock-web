@@ -55,13 +55,6 @@ export async function createTag({ token }: { token?: string }) {
     parents: [branch.commit.sha],
   });
 
-  await client.rest.git.updateRef({
-    owner,
-    repo,
-    ref: `heads/${repository.default_branch}`,
-    sha: commit.sha,
-  });
-
   await client.rest.git.createRef({
     owner,
     repo,
