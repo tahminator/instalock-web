@@ -46,6 +46,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          # so we can reach latest commit before tag
+          fetch-depth: 2
 
       - name: Setup Pipeline
         uses: ./.github/composite/setup
