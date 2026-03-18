@@ -25,13 +25,12 @@ export async function createTag({ token }: { token?: string }) {
 
   const { data: tags } = await client.rest.repos.listTags({ owner, repo });
 
-  const lastTag =
-    tags
-      .map((t) => t.name)
-      .filter((v) => semver.valid(v))
-      .sort(semver.rcompare)[0] ?? "1.0.0";
+  const lastTag = tags
+    .map((t) => t.name)
+    .filter((v) => semver.valid(v))
+    .sort(semver.rcompare)[0];
 
-  const nextTag = semver.inc(lastTag, "patch");
+  const nextTag = lastTag ? semver.inc(lastTag, "patch") : "1.0.0";
 
   if (!nextTag) {
     throw new Error("Could not increment version");
@@ -48,10 +47,25 @@ export async function createTag({ token }: { token?: string }) {
     branch: repository.default_branch,
   });
 
+  const { data: commit } = await client.rest.git.createCommit({
+    owner,
+    repo,
+    message: `Version ${nextTag}`,
+    tree: branch.commit.commit.tree.sha,
+    parents: [branch.commit.sha],
+  });
+
+  await client.rest.git.updateRef({
+    owner,
+    repo,
+    ref: `heads/${repository.default_branch}`,
+    sha: commit.sha,
+  });
+
   await client.rest.git.createRef({
     owner,
     repo,
     ref: `refs/tags/${nextTag}`,
-    sha: branch.commit.sha,
+    sha: commit.sha,
   });
 }
