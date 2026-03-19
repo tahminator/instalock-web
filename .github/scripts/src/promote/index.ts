@@ -24,17 +24,16 @@ const { originalTag, newGithubTag, type } = await yargs(hideBin(process.argv))
 export async function main() {
   const ciEnv = await Utils.getEnvVariables(["ci"]);
   const { dockerHubPat } = parseCiEnv(ciEnv);
-  const dockerClient = await DockerClient.create("tahminator", dockerHubPat);
+  await using dockerClient = await DockerClient.create(
+    "tahminator",
+    dockerHubPat,
+  );
 
-  try {
-    await dockerClient.promoteDockerImage({
-      originalTag,
-      newGithubTags: [newGithubTag, "latest"],
-      repository: `instalock-${type}`,
-    });
-  } finally {
-    dockerClient.cleanup();
-  }
+  await dockerClient.promoteDockerImage({
+    originalTag,
+    newGithubTags: [newGithubTag, "latest"],
+    repository: `instalock-${type}`,
+  });
 }
 
 function parseCiEnv(ciEnv: Record<string, string>) {
