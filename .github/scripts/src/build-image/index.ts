@@ -1,4 +1,9 @@
-import { GitHubClient, Utils, type Environment } from "@tahminator/pipeline";
+import {
+  DockerClient,
+  GitHubClient,
+  Utils,
+  type Environment,
+} from "@tahminator/pipeline";
 import { $ } from "bun";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -49,10 +54,14 @@ const {
   .parse();
 
 async function main() {
-  const ghClient = new GitHubClient();
-
   const ciEnv = await Utils.getEnvVariables(["ci"]);
   const { dockerHubPat } = parseCiEnv(ciEnv);
+
+  const ghClient = new GitHubClient();
+  await using dockerClient = await DockerClient.create(
+    "tahminator",
+    dockerHubPat,
+  );
 
   const tagPrefix = environment === "staging" ? "staging-" : "";
 
@@ -72,42 +81,16 @@ async function main() {
 
   const gitSha = (await $`git rev-parse --short HEAD`.text()).trim();
 
-  const tags = [
-    `tahminator/instalock-${type}:${tagPrefix}${timestamp}`,
-    `tahminator/instalock-${type}:${tagPrefix}${gitSha}`,
-  ];
-
-  console.log("Building image with following tags:");
-  tags.forEach((tag) => console.log(tag));
-
-  if (dockerHubPat) {
-    console.log("DOCKER_HUB_PAT found");
-  } else {
-    console.log("DOCKER_HUB_PAT missing or empty");
-  }
-
-  await $`echo ${dockerHubPat} | docker login -u tahminator --password-stdin`;
-
-  try {
-    await $`docker buildx create --use --name instalock-builder`;
-  } catch {
-    await $`docker buildx use instalock-builder`;
-  }
-
-  const buildMode = dockerUpload ? "--push" : "--load";
-
-  const tagArgs = tags.flatMap((tag) => ["--tag", tag]);
-
-  await $`docker buildx build ${buildMode} \
-              --platform linux/amd64 \
-              --file infra/${dockerFileName} \
-              ${tagArgs} \
-              .`;
-
-  console.log("Image pushed successfully.");
+  await dockerClient.buildImage({
+    dockerUsername: "tahminator",
+    dockerRepository: `instalock-${type}`,
+    dockerFileLocation: `infra/${dockerFileName}`,
+    tags: [`${tagPrefix}${timestamp}`, `${tagPrefix}${gitSha}`],
+    shouldUpload: dockerUpload,
+  });
 
   if (getGhaOutput) {
-    ghClient.outputToGithubOutput({
+    await ghClient.outputToGithubOutput({
       overrideGithubOutputFile: githubOutputFile ? githubOutputFile : undefined,
       ctx: {
         tag: `${tagPrefix}${gitSha}`,
