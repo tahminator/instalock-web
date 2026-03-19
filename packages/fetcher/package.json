@@ -1,6 +1,6 @@
 {
   "name": "@instalock/fetcher",
-  "version": "1.0.0",
+  "version": "1.0.10",
   "description": "Instalock's core functionality to define fetchers to re-use across all frontend clients.",
   "main": "index.ts",
   "scripts": {},

@@ -1,6 +1,6 @@
 {
   "name": "@instalock/scripts",
-  "version": "1.0.0",
+  "version": "1.0.10",
   "description": "Do not install these into the other packages - Scripts to pull certain data about Valorant required for core functionality of Instalock.",
   "main": "index.ts",
   "scripts": {

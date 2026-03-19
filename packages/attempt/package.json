@@ -1,6 +1,6 @@
 {
   "name": "@instalock/attempt",
-  "version": "1.0.0",
+  "version": "1.0.10",
   "description": "Attempt wrapper library",
   "main": "index.ts",
   "scripts": {
