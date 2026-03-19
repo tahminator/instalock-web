@@ -19,11 +19,16 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.node,
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       "@typescript-eslint/no-namespace": ["off"],
       "@typescript-eslint/no-non-null-assertion": ["error"],
       "@typescript-eslint/no-empty-object-type": ["off"],
+      "@typescript-eslint/no-floating-promises": ["error"],
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
