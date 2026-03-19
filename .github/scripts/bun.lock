@@ -6,7 +6,7 @@
       "name": "scripts",
       "dependencies": {
         "@octokit/rest": "^22.0.1",
-        "@tahminator/pipeline": "^1.0.6",
+        "@tahminator/pipeline": "^1.0.8",
         "@types/yargs": "^17.0.35",
         "bun": "^1.3.6",
         "octokit": "^5.0.5",
@@ -181,7 +181,7 @@
 
     "@oven/bun-windows-x64-baseline": ["@oven/bun-windows-x64-baseline@1.3.11", "", { "os": "win32", "cpu": "x64" }, "sha512-cCsXK9AQ9Zf18QlVnbrFu2IKfr4sf2sfbErkF2jfCzyCO9Bnhl0KRx63zlN+Ni1xU7gcBLAssgcui5R400N2eA=="],
 
-    "@tahminator/pipeline": ["@tahminator/pipeline@1.0.6", "", { "dependencies": { "@octokit/rest": "^22.0.1", "@types/semver": "^7.7.1", "semver": "^7.7.4", "yaml": "^2.8.2", "zod": "^4.3.6" }, "peerDependencies": { "typescript": "^5" } }, "sha512-jyx+JnVvpk2QOyqhFj4gnnT0ItpQxhc/gzLNu9wnH3rfpxs6hSFku29jlJcLrJgg/Q1xEEGNYXnVPeNfXgggKA=="],
+    "@tahminator/pipeline": ["@tahminator/pipeline@1.0.8", "", { "dependencies": { "@octokit/rest": "^22.0.1", "@types/semver": "^7.7.1", "semver": "^7.7.4", "yaml": "^2.8.2", "zod": "^4.3.6" }, "peerDependencies": { "typescript": "^5" } }, "sha512-R5LYCKgZofh9uifix80RmXoJvx5uTQHTjI89+vGlF3rqn40wsdZU1rNjQ482KNNfL31p0dfNKmogePW183XCxQ=="],
 
     "@types/aws-lambda": ["@types/aws-lambda@8.10.161", "", {}, "sha512-rUYdp+MQwSFocxIOcSsYSF3YYYC/uUpMbCY/mbO21vGqfrEYvNSoPyKYDj6RhXXpPfS0KstW9RwG3qXh9sL7FQ=="],
 
