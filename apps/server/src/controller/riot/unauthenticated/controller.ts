@@ -1,15 +1,14 @@
-import {
+import type {
   IRiotUnauthenticatedController,
   RiotMatchEnriched,
   RiotPlayerDataShallow,
-  RiotUnauthenticatedRouteObject,
 } from "@instalock/api";
-import { RiotPlayerDataDetailed } from "@instalock/api/dto/RiotPlayerDataDetailed";
-import {
-  getGameModeName,
-  TierNumber,
-  tierNumberToNameObject,
-} from "@instalock/riot";
+import type { RiotPlayerDataDetailed } from "@instalock/api/dto/RiotPlayerDataDetailed";
+import type { TierNumber } from "@instalock/riot";
+import type { Request, Response } from "express";
+
+import { RiotUnauthenticatedRouteObject } from "@instalock/api";
+import { getGameModeName, tierNumberToNameObject } from "@instalock/riot";
 import {
   _Route,
   Controller,
@@ -17,7 +16,6 @@ import {
   ResponseEntity,
   ResponseStatusError,
 } from "@tahminator/sapling";
-import { Request, Response } from "express";
 
 import { ZodParserError } from "@/error/parser";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
@@ -27,9 +25,7 @@ import { UserRepository } from "@/repository/user";
 @Controller({
   deps: [UserRepository, RiotMatchRepository, PlayerMatchRepository],
 })
-export class RiotUnauthenticatedController
-  implements IRiotUnauthenticatedController
-{
+export class RiotUnauthenticatedController implements IRiotUnauthenticatedController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,

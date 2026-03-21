@@ -1,9 +1,9 @@
 // TODO: Find out why any works and not unknown
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { z } from "zod";
+import type { z } from "zod";
 
-import { IBaseController } from "./controller";
-import { UnwrapResponseEntity } from "./unwrap";
+import type { IBaseController } from "./controller";
+import type { UnwrapResponseEntity } from "./unwrap";
 
 export type Method = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 export type Url = string;

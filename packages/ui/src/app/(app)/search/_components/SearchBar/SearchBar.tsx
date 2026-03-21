@@ -1,10 +1,11 @@
+import type { z } from "zod";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { queryByRiotNameSchema } from "@instalock/api";
 import { Autocomplete, Button, Center, Loader, rem } from "@mantine/core";
 import { IconSend2 } from "@tabler/icons-react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { z } from "zod";
 
 import { useFetchPossibleUsersByQuery } from "@/lib/api/queries/api/unauthenticated";
 

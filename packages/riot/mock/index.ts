@@ -1,7 +1,6 @@
-import { RiotPreGameApiType, RiotPreGameDataType } from "..";
-import { RiotClientImpl } from "../impl";
-import { _Response } from "../types";
-import {
+import type { RiotPreGameApiType, RiotPreGameDataType } from "..";
+import type { _Response } from "../types";
+import type {
   CompetitiveUpdatesRequest,
   CurrentGameDetailsRequest,
   Impl,
@@ -12,6 +11,8 @@ import {
   PreGameDetailsRequest,
   PuuidAuthRequest,
 } from "../types";
+
+import { RiotClientImpl } from "../impl";
 import { GET_PRE_GAME_MATCH_DETAILS_FOUND } from "./json/getPreGameMatchDetails/FOUND";
 import { GET_PRE_GAME_MATCH_ID_FOUND } from "./json/getPreGameMatchId/FOUND";
 import { GET_PRE_GAME_MATCH_ID_NOT_FOUND } from "./json/getPreGameMatchId/NOT_FOUND";

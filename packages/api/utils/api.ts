@@ -1,4 +1,4 @@
-import { Prettify } from "./prettify";
+import type { Prettify } from "./prettify";
 
 export type SuccessType<T = unknown> = {
   success: true;

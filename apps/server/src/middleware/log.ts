@@ -1,5 +1,6 @@
+import type { NextFunction, Request, Response } from "express";
+
 import { Controller, Middleware } from "@tahminator/sapling";
-import { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 
 import { passthrough } from "@/lib/express";

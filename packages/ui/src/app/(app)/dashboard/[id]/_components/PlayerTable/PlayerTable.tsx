@@ -1,10 +1,7 @@
-import { PlayerMatch } from "@instalock/api";
-import {
-  AgentUuid,
-  agentUuidToNameObject,
-  TierNumber,
-  tierNumberToNameObject,
-} from "@instalock/riot";
+import type { PlayerMatch } from "@instalock/api";
+import type { AgentUuid, TierNumber } from "@instalock/riot";
+
+import { agentUuidToNameObject, tierNumberToNameObject } from "@instalock/riot";
 import { Avatar, Table, Tooltip } from "@mantine/core";
 import clsx from "clsx";
 

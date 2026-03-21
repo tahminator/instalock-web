@@ -1,4 +1,4 @@
-import {
+import type {
   IRiotAuthController,
   IRiotQueryController,
   IRiotUnauthenticatedController,
@@ -6,7 +6,7 @@ import {
   RiotQueryRouteObject,
   RiotUnauthenticatedRouteObject,
 } from "@instalock/api";
-import {
+import type {
   InferSchemaTypes,
   UnwrapResponseEntity,
 } from "@instalock/api/utils/unwrap";

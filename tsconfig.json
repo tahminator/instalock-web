@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/frontend" },
+    { "path": "./apps/server" },
+    { "path": "./apps/scripts" },
+    { "path": "./packages/api" },
+    { "path": "./packages/attempt/" },
+    { "path": "./packages/db/" },
+    { "path": "./packages/fetcher/" },
+    { "path": "./packages/riot/" },
+    { "path": "./packages/ui/" }
+  ]
+}

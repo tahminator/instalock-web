@@ -1,5 +1,6 @@
-import { ResponseStatusError } from "@tahminator/sapling";
-import { Request, Response, NextFunction } from "express";
+import type { ResponseStatusError } from "@tahminator/sapling";
+import type { Request, Response, NextFunction } from "express";
+
 import SJ from "superjson";
 
 export type ErrorResponse = {

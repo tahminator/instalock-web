@@ -1,5 +1,6 @@
+import type { ReactNode } from "react";
+
 import { Text } from "@mantine/core";
-import { ReactNode } from "react";
 
 import MatchLoader from "@/app/(app)/dashboard/_components/Matches/MatchLoader";
 import RiotAuthenticationModal from "@/app/(app)/dashboard/_components/RiotAuth/AuthModal";

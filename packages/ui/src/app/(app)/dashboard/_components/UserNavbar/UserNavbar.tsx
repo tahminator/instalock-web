@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import {
   Burger,
   Button,
@@ -19,7 +21,7 @@ import { notifications } from "@mantine/notifications";
 import { IconChevronDown, IconRefresh, IconTrash } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import cx from "clsx";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import classes from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar.module.css";
 import { useDisconnectRiotPlayerMutation } from "@/lib/api/queries/api/auth";

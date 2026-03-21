@@ -7,7 +7,25 @@
     "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
     "typecheck": "tsc -b --noEmit",
     "fmt": "pnpm run prettier",
-    "lint": "pnpm run eslint"
+    "fmt:fix": "pnpm run prettier:fix",
+    "lint": "pnpm run eslint",
+    "lint:fix": "pnpm run eslint:fix",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint . --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-perfectionist": "^5.1.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.15.0",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.15.0",
+    "prettier": "^3.8.1"
   },
   "keywords": [],
   "author": "",

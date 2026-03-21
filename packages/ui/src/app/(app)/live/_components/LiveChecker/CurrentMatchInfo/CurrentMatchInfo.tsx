@@ -1,9 +1,8 @@
+import type { AgentUuid, MapUrl, MapUuid } from "@instalock/riot";
+
 import {
-  AgentUuid,
   agentUuidToNameObject,
-  MapUrl,
   mapUrlToUuidObject,
-  MapUuid,
   mapUuidToNameObject,
 } from "@instalock/riot";
 import { Button, Card, Image, Text, Tooltip } from "@mantine/core";

@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 
 import { Controller, Middleware } from "@tahminator/sapling";
 
-import { passthrough } from "@/lib/express";
+import type { passthrough } from "@/lib/express";
 
 const username = process.env.PROMETHEUS_USERNAME;
 const password = process.env.PROMETHEUS_PASSWORD;

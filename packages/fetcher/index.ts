@@ -1,4 +1,4 @@
-import { Fetcher, Location } from "./types";
+import type { Fetcher, Location } from "./types";
 
 let f: Fetcher | null;
 let l: Location | null;

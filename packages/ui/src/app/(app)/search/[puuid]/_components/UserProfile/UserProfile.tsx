@@ -1,4 +1,6 @@
-import { TierNumber, tierNumberToNameObject } from "@instalock/riot";
+import type { TierNumber } from "@instalock/riot";
+
+import { tierNumberToNameObject } from "@instalock/riot";
 import { Card, Flex, Group, Image, Text } from "@mantine/core";
 
 import MatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/MatchCard";

@@ -1,4 +1,5 @@
-import { Db } from "@instalock/db";
+import type { Db } from "@instalock/db";
+
 import postgres from "postgres";
 
 export class DbClient {

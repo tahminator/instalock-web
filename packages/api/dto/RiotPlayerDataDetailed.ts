@@ -1,4 +1,4 @@
-import { RiotMatchEnriched } from "./RiotMatchEnriched";
+import type { RiotMatchEnriched } from "./RiotMatchEnriched";
 
 export interface RiotPlayerDataDetailed {
   riotTag: string | null;

@@ -1,4 +1,4 @@
-import { RiotMatchTeamColor } from "./RiotMatch";
+import type { RiotMatchTeamColor } from "./RiotMatch";
 
 export interface PlayerMatch {
   id: string;

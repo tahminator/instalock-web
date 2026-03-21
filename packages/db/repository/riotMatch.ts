@@ -1,4 +1,4 @@
-import { Db, RiotMatch, RiotMatchTeamColor } from "..";
+import type { Db, RiotMatch, RiotMatchTeamColor } from "..";
 
 export class BaseRiotMatchRepository {
   constructor(private readonly db: Db) {}

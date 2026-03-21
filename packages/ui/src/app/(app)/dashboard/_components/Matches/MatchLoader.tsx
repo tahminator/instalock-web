@@ -1,5 +1,6 @@
+import type { ReactNode } from "react";
+
 import { Text } from "@mantine/core";
-import { ReactNode } from "react";
 
 import LiveMatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/LiveMatchCard";
 import MatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/MatchCard";
