@@ -1,10 +1,7 @@
+import type { Session as LuciaSession, User as LuciaUser } from "lucia";
+
 import { Injectable } from "@tahminator/sapling";
-import {
-  Lucia,
-  TimeSpan,
-  Session as LuciaSession,
-  User as LuciaUser,
-} from "lucia";
+import { Lucia, TimeSpan } from "lucia";
 
 import { SessionRepository } from "@/repository/session";
 import { UserRepository } from "@/repository/user";

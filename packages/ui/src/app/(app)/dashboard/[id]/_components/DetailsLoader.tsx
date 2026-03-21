@@ -1,4 +1,6 @@
-import { MapUuid, mapUuidToNameObject } from "@instalock/riot";
+import type { MapUuid } from "@instalock/riot";
+
+import { mapUuidToNameObject } from "@instalock/riot";
 import { Button, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 

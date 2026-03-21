@@ -1,9 +1,10 @@
 import z from "zod";
 
-import { UnwrapResponseEntity } from "../../../utils";
-import { RouteObject } from "../../../utils/route";
+import type { UnwrapResponseEntity } from "../../../utils";
+import type { RouteObject } from "../../../utils/route";
+import type { IRiotUnauthenticatedController } from "./controller";
+
 import { checkIdSchema, queryByRiotNameSchema } from "../../../zod";
-import { IRiotUnauthenticatedController } from "./controller";
 
 export const RiotUnauthenticatedRouteObject = {
   getRiotPlayerDataDetailedByPuuid: {

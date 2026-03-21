@@ -1,4 +1,4 @@
-import { Db, Session } from "..";
+import type { Db, Session } from "..";
 
 export class BaseSessionRepository {
   constructor(private readonly db: Db) {}

@@ -1,10 +1,7 @@
-import { RiotMatchEnriched } from "@instalock/api";
-import {
-  mapUuidToNameObject,
-  MapUuid,
-  agentUuidToNameObject,
-  AgentUuid,
-} from "@instalock/riot";
+import type { RiotMatchEnriched } from "@instalock/api";
+import type { MapUuid, AgentUuid } from "@instalock/riot";
+
+import { mapUuidToNameObject, agentUuidToNameObject } from "@instalock/riot";
 import {
   Avatar,
   Badge,

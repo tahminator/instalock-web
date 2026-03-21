@@ -1,5 +1,7 @@
+import type { Fetcher } from "@instalock/fetcher/types";
+
 import { init } from "@instalock/fetcher";
-import { Fetcher, Location } from "@instalock/fetcher/types";
+import { Location } from "@instalock/fetcher/types";
 import { App } from "@instalock/ui";
 import SJ from "superjson";
 

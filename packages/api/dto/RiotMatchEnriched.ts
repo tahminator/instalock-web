@@ -1,6 +1,6 @@
-import { PlayerMatch } from "@instalock/db";
-import { RiotMatch } from "@instalock/db";
-import { getGameModeName } from "@instalock/riot";
+import type { PlayerMatch } from "@instalock/db";
+import type { RiotMatch } from "@instalock/db";
+import type { getGameModeName } from "@instalock/riot";
 
 export interface RiotMatchEnriched {
   playerData: PlayerMatch | null;

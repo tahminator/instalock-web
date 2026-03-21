@@ -1,9 +1,10 @@
 import { z } from "zod";
 
-import { RouteObject } from "../../../utils/route";
-import { UnwrapResponseEntity } from "../../../utils/unwrap";
+import type { RouteObject } from "../../../utils/route";
+import type { UnwrapResponseEntity } from "../../../utils/unwrap";
+import type { IRiotAuthController } from "./controller";
+
 import { authModalSchema } from "../../../zod";
-import { IRiotAuthController } from "./controller";
 
 export const RiotAuthRouteObject = {
   getMe: {

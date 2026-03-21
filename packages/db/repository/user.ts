@@ -1,5 +1,5 @@
-import { Db } from "..";
-import { User } from "../models";
+import type { Db } from "..";
+import type { User } from "../models";
 
 export class BaseUserRepository {
   constructor(private readonly db: Db) {}

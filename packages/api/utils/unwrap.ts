@@ -1,5 +1,5 @@
-import { ResponseEntity } from "@tahminator/sapling";
-import z from "zod";
+import type { ResponseEntity } from "@tahminator/sapling";
+import type z from "zod";
 
 export type UnwrapResponseEntity<T> =
   T extends Promise<ResponseEntity<infer U>> ? U : never;

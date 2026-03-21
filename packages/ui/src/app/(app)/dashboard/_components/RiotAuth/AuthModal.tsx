@@ -1,3 +1,5 @@
+import type { z } from "zod";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authModalSchema } from "@instalock/api";
 import {
@@ -21,7 +23,6 @@ import { IconBrandValorant } from "@tabler/icons-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { z } from "zod";
 
 import { PasteButton } from "@/app/(app)/dashboard/_components/RiotAuth/_components/PasteButton";
 import { useAuthenticateMutation } from "@/lib/api/queries/api/auth";

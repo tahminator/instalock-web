@@ -1,7 +1,9 @@
 // this must be first
 import "@/patches";
 
-import { Class, Sapling } from "@tahminator/sapling";
+import type { Class } from "@tahminator/sapling";
+
+import { Sapling } from "@tahminator/sapling";
 import express from "express";
 import SJ from "superjson";
 

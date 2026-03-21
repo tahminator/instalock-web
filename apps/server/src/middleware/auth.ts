@@ -1,5 +1,6 @@
+import type { Request, Response, NextFunction } from "express";
+
 import { Controller, Middleware } from "@tahminator/sapling";
-import { Request, Response, NextFunction } from "express";
 
 import { AuthService } from "@/service/auth";
 

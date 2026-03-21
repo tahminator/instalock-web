@@ -1,4 +1,7 @@
-import { IRiotAuthController, RiotAuthRouteObject } from "@instalock/api";
+import type { IRiotAuthController } from "@instalock/api";
+import type { Request, Response } from "express";
+
+import { RiotAuthRouteObject } from "@instalock/api";
 import { RiotClient } from "@instalock/riot";
 import {
   _Route,
@@ -7,7 +10,6 @@ import {
   ResponseEntity,
   ResponseStatusError,
 } from "@tahminator/sapling";
-import { Request, Response } from "express";
 
 import { ZodParserError } from "@/error/parser";
 import { SessionRepository } from "@/repository/session";

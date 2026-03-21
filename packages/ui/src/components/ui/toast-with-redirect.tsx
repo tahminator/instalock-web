@@ -1,6 +1,8 @@
-import { DefaultMantineColor } from "@mantine/core";
+import type { DefaultMantineColor } from "@mantine/core";
+import type { ReactNode } from "react";
+
 import { notifications } from "@mantine/notifications";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 /**

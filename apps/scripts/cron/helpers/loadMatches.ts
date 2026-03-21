@@ -1,4 +1,6 @@
-import { MapUrl, mapUrlToUuidObject, RiotClient } from "@instalock/riot";
+import type { MapUrl } from "@instalock/riot";
+
+import { mapUrlToUuidObject, RiotClient } from "@instalock/riot";
 import { randomUUID } from "crypto";
 import {
   playerMatchRepository,
