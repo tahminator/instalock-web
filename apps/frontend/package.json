@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
+    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint && pnpm run build",
     "typecheck": "tsc -b --noEmit",
     "fmt": "pnpm run prettier",
     "fmt:fix": "pnpm run prettier:fix",
