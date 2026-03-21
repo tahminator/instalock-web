@@ -5,8 +5,10 @@
   "description": "Shared UI for Instalock.",
   "main": "index.ts",
   "scripts": {
-    "lint": "eslint .",
-    "typecheck": "tsc -b --noEmit"
+    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
+    "typecheck": "tsc -b --noEmit",
+    "fmt": "pnpm run prettier",
+    "lint": "pnpm run eslint"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

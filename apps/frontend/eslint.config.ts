@@ -1,2 +1,2 @@
-import baseConfig from "../../eslint.config.mts";
-export default baseConfig;
+import reactConfig from "../../eslint.config.react";
+export default reactConfig;

@@ -4,6 +4,8 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   { ignores: ["dist"] },
   {
     plugins: {
@@ -14,8 +16,7 @@ export default tseslint.config(
     },
   },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ["**/*.{ts}"],
+    files: ["**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals["shared-node-browser"],
