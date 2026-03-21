@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
+    "typecheck": "tsc -b --noEmit",
+    "fmt": "pnpm run prettier",
+    "lint": "pnpm run eslint"
   },
   "dependencies": {
     "@instalock/fetcher": "workspace:^",

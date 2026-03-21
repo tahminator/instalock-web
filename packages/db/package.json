@@ -4,7 +4,10 @@
   "description": "Empty database shell & repository to interface with Instalock database.",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
+    "typecheck": "tsc -b --noEmit",
+    "fmt": "pnpm run prettier",
+    "lint": "pnpm run eslint",
     "migrate:dev": "dotenvx run -f ../../.env -- pnpm run migrate",
     "migrate": "migrate -source file://migrations -database \"pgx5://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" -verbose"
   },

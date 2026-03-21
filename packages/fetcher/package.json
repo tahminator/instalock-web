@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "Instalock's core functionality to define fetchers to re-use across all frontend clients.",
   "main": "index.ts",
-  "scripts": {},
+  "scripts": {
+    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
+    "typecheck": "tsc -b --noEmit",
+    "fmt": "pnpm run prettier",
+    "lint": "pnpm run eslint"
+  },
   "dependencies": {
     "@instalock/api": "workspace:^",
     "@tahminator/sapling": "catalog:sapling",

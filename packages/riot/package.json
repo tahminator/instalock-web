@@ -1,11 +1,13 @@
-
 {
   "name": "@instalock/riot",
   "version": "1.0.0",
   "description": "Riot client wrapper",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
+    "typecheck": "tsc -b --noEmit",
+    "fmt": "pnpm run prettier",
+    "lint": "pnpm run eslint"
   },
   "keywords": [],
   "author": "",

@@ -5,10 +5,12 @@
   "main": "index.ts",
   "scripts": {
     "dev": "NODE_ENV=development dotenvx run -f ../../.env -- tsx --watch src/index.ts",
+    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
     "typecheck": "tsc -b --noEmit",
+    "fmt": "pnpm run prettier",
+    "lint": "pnpm run eslint",
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=src/index.js",
-    "start": "NODE_ENV=production node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=production node src/index.js"
   },
   "keywords": [],
   "author": "",
