@@ -14,11 +14,6 @@
     // TODO: remove and fix code
     "noUncheckedIndexedAccess": false
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "src/lib/types/*.d.ts",
-    "vitest.config.mts"
-  ],
+  "include": ["src/**/*", "src/lib/types/*.d.ts", "vitest.config.mts"],
   "exclude": ["node_modules"]
 }
