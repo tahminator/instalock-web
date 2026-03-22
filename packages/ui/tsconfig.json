@@ -1,15 +1,12 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2015", "DOM"],
     "jsx": "react-jsx",
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "strict": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "composite": true
   },
   "include": ["src"]
 }
