@@ -24,6 +24,7 @@
     "@mantine/core": "catalog:",
     "@mantine/hooks": "catalog:",
     "@mantine/notifications": "catalog:",
+    "@remix-run/router": "catalog:",
     "@tabler/icons-react": "catalog:",
     "@tailwindcss/postcss": "catalog:",
     "@tanstack/react-query": "catalog:",
@@ -50,17 +51,17 @@
     "vite": "catalog:"
   },
   "devDependencies": {
+    "@eslint/js": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@eslint/js": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-perfectionist": "catalog:",
     "eslint-plugin-react": "catalog:",
     "eslint-plugin-react-hooks": "catalog:",
     "eslint-plugin-react-refresh": "catalog:",
     "globals": "catalog:",
+    "prettier": "catalog:",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:",
-    "prettier": "catalog:"
+    "typescript-eslint": "catalog:"
   }
 }

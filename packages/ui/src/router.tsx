@@ -1,3 +1,5 @@
+import type { Router as RemixRouter } from "@remix-run/router";
+
 import { createBrowserRouter } from "react-router-dom";
 
 import DetailedMatchPage from "@/app/(app)/dashboard/[id]/page";
@@ -8,7 +10,7 @@ import SearchPage from "@/app/(app)/search/page";
 import LandingPage from "@/app/page";
 import FourOhFour from "@/components/ui/FourOhFour/FourOhFour";
 
-const router = createBrowserRouter([
+const router: RemixRouter = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
