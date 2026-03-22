@@ -13,8 +13,8 @@
     "lint:fix": "pnpm run eslint:fix",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
+    "prettier": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --check .",
+    "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write .",
     "migrate:dev": "dotenvx run -f ../../.env -- pnpm run migrate",
     "migrate": "migrate -source file://migrations -database \"pgx5://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" -verbose"
   },
