@@ -40,7 +40,13 @@ jobs:
         run: pnpm install -r --frozen-lockfile
 
       - name: Run Tests
-        run: pnpm run test
+        id: test-parallel
+        continue-on-error: true
+        run: pnpm run test:parallel
+
+      - name: Re-run tests without parallel
+        if: steps.test-parallel.outcome == 'failure'
+        run: pnpm run test:then:fail
 
   buildCronImage:
     name: Build Cron Docker image and deploy to Docker Hub
@@ -162,4 +168,3 @@ jobs:
 
       - name: Create new tag
         uses: ./.github/composite/create-tag
-
