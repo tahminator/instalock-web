@@ -82,16 +82,17 @@ export const loadMatchesForEachUser = async () => {
         raw: JSON.stringify(json),
         mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl] ?? null,
         gameVersion: matchInfo?.gameVersion ?? null,
-        gameStart: matchInfo?.gameStartMillis
-          ? new Date(matchInfo.gameStartMillis)
+        gameStart:
+          matchInfo?.gameStartMillis ?
+            new Date(matchInfo.gameStartMillis)
           : null,
         gameEnd:
-          matchInfo?.gameStartMillis && matchInfo?.gameLengthMillis
-            ? new Date(
-                Number(matchInfo.gameStartMillis) +
-                  Number(matchInfo.gameLengthMillis),
-              )
-            : null,
+          matchInfo?.gameStartMillis && matchInfo?.gameLengthMillis ?
+            new Date(
+              Number(matchInfo.gameStartMillis) +
+                Number(matchInfo.gameLengthMillis),
+            )
+          : null,
         isCompleted: matchInfo?.isCompleted ?? false,
         queueId: matchInfo?.queueID ?? null,
         isRanked: matchInfo?.isRanked ?? null,
@@ -99,9 +100,9 @@ export const loadMatchesForEachUser = async () => {
         roundsPlayed: teams?.[0]?.roundsPlayed ?? null,
         teamWon:
           (teams &&
-            (teams[0].teamId === "Red" && teams[0].won === true
-              ? ("Red" as const)
-              : ("Blue" as const))) ??
+            (teams[0].teamId === "Red" && teams[0].won === true ?
+              ("Red" as const)
+            : ("Blue" as const))) ??
           null,
         teamBlueRoundsWon: teamBlue?.roundsWon ?? null,
         teamRedRoundsWon: teamRed?.roundsWon ?? null,

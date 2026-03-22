@@ -35,9 +35,9 @@ export class ErrorMiddleware {
     console.error("[Error]", err);
 
     const status =
-      typeof err === "object" && err !== null && "status" in err
-        ? (err as { status: number }).status
-        : 500;
+      typeof err === "object" && err !== null && "status" in err ?
+        (err as { status: number }).status
+      : 500;
     const message =
       err instanceof Error ? err.message : "Internal Server Error";
 

@@ -58,10 +58,9 @@ export default function SearchBar() {
             data={tags}
             error={form.formState.errors.query?.message}
             rightSection={
-              status === "pending" ? (
+              status === "pending" ?
                 <Loader size={16} />
-              ) : (
-                <Button
+              : <Button
                   size="xs"
                   disabled={!!form.formState.errors.query}
                   variant={"transparent"}
@@ -80,7 +79,6 @@ export default function SearchBar() {
                     </Center>
                   }
                 />
-              )
             }
           />
         )}

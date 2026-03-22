@@ -19,13 +19,12 @@ export function PasteButton({
         <Button
           className=""
           color={
-            isFormUrlError
-              ? "red"
-              : pasted
-                ? "green"
-                : highlighted
-                  ? "blue"
-                  : "gray"
+            isFormUrlError ? "red"
+            : pasted ?
+              "green"
+            : highlighted ?
+              "blue"
+            : "gray"
           }
           size="sm"
           w={40}
@@ -38,7 +37,7 @@ export function PasteButton({
             }, 3000);
           }}
           rightSection={
-            pasted ? (
+            pasted ?
               <Center>
                 <IconCheck
                   style={{
@@ -49,8 +48,7 @@ export function PasteButton({
                   stroke={1.5}
                 />
               </Center>
-            ) : (
-              <Center>
+            : <Center>
                 <IconCopy
                   style={{
                     width: rem(20),
@@ -60,7 +58,6 @@ export function PasteButton({
                   stroke={1.5}
                 />
               </Center>
-            )
           }
         />
       </MantineThemeProvider>

@@ -19,9 +19,9 @@ export type Route<TController, K extends keyof TController> = {
   };
   fe: (
     input: any,
-  ) => TController[K] extends (...args: any[]) => unknown
-    ? UnwrapResponseEntity<ReturnType<TController[K]>>
-    : never;
+  ) => TController[K] extends (...args: any[]) => unknown ?
+    UnwrapResponseEntity<ReturnType<TController[K]>>
+  : never;
 };
 
 export type RouteObject<TController extends IBaseController> = {
