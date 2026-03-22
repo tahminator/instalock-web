@@ -1,6 +1,9 @@
+import type { Config } from "prettier";
+
 import base from "../../.prettierrc.base.ts";
 
-/** @type {import("prettier").Config} */
-export default {
+const config: Config = {
   ...base,
 };
+
+export default config;
