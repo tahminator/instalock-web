@@ -17,7 +17,7 @@ import { CsrfMiddleware } from "@/middleware/csrf";
 import { RateLimiterMiddleware } from "@/middleware/limit";
 import { PrometheusMiddleware } from "@/middleware/prom";
 import { PrometheusAuthMiddleware } from "@/middleware/prom/auth";
-import { MetricsRegistrarMiddleware } from "@/middleware/prom/registrar";
+import { MetricsRegistrarMiddleware } from "@/middleware/prom/metric";
 import { SpaMiddleware } from "@/middleware/spa";
 import { ErrorMiddleware } from "@/middleware/static/error";
 
