@@ -1,10 +1,10 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { Controller, Middleware } from "@tahminator/sapling";
+import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 
 import type { passthrough } from "@/lib/express";
 
-@Controller()
+@MiddlewareClass()
 export class CsrfMiddleware {
   private readonly plugin: ReturnType<typeof passthrough>;
 

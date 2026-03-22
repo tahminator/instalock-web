@@ -221,7 +221,7 @@ export class BaseRiotMatchRepository {
         "RiotMatch"
     `;
 
-    return result[0]?.count ?? 0;
+    return Number(result[0]?.count ?? 0);
   }
 
   public async getRankedMatchesCount(): Promise<number> {
@@ -234,7 +234,7 @@ export class BaseRiotMatchRepository {
         "isRanked" = true
     `;
 
-    return result[0]?.count ?? 0;
+    return Number(result[0]?.count ?? 0);
   }
 
   public async getMatchesCountByMapId(mapId: string): Promise<number> {
@@ -247,7 +247,7 @@ export class BaseRiotMatchRepository {
         "mapId" = ${mapId}
     `;
 
-    return result[0]?.count ?? 0;
+    return Number(result[0]?.count ?? 0);
   }
 
   public async getMatchesCountByPlayerPuuid(
@@ -264,7 +264,7 @@ export class BaseRiotMatchRepository {
         pm."playerId" = ${playerPuuid}
     `;
 
-    return result[0]?.count ?? 0;
+    return Number(result[0]?.count ?? 0);
   }
 
   public async updateMatch(match: RiotMatch): Promise<RiotMatch | null> {

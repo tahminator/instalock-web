@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { Controller, Middleware } from "@tahminator/sapling";
+import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 
 import type { passthrough } from "@/lib/express";
 
@@ -11,7 +11,7 @@ if (!username || !password) {
   throw new Error("PROMETHEUS_USERNAME and/or PROMETHEUS_PASSWORD is not set");
 }
 
-@Controller()
+@MiddlewareClass()
 export class PrometheusAuthMiddleware {
   private readonly plugin: ReturnType<typeof passthrough>;
 

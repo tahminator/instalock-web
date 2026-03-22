@@ -55,7 +55,7 @@ export class BaseUserRepository {
         "User"
     `;
 
-    return result[0]?.count ?? 0;
+    return Number(result[0]?.count ?? 0);
   }
 
   public async getRegisteredUsersCount(): Promise<number> {
@@ -68,7 +68,7 @@ export class BaseUserRepository {
         "newUser" = false
     `;
 
-    return result[0]?.count ?? 0;
+    return Number(result[0]?.count ?? 0);
   }
 
   public async getUsersWithRiotTagWithQuery(query: string): Promise<User[]> {

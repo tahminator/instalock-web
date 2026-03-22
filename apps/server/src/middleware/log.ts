@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { Controller, Middleware } from "@tahminator/sapling";
+import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 import morgan from "morgan";
 
 import { passthrough } from "@/lib/express";
 
-@Controller()
+@MiddlewareClass()
 export class LoggerMiddleware {
   private readonly plugin:
     | ReturnType<typeof morgan>

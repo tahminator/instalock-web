@@ -21,15 +21,22 @@ import { ZodParserError } from "@/error/parser";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user";
+import { MetricsService } from "@/service/metrics";
 
 @Controller({
-  deps: [UserRepository, RiotMatchRepository, PlayerMatchRepository],
+  deps: [
+    UserRepository,
+    RiotMatchRepository,
+    PlayerMatchRepository,
+    MetricsService,
+  ],
 })
 export class RiotUnauthenticatedController implements IRiotUnauthenticatedController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,
     private readonly playerMatchRepository: PlayerMatchRepository,
+    private readonly metricsService: MetricsService,
   ) {}
 
   @_Route({
@@ -41,17 +48,13 @@ export class RiotUnauthenticatedController implements IRiotUnauthenticatedContro
   ): Promise<
     Awaited<ReturnType<IRiotUnauthenticatedController["getMetrics"]>>
   > {
-    const totalUsers = await this.userRepository.getUsersCount();
-    const registeredUsers = await this.userRepository.getRegisteredUsersCount();
-    const totalMatches = await this.riotMatchRepository.getMatchesCount();
+    const metrics = await this.metricsService.getMetrics();
 
     return ResponseEntity.ok().body({
       success: true,
       message: "Metrics received!",
       payload: {
-        registeredUsers,
-        totalMatches,
-        totalUsers,
+        ...metrics,
       },
     }) satisfies Awaited<
       ReturnType<IRiotUnauthenticatedController["getMetrics"]>
