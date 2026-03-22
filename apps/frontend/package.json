@@ -1,7 +1,7 @@
 {
   "name": "@instalock/frontend",
   "author": "Tahmid Ahmed",
-  "version": "",
+  "version": "0.0.0",
   "description": "Instalock main web UI",
   "type": "module",
   "scripts": {

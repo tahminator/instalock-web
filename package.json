@@ -1,7 +1,7 @@
 {
   "name": "instalock",
   "author": "Tahmid Ahmed",
-  "version": "",
+  "version": "0.0.0",
   "description": "Instalock monorepo",
   "engines": {
     "pnpm": "10.5.2"
@@ -10,7 +10,7 @@
     "generate": "cd scripts/manual && tsx generateMapImages.ts && tsx generateTierImages.ts",
     "frontend:dev": "cd apps/frontend && pnpm run dev",
     "server:dev": "cd apps/server && pnpm run dev",
-    "kaboom": "find . -name \"node_modules\" -type d -prune -exec trash '{}' +",
+    "kaboom": "find . -name \"node_modules\" -type d -prune -exec trash '{}' + && find . -name \"tsconfig.tsbuildinfo\" -type f -prune -exec trash '{}' +",
     "test": "pnpm run test:parallel",
     "testi": "pnpm -r run test",
     "test:parallel": "pnpm -r --parallel run test",
@@ -22,7 +22,17 @@
   "keywords": [],
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "9.2.1"
+    "concurrently": "catalog:",
+    "@eslint/js": "catalog:",
+    "eslint": "catalog:",
+    "eslint-plugin-perfectionist": "catalog:",
+    "eslint-plugin-react": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "eslint-plugin-react-refresh": "catalog:",
+    "globals": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "prettier": "catalog:"
   },
   "packageManager": "pnpm@10.5.2"
 }
