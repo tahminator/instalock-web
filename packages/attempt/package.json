@@ -1,7 +1,7 @@
 {
   "name": "@instalock/attempt",
   "author": "Tahmid Ahmed",
-  "version": "0.0.0",
+  "version": "1.0.15",
   "description": "Attempt wrapper library",
   "main": "index.ts",
   "scripts": {
