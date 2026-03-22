@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { Controller, Middleware } from "@tahminator/sapling";
+import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 import cors from "cors";
 
-@Controller()
+@MiddlewareClass()
 export class CorsMiddleware {
   private readonly plugin: ReturnType<typeof cors>;
 

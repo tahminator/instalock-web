@@ -1,13 +1,18 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { Controller, GET, HttpStatus, Middleware } from "@tahminator/sapling";
+import {
+  GET,
+  HttpStatus,
+  Middleware,
+  MiddlewareClass,
+} from "@tahminator/sapling";
 import express from "express";
 import fs from "fs/promises";
 import path from "path";
 
 import { passthrough } from "@/lib/express";
 
-@Controller()
+@MiddlewareClass()
 export class SpaMiddleware {
   private readonly plugin: ReturnType<typeof passthrough>;
 

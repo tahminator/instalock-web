@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { Controller, Middleware } from "@tahminator/sapling";
+import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 import cookieParser from "cookie-parser";
 
-@Controller()
+@MiddlewareClass()
 export class CookieParserMiddleware {
   private readonly plugin: ReturnType<typeof cookieParser>;
 

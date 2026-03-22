@@ -261,7 +261,7 @@ export class BasePlayerMatchRepository {
         "playerId" = ${playerId}
     `;
 
-    return result[0]?.count ?? 0;
+    return Number(result[0]?.count ?? 0);
   }
 
   public async getPlayerWinRate(playerId: string): Promise<number> {
@@ -277,7 +277,7 @@ export class BasePlayerMatchRepository {
         "playerId" = ${playerId}
     `;
 
-    return result[0]?.win_rate ?? 0;
+    return Number(result[0]?.win_rate ?? 0);
   }
 
   public async getPlayerAverageKDA(playerId: string): Promise<{

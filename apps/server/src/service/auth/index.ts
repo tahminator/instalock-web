@@ -6,7 +6,7 @@ import { Lucia, TimeSpan } from "lucia";
 import { SessionRepository } from "@/repository/session";
 import { UserRepository } from "@/repository/user";
 
-import { AuthPostgresAdapter } from "../lib/auth/adapter";
+import { AuthPostgresAdapter } from "../../lib/auth/adapter";
 
 export interface AuthSession extends LuciaSession {}
 export interface AuthUser extends LuciaUser {}

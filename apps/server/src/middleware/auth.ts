@@ -1,10 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 
-import { Controller, Middleware } from "@tahminator/sapling";
+import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 
 import { AuthService } from "@/service/auth";
 
-@Controller({
+@MiddlewareClass({
   deps: [AuthService],
 })
 export class AuthMiddleware {

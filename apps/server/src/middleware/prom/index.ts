@@ -1,8 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { Controller, Middleware } from "@tahminator/sapling";
+import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 import promBundle from "express-prom-bundle";
-import * as promClient from "prom-client";
 
 const originalNormalize = promBundle.normalizePath;
 
@@ -26,10 +25,9 @@ const fileExtensions = [
   "webp",
 ];
 
-@Controller()
+@MiddlewareClass()
 export class PrometheusMiddleware {
   private readonly plugin: ReturnType<typeof promBundle>;
-  private readonly appInfoGauge: promClient.Gauge<string>;
 
   constructor() {
     this.plugin = promBundle({
@@ -52,15 +50,6 @@ export class PrometheusMiddleware {
       },
       promClient: {
         collectDefaultMetrics: {},
-      },
-    });
-
-    this.appInfoGauge = new promClient.Gauge({
-      name: "application_info",
-      help: "Application metadata",
-      labelNames: ["version"],
-      async collect() {
-        this.set({ version: process.env.VERSION ?? "N/A" }, 1);
       },
     });
   }
