@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Environment setup & latest features
-    "lib": ["ES6", "DOM"],
+    "lib": ["ES6", "DOM", "DOM.Iterable"],
     "target": "ES6",
     "module": "Preserve",
     "moduleDetection": "force",
