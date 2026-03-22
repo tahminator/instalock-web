@@ -155,7 +155,7 @@ export default function UserNavbar() {
                 className={cx(
                   classes.user,
                   {
-                    [classes.userActive]: opened,
+                    [classes.userActive ?? ""]: opened,
                   },
                   "p-3",
                 )}
