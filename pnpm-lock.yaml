@@ -21,6 +21,9 @@ catalogs:
     '@mantine/notifications':
       specifier: ^7.15.1
       version: 7.17.1
+    '@remix-run/router':
+      specifier: 1.23.0
+      version: 1.23.0
     '@tabler/icons-react':
       specifier: ^3.24.0
       version: 3.31.0
@@ -704,6 +707,9 @@ importers:
       '@mantine/notifications':
         specifier: 'catalog:'
         version: 7.17.1(@mantine/core@7.17.1(@mantine/hooks@7.17.1(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.17.1(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@remix-run/router':
+        specifier: 'catalog:'
+        version: 1.23.0
       '@tabler/icons-react':
         specifier: 'catalog:'
         version: 3.31.0(react@18.3.1)
