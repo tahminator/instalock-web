@@ -7,6 +7,7 @@
     "frontend:dev": "cd apps/frontend && pnpm run dev",
     "server:dev": "cd apps/server && pnpm run dev",
     "kaboom": "find . -name \"node_modules\" -type d -prune -exec trash '{}' +",
+    "test": "pnpm run test:parallel",
     "test:parallel": "pnpm -r --parallel run test",
     "test:then:fail": "pnpm -r run test && exit 1",
     "lint:fix": "pnpm -r --parallel run lint:fix",
