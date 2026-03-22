@@ -51,9 +51,9 @@ export default function MatchCard({
           variant="gradient"
           size="xs"
           gradient={
-            isCompleted
-              ? { from: "indigo", to: "blue" }
-              : { from: "red", to: "rgba(105, 50, 50, 1)" }
+            isCompleted ?
+              { from: "indigo", to: "blue" }
+            : { from: "red", to: "rgba(105, 50, 50, 1)" }
           }
         >
           {isCompleted ? "COMPLETED" : "LIVE"}
