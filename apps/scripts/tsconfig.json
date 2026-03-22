@@ -1,17 +1,15 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./",
     //   "types": ["vitest/globals"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
-    "moduleDetection": "force"
+
+    // TODO: fix and remove
+    "noUncheckedIndexedAccess": false
   },
-  "include": ["**/*.ts", "**/*.tsx", "generateTiers.mts"],
+  "include": ["cron/**/*", "db/**/*", "manual/**/*", "repository/**/*"],
   "ts-node": {
     "esm": true
   },

@@ -12,8 +12,9 @@
     "server:dev": "cd apps/server && pnpm run dev",
     "kaboom": "find . -name \"node_modules\" -type d -prune -exec trash '{}' +",
     "test": "pnpm run test:parallel",
+    "testi": "pnpm -r run test",
     "test:parallel": "pnpm -r --parallel run test",
-    "test:then:fail": "pnpm -r run test && exit 1",
+    "test:then:fail": "pnpm run testi && exit 1",
     "lint:fix": "pnpm -r --parallel run lint:fix",
     "fmt:fix": "pnpm -r --parallel run fmt:fix",
     "dev": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:dev\""
