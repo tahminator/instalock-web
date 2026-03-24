@@ -1,6 +1,6 @@
 import type { F } from "../types";
 
-import { timedWrapper } from "./utils";
+import { executionWrapper } from "./utils";
 
 /**
  * Apply this to any function to record the execution time of all
@@ -19,7 +19,7 @@ export function Timed(): MethodDecorator {
 
     const className = target.constructor.name;
 
-    const newFn = timedWrapper(fn, className, propertyKey);
+    const newFn = executionWrapper(fn, className, propertyKey);
 
     descriptor.value = newFn as unknown as T;
   };

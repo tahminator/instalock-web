@@ -1,6 +1,6 @@
 import type { F } from "../types";
 
-import { timedWrapper } from "./utils";
+import { executionWrapper } from "./utils";
 
 /**
  * Apply this to any class to record the execution time of all
@@ -20,7 +20,7 @@ export function TimedAll(): ClassDecorator {
       const descriptor = Object.getOwnPropertyDescriptor(prototype, key);
       if (descriptor && typeof descriptor.value === "function") {
         const originalMethod = descriptor.value;
-        descriptor.value = timedWrapper(originalMethod, className, key);
+        descriptor.value = executionWrapper(originalMethod, className, key);
 
         Object.defineProperty(prototype, key, descriptor);
       }
