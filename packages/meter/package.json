@@ -1,0 +1,38 @@
+{
+  "name": "@instalock/meter",
+  "author": "Tahmid Ahmed",
+  "version": "0.0.0",
+  "description": "Shared meter library",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
+    "typecheck": "tsc -b --noEmit",
+    "fmt": "pnpm run prettier",
+    "fmt:fix": "pnpm run prettier:fix",
+    "lint": "pnpm run eslint",
+    "lint:fix": "pnpm run eslint:fix",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint . --fix",
+    "prettier": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --check .",
+    "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write ."
+  },
+  "dependencies": {
+    "@instalock/api": "workspace:^",
+    "@tahminator/sapling": "catalog:",
+    "prom-client": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@eslint/js": "catalog:",
+    "eslint": "catalog:",
+    "eslint-plugin-perfectionist": "catalog:",
+    "eslint-plugin-react": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "eslint-plugin-react-refresh": "catalog:",
+    "globals": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:"
+  },
+  "packageManager": "pnpm@10.5.2"
+}

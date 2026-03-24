@@ -1,8 +1,11 @@
 import type { Adapter, DatabaseSession, DatabaseUser } from "lucia";
 
+import { TimedAll } from "@instalock/meter";
+
 import type { SessionRepository } from "@/repository/session";
 import type { UserRepository } from "@/repository/user";
 
+@TimedAll()
 export class AuthPostgresAdapter implements Adapter {
   constructor(
     private readonly sessionRepository: SessionRepository,

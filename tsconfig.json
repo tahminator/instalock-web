@@ -9,6 +9,7 @@
     { "path": "./packages/db/" },
     { "path": "./packages/fetcher/" },
     { "path": "./packages/riot/" },
-    { "path": "./packages/ui/" }
+    { "path": "./packages/ui/" },
+    { "path": "./packages/meter/" }
   ]
 }

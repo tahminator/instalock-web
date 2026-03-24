@@ -1,9 +1,11 @@
 import type { NextFunction, Request, Response } from "express";
 
+import { TimedAll } from "@instalock/meter";
 import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 import cors from "cors";
 
 @MiddlewareClass()
+@TimedAll()
 export class CorsMiddleware {
   private readonly plugin: ReturnType<typeof cors>;
 

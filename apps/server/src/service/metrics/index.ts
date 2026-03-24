@@ -1,11 +1,13 @@
 import type { MetricsDto } from "@instalock/api";
 
+import { TimedAll } from "@instalock/meter";
 import { Injectable } from "@tahminator/sapling";
 
 import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user";
 
 @Injectable([UserRepository, RiotMatchRepository])
+@TimedAll()
 export class MetricsService {
   constructor(
     private readonly userRepository: UserRepository,

@@ -4,6 +4,7 @@ import type { Request, Response } from "express";
 import type { Histogram } from "prom-client";
 
 import { RiotQueryRouteObject } from "@instalock/api";
+import { TimedAll } from "@instalock/meter";
 import {
   getGameModeName,
   mapUrlToUuidObject,
@@ -35,6 +36,7 @@ import { CachingLookupService } from "@/service/lookup";
     PrometheusMetricTypeProvider,
   ],
 })
+@TimedAll()
 export class RiotQueryController implements IRiotQueryController {
   private readonly riotClientHistogram: Histogram;
 

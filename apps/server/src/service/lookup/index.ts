@@ -2,6 +2,7 @@ import type { RiotPlayerData } from "@instalock/api";
 import type { TierNumber } from "@instalock/riot";
 import type { Histogram } from "prom-client";
 
+import { TimedAll } from "@instalock/meter";
 import { RiotClient, tierNumberToNameObject } from "@instalock/riot";
 import { Injectable, Sapling } from "@tahminator/sapling";
 
@@ -10,6 +11,7 @@ import type { Redis } from "@/lib/redis/types";
 import { CachingRedisClient } from "@/lib/redis/cache";
 import { PrometheusMetricTypeProvider } from "@/middleware/prom/metric/provider";
 
+@TimedAll()
 @Injectable([CachingRedisClient, PrometheusMetricTypeProvider])
 export class CachingLookupService {
   private readonly THIRTY_MINUTES = 60 * 30;
