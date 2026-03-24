@@ -1,11 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 
+import { TimedAll } from "@instalock/meter";
 import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 import morgan from "morgan";
 
 import { passthrough } from "@/lib/express";
 
 @MiddlewareClass()
+@TimedAll()
 export class LoggerMiddleware {
   private readonly plugin:
     | ReturnType<typeof morgan>

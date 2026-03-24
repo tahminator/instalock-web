@@ -8,6 +8,7 @@ import type { TierNumber } from "@instalock/riot";
 import type { Request, Response } from "express";
 
 import { RiotUnauthenticatedRouteObject } from "@instalock/api";
+import { TimedAll } from "@instalock/meter";
 import { getGameModeName, tierNumberToNameObject } from "@instalock/riot";
 import {
   _Route,
@@ -31,6 +32,7 @@ import { MetricsService } from "@/service/metrics";
     MetricsService,
   ],
 })
+@TimedAll()
 export class RiotUnauthenticatedController implements IRiotUnauthenticatedController {
   constructor(
     private readonly userRepository: UserRepository,

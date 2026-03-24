@@ -17,6 +17,7 @@ COPY packages/api/package.json packages/api/tsconfig.json ./packages/api/
 COPY packages/attempt/package.json packages/attempt/tsconfig.json ./packages/attempt/
 COPY packages/db/package.json packages/db/tsconfig.json ./packages/db/
 COPY packages/fetcher/package.json packages/fetcher/tsconfig.json ./packages/fetcher/
+COPY packages/meter/package.json packages/meter/tsconfig.json ./packages/meter/
 COPY packages/riot/package.json packages/riot/tsconfig.json ./packages/riot/
 COPY packages/ui/package.json packages/ui/tsconfig.json ./packages/ui/
 

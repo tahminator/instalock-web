@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 
+import { TimedAll } from "@instalock/meter";
 import {
   GET,
   HttpStatus,
@@ -13,6 +14,7 @@ import path from "path";
 import { passthrough } from "@/lib/express";
 
 @MiddlewareClass()
+@TimedAll()
 export class SpaMiddleware {
   private readonly plugin: ReturnType<typeof passthrough>;
 

@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 
+import { TimedAll } from "@instalock/meter";
 import { Middleware, MiddlewareClass } from "@tahminator/sapling";
 
 import { AuthService } from "@/service/auth";
@@ -7,6 +8,7 @@ import { AuthService } from "@/service/auth";
 @MiddlewareClass({
   deps: [AuthService],
 })
+@TimedAll()
 export class AuthMiddleware {
   constructor(private readonly authService: AuthService) {}
 

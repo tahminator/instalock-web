@@ -3,6 +3,7 @@ import type { Request, Response } from "express";
 import type { Histogram } from "prom-client";
 
 import { RiotAuthRouteObject } from "@instalock/api";
+import { TimedAll } from "@instalock/meter";
 import { RiotClient } from "@instalock/riot";
 import {
   _Route,
@@ -26,6 +27,7 @@ import { AuthService } from "@/service/auth";
     PrometheusMetricTypeProvider,
   ],
 })
+@TimedAll()
 export class RiotAuthController implements IRiotAuthController {
   private readonly riotClientHistogram: Histogram;
 

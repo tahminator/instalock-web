@@ -1,5 +1,6 @@
 import type { Session as LuciaSession, User as LuciaUser } from "lucia";
 
+import { TimedAll } from "@instalock/meter";
 import { Injectable } from "@tahminator/sapling";
 import { Lucia, TimeSpan } from "lucia";
 
@@ -12,6 +13,7 @@ export interface AuthSession extends LuciaSession {}
 export interface AuthUser extends LuciaUser {}
 
 @Injectable([SessionRepository, UserRepository])
+@TimedAll()
 export class AuthService {
   private readonly lucia: Lucia;
 

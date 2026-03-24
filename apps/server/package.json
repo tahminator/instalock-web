@@ -6,6 +6,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "NODE_ENV=development dotenvx run -f ../../.env -- tsx --watch src/index.ts",
+    "devd": "NODE_ENV=development dotenvx run -f ../../.env -- tsx --inspect src/index.ts",
     "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
     "typecheck": "tsc -b --noEmit",
     "fmt": "pnpm run prettier",
@@ -26,6 +27,7 @@
     "@instalock/attempt": "workspace:^",
     "@instalock/db": "workspace:^",
     "@instalock/riot": "workspace:^",
+    "@instalock/meter": "workspace:^",
     "@tahminator/sapling": "catalog:",
     "arctic": "catalog:",
     "cookie-parser": "catalog:",

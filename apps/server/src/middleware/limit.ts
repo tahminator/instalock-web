@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import type { RateLimitRequestHandler } from "express-rate-limit";
 
+import { TimedAll } from "@instalock/meter";
 import { HttpStatus, Middleware, MiddlewareClass } from "@tahminator/sapling";
 import rateLimit from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
@@ -12,6 +13,7 @@ import { RateLimitRedisClient } from "@/lib/redis/rateLimiter";
 @MiddlewareClass({
   deps: [RateLimitRedisClient],
 })
+@TimedAll()
 export class RateLimiterMiddleware {
   private readonly redis: Redis;
   private readonly plugin: RateLimitRequestHandler;
