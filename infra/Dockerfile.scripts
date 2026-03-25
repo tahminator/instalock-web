@@ -49,4 +49,6 @@ RUN corepack enable pnpm
 RUN pnpm install
 RUN pnpm run build
 
+EXPOSE 3051
+
 CMD ["pnpm", "run", "start"]

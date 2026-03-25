@@ -1,7 +1,10 @@
 // this must be first
 import "@instalock/log";
+import { createStandaloneMetricServer } from "@instalock/meter/src/server";
 
-import { loadMatchesForEachUser } from "./helpers/loadMatches";
+import { MatchRefresher } from "./helpers/loadMatches";
+
+const METRIC_PORT = 3051;
 
 const tasks = async () => {
   console.time("tasks");
@@ -12,7 +15,7 @@ const tasks = async () => {
   console.log(`Running the match populator now`);
 
   try {
-    await loadMatchesForEachUser();
+    await MatchRefresher.refreshMatchesForEachUser();
   } catch (e) {
     console.error(e);
   }
@@ -20,6 +23,23 @@ const tasks = async () => {
   console.timeEnd("tasks");
   console.log("Match populator should be complete.\n");
 };
+
+const username = process.env.PROMETHEUS_USERNAME;
+const password = process.env.PROMETHEUS_PASSWORD;
+
+if (!username || !password) {
+  throw new Error("PROMETHEUS_USERNAME and/or PROMETHEUS_PASSWORD is not set");
+}
+
+createStandaloneMetricServer({
+  username,
+  password,
+}).then((s) => {
+  s.listen(METRIC_PORT, async () => {
+    console.log("Metric server is ready.");
+    await tasks();
+  });
+});
 
 console.log("Script has been loaded in.");
 
