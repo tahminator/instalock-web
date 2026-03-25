@@ -20,6 +20,7 @@ COPY packages/fetcher/package.json packages/fetcher/tsconfig.json ./packages/fet
 COPY packages/meter/package.json packages/meter/tsconfig.json ./packages/meter/
 COPY packages/riot/package.json packages/riot/tsconfig.json ./packages/riot/
 COPY packages/ui/package.json packages/ui/tsconfig.json ./packages/ui/
+COPY packages/log/package.json packages/log/tsconfig.json ./packages/log/
 
 ENV NODE_ENV=development
 

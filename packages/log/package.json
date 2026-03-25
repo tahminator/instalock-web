@@ -1,13 +1,10 @@
 {
-  "name": "@instalock/scripts",
+  "name": "@instalock/log",
   "author": "Tahmid Ahmed",
   "version": "0.0.0",
-  "description": "Do not install these into the other packages - Scripts to pull certain data about Valorant required for core functionality of Instalock.",
-  "main": "index.ts",
+  "description": "Logging library",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "esbuild cron/index.ts --bundle --platform=node --outfile=cron/index.cjs",
-    "start": "NODE_ENV=production node cron/index.cjs",
-    "dev": "NODE_ENV=development dotenvx run -f ../../.env -- pnpx tsx cron/index.ts --watch",
     "test": "pnpm run typecheck && pnpm run fmt && pnpm run lint",
     "typecheck": "tsc -b --noEmit",
     "fmt": "pnpm run prettier",
@@ -19,8 +16,9 @@
     "prettier": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --check .",
     "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write ."
   },
-  "keywords": [],
-  "license": "ISC",
+  "dependencies": {
+    "pino": "catalog:"
+  },
   "devDependencies": {
     "@eslint/js": "catalog:",
     "@types/node": "catalog:",
@@ -30,19 +28,9 @@
     "eslint-plugin-react-hooks": "catalog:",
     "eslint-plugin-react-refresh": "catalog:",
     "globals": "catalog:",
-    "pino-pretty": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:"
   },
-  "dependencies": {
-    "@instalock/db": "workspace:^",
-    "@instalock/log": "workspace:^",
-    "@instalock/riot": "workspace:^",
-    "esbuild": "catalog:",
-    "pino": "catalog:",
-    "postgres": "catalog:",
-    "prom-client": "catalog:",
-    "sharp": "catalog:"
-  }
+  "packageManager": "pnpm@10.5.2"
 }

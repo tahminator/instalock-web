@@ -1,5 +1,6 @@
 // this must be first
-import "./patches";
+import "@instalock/log";
+
 import { loadMatchesForEachUser } from "./helpers/loadMatches";
 
 const tasks = async () => {
@@ -21,7 +22,6 @@ const tasks = async () => {
 };
 
 console.log("Script has been loaded in.");
-tasks();
 
 setInterval(
   async () => {

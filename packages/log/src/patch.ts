@@ -1,6 +1,6 @@
 import { pino } from "pino";
 
-import { wrap } from "@/logger";
+import { wrap } from "./wrap";
 
 const _oldLog = console.log;
 const _oldWarn = console.warn;

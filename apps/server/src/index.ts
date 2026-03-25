@@ -1,5 +1,5 @@
 // this must be first
-import "@/patches";
+import "@instalock/log";
 
 import type { Class } from "@tahminator/sapling";
 

@@ -26,8 +26,9 @@
     "@instalock/api": "workspace:^",
     "@instalock/attempt": "workspace:^",
     "@instalock/db": "workspace:^",
-    "@instalock/riot": "workspace:^",
+    "@instalock/log": "workspace:^",
     "@instalock/meter": "workspace:^",
+    "@instalock/riot": "workspace:^",
     "@tahminator/sapling": "catalog:",
     "arctic": "catalog:",
     "cookie-parser": "catalog:",
@@ -40,7 +41,6 @@
     "lucia": "catalog:",
     "morgan": "catalog:",
     "oslo": "catalog:",
-    "pino": "catalog:",
     "postgres": "catalog:",
     "prom-client": "catalog:",
     "rate-limit-redis": "catalog:",
@@ -49,20 +49,19 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@eslint/js": "catalog:",
     "@types/cookie-parser": "catalog:",
     "@types/cors": "catalog:",
     "@types/express": "catalog:",
     "@types/morgan": "catalog:",
-    "pino-pretty": "catalog:",
-    "@eslint/js": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-perfectionist": "catalog:",
     "eslint-plugin-react": "catalog:",
     "eslint-plugin-react-hooks": "catalog:",
     "eslint-plugin-react-refresh": "catalog:",
     "globals": "catalog:",
+    "prettier": "catalog:",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:",
-    "prettier": "catalog:"
+    "typescript-eslint": "catalog:"
   }
 }

@@ -161,10 +161,12 @@ export class RiotQueryController implements IRiotQueryController {
     }
 
     if (user.newUser) {
+      // TODO: Change to NOTIFY/LISTEN
       await this.loadMatchesForNewUser(user.puuid);
       user = await this.userRepository.updateUser({ ...user, newUser: false });
     }
 
+    // TODO: Refactor this legacy fetching logic, causing lots of performance issues.
     const matches =
       await this.riotMatchRepository.getMatchesByPlayerPuuid(puuid);
     const matchesWithoutRawField = matches.map((m) => ({
