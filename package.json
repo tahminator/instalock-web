@@ -9,6 +9,7 @@
   "scripts": {
     "generate": "cd scripts/manual && tsx generateMapImages.ts && tsx generateTierImages.ts",
     "frontend:dev": "cd apps/frontend && pnpm run dev",
+    "cron:dev": "cd apps/scripts && pnpm run dev",
     "server:dev": "cd apps/server && pnpm run dev",
     "server:devd": "cd apps/server && pnpm run devd",
     "kaboom": "find . -name \"node_modules\" -type d -prune -exec trash '{}' + && find . -name \"tsconfig.tsbuildinfo\" -type f -prune -exec trash '{}' +",
@@ -18,8 +19,8 @@
     "test:then:fail": "pnpm run testi && exit 1",
     "lint:fix": "pnpm -r --parallel run lint:fix",
     "fmt:fix": "pnpm -r --parallel run fmt:fix",
-    "dev": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:dev\"",
-    "devd": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:devd\""
+    "dev": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:dev\" \"pnpm run cron:dev\"",
+    "devd": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:devd\" \"pnpm run cron:dev\""
   },
   "keywords": [],
   "license": "ISC",

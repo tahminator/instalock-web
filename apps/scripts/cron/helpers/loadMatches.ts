@@ -1,5 +1,7 @@
+import type { User } from "@instalock/db";
 import type { MapUrl } from "@instalock/riot";
 
+import { TimedAll } from "@instalock/meter";
 import { mapUrlToUuidObject, RiotClient } from "@instalock/riot";
 import { randomUUID } from "crypto";
 import {
@@ -8,11 +10,17 @@ import {
   userRepository,
 } from "repository";
 
-export const loadMatchesForEachUser = async () => {
-  const users = await userRepository.getUsers();
+@TimedAll()
+export class MatchRefresher {
+  static async refreshMatchesForEachUser() {
+    const users = await userRepository.getUsers();
 
-  for (let i = 0; i < users.length; i++) {
-    const user = users[i];
+    for (let i = 0; i < users.length; i++) {
+      await this.refreshMatchForUser(users[i], i);
+    }
+  }
+
+  private static async refreshMatchForUser(user: User, i: number) {
     const matchIds: string[] = [];
 
     console.log(`Now running for user #${i + 1}: ${user.riotTag}`);
@@ -20,7 +28,7 @@ export const loadMatchesForEachUser = async () => {
     const { riotAuth, riotEntitlement, puuid: riotPuuid, riotTag } = user;
 
     if (!riotAuth || !riotEntitlement || !riotPuuid || !riotTag) {
-      continue;
+      return;
     }
 
     const riotRes = await RiotClient.getCompetitiveUpdates({
@@ -32,13 +40,13 @@ export const loadMatchesForEachUser = async () => {
     });
 
     if (!riotRes.ok) {
-      continue;
+      return;
     }
 
     const riotMatchInfoJson = await riotRes.json();
 
     if (riotMatchInfoJson.errorCode !== undefined) {
-      break;
+      return;
     }
 
     riotMatchInfoJson.Matches.forEach((match) => {
@@ -61,7 +69,7 @@ export const loadMatchesForEachUser = async () => {
       // }
 
       if (!riotMatchRes.ok) {
-        continue;
+        return;
       }
 
       const json = await riotMatchRes.json();
@@ -165,4 +173,4 @@ export const loadMatchesForEachUser = async () => {
       }
     }
   }
-};
+}

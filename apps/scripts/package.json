@@ -38,6 +38,7 @@
   "dependencies": {
     "@instalock/db": "workspace:^",
     "@instalock/log": "workspace:^",
+    "@instalock/meter": "workspace:^",
     "@instalock/riot": "workspace:^",
     "esbuild": "catalog:",
     "pino": "catalog:",
