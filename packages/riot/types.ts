@@ -65,10 +65,7 @@ export interface IRiotClient {
    *
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/player-info)
    */
-  getUserInfo(
-    authToken: string,
-    collector?: MetricsCollector,
-  ): Promise<_Response<RiotUserInfoType>>;
+  getUserInfo(authToken: string): Promise<_Response<RiotUserInfoType>>;
 
   /**
    * Get the entitlement token via an auth token.
@@ -77,10 +74,7 @@ export interface IRiotClient {
    *
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/entitlement)
    */
-  getEntitlement(
-    authToken: string,
-    collector?: MetricsCollector,
-  ): Promise<_Response<EntitlementApiType>>;
+  getEntitlement(authToken: string): Promise<_Response<EntitlementApiType>>;
 
   /**
    * Get an array of matches (requires player UUID, authentication token, and entitlement token).
@@ -90,7 +84,6 @@ export interface IRiotClient {
    */
   getCompetitiveUpdates(
     params: CompetitiveUpdatesRequest,
-    collector?: MetricsCollector,
   ): Promise<_Response<RiotMatchInfoType>>;
 
   /**
@@ -101,7 +94,6 @@ export interface IRiotClient {
    */
   getPlayerByPuuid(
     params: PlayerByPuuidRequest,
-    collector?: MetricsCollector,
   ): Promise<_Response<PlayerData[]>>;
 
   /**
@@ -111,7 +103,6 @@ export interface IRiotClient {
    */
   getPreGameMatchId(
     params: PuuidAuthRequest,
-    collector?: MetricsCollector,
   ): Promise<_Response<RiotPreGameApiType>>;
 
   /**
@@ -121,7 +112,6 @@ export interface IRiotClient {
    */
   getPreGameMatchDetails(
     params: PreGameDetailsRequest,
-    collector?: MetricsCollector,
   ): Promise<_Response<RiotPreGameDataType>>;
 
   /**
@@ -131,7 +121,6 @@ export interface IRiotClient {
    */
   getCurrentGameMatchId(
     params: PuuidAuthRequest,
-    collector?: MetricsCollector,
   ): Promise<_Response<RiotCurrentGameApiType>>;
 
   /**
@@ -141,7 +130,6 @@ export interface IRiotClient {
    */
   getCurrentGameMatchDetails(
     params: CurrentGameDetailsRequest,
-    collector?: MetricsCollector,
   ): Promise<_Response<RiotCurrentGameDataType>>;
 
   /**
@@ -153,17 +141,13 @@ export interface IRiotClient {
    *
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/lock-character)
    */
-  lockAgent(
-    params: LockAgentRequest,
-    collector?: MetricsCollector,
-  ): Promise<{ success: boolean }>;
+  lockAgent(params: LockAgentRequest): Promise<{ success: boolean }>;
 
   /**
    * TODO: Add docs
    */
   getMatchDetails(
     params: MatchDetailsRequest,
-    collector?: MetricsCollector,
   ): Promise<_Response<AutoGenMatchMeta>>;
 
   /**
@@ -176,6 +160,5 @@ export interface IRiotClient {
    */
   getPartyDetailsByPuuid(
     params: PuuidAuthRequest,
-    collector?: MetricsCollector,
   ): Promise<_Response<PartyDetailsApiType>>;
 }

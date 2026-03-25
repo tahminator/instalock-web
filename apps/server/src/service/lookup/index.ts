@@ -1,6 +1,5 @@
 import type { RiotPlayerData } from "@instalock/api";
 import type { TierNumber } from "@instalock/riot";
-import type { Histogram } from "prom-client";
 
 import { TimedAll } from "@instalock/meter";
 import { RiotClient, tierNumberToNameObject } from "@instalock/riot";
@@ -9,22 +8,15 @@ import { Injectable, Sapling } from "@tahminator/sapling";
 import type { Redis } from "@/lib/redis/types";
 
 import { CachingRedisClient } from "@/lib/redis/cache";
-import { PrometheusMetricTypeProvider } from "@/middleware/prom/metric/provider";
 
 @TimedAll()
-@Injectable([CachingRedisClient, PrometheusMetricTypeProvider])
+@Injectable([CachingRedisClient])
 export class CachingLookupService {
   private readonly THIRTY_MINUTES = 60 * 30;
-  private readonly riotClientHistogram: Histogram;
 
   private readonly redis: Redis;
-  constructor(
-    redisClient: CachingRedisClient,
-    readonly prometheusMetricTypeProvider: PrometheusMetricTypeProvider,
-  ) {
+  constructor(redisClient: CachingRedisClient) {
     this.redis = redisClient.get;
-    this.riotClientHistogram =
-      this.prometheusMetricTypeProvider.histograms.riotClientExecutionHistogram;
   }
 
   async getPlayer(
@@ -80,16 +72,11 @@ export class CachingLookupService {
     authToken: string,
     entitlementToken: string,
   ): Promise<RiotPlayerData> {
-    const riotUserInfoRes = await RiotClient.getPlayerByPuuid(
-      {
-        authToken,
-        entitlementToken,
-        playerPuuids: [puuid],
-      },
-      {
-        histogram: this.riotClientHistogram,
-      },
-    );
+    const riotUserInfoRes = await RiotClient.getPlayerByPuuid({
+      authToken,
+      entitlementToken,
+      playerPuuids: [puuid],
+    });
 
     let riotTag: string | null = null;
 
@@ -98,18 +85,13 @@ export class CachingLookupService {
       riotTag = this.getRiotTag(riotUserInfoJson[0]);
     }
 
-    const riotMatchInfoRes = await RiotClient.getCompetitiveUpdates(
-      {
-        authToken,
-        entitlementToken,
-        puuid,
-        startIndex: 0,
-        endIndex: 1,
-      },
-      {
-        histogram: this.riotClientHistogram,
-      },
-    );
+    const riotMatchInfoRes = await RiotClient.getCompetitiveUpdates({
+      authToken,
+      entitlementToken,
+      puuid,
+      startIndex: 0,
+      endIndex: 1,
+    });
 
     let rank: number | null = null;
     let rr: number | null = null;

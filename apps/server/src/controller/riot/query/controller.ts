@@ -1,7 +1,6 @@
 import type { IRiotQueryController, RiotMatchEnriched } from "@instalock/api";
 import type { MapUrl, TierNumber } from "@instalock/riot";
 import type { Request, Response } from "express";
-import type { Histogram } from "prom-client";
 
 import { RiotQueryRouteObject } from "@instalock/api";
 import { TimedAll } from "@instalock/meter";
@@ -21,7 +20,6 @@ import {
 import { randomUUID } from "crypto";
 
 import { ZodParserError } from "@/error/parser";
-import { PrometheusMetricTypeProvider } from "@/middleware/prom/metric/provider";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user";
@@ -33,23 +31,16 @@ import { CachingLookupService } from "@/service/lookup";
     RiotMatchRepository,
     PlayerMatchRepository,
     CachingLookupService,
-    PrometheusMetricTypeProvider,
   ],
 })
 @TimedAll()
 export class RiotQueryController implements IRiotQueryController {
-  private readonly riotClientHistogram: Histogram;
-
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,
     private readonly playerMatchRepository: PlayerMatchRepository,
     private readonly cachingLookupService: CachingLookupService,
-    readonly prometheusMetricTypeProvider: PrometheusMetricTypeProvider,
-  ) {
-    this.riotClientHistogram =
-      prometheusMetricTypeProvider.histograms.riotClientExecutionHistogram;
-  }
+  ) {}
 
   @_Route({
     ...RiotQueryRouteObject.getMyRiotPlayerData,
@@ -100,18 +91,13 @@ export class RiotQueryController implements IRiotQueryController {
       return pm ? pm.tier : null;
     })();
 
-    const riotMatchInfoRes = await RiotClient.getCompetitiveUpdates(
-      {
-        authToken: riotAuth,
-        entitlementToken: riotEntitlement,
-        puuid,
-        startIndex: 0,
-        endIndex: 1,
-      },
-      {
-        histogram: this.riotClientHistogram,
-      },
-    );
+    const riotMatchInfoRes = await RiotClient.getCompetitiveUpdates({
+      authToken: riotAuth,
+      entitlementToken: riotEntitlement,
+      puuid,
+      startIndex: 0,
+      endIndex: 1,
+    });
 
     if (!riotMatchInfoRes.ok) {
       throw new Error(
@@ -387,18 +373,13 @@ export class RiotQueryController implements IRiotQueryController {
       return;
     }
 
-    const riotRes = await RiotClient.getCompetitiveUpdates(
-      {
-        authToken: riotAuth,
-        entitlementToken: riotEntitlement,
-        puuid: riotPuuid,
-        startIndex: 0,
-        endIndex: 20,
-      },
-      {
-        histogram: this.riotClientHistogram,
-      },
-    );
+    const riotRes = await RiotClient.getCompetitiveUpdates({
+      authToken: riotAuth,
+      entitlementToken: riotEntitlement,
+      puuid: riotPuuid,
+      startIndex: 0,
+      endIndex: 20,
+    });
 
     if (!riotRes.ok) {
       return;
@@ -415,16 +396,11 @@ export class RiotQueryController implements IRiotQueryController {
     });
 
     for (let j = 0; j < matchIds.length; j++) {
-      const riotMatchRes = await RiotClient.getMatchDetails(
-        {
-          authToken: riotAuth,
-          entitlementToken: riotEntitlement,
-          matchId: matchIds[j],
-        },
-        {
-          histogram: this.riotClientHistogram,
-        },
-      );
+      const riotMatchRes = await RiotClient.getMatchDetails({
+        authToken: riotAuth,
+        entitlementToken: riotEntitlement,
+        matchId: matchIds[j],
+      });
 
       if (!riotMatchRes.ok) {
         continue;

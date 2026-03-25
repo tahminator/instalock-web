@@ -17,6 +17,8 @@
     "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write ."
   },
   "devDependencies": {
+    "@instalock/meter": "workspace:^",
+    "@types/node": "catalog:",
     "@eslint/js": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-perfectionist": "catalog:",
@@ -27,6 +29,9 @@
     "prettier": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:"
+  },
+  "peerDependencies": {
+    "prom-client": "catalog:"
   },
   "keywords": [],
   "license": "ISC",

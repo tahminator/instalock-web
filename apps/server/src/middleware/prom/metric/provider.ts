@@ -8,8 +8,6 @@ export class PrometheusMetricTypeProvider {
   private readonly registeredUsersGauge: promClient.Gauge;
   private readonly totalMatchesGauge: promClient.Gauge;
 
-  private readonly riotClientExecutionHistogram: promClient.Histogram;
-
   constructor() {
     this.appInfoGauge = new promClient.Gauge({
       name: "application_info",
@@ -31,12 +29,6 @@ export class PrometheusMetricTypeProvider {
       name: "app_matches_total",
       help: "Number of tracked matches",
     });
-
-    this.riotClientExecutionHistogram = new promClient.Histogram({
-      name: "riot_client_execution_seconds",
-      help: "Duration of RiotClient execution in seconds",
-      labelNames: ["functionName", "status"],
-    });
   }
 
   get gauges() {
@@ -45,12 +37,6 @@ export class PrometheusMetricTypeProvider {
       totalUsersGauge: this.totalUsersGauge,
       registeredUsersGauge: this.registeredUsersGauge,
       totalMatchesGauge: this.totalMatchesGauge,
-    } as const;
-  }
-
-  get histograms() {
-    return {
-      riotClientExecutionHistogram: this.riotClientExecutionHistogram,
     } as const;
   }
 }

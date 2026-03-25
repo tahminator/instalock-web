@@ -1,6 +1,17 @@
-import { register, Histogram } from "prom-client";
+import type { Histogram } from "prom-client";
 
 import type { F } from "../types";
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+type Prom = Awaited<typeof import("prom-client")> | null;
+
+let prom: Prom | null;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  prom = require("prom-client");
+} catch (_) {
+  prom = null;
+}
 
 export function executionWrapper(
   fn: F,
@@ -10,15 +21,33 @@ export function executionWrapper(
   const fnName = String(propertyKey);
   const metricName = `execution.seconds`.replace(".", "_");
 
-  const histogram = (() => {
-    const v = register.getSingleMetric(metricName);
+  if (!prom) {
+    console.debug("No timer, skipping registration");
+    return function (this: unknown, ...args: unknown[]) {
+      const result = (fn as unknown as F).apply(this, args);
+      if (result instanceof Promise) {
+        return result
+          .then((v) => {
+            return v;
+          })
+          .catch((e) => {
+            throw e;
+          });
+      }
+
+      return result;
+    };
+  }
+
+  const histogram: Histogram = (() => {
+    const v = prom.register.getSingleMetric(metricName);
     if (v) {
-      return v as Histogram<"className" | "functionName" | "status">;
+      return v as Histogram;
     }
 
-    return new Histogram({
+    return new prom.Histogram({
       name: metricName,
-      help: `Duration of ${className} execution in seconds`,
+      help: `Duration of function executions in seconds`,
       labelNames: ["className", "functionName", "status"],
     });
   })();

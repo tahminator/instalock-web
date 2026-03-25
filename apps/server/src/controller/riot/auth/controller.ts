@@ -1,6 +1,5 @@
 import type { IRiotAuthController } from "@instalock/api";
 import type { Request, Response } from "express";
-import type { Histogram } from "prom-client";
 
 import { RiotAuthRouteObject } from "@instalock/api";
 import { TimedAll } from "@instalock/meter";
@@ -14,32 +13,20 @@ import {
 } from "@tahminator/sapling";
 
 import { ZodParserError } from "@/error/parser";
-import { PrometheusMetricTypeProvider } from "@/middleware/prom/metric/provider";
 import { SessionRepository } from "@/repository/session";
 import { UserRepository } from "@/repository/user";
 import { AuthService } from "@/service/auth";
 
 @Controller({
-  deps: [
-    UserRepository,
-    SessionRepository,
-    AuthService,
-    PrometheusMetricTypeProvider,
-  ],
+  deps: [UserRepository, SessionRepository, AuthService],
 })
 @TimedAll()
 export class RiotAuthController implements IRiotAuthController {
-  private readonly riotClientHistogram: Histogram;
-
   constructor(
     private readonly userRepository: UserRepository,
     private readonly sessionRepository: SessionRepository,
     private readonly authService: AuthService,
-    readonly prometheusMetricTypeProvider: PrometheusMetricTypeProvider,
-  ) {
-    this.riotClientHistogram =
-      prometheusMetricTypeProvider.histograms.riotClientExecutionHistogram;
-  }
+  ) {}
 
   @_Route({
     ...RiotAuthRouteObject.getMe,
@@ -80,13 +67,7 @@ export class RiotAuthController implements IRiotAuthController {
       );
     }
 
-    const riotRes = await RiotClient.getUserInfo(
-      riotAuth,
-
-      {
-        histogram: this.riotClientHistogram,
-      },
-    );
+    const riotRes = await RiotClient.getUserInfo(riotAuth);
 
     if (!riotRes.ok) {
       throw new ResponseStatusError(
@@ -140,9 +121,7 @@ export class RiotAuthController implements IRiotAuthController {
       );
     }
 
-    const riotRes = await RiotClient.getEntitlement(authToken, {
-      histogram: this.riotClientHistogram,
-    });
+    const riotRes = await RiotClient.getEntitlement(authToken);
 
     const riotJson = await riotRes.json();
 
@@ -155,9 +134,7 @@ export class RiotAuthController implements IRiotAuthController {
 
     const { entitlements_token: entitlementToken } = riotJson;
 
-    const riotUserInfoRes = await RiotClient.getUserInfo(authToken, {
-      histogram: this.riotClientHistogram,
-    });
+    const riotUserInfoRes = await RiotClient.getUserInfo(authToken);
 
     if (!riotUserInfoRes.ok) {
       throw new Error(

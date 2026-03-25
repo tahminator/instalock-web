@@ -672,6 +672,9 @@ importers:
       '@eslint/js':
         specifier: 'catalog:'
         version: 9.39.2
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.13.9
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)
@@ -709,6 +712,12 @@ importers:
       '@eslint/js':
         specifier: 'catalog:'
         version: 9.39.2
+      '@instalock/meter':
+        specifier: workspace:^
+        version: link:../meter
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.13.9
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)

@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
+    "@types/node": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-perfectionist": "catalog:",
     "eslint-plugin-react": "catalog:",
