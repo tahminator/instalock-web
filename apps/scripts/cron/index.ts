@@ -1,6 +1,6 @@
 // this must be first
 import "@instalock/log";
-import { createStandaloneMetricServer } from "@instalock/meter/src/server";
+import { SSM } from "@instalock/meter/src/server";
 
 import { MatchRefresher } from "./helpers/loadMatches";
 
@@ -31,7 +31,7 @@ if (!username || !password) {
   throw new Error("PROMETHEUS_USERNAME and/or PROMETHEUS_PASSWORD is not set");
 }
 
-createStandaloneMetricServer({
+SSM.createStandaloneMetricServer({
   username,
   password,
 }).then((s) => {
@@ -40,6 +40,9 @@ createStandaloneMetricServer({
     await tasks();
   });
 });
+
+SSM.Utils.setAndForgetAppInfoGauge();
+SSM.Utils.registerUpGauge();
 
 console.log("Script has been loaded in.");
 
