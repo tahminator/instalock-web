@@ -17,7 +17,7 @@ export class MatchRefresher {
     const users = await userRepository.getUsers();
 
     for (let i = 0; i < users.length; i++) {
-      console.log(`Now running for user #${i + 1}: ${users[i].riotTag}`);
+      // console.log(`Now running for user #${i + 1}: ${users[i].riotTag}`);
       await this.refreshMatchForUser(users[i]);
     }
   }
@@ -28,6 +28,7 @@ export class MatchRefresher {
 
   private static registerUserCreateListener() {
     userListener.listenForUpdateNewUserMatchesChannel(async (puuid) => {
+      console.log(`Refreshing matches for new user with puuid of ${puuid}`);
       const user = await userRepository.getUserByPuuid(puuid);
       if (!user) {
         throw new Error(
