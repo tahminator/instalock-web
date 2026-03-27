@@ -1,5 +1,7 @@
 // this must be first
 import "@instalock/log";
+import type { RefreshResult } from "cron/helpers/types";
+
 import { SSM } from "@instalock/meter/src/server";
 
 import { MatchRefresher } from "./helpers/refresh";
@@ -16,14 +18,25 @@ const tasks = async () => {
 
   console.log(`Running the match populator now`);
 
+  let result: RefreshResult | null = null;
   try {
-    await MatchRefresher.refreshMatchesForEachUser();
+    result = await MatchRefresher.refreshMatchesForEachUser();
   } catch (e) {
     console.error(e);
   }
 
   console.timeEnd("tasks");
-  console.log("Match populator should be complete.\n");
+
+  if (!result) {
+    console.error("RefreshResult is empty");
+    return;
+  }
+
+  console.log(
+    `After refreshing ${result?.users}, ${result?.matches} were added`,
+  );
+
+  console.log("Match populator complete.\n");
 };
 
 const username = process.env.PROMETHEUS_USERNAME;

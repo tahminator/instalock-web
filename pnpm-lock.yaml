@@ -123,6 +123,9 @@ catalogs:
     morgan:
       specifier: ^1.10.0
       version: 1.10.1
+    neverthrow:
+      specifier: 8.2.0
+      version: 8.2.0
     oslo:
       specifier: ^1.2.1
       version: 1.2.1
@@ -327,6 +330,9 @@ importers:
       esbuild:
         specifier: 'catalog:'
         version: 0.25.0
+      neverthrow:
+        specifier: 'catalog:'
+        version: 8.2.0
       pino:
         specifier: 'catalog:'
         version: 10.3.1
@@ -3017,6 +3023,10 @@ packages:
   negotiator@1.0.0:
     resolution: {integrity: sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==}
     engines: {node: '>= 0.6'}
+
+  neverthrow@8.2.0:
+    resolution: {integrity: sha512-kOCT/1MCPAxY5iUV3wytNFUMUolzuwd/VF/1KCx7kf6CutrOsTie+84zTGTpgQycjvfLdBBdvBvFLqFD2c0wkQ==}
+    engines: {node: '>=18'}
 
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
@@ -6005,6 +6015,10 @@ snapshots:
   natural-orderby@5.0.0: {}
 
   negotiator@1.0.0: {}
+
+  neverthrow@8.2.0:
+    optionalDependencies:
+      '@rollup/rollup-linux-x64-gnu': 4.34.9
 
   node-releases@2.0.19: {}
 

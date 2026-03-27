@@ -1,5 +1,6 @@
 import type { User } from "@instalock/db";
 import type { MapUrl } from "@instalock/riot";
+import type { RefreshResult } from "cron/helpers/types";
 
 import { TimedAll } from "@instalock/meter";
 import { mapUrlToUuidObject, RiotClient } from "@instalock/riot";
@@ -13,13 +14,21 @@ import {
 
 @TimedAll()
 export class MatchRefresher {
-  static async refreshMatchesForEachUser() {
+  static async refreshMatchesForEachUser(): Promise<RefreshResult> {
     const users = await userRepository.getUsers();
+
+    const result: RefreshResult = {
+      users: users.length,
+      matches: 0,
+    };
 
     for (let i = 0; i < users.length; i++) {
       // console.log(`Now running for user #${i + 1}: ${users[i].riotTag}`);
-      await this.refreshMatchForUser(users[i]);
+      const matches = await this.refreshMatchForUser(users[i]);
+      result.matches += matches;
     }
+
+    return result;
   }
 
   static registerListeners() {
@@ -35,17 +44,20 @@ export class MatchRefresher {
           `the user with puuid of ${puuid} cannot be found. this is likely a bug from the notifier.`,
         );
       }
-      await this.refreshMatchForUser(user);
+      const matches = await this.refreshMatchForUser(user);
+      console.log(
+        `After refreshing user with puuid of ${puuid}, ${matches} matches were added to account.`,
+      );
     });
   }
 
-  private static async refreshMatchForUser(user: User) {
+  private static async refreshMatchForUser(user: User): Promise<number> {
     const matchIds: string[] = [];
 
     const { riotAuth, riotEntitlement, puuid: riotPuuid, riotTag } = user;
 
     if (!riotAuth || !riotEntitlement || !riotPuuid || !riotTag) {
-      return;
+      return 0;
     }
 
     const riotRes = await RiotClient.getCompetitiveUpdates({
@@ -57,13 +69,13 @@ export class MatchRefresher {
     });
 
     if (!riotRes.ok) {
-      return;
+      return 0;
     }
 
     const riotMatchInfoJson = await riotRes.json();
 
     if (riotMatchInfoJson.errorCode !== undefined) {
-      return;
+      return 0;
     }
 
     riotMatchInfoJson.Matches.forEach((match) => {
@@ -88,7 +100,7 @@ export class MatchRefresher {
       // }
 
       if (!riotMatchRes.ok) {
-        return;
+        continue;
       }
 
       const json = await riotMatchRes.json();
@@ -191,5 +203,7 @@ export class MatchRefresher {
         }
       }
     }
+
+    return matchIds.length;
   }
 }
