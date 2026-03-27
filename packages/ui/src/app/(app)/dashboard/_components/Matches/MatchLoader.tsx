@@ -4,6 +4,7 @@ import { Text } from "@mantine/core";
 
 import LiveMatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/LiveMatchCard";
 import MatchCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/MatchCard";
+import NoMatchesYetCard from "@/app/(app)/dashboard/_components/Matches/MatchCard/NoMatchesYetCard";
 import SkeletonMatchCardComponent from "@/app/(app)/dashboard/_components/Matches/MatchCard/SkeletonCard/SkeletonCard";
 import { useGetShallowMatchesQuery } from "@/lib/api/queries/api/query";
 
@@ -38,6 +39,7 @@ export default function MatchLoader() {
 
   return (
     <MatchLoaderWrapper>
+      {!data.payload.length && <NoMatchesYetCard />}
       {data.payload.map((match) => (
         <MatchCard match={match} key={match.matchData.id} />
       ))}
