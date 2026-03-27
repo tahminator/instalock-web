@@ -13,7 +13,7 @@ export class AuthPostgresAdapter implements Adapter {
   ) {}
 
   async deleteSession(sessionId: string): Promise<void> {
-    await this.sessionRepository.deleteSession(sessionId);
+    await this.sessionRepository.taintSession(sessionId);
   }
 
   async deleteUserSessions(userId: string): Promise<void> {
