@@ -140,6 +140,9 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Setup migration tooling
+        uses: ./.github/composite/setup/migrate
+
       - name: Deploy Web Service
         uses: ./.github/composite/deploy-web
         with:
