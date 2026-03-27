@@ -2,9 +2,11 @@
 import "@instalock/log";
 import { SSM } from "@instalock/meter/src/server";
 
-import { MatchRefresher } from "./helpers/loadMatches";
+import { MatchRefresher } from "./helpers/refresh";
 
 const METRIC_PORT = 3051;
+
+MatchRefresher.registerListeners();
 
 const tasks = async () => {
   console.time("tasks");

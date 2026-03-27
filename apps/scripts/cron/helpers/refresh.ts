@@ -7,6 +7,7 @@ import { randomUUID } from "crypto";
 import {
   playerMatchRepository,
   riotMatchRepository,
+  userListener,
   userRepository,
 } from "repository";
 
@@ -16,14 +17,29 @@ export class MatchRefresher {
     const users = await userRepository.getUsers();
 
     for (let i = 0; i < users.length; i++) {
-      await this.refreshMatchForUser(users[i], i);
+      console.log(`Now running for user #${i + 1}: ${users[i].riotTag}`);
+      await this.refreshMatchForUser(users[i]);
     }
   }
 
-  private static async refreshMatchForUser(user: User, i: number) {
-    const matchIds: string[] = [];
+  static registerListeners() {
+    this.registerUserCreateListener();
+  }
 
-    console.log(`Now running for user #${i + 1}: ${user.riotTag}`);
+  private static registerUserCreateListener() {
+    userListener.listenForUpdateNewUserMatchesChannel(async (puuid) => {
+      const user = await userRepository.getUserByPuuid(puuid);
+      if (!user) {
+        throw new Error(
+          `the user with puuid of ${puuid} cannot be found. this is likely a bug from the notifier.`,
+        );
+      }
+      await this.refreshMatchForUser(user);
+    });
+  }
+
+  private static async refreshMatchForUser(user: User) {
+    const matchIds: string[] = [];
 
     const { riotAuth, riotEntitlement, puuid: riotPuuid, riotTag } = user;
 
@@ -52,6 +68,8 @@ export class MatchRefresher {
     riotMatchInfoJson.Matches.forEach((match) => {
       matchIds.push(match.MatchID);
     });
+
+    console.log(`${matchIds.length} matches found for user ${user.riotTag}`);
 
     for (let j = 0; j < matchIds.length; j++) {
       const riotMatchRes = await RiotClient.getMatchDetails({

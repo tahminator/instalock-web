@@ -21,7 +21,7 @@ import {
 import { ZodParserError } from "@/error/parser";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
-import { UserRepository } from "@/repository/user";
+import { UserRepository } from "@/repository/user/repo";
 import { MetricsService } from "@/service/metrics";
 
 @Controller({

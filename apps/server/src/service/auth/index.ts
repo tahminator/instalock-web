@@ -5,7 +5,7 @@ import { Injectable } from "@tahminator/sapling";
 import { Lucia, TimeSpan } from "lucia";
 
 import { SessionRepository } from "@/repository/session";
-import { UserRepository } from "@/repository/user";
+import { UserRepository } from "@/repository/user/repo";
 
 import { AuthPostgresAdapter } from "../../lib/auth/adapter";
 

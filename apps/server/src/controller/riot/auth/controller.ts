@@ -14,11 +14,12 @@ import {
 
 import { ZodParserError } from "@/error/parser";
 import { SessionRepository } from "@/repository/session";
-import { UserRepository } from "@/repository/user";
+import { UserNotifier } from "@/repository/user/notify";
+import { UserRepository } from "@/repository/user/repo";
 import { AuthService } from "@/service/auth";
 
 @Controller({
-  deps: [UserRepository, SessionRepository, AuthService],
+  deps: [UserRepository, SessionRepository, AuthService, UserNotifier],
 })
 @TimedAll()
 export class RiotAuthController implements IRiotAuthController {
@@ -26,6 +27,7 @@ export class RiotAuthController implements IRiotAuthController {
     private readonly userRepository: UserRepository,
     private readonly sessionRepository: SessionRepository,
     private readonly authService: AuthService,
+    private readonly userNotifier: UserNotifier,
   ) {}
 
   @_Route({
@@ -160,6 +162,7 @@ export class RiotAuthController implements IRiotAuthController {
           ...u,
           riotEntitlement: entitlementToken,
           riotAuth: authToken,
+          newUser: false,
         });
       }
 
@@ -169,6 +172,14 @@ export class RiotAuthController implements IRiotAuthController {
         riotAuth: authToken,
         riotTag: tagName,
       });
+
+      if (!cu) {
+        throw new Error(
+          "authentication failed because createUser operation failed",
+        );
+      }
+
+      await this.userNotifier.triggerUpdateNewUserMatches(cu.puuid);
 
       return cu;
     })();
