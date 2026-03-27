@@ -4,10 +4,9 @@ import { TimedAll } from "@instalock/meter";
 import { Injectable } from "@tahminator/sapling";
 import { Lucia, TimeSpan } from "lucia";
 
+import { AuthPostgresAdapter } from "@/lib/auth/adapter";
 import { SessionRepository } from "@/repository/session";
 import { UserRepository } from "@/repository/user/repo";
-
-import { AuthPostgresAdapter } from "../../lib/auth/adapter";
 
 export interface AuthSession extends LuciaSession {}
 export interface AuthUser extends LuciaUser {}

@@ -5,4 +5,5 @@ export interface Session {
    */
   userId: string;
   expiresAt: string;
+  tainted: boolean;
 }

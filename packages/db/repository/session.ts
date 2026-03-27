@@ -11,6 +11,8 @@ export class BaseSessionRepository {
         "Session"
       WHERE
         id = ${id}
+      AND
+        tainted = false
     `;
 
     return session[0] ?? null;
@@ -24,6 +26,8 @@ export class BaseSessionRepository {
         "Session"
       WHERE
         "userId" = ${userPuuid}
+      AND
+        tainted = false
       ORDER BY "expiresAt" DESC
     `;
 
@@ -38,7 +42,10 @@ export class BaseSessionRepository {
         "Session"
       WHERE
         id = ${id}
-        AND "expiresAt" > NOW()
+      AND
+        "expiresAt" > NOW()
+      AND
+        tainted = false
     `;
 
     return session[0] ?? null;
@@ -54,7 +61,10 @@ export class BaseSessionRepository {
         "Session"
       WHERE
         "userId" = ${userPuuid}
-        AND "expiresAt" > NOW()
+      AND
+        "expiresAt" > NOW()
+      AND
+        tainted = false
       ORDER BY "expiresAt" DESC
     `;
 
@@ -69,6 +79,7 @@ export class BaseSessionRepository {
         SET
           "userId" = ${session.userId},
           "expiresAt" = ${session.expiresAt}
+          tainted = ${session.tainted}
         WHERE
           id = ${session.id}
       `;
@@ -79,11 +90,13 @@ export class BaseSessionRepository {
     }
   }
 
-  public async deleteSession(id: string): Promise<boolean> {
+  public async taintSession(id: string): Promise<boolean> {
     try {
       await this.db`
-        DELETE FROM
+        UPDATE 
           "Session"
+        SET
+          "tainted" = true
         WHERE
           id = ${id}
       `;
