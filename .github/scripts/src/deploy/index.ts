@@ -4,6 +4,8 @@ import { hideBin } from "yargs/helpers";
 
 import type { Type } from "@/types";
 
+import { migrateDb } from "@/deploy/db";
+
 const { environment, newTagVersion, type } = await yargs(hideBin(process.argv))
   .option("newTagVersion", {
     type: "string",
@@ -27,8 +29,20 @@ async function main() {
   const { githubPat } = parseCiEnv(ciEnv);
   const ghClient = new GitHubClient(githubPat);
 
+  const { dbHost, dbPassword, dbPort, dbUsername } = parseMigratorEnv(
+    await Utils.getEnvVariables(["migrator"]),
+  );
+
   if (environment === "production") {
     if (type === "web") {
+      // TODO: This should be indempotent
+      await migrateDb({
+        dbHost,
+        dbPassword,
+        dbPort,
+        dbUsername,
+        dbName: "instalock-server",
+      });
       await ghClient.updateK8sTagWithPR({
         manifestRepo: ["tahminator", "k8s-personal"],
         originRepo: ["tahminator", "instalock-web"],
@@ -55,6 +69,14 @@ async function main() {
 
   if (environment === "staging") {
     if (type === "web") {
+      // TODO: This should be indempotent
+      await migrateDb({
+        dbHost,
+        dbPassword,
+        dbPort,
+        dbUsername,
+        dbName: "instalock-server-staging",
+      });
       await ghClient.updateK8sTagWithPR({
         manifestRepo: ["tahminator", "k8s-personal"],
         originRepo: ["tahminator", "instalock-web"],
@@ -88,6 +110,47 @@ function parseCiEnv(ciEnv: Record<string, string>) {
   })();
 
   return { githubPat };
+}
+
+function parseMigratorEnv(migratorEnv: Record<string, string>) {
+  const dbPort = (() => {
+    const v = migratorEnv["DB_PORT"];
+    if (!v) {
+      throw new Error("Missing DB_PORT from .env.ci");
+    }
+    return v;
+  })();
+
+  const dbUsername = (() => {
+    const v = migratorEnv["DB_USERNAME"];
+    if (!v) {
+      throw new Error("Missing DB_USERNAME from .env.ci");
+    }
+    return v;
+  })();
+
+  const dbPassword = (() => {
+    const v = migratorEnv["DB_PASSWORD"];
+    if (!v) {
+      throw new Error("Missing DB_PASSWORD from .env.ci");
+    }
+    return v;
+  })();
+
+  const dbHost = (() => {
+    const v = migratorEnv["DB_HOST"];
+    if (!v) {
+      throw new Error("Missing DB_HOST from .env.ci");
+    }
+    return v;
+  })();
+
+  return {
+    dbHost,
+    dbPort,
+    dbPassword,
+    dbUsername,
+  };
 }
 
 main()

@@ -26,8 +26,7 @@ dist-ssr
 .env*
 !.env
 !.env.ci
-!.env.production
-!.env.staging
+!.env.migrator
 
 .flaskenv*
 !.env.project
