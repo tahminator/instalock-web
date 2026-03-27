@@ -1,12 +1,11 @@
 import type { IRiotQueryController, RiotMatchEnriched } from "@instalock/api";
-import type { MapUrl, TierNumber } from "@instalock/riot";
+import type { TierNumber } from "@instalock/riot";
 import type { Request, Response } from "express";
 
 import { RiotQueryRouteObject } from "@instalock/api";
 import { TimedAll } from "@instalock/meter";
 import {
   getGameModeName,
-  mapUrlToUuidObject,
   RiotClient,
   tierNumberToNameObject,
 } from "@instalock/riot";
@@ -17,12 +16,11 @@ import {
   ResponseEntity,
   ResponseStatusError,
 } from "@tahminator/sapling";
-import { randomUUID } from "crypto";
 
 import { ZodParserError } from "@/error/parser";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
-import { UserRepository } from "@/repository/user";
+import { UserRepository } from "@/repository/user/repo";
 import { CachingLookupService } from "@/service/lookup";
 
 @Controller({
@@ -152,18 +150,12 @@ export class RiotQueryController implements IRiotQueryController {
 
     const puuid = response.locals.user.id;
 
-    let user = await this.userRepository.getUserByPuuid(puuid);
+    const user = await this.userRepository.getUserByPuuid(puuid);
     if (!user) {
       throw new ResponseStatusError(
         HttpStatus.NOT_FOUND,
         "The user with the given PUUID was not found.",
       );
-    }
-
-    if (user.newUser) {
-      // TODO: Change to NOTIFY/LISTEN
-      await this.loadMatchesForNewUser(user.puuid);
-      user = await this.userRepository.updateUser({ ...user, newUser: false });
     }
 
     // TODO: Refactor this legacy fetching logic, causing lots of performance issues.
@@ -180,7 +172,13 @@ export class RiotQueryController implements IRiotQueryController {
       );
 
     if (!mostRecentPlayerMatch) {
-      throw new Error("Player match is missing but it should not be.");
+      return ResponseEntity.ok().body({
+        success: true,
+        message: "No matches found",
+        payload: [],
+      }) satisfies Awaited<
+        ReturnType<IRiotQueryController["getMyRiotMatchesEnriched"]>
+      >;
     }
 
     const playerMatches =
@@ -358,157 +356,5 @@ export class RiotQueryController implements IRiotQueryController {
     }) satisfies Awaited<
       ReturnType<IRiotQueryController["getRiotPlayerDataByPuuid"]>
     >;
-  }
-
-  private async loadMatchesForNewUser(userId: string) {
-    const matchIds: string[] = [];
-
-    const user = await this.userRepository.getUserByPuuid(userId);
-
-    if (!user) {
-      throw new Error("Expected user to exist but did not.");
-    }
-
-    const { riotAuth, riotEntitlement, puuid: riotPuuid, riotTag } = user;
-
-    if (!riotAuth || !riotEntitlement || !riotPuuid || !riotTag) {
-      return;
-    }
-
-    const riotRes = await RiotClient.getCompetitiveUpdates({
-      authToken: riotAuth,
-      entitlementToken: riotEntitlement,
-      puuid: riotPuuid,
-      startIndex: 0,
-      endIndex: 20,
-    });
-
-    if (!riotRes.ok) {
-      return;
-    }
-
-    const riotMatchInfoJson = await riotRes.json();
-
-    if (riotMatchInfoJson.errorCode !== undefined) {
-      return;
-    }
-
-    riotMatchInfoJson.Matches.forEach((match) => {
-      matchIds.push(match.MatchID);
-    });
-
-    for (let j = 0; j < matchIds.length; j++) {
-      const riotMatchRes = await RiotClient.getMatchDetails({
-        authToken: riotAuth,
-        entitlementToken: riotEntitlement,
-        matchId: matchIds[j],
-      });
-
-      if (!riotMatchRes.ok) {
-        continue;
-      }
-
-      const json = await riotMatchRes.json();
-
-      const { matchInfo, players, teams } = json;
-
-      const teamBlue =
-        teams && teams[0].teamId === "Blue" ? teams[0] : teams && teams[1];
-      const teamRed =
-        teams && teams[0].teamId === "Red" ? teams[0] : teams && teams[1];
-
-      const matchId = matchInfo?.matchId ?? randomUUID();
-
-      const existingMatch =
-        await this.riotMatchRepository.getMatchById(matchId);
-
-      const matchData = {
-        id: matchId,
-        raw: JSON.stringify(json),
-        mapId: mapUrlToUuidObject[matchInfo?.mapId as MapUrl] ?? null,
-        gameVersion: matchInfo?.gameVersion ?? null,
-        gameStart:
-          matchInfo?.gameStartMillis ?
-            new Date(matchInfo.gameStartMillis)
-          : null,
-        gameEnd:
-          matchInfo?.gameStartMillis && matchInfo?.gameLengthMillis ?
-            new Date(
-              Number(matchInfo.gameStartMillis) +
-                Number(matchInfo.gameLengthMillis),
-            )
-          : null,
-        isCompleted: matchInfo?.isCompleted ?? false,
-        queueId: matchInfo?.queueID ?? null,
-        isRanked: matchInfo?.isRanked ?? null,
-        seasonId: matchInfo?.seasonId ?? null,
-        roundsPlayed: teams?.[0]?.roundsPlayed ?? null,
-        teamWon:
-          (teams &&
-            (teams[0].teamId === "Red" && teams[0].won === true ?
-              ("Red" as const)
-            : ("Blue" as const))) ??
-          null,
-        teamBlueRoundsWon: teamBlue?.roundsWon ?? null,
-        teamRedRoundsWon: teamRed?.roundsWon ?? null,
-      };
-
-      if (existingMatch) {
-        await this.riotMatchRepository.updateMatch(matchData);
-      } else {
-        await this.riotMatchRepository.createMatch(matchData);
-      }
-
-      if (players && players.length > 0) {
-        for (const player of players) {
-          const playerPuuid = player.subject ?? randomUUID();
-
-          const existingUser =
-            await this.userRepository.getUserByPuuid(playerPuuid);
-          if (!existingUser) {
-            await this.userRepository.createUser({
-              puuid: playerPuuid,
-              riotAuth: null,
-              riotEntitlement: null,
-              riotTag: `${player.gameName}#${player.tagLine}`,
-            });
-          }
-
-          const existingPlayerMatch =
-            await this.playerMatchRepository.getPlayerMatchByPlayerAndMatch(
-              playerPuuid,
-              matchId,
-            );
-
-          const playerMatchData = {
-            id: existingPlayerMatch?.id ?? randomUUID(),
-            playerId: playerPuuid,
-            matchId: matchId,
-            riotTag: `${player.gameName}#${player.tagLine}`,
-            teamId: player.teamId ?? null,
-            characterId: player.characterId ?? null,
-            kills: player.stats?.kills ?? 0,
-            deaths: player.stats?.deaths ?? 0,
-            assists: player.stats?.assists ?? 0,
-            tier: player.competitiveTier ?? null,
-            playerCard: player.playerCard ?? null,
-            playerTitle: player.playerTitle ?? null,
-            teamColor:
-              player.teamId === "Blue" ? ("Blue" as const) : ("Red" as const),
-            teamWon:
-              teams?.find((team) => team.teamId === player.teamId)?.won ?? null,
-            teamRoundsWon:
-              teams?.find((team) => team.teamId === player.teamId)
-                ?.roundsPlayed ?? null,
-          };
-
-          if (existingPlayerMatch) {
-            await this.playerMatchRepository.updatePlayerMatch(playerMatchData);
-          } else {
-            await this.playerMatchRepository.createPlayerMatch(playerMatchData);
-          }
-        }
-      }
-    }
   }
 }

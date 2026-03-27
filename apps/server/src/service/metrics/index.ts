@@ -4,7 +4,7 @@ import { TimedAll } from "@instalock/meter";
 import { Injectable } from "@tahminator/sapling";
 
 import { RiotMatchRepository } from "@/repository/riotMatch";
-import { UserRepository } from "@/repository/user";
+import { UserRepository } from "@/repository/user/repo";
 
 @Injectable([UserRepository, RiotMatchRepository])
 @TimedAll()

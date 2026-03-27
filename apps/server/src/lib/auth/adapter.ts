@@ -3,7 +3,7 @@ import type { Adapter, DatabaseSession, DatabaseUser } from "lucia";
 import { TimedAll } from "@instalock/meter";
 
 import type { SessionRepository } from "@/repository/session";
-import type { UserRepository } from "@/repository/user";
+import type { UserRepository } from "@/repository/user/repo";
 
 @TimedAll()
 export class AuthPostgresAdapter implements Adapter {
