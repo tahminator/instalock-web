@@ -28,7 +28,7 @@ async function generateTierObject() {
 
   const obj: Record<string, unknown> = {};
   // 4 is the most newest tier updates.
-  json.data[4].tiers.forEach(async (v) => {
+  json.data[4].tiers.forEach((v) => {
     if (v.largeIcon) {
       obj[v.tier] = toTitleCase(v.tierName);
     }
@@ -37,4 +37,4 @@ async function generateTierObject() {
   console.log(obj);
 }
 
-generateTierObject();
+void generateTierObject();

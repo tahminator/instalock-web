@@ -2,6 +2,7 @@ import type { AgentUuid, MapUrl, MapUuid } from "@instalock/riot";
 
 import {
   agentUuidToNameObject,
+  CharacterSelectionState,
   mapUrlToUuidObject,
   mapUuidToNameObject,
 } from "@instalock/riot";
@@ -84,7 +85,7 @@ export default function AgentSelector({
       {
         onSuccess: (data) => {
           if (data.success) {
-            refetch();
+            void refetch();
           }
         },
       },
@@ -110,11 +111,17 @@ export default function AgentSelector({
                 return "border-inherit";
               }
 
-              if (player.CharacterSelectionState === "selected") {
+              if (
+                player.CharacterSelectionState ===
+                CharacterSelectionState.Selected
+              ) {
                 return "border-yellow-500";
               }
 
-              if (player.CharacterSelectionState === "locked") {
+              if (
+                player.CharacterSelectionState ===
+                CharacterSelectionState.Locked
+              ) {
                 return "border-green-500";
               }
 

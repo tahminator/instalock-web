@@ -13,7 +13,7 @@ import { executionWrapper } from "./utils";
 export function TimedAll(): ClassDecorator {
   return (target: F) => {
     const className = target.name;
-    const prototype = target.prototype;
+    const prototype = target.prototype as object;
     const classProto = target;
 
     const propertyNames = Object.getOwnPropertyNames(prototype).filter(
@@ -60,7 +60,7 @@ export function TimedAll(): ClassDecorator {
         name,
       );
       if (descriptor && typeof descriptor.value === "function") {
-        const originalMethod = descriptor.value;
+        const originalMethod = descriptor.value as F;
         descriptor.value = executionWrapper(originalMethod, className, name);
 
         Object.defineProperty(

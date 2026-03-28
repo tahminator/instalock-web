@@ -6,9 +6,9 @@ export class BaseUserListener {
   listenForUpdateNewUserMatchesChannel(
     onCreate: (puuid: string) => void | Promise<void>,
   ) {
-    this.db.listen("updateNewUserMatchesChannel", async (id) => {
+    void this.db.listen("updateNewUserMatchesChannel", (id) => {
       console.log(`createUserChannel triggered for user ID ${id}`);
-      onCreate(id);
+      void onCreate(id);
     });
   }
 }

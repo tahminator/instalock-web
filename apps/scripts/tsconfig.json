@@ -9,7 +9,16 @@
     // TODO: fix and remove
     "noUncheckedIndexedAccess": false
   },
-  "include": ["cron/**/*", "db/**/*", "manual/**/*", "repository/**/*"],
+  "include": [
+    "cron/**/*",
+    "db/**/*",
+    "manual/**/*",
+    "repository/**/*",
+    ".prettierrc.ts",
+    "eslint.config.ts",
+    "../../.prettierrc.base.ts",
+    "../../eslint.config.base.ts"
+  ],
   "ts-node": {
     "esm": true
   },

@@ -12,7 +12,7 @@ async function generateAgentObject() {
   };
 
   const obj: Record<string, string> = {};
-  json.data.forEach(async (v) => {
+  json.data.forEach((v) => {
     if (v.isPlayableCharacter) {
       obj[v.uuid] = v.displayName.replace("/", "");
     }
@@ -21,4 +21,4 @@ async function generateAgentObject() {
   console.log(obj);
 }
 
-generateAgentObject();
+void generateAgentObject();

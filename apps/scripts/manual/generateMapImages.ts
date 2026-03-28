@@ -15,34 +15,36 @@ async function generateMapImages() {
     }[];
   };
   // 4 is the most newest tier updates.
-  json.data.forEach(async (v) => {
-    const url = v.splash;
-    const fileName = `${v.displayName}.webp`;
-    const filePath = path.resolve(
-      __dirname,
-      "..",
-      "..",
-      "frontend",
-      "public",
-      "maps",
-      fileName,
-    );
-    const iconRes = await fetch(url);
+  await Promise.all(
+    json.data.map(async (v) => {
+      const url = v.splash;
+      const fileName = `${v.displayName}.webp`;
+      const filePath = path.resolve(
+        __dirname,
+        "..",
+        "..",
+        "frontend",
+        "public",
+        "maps",
+        fileName,
+      );
+      const iconRes = await fetch(url);
 
-    if (!iconRes.ok) {
-      throw new Error(`Failed to download ${url}: ${iconRes.status}`);
-    }
+      if (!iconRes.ok) {
+        throw new Error(`Failed to download ${url}: ${iconRes.status}`);
+      }
 
-    const arrayBuffer = await iconRes.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+      const arrayBuffer = await iconRes.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
 
-    // await mkdir(filePath, { recursive: true });
-    const webpBuffer = await sharp(buffer)
-      .webp({ quality: 80 }) // Set quality for compression
-      .toBuffer();
-    await writeFile(filePath, webpBuffer);
-    console.log(`Saved ${fileName} to icons folder`);
-  });
+      // await mkdir(filePath, { recursive: true });
+      const webpBuffer = await sharp(buffer)
+        .webp({ quality: 80 }) // Set quality for compression
+        .toBuffer();
+      await writeFile(filePath, webpBuffer);
+      console.log(`Saved ${fileName} to icons folder`);
+    }),
+  );
 }
 
-generateMapImages();
+void generateMapImages();

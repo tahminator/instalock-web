@@ -51,14 +51,14 @@ export const useAuthenticateMutation = () => {
         requestBody: data,
         pathParams: undefined,
       }),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       notifications.show({
         message: data.message,
         color: data.success ? undefined : "red",
       });
 
       if (data.success) {
-        queryClient.invalidateQueries({ queryKey: ["riot", "auth"] });
+        await queryClient.invalidateQueries({ queryKey: ["riot", "auth"] });
       }
     },
   });

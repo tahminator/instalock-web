@@ -49,11 +49,9 @@ if (!username || !password) {
 SSM.createStandaloneMetricServer({
   username,
   password,
-}).then((s) => {
-  s.listen(METRIC_PORT, async () => {
-    console.log("Metric server is ready.");
-    await tasks();
-  });
+}).listen(METRIC_PORT, () => {
+  console.log("Metric server is ready.");
+  void tasks();
 });
 
 SSM.Utils.setAndForgetAppInfoGauge();
@@ -62,8 +60,8 @@ SSM.Utils.registerUpGauge();
 console.log("Script has been loaded in.");
 
 setInterval(
-  async () => {
-    tasks();
+  () => {
+    void tasks();
   },
   1000 * 60 * 4,
 );

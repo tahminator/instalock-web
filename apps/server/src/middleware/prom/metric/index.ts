@@ -16,7 +16,7 @@ export class MetricsRegistrarMiddleware {
   ) {
     this.gauges = this.gaugeProvider.gauges;
 
-    this.populateOnce();
+    void this.populateOnce();
     this.registerDummyTrigger();
   }
 

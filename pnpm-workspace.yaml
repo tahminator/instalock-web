@@ -21,7 +21,7 @@ catalog:
   "tailwindcss": "^4.1.18"
   express: "^5.2.1"
   "@types/express": "^5.0.0"
-  "@tahminator/sapling": "^1.5.3"
+  "@tahminator/sapling": "^1.5.4"
   "arctic": "^2.3.1"
   "cookie-parser": "^1.4.7"
   "cors": "^2.8.5"

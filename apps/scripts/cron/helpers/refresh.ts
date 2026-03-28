@@ -3,7 +3,7 @@ import type { MapUrl } from "@instalock/riot";
 import type { RefreshResult } from "cron/helpers/types";
 
 import { TimedAll } from "@instalock/meter";
-import { mapUrlToUuidObject, RiotClient } from "@instalock/riot";
+import { mapUrlToUuidObject, RiotClient, TeamID } from "@instalock/riot";
 import { randomUUID } from "crypto";
 import {
   playerMatchRepository,
@@ -108,9 +108,9 @@ export class MatchRefresher {
       const { matchInfo, players, teams } = json;
 
       const teamBlue =
-        teams && teams[0].teamId === "Blue" ? teams[0] : teams && teams[1];
+        teams && teams[0].teamId === TeamID.Blue ? teams[0] : teams && teams[1];
       const teamRed =
-        teams && teams[0].teamId === "Red" ? teams[0] : teams && teams[1];
+        teams && teams[0].teamId === TeamID.Red ? teams[0] : teams && teams[1];
 
       const matchId = matchInfo?.matchId ?? randomUUID();
 
@@ -139,7 +139,7 @@ export class MatchRefresher {
         roundsPlayed: teams?.[0]?.roundsPlayed ?? null,
         teamWon:
           (teams &&
-            (teams[0].teamId === "Red" && teams[0].won === true ?
+            (teams[0].teamId === TeamID.Red && teams[0].won === true ?
               ("Red" as const)
             : ("Blue" as const))) ??
           null,
@@ -187,7 +187,9 @@ export class MatchRefresher {
             playerCard: player.playerCard ?? null,
             playerTitle: player.playerTitle ?? null,
             teamColor:
-              player.teamId === "Blue" ? ("Blue" as const) : ("Red" as const),
+              player.teamId === TeamID.Blue ?
+                ("Blue" as const)
+              : ("Red" as const),
             teamWon:
               teams?.find((team) => team.teamId === player.teamId)?.won ?? null,
             teamRoundsWon:

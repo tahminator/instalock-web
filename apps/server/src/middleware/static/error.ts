@@ -10,6 +10,7 @@ export type ErrorResponse = {
 
 export class ErrorMiddleware {
   static responseStatusErrorMiddleware(
+    this: void,
     err: ResponseStatusError,
     _req: Request,
     res: Response,
@@ -27,6 +28,7 @@ export class ErrorMiddleware {
   }
 
   static anyErrorMiddleware(
+    this: void,
     err: unknown,
     _req: Request,
     res: Response,
