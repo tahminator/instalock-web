@@ -1,42 +1,59 @@
+import type { Result } from "neverthrow";
+
+import { err, fromPromise, ok } from "neverthrow";
+
 import type { Db, PlayerMatch, RiotMatchTeamColor } from "..";
 
 export class BasePlayerMatchRepository {
   constructor(private readonly db: Db) {}
 
-  public async createPlayerMatch(
-    playerMatch: PlayerMatch,
-  ): Promise<PlayerMatch | null> {
-    try {
-      const result = await this.db<PlayerMatch[]>`
-        INSERT INTO "PlayerMatch" ${this.db(playerMatch)}
-        RETURNING *
-      `;
-      return result[0] ?? null;
-    } catch (e) {
-      console.error("Failed to create player match:", e);
-      return null;
-    }
+  private logError(e: Error) {
+    console.error(`[Error] ${e}`);
   }
 
-  public async getPlayerMatchById(id: string): Promise<PlayerMatch | null> {
-    const playerMatch = await this.db<PlayerMatch[]>`
+  public async createPlayerMatch(
+    playerMatch: PlayerMatch,
+  ): Promise<Result<PlayerMatch | null, Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
+        INSERT INTO "PlayerMatch" ${this.db(playerMatch)}
+        RETURNING *
+      `,
+      (e) => new Error(`Failed to create player match: ${e}`),
+    )
+      .andThen(([pm]) =>
+        !pm ?
+          err(new Error("Failed to create player match, received null back"))
+        : ok(pm),
+      )
+      .orTee(this.logError);
+  }
+
+  public async getPlayerMatchById(
+    id: string,
+  ): Promise<Result<PlayerMatch | null, Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
         "PlayerMatch"
       WHERE
         id = ${id}
-    `;
-
-    return playerMatch[0] ?? null;
+    `,
+      (e) => new Error(`Failed to get player match by ID of ${id}: ${e}`),
+    )
+      .map(([pm]) => pm ?? null)
+      .orTee(this.logError);
   }
 
   public async getPlayerMatchesByPlayerId(
     playerId: string,
     limit = 100,
     offset = 0,
-  ): Promise<PlayerMatch[]> {
-    const playerMatches = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch[], Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
@@ -46,31 +63,39 @@ export class BasePlayerMatchRepository {
       ORDER BY id DESC
       LIMIT ${limit}
       OFFSET ${offset}
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player matches by player ID of ${playerId}: ${e}`,
+        ),
+    ).orTee(this.logError);
   }
 
   public async getPlayerMatchesByMatchId(
     matchId: string,
-  ): Promise<PlayerMatch[]> {
-    const playerMatches = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch[], Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
         "PlayerMatch"
       WHERE
         "matchId" = ${matchId}
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player matches by match id of match id ${matchId}: ${e}`,
+        ),
+    ).orTee(this.logError);
   }
 
   public async getPlayerMatchByPlayerAndMatch(
     playerId: string,
     matchId: string,
-  ): Promise<PlayerMatch | null> {
-    const playerMatch = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch | null, Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
@@ -78,9 +103,14 @@ export class BasePlayerMatchRepository {
       WHERE
         "playerId" = ${playerId}
         AND "matchId" = ${matchId}
-    `;
-
-    return playerMatch[0] ?? null;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player match by playerId ${playerId} and matchId ${matchId}: ${e}`,
+        ),
+    )
+      .map(([pm]) => pm ?? null)
+      .orTee(this.logError);
   }
 
   /**
@@ -90,8 +120,9 @@ export class BasePlayerMatchRepository {
    */
   public async getMostRecentUsefulPlayerMatchByPlayerPuuid(
     playerId: string,
-  ): Promise<PlayerMatch | null> {
-    const playerMatch = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch | null, Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         pm.*
       FROM
@@ -106,17 +137,31 @@ export class BasePlayerMatchRepository {
         pm.tier != 0
       ORDER BY rm."gameEnd"
       LIMIT 1
-    `;
-
-    return playerMatch[0] ?? null;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get most recent useful player match by player puuid: ${playerId}: ${e}`,
+        ),
+    )
+      .andThen(([pm]) =>
+        !pm ?
+          err(
+            new Error(
+              "Failed to get most recent useful player match by player puuid, received null back",
+            ),
+          )
+        : ok(pm),
+      )
+      .orTee(this.logError);
   }
 
   public async getBulkPlayerMatchesByPlayerAndMatches(
     records: { playerId: string; matchId: string }[],
-  ): Promise<PlayerMatch[]> {
-    if (records.length === 0) return [];
+  ): Promise<Result<PlayerMatch[], Error>> {
+    if (records.length === 0) return ok([]);
 
-    const playerMatches = await this.db<PlayerMatch[]>`
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         pm.*
       FROM
@@ -126,17 +171,21 @@ export class BasePlayerMatchRepository {
       ON
         pm."playerId" = v."playerId"
         AND pm."matchId" = v."matchId"
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get bulk player mtches by player and matches by player ID: ${e}`,
+        ),
+    ).orTee(this.logError);
   }
 
   public async getPlayerMatchesByCharacterId(
     playerId: string,
     characterId: string,
     limit = 100,
-  ): Promise<PlayerMatch[]> {
-    const playerMatches = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch[], Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
@@ -146,17 +195,21 @@ export class BasePlayerMatchRepository {
         AND "characterId" = ${characterId}
       ORDER BY id DESC
       LIMIT ${limit}
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player matches by character ID ${characterId} for player ID ${playerId}: ${e}`,
+        ),
+    ).orTee(this.logError);
   }
 
   public async getPlayerMatchesByTeamColor(
     playerId: string,
     teamColor: RiotMatchTeamColor,
     limit = 100,
-  ): Promise<PlayerMatch[]> {
-    const playerMatches = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch[], Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
@@ -166,16 +219,20 @@ export class BasePlayerMatchRepository {
         AND "teamColor" = ${teamColor}
       ORDER BY id DESC
       LIMIT ${limit}
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player matches by team color ${teamColor} for player ID ${playerId}: ${e}`,
+        ),
+    ).orTee(this.logError);
   }
 
   public async getWonPlayerMatches(
     playerId: string,
     limit = 100,
-  ): Promise<PlayerMatch[]> {
-    const playerMatches = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch[], Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
@@ -185,16 +242,20 @@ export class BasePlayerMatchRepository {
         AND "teamWon" = true
       ORDER BY id DESC
       LIMIT ${limit}
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get won player matches for player ID ${playerId}: ${e}`,
+        ),
+    ).orTee(this.logError);
   }
 
   public async getLostPlayerMatches(
     playerId: string,
     limit = 100,
-  ): Promise<PlayerMatch[]> {
-    const playerMatches = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch[], Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
@@ -204,17 +265,21 @@ export class BasePlayerMatchRepository {
         AND "teamWon" = false
       ORDER BY id DESC
       LIMIT ${limit}
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get lost player matches for player ID ${playerId}: ${e}`,
+        ),
+    ).orTee(this.logError);
   }
 
   public async getPlayerMatchesWithMinKills(
     playerId: string,
     minKills: number,
     limit = 100,
-  ): Promise<PlayerMatch[]> {
-    const playerMatches = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch[], Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *
       FROM
@@ -224,16 +289,20 @@ export class BasePlayerMatchRepository {
         AND kills >= ${minKills}
       ORDER BY kills DESC
       LIMIT ${limit}
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player matches with minimum kills ${minKills} for player ID ${playerId}: ${e}`,
+        ),
+    ).orTee(this.logError);
   }
 
   public async getPlayerMatchesByKDA(
     playerId: string,
     limit = 100,
-  ): Promise<PlayerMatch[]> {
-    const playerMatches = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch[], Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         *,
         CASE 
@@ -246,26 +315,41 @@ export class BasePlayerMatchRepository {
         "playerId" = ${playerId}
       ORDER BY kda DESC
       LIMIT ${limit}
-    `;
-
-    return playerMatches;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player matches by KDA for player ID ${playerId}: ${e}`,
+        ),
+    );
   }
 
-  public async getPlayerMatchesCount(playerId: string): Promise<number> {
-    const result = await this.db<{ count: number }[]>`
+  public async getPlayerMatchesCount(
+    playerId: string,
+  ): Promise<Result<number, Error>> {
+    return fromPromise(
+      this.db<{ count: string }[]>`
       SELECT
         COUNT(*) as count
       FROM
         "PlayerMatch"
       WHERE
         "playerId" = ${playerId}
-    `;
-
-    return Number(result[0]?.count ?? 0);
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player matches count by playerId ${playerId}: ${e}`,
+        ),
+    )
+      .map((c) => c.count)
+      .map(Number)
+      .orTee(this.logError);
   }
 
-  public async getPlayerWinRate(playerId: string): Promise<number> {
-    const result = await this.db<{ win_rate: number }[]>`
+  public async getPlayerWinRate(
+    playerId: string,
+  ): Promise<Result<number, Error>> {
+    return fromPromise(
+      this.db<{ win_rate: number }[]>`
       SELECT
         CASE 
           WHEN COUNT(*) = 0 THEN 0
@@ -275,19 +359,28 @@ export class BasePlayerMatchRepository {
         "PlayerMatch"
       WHERE
         "playerId" = ${playerId}
-    `;
-
-    return Number(result[0]?.win_rate ?? 0);
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player win rate by playerId ${playerId}: ${e}`,
+        ),
+    )
+      .map(([result]) => Number(result?.win_rate ?? 0))
+      .orTee(this.logError);
   }
 
-  public async getPlayerAverageKDA(playerId: string): Promise<{
-    avg_kills: number;
-    avg_deaths: number;
-    avg_assists: number;
-  }> {
-    const result = await this.db<
-      { avg_kills: number; avg_deaths: number; avg_assists: number }[]
-    >`
+  public async getPlayerAverageKDA(playerId: string): Promise<
+    Result<
+      {
+        avg_kills: number;
+        avg_deaths: number;
+        avg_assists: number;
+      },
+      Error
+    >
+  > {
+    return fromPromise(
+      this.db<{ avg_kills: number; avg_deaths: number; avg_assists: number }[]>`
       SELECT
         AVG(kills)::float as avg_kills,
         AVG(deaths)::float as avg_deaths,
@@ -296,15 +389,23 @@ export class BasePlayerMatchRepository {
         "PlayerMatch"
       WHERE
         "playerId" = ${playerId}
-    `;
-
-    return result[0] ?? { avg_kills: 0, avg_deaths: 0, avg_assists: 0 };
+    `,
+      (e) =>
+        new Error(
+          `Failed to get player average KDA by playerId ${playerId}: ${e}`,
+        ),
+    )
+      .map(
+        ([result]) => result ?? { avg_kills: 0, avg_deaths: 0, avg_assists: 0 },
+      )
+      .orTee(this.logError);
   }
 
   public async getMostRecentPlayerMatchByUserPuuid(
     puuid: string,
-  ): Promise<PlayerMatch | null> {
-    const result = await this.db<PlayerMatch[]>`
+  ): Promise<Result<PlayerMatch | null, Error>> {
+    return fromPromise(
+      this.db<PlayerMatch[]>`
       SELECT
         pm.*
       FROM
@@ -316,60 +417,76 @@ export class BasePlayerMatchRepository {
         AND pm.tier != 0
       ORDER BY rm."gameStart" DESC
       LIMIT 1
-    `;
-
-    return result[0] ?? null;
+    `,
+      (e) =>
+        new Error(
+          `Failed to get most recent player match by user puuid of ${puuid}: ${e}`,
+        ),
+    )
+      .map(([pm]) => pm ?? null)
+      .orTee(this.logError);
   }
 
   public async updatePlayerMatch(
     playerMatch: PlayerMatch,
-  ): Promise<PlayerMatch | null> {
-    try {
-      const setterRows = this.db(
-        playerMatch,
-        "id",
-        "teamId",
-        "characterId",
-        "kills",
-        "deaths",
-        "assists",
-        "tier",
-        "playerCard",
-        "playerTitle",
-        "teamColor",
-        "teamWon",
-        "teamRoundsWon",
-      );
+  ): Promise<Result<PlayerMatch, Error>> {
+    const rows = this.db(
+      playerMatch,
+      "id",
+      "teamId",
+      "characterId",
+      "kills",
+      "deaths",
+      "assists",
+      "tier",
+      "playerCard",
+      "playerTitle",
+      "teamColor",
+      "teamWon",
+      "teamRoundsWon",
+    );
 
-      const result = await this.db<PlayerMatch[]>`
+    return fromPromise(
+      this.db<PlayerMatch[]>`
         UPDATE
           "PlayerMatch"
         SET
-          ${setterRows}
+          ${rows}
         WHERE
           id = ${playerMatch.id}
         RETURNING *
-      `;
-      return result[0] ?? null;
-    } catch (e) {
-      console.error("Failed to update player match:", e);
-      return null;
-    }
+      `,
+      (e) =>
+        new Error(
+          `Failed to update player match by playerMatch.id ${playerMatch.id}: ${e}`,
+        ),
+    )
+      .andThen(([p]) =>
+        !p ?
+          err(
+            new Error(
+              `Failed to update player match, returned match null for playerMatch.id ${playerMatch.id}`,
+            ),
+          )
+        : ok(p),
+      )
+      .orTee(this.logError);
   }
 
-  public async deletePlayerMatchById(id: string): Promise<boolean> {
-    try {
-      await this.db`
+  public async deletePlayerMatchById(
+    id: string,
+  ): Promise<Result<boolean, Error>> {
+    return fromPromise(
+      this.db`
         DELETE FROM
           "PlayerMatch"
         WHERE
           id = ${id}
-      `;
-      return true;
-    } catch (e) {
-      console.error("Failed to delete player match:", e);
-      return false;
-    }
+      `,
+      (e) => new Error(`Failed to delete player match: ${e}`),
+    )
+      .map((_) => true)
+      .orTee(this.logError);
   }
 
   public async deletePlayerMatchesByPlayerId(
@@ -423,18 +540,17 @@ export class BasePlayerMatchRepository {
 
   public async bulkCreatePlayerMatches(
     playerMatches: PlayerMatch[],
-  ): Promise<boolean> {
-    if (playerMatches.length === 0) return true;
+  ): Promise<Result<boolean, Error>> {
+    if (playerMatches.length === 0) return ok(true);
 
-    try {
-      await this.db`
+    return fromPromise(
+      this.db`
         INSERT INTO "PlayerMatch" ${this.db(playerMatches)}
         ON CONFLICT ("playerId", "matchId") DO NOTHING
-      `;
-      return true;
-    } catch (e) {
-      console.error("Failed to bulk create player matches:", e);
-      return false;
-    }
+      `,
+      (e) => new Error(`Failed to bulk create player matches: ${e}`),
+    )
+      .map((_) => true)
+      .orTee(this.logError);
   }
 }
