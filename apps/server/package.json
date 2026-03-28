@@ -40,6 +40,7 @@
     "ioredis": "catalog:",
     "lucia": "catalog:",
     "morgan": "catalog:",
+    "neverthrow": "catalog:",
     "oslo": "catalog:",
     "postgres": "catalog:",
     "prom-client": "catalog:",

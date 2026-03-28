@@ -22,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@instalock/api": "workspace:^",
+    "neverthrow": "catalog:",
     "postgres": "catalog:"
   },
   "devDependencies": {
@@ -32,8 +33,8 @@
     "eslint-plugin-react-hooks": "catalog:",
     "eslint-plugin-react-refresh": "catalog:",
     "globals": "catalog:",
+    "prettier": "catalog:",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:",
-    "prettier": "catalog:"
+    "typescript-eslint": "catalog:"
   }
 }
