@@ -3,5 +3,12 @@
   "compilerOptions": {
     "composite": true
   },
-  "include": ["./index.ts", "./types.ts"]
+  "include": [
+    "./index.ts",
+    "./types.ts",
+    ".prettierrc.ts",
+    "eslint.config.ts",
+    "../../.prettierrc.base.ts",
+    "../../eslint.config.base.ts"
+  ]
 }

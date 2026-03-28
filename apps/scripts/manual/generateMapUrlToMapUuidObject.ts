@@ -13,11 +13,11 @@ async function generateMapObject() {
 
   const obj: Record<string, string> = {};
   // 4 is the most newest tier updates.
-  json.data.forEach(async (v) => {
+  json.data.forEach((v) => {
     obj[v.mapUrl] = v.uuid;
   });
 
   console.log(obj);
 }
 
-generateMapObject();
+void generateMapObject();

@@ -24,35 +24,37 @@ async function generateTierImages() {
     }[];
   };
   // 4 is the most newest tier updates.
-  json.data[4].tiers.forEach(async (v) => {
-    if (v.largeIcon) {
-      const url = v.largeIcon;
-      const fileName = `${v.tier}.webp`;
-      const filePath = path.resolve(
-        __dirname,
-        "..",
-        "..",
-        "frontend",
-        "public",
-        "tiers",
-        fileName,
-      );
-      const iconRes = await fetch(url);
+  await Promise.all(
+    json.data[4].tiers.map(async (v) => {
+      if (v.largeIcon) {
+        const url = v.largeIcon;
+        const fileName = `${v.tier}.webp`;
+        const filePath = path.resolve(
+          __dirname,
+          "..",
+          "..",
+          "frontend",
+          "public",
+          "tiers",
+          fileName,
+        );
+        const iconRes = await fetch(url);
 
-      if (!iconRes.ok) {
-        throw new Error(`Failed to download ${url}: ${iconRes.status}`);
+        if (!iconRes.ok) {
+          throw new Error(`Failed to download ${url}: ${iconRes.status}`);
+        }
+
+        const arrayBuffer = await iconRes.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        const webpBuffer = await sharp(buffer)
+          .webp({ quality: 80 }) // Set quality for compression
+          .toBuffer();
+        await writeFile(filePath, webpBuffer);
+        console.log(`Saved ${fileName} to icons folder`);
       }
-
-      const arrayBuffer = await iconRes.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      const webpBuffer = await sharp(buffer)
-        .webp({ quality: 80 }) // Set quality for compression
-        .toBuffer();
-      await writeFile(filePath, webpBuffer);
-      console.log(`Saved ${fileName} to icons folder`);
-    }
-  });
+    }),
+  );
 }
 
-generateTierImages();
+void generateTierImages();

@@ -58,7 +58,7 @@ export default function UserNavbar() {
   const rankImage = `/tiers/${rank}.webp`;
 
   const handleRefresh = () => {
-    queryClient.resetQueries({ queryKey: ["riot"] });
+    void queryClient.resetQueries({ queryKey: ["riot"] });
   };
 
   const handleDisconnect = () => {
@@ -72,7 +72,7 @@ export default function UserNavbar() {
           message,
           color: success ? "green" : "red",
         });
-        queryClient.resetQueries({ queryKey: ["riot"] });
+        void queryClient.resetQueries({ queryKey: ["riot"] });
       },
     });
   };

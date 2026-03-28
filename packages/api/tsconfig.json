@@ -8,6 +8,10 @@
     "controller/**/*",
     "dto/**/*",
     "utils/**/*",
-    "zod/**/*"
+    "zod/**/*",
+    ".prettierrc.ts",
+    "eslint.config.ts",
+    "../../.prettierrc.base.ts",
+    "../../eslint.config.base.ts"
   ]
 }

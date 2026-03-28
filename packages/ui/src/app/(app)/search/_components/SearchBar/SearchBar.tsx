@@ -31,12 +31,12 @@ export default function SearchBar() {
       return;
     }
 
-    navigate(`/search/${puuid}`);
+    navigate(`/search/${puuid[0]}`);
   };
 
   return (
     <form
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={(e) => void form.handleSubmit(onSubmit)(e)}
       style={{
         width: "100%",
       }}

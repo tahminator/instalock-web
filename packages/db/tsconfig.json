@@ -3,5 +3,14 @@
   "compilerOptions": {
     "composite": true
   },
-  "include": ["./index.ts", "migrations/**/*", "models/**/*", "repository/**/*"]
+  "include": [
+    "./index.ts",
+    "migrations/**/*",
+    "models/**/*",
+    "repository/**/*",
+    ".prettierrc.ts",
+    "eslint.config.ts",
+    "../../.prettierrc.base.ts",
+    "../../eslint.config.base.ts"
+  ]
 }

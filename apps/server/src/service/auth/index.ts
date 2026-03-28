@@ -11,6 +11,7 @@ import { UserRepository } from "@/repository/user/repo";
 export interface AuthSession extends LuciaSession {}
 export interface AuthUser extends LuciaUser {}
 
+// TODO: Migrate off Lucia
 @Injectable([SessionRepository, UserRepository])
 @TimedAll()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
           secure: process.env.NODE_ENV === "production",
         },
       },
-      getUserAttributes: (attributes) => {
+      getUserAttributes: (attributes: { puuid: string }) => {
         return {
           puuid: attributes.puuid,
         };

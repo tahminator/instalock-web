@@ -40,7 +40,7 @@ export default function RiotAuthenticationModal() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof authModalSchema>) => {
+  const onSubmit = (data: z.infer<typeof authModalSchema>) => {
     notifications.show({
       message: "Please wait, attempting to resolve credentials from server...",
     });
@@ -123,7 +123,7 @@ export default function RiotAuthenticationModal() {
             <Space h="lg" />
             <form
               {...form}
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={(e) => void form.handleSubmit(onSubmit)(e)}
               onBlur={() => setHighlighted(false)}
               onFocus={() => setHighlighted(true)}
             >

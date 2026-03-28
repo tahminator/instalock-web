@@ -3,10 +3,10 @@ import perfectionist from "eslint-plugin-perfectionist";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+const config: ReturnType<typeof tseslint.config> = tseslint.config(
   js.configs.recommended,
-  ...tseslint.configs.recommended,
-  { ignores: ["dist"] },
+  ...tseslint.configs.recommendedTypeChecked,
+  { ignores: ["dist", "**/*.mjs"] },
   {
     plugins: {
       perfectionist,
@@ -20,11 +20,15 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals["shared-node-browser"],
+      parserOptions: {
+        projectService: true,
+      },
     },
     rules: {
       "@typescript-eslint/no-namespace": ["off"],
       "@typescript-eslint/no-non-null-assertion": ["error"],
       "@typescript-eslint/no-empty-object-type": ["off"],
+      "@typescript-eslint/no-floating-promises": ["error"],
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
@@ -44,3 +48,5 @@ export default tseslint.config(
   },
   {},
 );
+
+export default config;

@@ -8,5 +8,13 @@
     },
     "composite": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "index.ts",
+    ".prettierrc.ts",
+    "eslint.config.ts",
+    "../../.prettierrc.base.ts",
+    "../../eslint.config.base.ts",
+    "../../eslint.config.react.ts"
+  ]
 }

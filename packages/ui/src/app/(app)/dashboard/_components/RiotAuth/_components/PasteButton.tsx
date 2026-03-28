@@ -13,6 +13,7 @@ export function PasteButton({
   highlighted: boolean;
 }) {
   const [pasted, setPasted] = useState(false);
+
   return (
     <Center pb={0}>
       <MantineThemeProvider theme={{ activeClassName: "" }}>
@@ -28,13 +29,15 @@ export function PasteButton({
           }
           size="sm"
           w={40}
-          onClick={async () => {
-            const text = await navigator.clipboard.readText();
-            onPaste(text);
-            setPasted(true);
-            setTimeout(() => {
-              setPasted(false);
-            }, 3000);
+          onClick={() => {
+            void (async () => {
+              const text = await navigator.clipboard.readText();
+              onPaste(text);
+              setPasted(true);
+              setTimeout(() => {
+                setPasted(false);
+              }, 3000);
+            })();
           }}
           rightSection={
             pasted ?
