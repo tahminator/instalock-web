@@ -1,7 +1,7 @@
 {
   "name": "@instalock/scripts",
   "author": "Tahmid Ahmed",
-  "version": "0.0.0",
+  "version": "1.0.33",
   "description": "Do not install these into the other packages - Scripts to pull certain data about Valorant required for core functionality of Instalock.",
   "main": "index.ts",
   "scripts": {
