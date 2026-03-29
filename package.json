@@ -1,7 +1,7 @@
 {
   "name": "instalock",
   "author": "Tahmid Ahmed",
-  "version": "0.0.0",
+  "version": "1.0.32",
   "description": "Instalock monorepo",
   "engines": {
     "pnpm": "10.5.2"
