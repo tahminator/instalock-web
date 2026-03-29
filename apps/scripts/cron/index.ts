@@ -1,6 +1,6 @@
 // this must be first
 import "@instalock/log";
-import type { RefreshResult } from "cron/helpers/types";
+import type { RefreshResult, TraverseResult } from "cron/helpers/types";
 
 import { SSM } from "@instalock/meter/src/server";
 import { MatchTraverser } from "cron/helpers/traverse";
@@ -40,7 +40,7 @@ const traverse = async () => {
   console.time("task");
   console.log(`Running the match traverser now`);
 
-  let result: RefreshResult | null = null;
+  let result: TraverseResult | null = null;
   try {
     result = await MatchTraverser.traverseMatchesForEachUser();
   } catch (e) {
@@ -55,7 +55,7 @@ const traverse = async () => {
   }
 
   console.log(
-    `After refreshing ${result?.users} users, ${result?.matches} matches were added`,
+    `After iterating ${result?.totalMatches} matches, ${result?.newMatchConnections} match connections were created`,
   );
 
   console.log("Match traverser complete.\n");

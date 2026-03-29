@@ -1,29 +1,37 @@
 import type { RiotMatch } from "@instalock/db";
-import type { RefreshResult } from "cron/helpers/types";
+import type { TraverseResult } from "cron/helpers/types";
 
 import { TeamID, type AutoGenMatchMeta } from "@instalock/riot";
 import { randomUUID } from "crypto";
-import {
-  playerMatchRepository,
-  riotMatchRepository,
-  userRepository,
-} from "repository";
-
-const MATCH_FETCH_LIMIT = 999999;
+import { playerMatchRepository, riotMatchRepository } from "repository";
 
 export class MatchTraverser {
-  static async traverseMatchesForEachUser() {
-    const usersCount = await userRepository.getUsersCount();
-    const matches = await riotMatchRepository.getMatches(MATCH_FETCH_LIMIT, 0);
+  static readonly BATCH_SIZE = 100;
 
-    const result: RefreshResult = {
-      users: usersCount,
-      matches: 0,
+  static async traverseMatchesForEachUser() {
+    const result: TraverseResult = {
+      totalMatches: 0,
+      newMatchConnections: 0,
     };
 
-    for (let i = 0; i < matches.length; i++) {
-      const newMatches = await this.traverseMatch(matches[i]);
-      result.matches += newMatches;
+    let offset = 0;
+    while (true) {
+      const matches = await riotMatchRepository.getMatches(
+        this.BATCH_SIZE,
+        offset,
+      );
+
+      for (let i = 0; i < matches.length; i++) {
+        const newMatches = await this.traverseMatch(matches[i]);
+        result.totalMatches++;
+        result.newMatchConnections += newMatches;
+      }
+
+      if (matches.length < this.BATCH_SIZE) {
+        break;
+      }
+
+      offset += this.BATCH_SIZE;
     }
 
     return result;
