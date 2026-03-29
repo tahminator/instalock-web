@@ -4,6 +4,7 @@ import type { AgentUuid, TierNumber } from "@instalock/riot";
 import { agentUuidToNameObject, tierNumberToNameObject } from "@instalock/riot";
 import { Avatar, Table, Tooltip } from "@mantine/core";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 export default function PlayerTable({
   players,
@@ -64,7 +65,12 @@ export default function PlayerTable({
                   >
                     <Avatar src={agentSrc} alt={agentName} />
                   </Tooltip>
-                  <span>{player.riotTag}</span>
+                  <Link
+                    to={`/search/${player.playerId}`}
+                    className={`underline decoration-2 ${player.teamColor === "Blue" ? "hover:decoration-sky-600" : "hover:decoration-red-700"}`}
+                  >
+                    {player.riotTag}
+                  </Link>
                 </div>
               </Table.Td>
               <Table.Td>
