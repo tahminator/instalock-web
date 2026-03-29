@@ -28,8 +28,8 @@ catalogs:
       specifier: ^3.24.0
       version: 3.31.0
     '@tahminator/sapling':
-      specifier: ^1.5.4
-      version: 1.5.4
+      specifier: ^1.5.17
+      version: 1.5.17
     '@tailwindcss/postcss':
       specifier: ^4.1.18
       version: 4.1.18
@@ -399,7 +399,7 @@ importers:
         version: link:../../packages/riot
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 1.5.4
+        version: 1.5.17
       arctic:
         specifier: 'catalog:'
         version: 2.3.4
@@ -505,7 +505,7 @@ importers:
         version: link:../riot
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 1.5.4
+        version: 1.5.17
       zod:
         specifier: 'catalog:'
         version: 4.2.1
@@ -624,7 +624,7 @@ importers:
         version: link:../api
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 1.5.4
+        version: 1.5.17
       zod:
         specifier: 'catalog:'
         version: 4.2.1
@@ -707,7 +707,7 @@ importers:
         version: link:../api
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 1.5.4
+        version: 1.5.17
       prom-client:
         specifier: 'catalog:'
         version: 15.1.3
@@ -1727,8 +1727,8 @@ packages:
   '@tabler/icons@3.31.0':
     resolution: {integrity: sha512-dblAdeKY3+GA1U+Q9eziZ0ooVlZMHsE8dqP0RkwvRtEsAULoKOYaCUOcJ4oW1DjWegdxk++UAt2SlQVnmeHv+g==}
 
-  '@tahminator/sapling@1.5.4':
-    resolution: {integrity: sha512-julzTn9ZqM397/ibkLZPqOBTUrF2UW/xKfO6/ZlKFjAjhy1K8xwk2YqUSaPZcUFaRiVTTLuRNkJ9jHCjzZ0asA==}
+  '@tahminator/sapling@1.5.17':
+    resolution: {integrity: sha512-4KXApnqpojsYnUwpkHZ9X/25PgSo9FhPJxLk7PTuauesEQb2OvYSBuiNsAZ0+QirC45FzDBMWPDObHmrHDzU0A==}
 
   '@tailwindcss/node@4.1.18':
     resolution: {integrity: sha512-DoR7U1P7iYhw16qJ49fgXUlry1t4CpXeErJHnQ44JgTSKMaZUdf17cfn5mHchfJ4KRBZRFA/Coo+MUF5+gOaCQ==}
@@ -4523,7 +4523,7 @@ snapshots:
 
   '@tabler/icons@3.31.0': {}
 
-  '@tahminator/sapling@1.5.4':
+  '@tahminator/sapling@1.5.17':
     dependencies:
       '@types/express': 5.0.6
       express: 5.2.1
