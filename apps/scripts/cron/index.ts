@@ -12,7 +12,7 @@ const METRIC_PORT = 3051;
 MatchRefresher.registerListeners();
 
 const refresh = async () => {
-  console.time("task");
+  console.time("refresh");
   console.log(`Running the match refresher now`);
 
   let result: RefreshResult | null = null;
@@ -22,7 +22,7 @@ const refresh = async () => {
     console.error(e);
   }
 
-  console.timeEnd("task");
+  console.timeEnd("refresh");
 
   if (!result) {
     console.error("RefreshResult is empty");
@@ -37,7 +37,7 @@ const refresh = async () => {
 };
 
 const traverse = async () => {
-  console.time("task");
+  console.time("traverse");
   console.log(`Running the match traverser now`);
 
   let result: TraverseResult | null = null;
@@ -47,7 +47,7 @@ const traverse = async () => {
     console.error(e);
   }
 
-  console.timeEnd("task");
+  console.timeEnd("traverse");
 
   if (!result) {
     console.error("TraverseResult is empty");
