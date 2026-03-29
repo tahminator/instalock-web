@@ -111,6 +111,20 @@ export class RiotQueryController implements IRiotQueryController {
 
     const latestMatch = riotMatchInfoJson.Matches[0];
 
+    if (!latestMatch) {
+      return ResponseEntity.ok().body({
+        success: true,
+        message: "Your riot data has been successfully retrieved!",
+        payload: {
+          puuid,
+          riotTag,
+          rank: null,
+          rr: null,
+          rankName: null,
+        },
+      });
+    }
+
     const tierKey = latestMatch.TierAfterUpdate.toString() as TierNumber;
     const tierName = tierNumberToNameObject[tierKey];
 
