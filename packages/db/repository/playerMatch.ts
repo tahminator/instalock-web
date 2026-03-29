@@ -313,7 +313,6 @@ export class BasePlayerMatchRepository {
         "RiotMatch" rm ON pm."matchId" = rm.id
       WHERE
         pm."playerId" = ${puuid}
-        AND pm.tier != 0
       ORDER BY rm."gameStart" DESC
       LIMIT 1
     `;
