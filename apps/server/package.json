@@ -17,7 +17,7 @@
     "eslint:fix": "eslint . --fix",
     "prettier": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --check .",
     "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write .",
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=src/index.js",
+    "build": "esbuild src/index.ts --bundle --sourcemap --platform=node --outfile=src/index.js",
     "start": "NODE_ENV=production node src/index.js"
   },
   "keywords": [],
