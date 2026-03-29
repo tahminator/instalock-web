@@ -3,6 +3,7 @@ import "@instalock/log";
 import type { RefreshResult } from "cron/helpers/types";
 
 import { SSM } from "@instalock/meter/src/server";
+import { MatchTraverser } from "cron/helpers/traverse";
 
 import { MatchRefresher } from "./helpers/refresh";
 
@@ -10,13 +11,9 @@ const METRIC_PORT = 3051;
 
 MatchRefresher.registerListeners();
 
-const tasks = async () => {
-  console.time("tasks");
-  console.log(
-    `\nRunning the following tasks at ${new Date().toLocaleString()}`,
-  );
-
-  console.log(`Running the match populator now`);
+const refresh = async () => {
+  console.time("task");
+  console.log(`Running the match refresher now`);
 
   let result: RefreshResult | null = null;
   try {
@@ -25,7 +22,7 @@ const tasks = async () => {
     console.error(e);
   }
 
-  console.timeEnd("tasks");
+  console.timeEnd("task");
 
   if (!result) {
     console.error("RefreshResult is empty");
@@ -33,10 +30,40 @@ const tasks = async () => {
   }
 
   console.log(
-    `After refreshing ${result?.users}, ${result?.matches} were added`,
+    `After refreshing ${result?.users} users, ${result?.matches} matches were added`,
   );
 
   console.log("Match populator complete.\n");
+};
+
+const traverse = async () => {
+  console.time("task");
+  console.log(`Running the match traverser now`);
+
+  let result: RefreshResult | null = null;
+  try {
+    result = await MatchTraverser.traverseMatchesForEachUser();
+  } catch (e) {
+    console.error(e);
+  }
+
+  console.timeEnd("task");
+
+  if (!result) {
+    console.error("RefreshResult is empty");
+    return;
+  }
+
+  console.log(
+    `After refreshing ${result?.users} users, ${result?.matches} matches were added`,
+  );
+
+  console.log("Match traverser complete.\n");
+};
+
+const tasks = async () => {
+  await refresh();
+  await traverse();
 };
 
 const username = process.env.PROMETHEUS_USERNAME;
