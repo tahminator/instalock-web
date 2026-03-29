@@ -45,7 +45,13 @@ export class MatchTraverser {
       return 0;
     }
 
-    const data = JSON.parse(match.raw) as AutoGenMatchMeta;
+    const data: AutoGenMatchMeta = (() => {
+      if (typeof match.raw === "object") {
+        return match.raw;
+      }
+
+      return JSON.parse(match.raw) as AutoGenMatchMeta;
+    })();
 
     if (!data.players || !data.players.length) {
       console.error("A match is missing raw player data, that is VERY bad.");

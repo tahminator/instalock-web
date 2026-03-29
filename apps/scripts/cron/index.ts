@@ -50,7 +50,7 @@ const traverse = async () => {
   console.timeEnd("task");
 
   if (!result) {
-    console.error("RefreshResult is empty");
+    console.error("TraverseResult is empty");
     return;
   }
 
