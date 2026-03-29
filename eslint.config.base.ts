@@ -26,6 +26,7 @@ const config: ReturnType<typeof tseslint.config> = tseslint.config(
     },
     rules: {
       "@typescript-eslint/no-namespace": ["off"],
+      "@typescript-eslint/no-unsafe-call": ["off"],
       "@typescript-eslint/no-non-null-assertion": ["error"],
       "@typescript-eslint/no-empty-object-type": ["off"],
       "@typescript-eslint/no-floating-promises": ["error"],
