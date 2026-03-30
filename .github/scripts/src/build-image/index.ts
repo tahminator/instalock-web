@@ -57,7 +57,7 @@ async function main() {
   const ciEnv = await Utils.getEnvVariables(["ci"]);
   const { dockerHubPat } = parseCiEnv(ciEnv);
 
-  const ghClient = new GitHubClient();
+  const ghClient = await GitHubClient.createWithDefaultCiToken();
   await using dockerClient = await DockerClient.create(
     "tahminator",
     dockerHubPat,
