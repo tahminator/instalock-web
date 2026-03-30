@@ -14,6 +14,8 @@ import {
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 
+import { getTimeStr } from "@/lib/utils/timeStr";
+
 export default function MatchCard({
   match,
   viewMore = true,
@@ -31,6 +33,7 @@ export default function MatchCard({
 
   const agentName = agentUuidToNameObject[me?.characterId as AgentUuid];
   const agentSrc = `/agents/${agentName}.webp`;
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder bg={"dark.8"}>
       <Card.Section>
@@ -56,7 +59,11 @@ export default function MatchCard({
             : { from: "red", to: "rgba(105, 50, 50, 1)" }
           }
         >
-          {isCompleted ? "COMPLETED" : "LIVE"}
+          {isCompleted ?
+            match.matchData.gameEnd ?
+              `COMPLETED ${getTimeStr(match.matchData.gameEnd)} AGO`
+            : "COMPLETED"
+          : "LIVE"}
         </Badge>
       </Group>
       <Group justify="space-between" align="center" mt="xs" mb="xs">
