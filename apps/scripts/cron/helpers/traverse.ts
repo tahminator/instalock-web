@@ -6,7 +6,7 @@ import { randomUUID } from "crypto";
 import { playerMatchRepository, riotMatchRepository } from "repository";
 
 export class MatchTraverser {
-  static readonly BATCH_SIZE = 100;
+  static readonly BATCH_SIZE = 10;
 
   static async traverseMatchesForEachUser() {
     const result: TraverseResult = {
