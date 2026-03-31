@@ -1,7 +1,7 @@
 {
   "name": "@instalock/riot",
   "author": "Tahmid Ahmed",
-  "version": "0.0.0",
+  "version": "1.0.38",
   "description": "Riot client wrapper",
   "main": "index.ts",
   "scripts": {
