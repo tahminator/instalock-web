@@ -13,6 +13,7 @@ import {
 } from "@tahminator/sapling";
 
 import { ZodParserError } from "@/error/parser";
+import { unwrap } from "@/lib/result";
 import { SessionRepository } from "@/repository/session";
 import { UserNotifier } from "@/repository/user/notify";
 import { UserRepository } from "@/repository/user/repo";
@@ -44,16 +45,18 @@ export default class RiotAuthController implements IRiotAuthController {
       );
     }
 
-    const user = await this.userRepository.getUserByPuuid(
-      response.locals.user.id,
+    const user = unwrap(
+      await this.userRepository.getUserByPuuid(response.locals.user.id),
     );
 
     if (!user) {
       throw new Error("Expected user to exist but did not.");
     }
 
-    const session = await this.sessionRepository.getActiveSessionById(
-      response.locals.session.id,
+    const session = unwrap(
+      await this.sessionRepository.getActiveSessionById(
+        response.locals.session.id,
+      ),
     );
 
     if (!session) {
@@ -156,39 +159,31 @@ export default class RiotAuthController implements IRiotAuthController {
     const puuid = riotUserInfoJson.sub;
 
     const user = await (async () => {
-      const u = await this.userRepository.getUserByPuuid(puuid);
+      const u = unwrap(await this.userRepository.getUserByPuuid(puuid));
       if (u != null) {
-        return this.userRepository.updateUser({
-          ...u,
-          riotEntitlement: entitlementToken,
-          riotAuth: authToken,
-          newUser: false,
-        });
-      }
-
-      const cu = await this.userRepository.createUser({
-        puuid,
-        riotEntitlement: entitlementToken,
-        riotAuth: authToken,
-        riotTag: tagName,
-      });
-
-      if (!cu) {
-        throw new Error(
-          "authentication failed because createUser operation failed",
+        return unwrap(
+          await this.userRepository.updateUser({
+            ...u,
+            riotEntitlement: entitlementToken,
+            riotAuth: authToken,
+            newUser: false,
+          }),
         );
       }
+
+      const cu = unwrap(
+        await this.userRepository.createUser({
+          puuid,
+          riotEntitlement: entitlementToken,
+          riotAuth: authToken,
+          riotTag: tagName,
+        }),
+      );
 
       await this.userNotifier.triggerUpdateNewUserMatches(cu.puuid);
 
       return cu;
     })();
-
-    if (!user) {
-      throw new Error(
-        `Expected a user that either existed or was newly created.`,
-      );
-    }
 
     const session = await this.authService.createSession(user.puuid, {});
 
@@ -218,23 +213,21 @@ export default class RiotAuthController implements IRiotAuthController {
       );
     }
 
-    const user = await this.userRepository.getUserByPuuid(
-      response.locals.user.id,
+    const user = unwrap(
+      await this.userRepository.getUserByPuuid(response.locals.user.id),
     );
 
     if (!user) {
       throw new Error("Expected user to exist but did not.");
     }
 
-    const updatedUser = await this.userRepository.updateUser({
-      ...user,
-      riotAuth: null,
-      riotEntitlement: null,
-    });
-
-    if (!updatedUser) {
-      throw new Error("Update user operation failed");
-    }
+    unwrap(
+      await this.userRepository.updateUser({
+        ...user,
+        riotAuth: null,
+        riotEntitlement: null,
+      }),
+    );
 
     await this.authService.invalidateSession(response.locals.session.id);
 

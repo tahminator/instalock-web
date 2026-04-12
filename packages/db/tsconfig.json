@@ -5,6 +5,7 @@
   },
   "include": [
     "./index.ts",
+    "./error.ts",
     "migrations/**/*",
     "models/**/*",
     "repository/**/*",

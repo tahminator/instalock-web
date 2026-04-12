@@ -41,6 +41,7 @@
     "@instalock/meter": "workspace:^",
     "@instalock/riot": "workspace:^",
     "esbuild": "catalog:",
+    "neverthrow": "catalog:",
     "pino": "catalog:",
     "postgres": "catalog:",
     "prom-client": "catalog:",

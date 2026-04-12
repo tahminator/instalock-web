@@ -1,6 +1,8 @@
 import type { Adapter, DatabaseSession, DatabaseUser } from "lucia";
 
 import { TimedAll } from "@instalock/meter";
+import { HttpStatus, ResponseStatusError } from "@tahminator/sapling";
+import { err, ok } from "neverthrow";
 
 import type { SessionRepository } from "@/repository/session";
 import type { UserRepository } from "@/repository/user/repo";
@@ -23,19 +25,39 @@ export class AuthPostgresAdapter implements Adapter {
   async getSessionAndUser(
     sessionId: string,
   ): Promise<[session: DatabaseSession | null, user: DatabaseUser | null]> {
-    const sessionData = await this.sessionRepository.getSessionById(sessionId);
+    const sessionUser = await this.sessionRepository
+      .getSessionById(sessionId)
+      .andThen((maybeSession) =>
+        maybeSession ?
+          ok(maybeSession)
+        : err(
+            new ResponseStatusError(
+              HttpStatus.NOT_FOUND,
+              `Session not found: ${sessionId}`,
+            ),
+          ),
+      )
+      .andThen((sessionData) =>
+        this.userRepository
+          .getUserByPuuid(sessionData.userId)
+          .andThen((maybeUser) =>
+            maybeUser ?
+              ok(maybeUser)
+            : err(
+                new ResponseStatusError(
+                  HttpStatus.NOT_FOUND,
+                  `User not found: ${sessionData.userId}`,
+                ),
+              ),
+          )
+          .map((userData) => ({ sessionData, userData })),
+      );
 
-    if (!sessionData) {
+    if (sessionUser.isErr()) {
       return [null, null];
     }
 
-    const userData = await this.userRepository.getUserByPuuid(
-      sessionData.userId,
-    );
-
-    if (!userData) {
-      return [null, null];
-    }
+    const { sessionData, userData } = sessionUser.value;
 
     const session: DatabaseSession = {
       id: sessionData.id,
@@ -55,10 +77,14 @@ export class AuthPostgresAdapter implements Adapter {
   }
 
   async getUserSessions(userId: string): Promise<DatabaseSession[]> {
-    const sessions =
+    const sessionsResult =
       await this.sessionRepository.getSessionsByUserPuuid(userId);
 
-    return sessions.map((session) => ({
+    if (sessionsResult.isErr()) {
+      return [];
+    }
+
+    return sessionsResult.value.map((session) => ({
       id: session.id,
       userId: session.userId,
       expiresAt: new Date(session.expiresAt),

@@ -348,6 +348,9 @@ importers:
       esbuild:
         specifier: 'catalog:'
         version: 0.25.0
+      neverthrow:
+        specifier: 'catalog:'
+        version: 8.2.0
       pino:
         specifier: 'catalog:'
         version: 10.3.1

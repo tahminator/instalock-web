@@ -1,10 +1,21 @@
+import type { ResultAsync } from "neverthrow";
+
+import { err, fromPromise, ok } from "neverthrow";
+
 import type { Db, Session } from "..";
+
+import { DbError } from "..";
 
 export class BaseSessionRepository {
   constructor(private readonly db: Db) {}
 
-  public async getSessionById(id: string): Promise<Session | null> {
-    const session = await this.db<Session[]>`
+  private logError(this: void, e: Error) {
+    console.error(`[Error] ${e}`);
+  }
+
+  public getSessionById(id: string): ResultAsync<Session | null, DbError> {
+    return fromPromise(
+      this.db<Session[]>`
       SELECT
         *
       FROM
@@ -13,48 +24,65 @@ export class BaseSessionRepository {
         id = ${id}
       AND
         tainted = false
-    `;
-
-    return session[0] ?? null;
+    `,
+      (e) => new DbError(`Failed to get session by ID of ${id}: ${String(e)}`),
+    )
+      .map(([s]) => s ?? null)
+      .orTee(this.logError);
   }
 
-  public async getSessionsByUserPuuid(userPuuid: string): Promise<Session[]> {
-    const sessions = await this.db<Session[]>`
-      SELECT
-        *
-      FROM
-        "Session"
-      WHERE
-        "userId" = ${userPuuid}
-      AND
-        tainted = false
-      ORDER BY "expiresAt" DESC
-    `;
-
-    return sessions;
-  }
-
-  public async getActiveSessionById(id: string): Promise<Session | null> {
-    const session = await this.db<Session[]>`
-      SELECT
-        *
-      FROM
-        "Session"
-      WHERE
-        id = ${id}
-      AND
-        "expiresAt" > NOW()
-      AND
-        tainted = false
-    `;
-
-    return session[0] ?? null;
-  }
-
-  public async getActiveSessionsByUserPuuid(
+  public getSessionsByUserPuuid(
     userPuuid: string,
-  ): Promise<Session[]> {
-    const sessions = await this.db<Session[]>`
+  ): ResultAsync<Session[], DbError> {
+    return fromPromise(
+      this.db<Session[]>`
+      SELECT
+        *
+      FROM
+        "Session"
+      WHERE
+        "userId" = ${userPuuid}
+      AND
+        tainted = false
+      ORDER BY "expiresAt" DESC
+    `,
+      (e) =>
+        new DbError(
+          `Failed to get sessions by user puuid of ${userPuuid}: ${String(e)}`,
+        ),
+    ).orTee(this.logError);
+  }
+
+  public getActiveSessionById(
+    id: string,
+  ): ResultAsync<Session | null, DbError> {
+    return fromPromise(
+      this.db<Session[]>`
+      SELECT
+        *
+      FROM
+        "Session"
+      WHERE
+        id = ${id}
+      AND
+        "expiresAt" > NOW()
+      AND
+        tainted = false
+    `,
+      (e) =>
+        new DbError(
+          `Failed to get active session by id of ${id}: ${String(e)}`,
+        ),
+    )
+      .map(([s]) => s ?? null)
+      .orTee(this.logError);
+  }
+
+  public getActiveSessionsByUserPuuid(
+    userPuuid: string,
+  ): ResultAsync<Session[], DbError> {
+    return fromPromise(
+      this.db<Session[]>`
       SELECT
         *
       FROM
@@ -66,107 +94,118 @@ export class BaseSessionRepository {
       AND
         tainted = false
       ORDER BY "expiresAt" DESC
-    `;
-
-    return sessions;
+    `,
+      (e) =>
+        new DbError(
+          `Failed to get active sessions by user puuid of ${userPuuid}: ${String(e)}`,
+        ),
+    ).orTee(this.logError);
   }
 
-  public async updateSession(session: Session): Promise<boolean> {
-    try {
-      await this.db`
-        UPDATE 
+  public updateSession(session: Session): ResultAsync<boolean, DbError> {
+    return fromPromise(
+      this.db`
+        UPDATE
           "Session"
         SET
           "userId" = ${session.userId},
-          "expiresAt" = ${session.expiresAt}
+          "expiresAt" = ${session.expiresAt},
           tainted = ${session.tainted}
         WHERE
           id = ${session.id}
-      `;
-      return true;
-    } catch (e) {
-      console.error("Failed to update session:", e);
-      return false;
-    }
+      `,
+      (e) =>
+        new DbError(
+          `Failed to update session with id of ${session.id}: ${String(e)}`,
+        ),
+    )
+      .map((_) => true)
+      .orTee(this.logError);
   }
 
-  public async taintSession(id: string): Promise<boolean> {
-    try {
-      await this.db`
-        UPDATE 
+  public taintSession(id: string): ResultAsync<boolean, DbError> {
+    return fromPromise(
+      this.db`
+        UPDATE
           "Session"
         SET
           "tainted" = true
         WHERE
           id = ${id}
-      `;
-      return true;
-    } catch (e) {
-      console.error("Failed to delete session:", e);
-      return false;
-    }
+      `,
+      (e) =>
+        new DbError(`Failed to taint session with id of ${id}: ${String(e)}`),
+    )
+      .map((_) => true)
+      .orTee(this.logError);
   }
 
-  public async deleteUserSessions(userPuuid: string): Promise<boolean> {
-    try {
-      await this.db`
+  public deleteUserSessions(userPuuid: string): ResultAsync<boolean, DbError> {
+    return fromPromise(
+      this.db`
         DELETE FROM
           "Session"
         WHERE
           "userId" = ${userPuuid}
-      `;
-      return true;
-    } catch (e) {
-      console.error("Failed to delete user sessions:", e);
-      return false;
-    }
+      `,
+      (e) =>
+        new DbError(
+          `Failed to delete user sessions for ${userPuuid}: ${String(e)}`,
+        ),
+    )
+      .map((_) => true)
+      .orTee(this.logError);
   }
 
-  public async createSession(
+  public createSession(
     id: string,
     userId: string,
     expiresAt: Date,
-  ): Promise<Session | null> {
-    try {
-      const result = await this.db<Session[]>`
+  ): ResultAsync<Session, DbError> {
+    return fromPromise(
+      this.db<Session[]>`
         INSERT INTO "Session" (id, "userId", "expiresAt")
         VALUES (${id}, ${userId}, ${expiresAt})
         RETURNING *
-      `;
-      return result[0] ?? null;
-    } catch (e) {
-      console.error("Failed to create session:", e);
-      return null;
-    }
+      `,
+      (e) => new DbError(`Failed to create session: ${String(e)}`),
+    )
+      .andThen(([session]) =>
+        session ?
+          ok(session)
+        : err(new DbError("Failed to create session, received null back")),
+      )
+      .orTee(this.logError);
   }
 
-  public async updateSessionExpiration(
+  public updateSessionExpiration(
     id: string,
     expiresAt: Date,
-  ): Promise<boolean> {
-    try {
-      await this.db`
+  ): ResultAsync<boolean, DbError> {
+    return fromPromise(
+      this.db`
         UPDATE "Session"
         SET "expiresAt" = ${expiresAt}
         WHERE id = ${id}
-      `;
-      return true;
-    } catch (e) {
-      console.error("Failed to update session expiration:", e);
-      return false;
-    }
+      `,
+      (e) =>
+        new DbError(
+          `Failed to update session expiration for ${id}: ${String(e)}`,
+        ),
+    )
+      .map((_) => true)
+      .orTee(this.logError);
   }
 
-  public async deleteExpiredSessions(): Promise<boolean> {
-    try {
-      await this.db`
+  public deleteExpiredSessions(): ResultAsync<boolean, DbError> {
+    return fromPromise(
+      this.db`
         DELETE FROM "Session"
         WHERE "expiresAt" < NOW()
-      `;
-      return true;
-    } catch (e) {
-      console.error("Failed to delete expired sessions:", e);
-      return false;
-    }
+      `,
+      (e) => new DbError(`Failed to delete expired sessions: ${String(e)}`),
+    )
+      .map((_) => true)
+      .orTee(this.logError);
   }
 }

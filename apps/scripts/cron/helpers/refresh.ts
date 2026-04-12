@@ -4,6 +4,7 @@ import type { RefreshResult } from "cron/helpers/types";
 
 import { TimedAll } from "@instalock/meter";
 import { mapUrlToUuidObject, RiotClient, TeamID } from "@instalock/riot";
+import { unwrap } from "cron/helpers/result";
 import { randomUUID } from "crypto";
 import {
   playerMatchRepository,
@@ -15,7 +16,7 @@ import {
 @TimedAll()
 export class MatchRefresher {
   static async refreshMatchesForEachUser(): Promise<RefreshResult> {
-    const users = await userRepository.getUsers();
+    const users = unwrap(await userRepository.getUsers());
 
     const result: RefreshResult = {
       users: users.length,
@@ -38,7 +39,7 @@ export class MatchRefresher {
   private static registerUserCreateListener() {
     userListener.listenForUpdateNewUserMatchesChannel(async (puuid) => {
       console.log(`Refreshing matches for new user with puuid of ${puuid}`);
-      const user = await userRepository.getUserByPuuid(puuid);
+      const user = unwrap(await userRepository.getUserByPuuid(puuid));
       if (!user) {
         throw new Error(
           `the user with puuid of ${puuid} cannot be found. this is likely a bug from the notifier.`,
@@ -115,7 +116,9 @@ export class MatchRefresher {
 
       const matchId = matchInfo?.matchId ?? randomUUID();
 
-      const existingMatch = await riotMatchRepository.getMatchById(matchId);
+      const existingMatch = unwrap(
+        await riotMatchRepository.getMatchById(matchId),
+      );
 
       const matchData = {
         id: matchId,
@@ -158,7 +161,9 @@ export class MatchRefresher {
         for (const player of players) {
           const playerPuuid = player.subject ?? randomUUID();
 
-          const existingUser = await userRepository.getUserByPuuid(playerPuuid);
+          const existingUser = unwrap(
+            await userRepository.getUserByPuuid(playerPuuid),
+          );
           if (!existingUser) {
             await userRepository.createUser({
               puuid: playerPuuid,
@@ -168,11 +173,12 @@ export class MatchRefresher {
             });
           }
 
-          const existingPlayerMatch =
+          const existingPlayerMatch = unwrap(
             await playerMatchRepository.getPlayerMatchByPlayerAndMatch(
               playerPuuid,
               matchId,
-            );
+            ),
+          );
 
           const playerMatchData = {
             id: existingPlayerMatch?.id ?? randomUUID(),
