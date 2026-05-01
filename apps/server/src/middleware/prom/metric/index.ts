@@ -3,15 +3,17 @@ import * as promClient from "prom-client";
 
 import { PrometheusMetricTypeProvider } from "@/middleware/prom/metric/provider";
 import { MetricsService } from "@/service/metrics";
+import { VersionService } from "@/service/version";
 
 @MiddlewareClass({
-  deps: [MetricsService, PrometheusMetricTypeProvider],
+  deps: [MetricsService, VersionService, PrometheusMetricTypeProvider],
 })
 export class MetricsRegistrarMiddleware {
   private readonly gauges: typeof this.gaugeProvider.gauges;
 
   constructor(
     private readonly metricsService: MetricsService,
+    private readonly versionService: VersionService,
     readonly gaugeProvider: PrometheusMetricTypeProvider,
   ) {
     this.gauges = this.gaugeProvider.gauges;
@@ -23,7 +25,7 @@ export class MetricsRegistrarMiddleware {
   private async populateOnce() {
     this.gauges.appInfoGauge.set(
       {
-        version: process.env.VERSION ?? "N/A",
+        version: this.versionService.getVersion(),
       },
       1,
     );
