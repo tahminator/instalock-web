@@ -1,7 +1,7 @@
 {
   "name": "@instalock/server",
   "author": "Tahmid Ahmed",
-  "version": "0.0.0",
+  "version": "1.0.40",
   "description": "Server Entrypoint for Instalock",
   "main": "index.ts",
   "scripts": {

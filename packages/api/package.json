@@ -1,7 +1,7 @@
 {
   "name": "@instalock/api",
   "author": "Tahmid Ahmed",
-  "version": "0.0.0",
+  "version": "1.0.40",
   "description": "Full API contract/interface of the Instalock server.",
   "main": "index.ts",
   "scripts": {

@@ -1,7 +1,7 @@
 {
   "name": "@instalock/meter",
   "author": "Tahmid Ahmed",
-  "version": "0.0.0",
+  "version": "1.0.40",
   "description": "Shared meter library",
   "main": "src/index.ts",
   "scripts": {
