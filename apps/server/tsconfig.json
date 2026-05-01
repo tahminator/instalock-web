@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "types": ["node"],
     "baseUrl": "./",
     //   "types": ["vitest/globals"],
     "noEmit": true,
@@ -20,6 +21,7 @@
     "vitest.config.mts",
     ".prettierrc.ts",
     "eslint.config.ts",
+    "build.ts",
     "../../.prettierrc.base.ts",
     "../../eslint.config.base.ts"
   ],

@@ -4,6 +4,8 @@ packages:
 
 catalogMode: strict
 catalog:
+  nodemon: "3.1.14"
+  esbuild-plugin-import-pattern: "0.1.0"
   neverthrow: "8.2.0"
   "concurrently": "9.2.1"
   superjson: "2.2.6"
