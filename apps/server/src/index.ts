@@ -7,9 +7,7 @@ import { Sapling } from "@tahminator/sapling";
 import express from "express";
 import SJ from "superjson";
 
-import { RiotAuthController } from "@/controller/riot/auth/controller";
-import { RiotQueryController } from "@/controller/riot/query/controller";
-import { RiotUnauthenticatedController } from "@/controller/riot/unauthenticated/controller";
+import { getControllers } from "@/bootstrap";
 import { AuthMiddleware } from "@/middleware/auth";
 import { CookieParserMiddleware } from "@/middleware/cookie";
 import { CorsMiddleware } from "@/middleware/cors";
@@ -44,11 +42,8 @@ const middlewares: Class<unknown>[] = [
 ];
 middlewares.map(Sapling.resolve).forEach((r) => app.use(r));
 
-const controllers: Class<unknown>[] = [
-  RiotAuthController,
-  RiotUnauthenticatedController,
-  RiotQueryController,
-];
+const controllers = getControllers();
+console.log(`${controllers.length} controllers resolved`);
 controllers.map(Sapling.resolve).forEach((r) => app.use(r));
 
 Sapling.loadResponseStatusErrorMiddleware(

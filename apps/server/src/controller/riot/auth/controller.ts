@@ -22,7 +22,7 @@ import { AuthService } from "@/service/auth";
   deps: [UserRepository, SessionRepository, AuthService, UserNotifier],
 })
 @TimedAll()
-export class RiotAuthController implements IRiotAuthController {
+export default class RiotAuthController implements IRiotAuthController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly sessionRepository: SessionRepository,

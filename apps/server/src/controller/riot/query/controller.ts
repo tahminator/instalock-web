@@ -32,7 +32,7 @@ import { CachingLookupService } from "@/service/lookup";
   ],
 })
 @TimedAll()
-export class RiotQueryController implements IRiotQueryController {
+export default class RiotQueryController implements IRiotQueryController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,
