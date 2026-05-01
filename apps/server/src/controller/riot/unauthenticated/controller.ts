@@ -33,7 +33,7 @@ import { MetricsService } from "@/service/metrics";
   ],
 })
 @TimedAll()
-export class RiotUnauthenticatedController implements IRiotUnauthenticatedController {
+export default class RiotUnauthenticatedController implements IRiotUnauthenticatedController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,
