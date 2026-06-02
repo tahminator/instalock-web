@@ -1,13 +1,29 @@
-import { Injectable } from "@tahminator/sapling";
+import { HealthRegistrar, Injectable } from "@tahminator/sapling";
 
 import { Redis } from "@/lib/redis/types";
 
-@Injectable()
+@Injectable([HealthRegistrar])
 export class RateLimitRedisClient {
   private instance: Redis | null = null;
 
-  constructor() {
+  constructor(healthRegistrar: HealthRegistrar) {
     this.launchInstance();
+    healthRegistrar.add(async () => {
+      try {
+        const client = this.get;
+        const res = await client.ping();
+
+        if (res !== "PONG") {
+          console.error(`redis returned ${res as string} during health check`);
+          return false;
+        }
+
+        return true;
+      } catch (e) {
+        console.error("redis health check failed\n", e);
+        return false;
+      }
+    });
   }
 
   private launchInstance(): void {
