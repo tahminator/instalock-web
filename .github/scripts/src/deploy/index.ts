@@ -52,7 +52,7 @@ async function main() {
         manifestRepo: ["tahminator", "k8s-personal"],
         originRepo: ["tahminator", "instalock-web"],
         kustomizationFilePath:
-          "apps/production/instalock-web/kustomization.yaml",
+          "base/production/instalock-web/kustomization.yaml",
         imageName: "tahminator/instalock-web",
         newTag: newTagVersion,
         environment: "production",
@@ -64,7 +64,7 @@ async function main() {
         manifestRepo: ["tahminator", "k8s-personal"],
         originRepo: ["tahminator", "instalock-web"],
         kustomizationFilePath:
-          "apps/production/instalock-cron/kustomization.yaml",
+          "base/production/instalock-cron/kustomization.yaml",
         imageName: "tahminator/instalock-cron",
         newTag: newTagVersion,
         environment: "production",
@@ -85,7 +85,7 @@ async function main() {
       await ghClient.updateK8sTagWithPR({
         manifestRepo: ["tahminator", "k8s-personal"],
         originRepo: ["tahminator", "instalock-web"],
-        kustomizationFilePath: "apps/staging/instalock-web/kustomization.yaml",
+        kustomizationFilePath: "base/staging/instalock-web/kustomization.yaml",
         imageName: "tahminator/instalock-web",
         newTag: newTagVersion,
         environment: "staging",
@@ -96,7 +96,7 @@ async function main() {
       await ghClient.updateK8sTagWithPR({
         manifestRepo: ["tahminator", "k8s-personal"],
         originRepo: ["tahminator", "instalock-web"],
-        kustomizationFilePath: "apps/staging/instalock-cron/kustomization.yaml",
+        kustomizationFilePath: "base/staging/instalock-cron/kustomization.yaml",
         imageName: "tahminator/instalock-cron",
         newTag: newTagVersion,
         environment: "staging",
