@@ -12,12 +12,14 @@ import { AuthMiddleware } from "@/middleware/auth";
 import { CookieParserMiddleware } from "@/middleware/cookie";
 import { CorsMiddleware } from "@/middleware/cors";
 import { CsrfMiddleware } from "@/middleware/csrf";
+import { BaseErrorMiddleware } from "@/middleware/error/base";
+import { ParserErrorMiddleware } from "@/middleware/error/parser";
+import { ResponseStatusErrorMiddleware } from "@/middleware/error/responsestatus";
 import { RateLimiterMiddleware } from "@/middleware/limit";
 import { PrometheusMiddleware } from "@/middleware/prom";
 import { PrometheusAuthMiddleware } from "@/middleware/prom/auth";
 import { MetricsRegistrarMiddleware } from "@/middleware/prom/metric";
 import { SpaMiddleware } from "@/middleware/spa";
-import { ErrorMiddleware } from "@/middleware/static/error";
 
 const port = 3050;
 
@@ -46,11 +48,12 @@ const controllers = getControllers();
 console.log(`${controllers.length} controllers resolved`);
 controllers.map(Sapling.resolve).forEach((r) => app.use(r));
 
-Sapling.loadResponseStatusErrorMiddleware(
-  app,
-  ErrorMiddleware.responseStatusErrorMiddleware,
-);
-app.use(ErrorMiddleware.anyErrorMiddleware);
+const errorMiddlewares: Class<unknown>[] = [
+  ParserErrorMiddleware,
+  ResponseStatusErrorMiddleware,
+  BaseErrorMiddleware,
+];
+errorMiddlewares.map(Sapling.resolve).forEach((r) => app.use(r));
 
 app.listen(port, "0.0.0.0", () => {
   console.log("Server is ready.");
