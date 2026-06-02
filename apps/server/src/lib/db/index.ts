@@ -1,14 +1,24 @@
 import type { Db } from "@instalock/db";
 
-import { Injectable } from "@tahminator/sapling";
+import { HealthRegistrar, Injectable } from "@tahminator/sapling";
 import postgres from "postgres";
 
-@Injectable()
+@Injectable([HealthRegistrar])
 export class DbClient {
   private instance: Db | null = null;
 
-  constructor() {
+  constructor(healthRegistrar: HealthRegistrar) {
     this.launchInstance();
+    healthRegistrar.add(async () => {
+      try {
+        const db = this.get;
+        await db`SELECT 1`;
+        return true;
+      } catch (e) {
+        console.error("db health check failed\n", e);
+        return false;
+      }
+    });
   }
 
   private launchInstance(): void {

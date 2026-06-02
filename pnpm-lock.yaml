@@ -28,8 +28,8 @@ catalogs:
       specifier: ^3.24.0
       version: 3.31.0
     '@tahminator/sapling':
-      specifier: ^2.1.0
-      version: 2.1.0
+      specifier: ^2.1.1
+      version: 2.1.1
     '@tailwindcss/postcss':
       specifier: ^4.1.18
       version: 4.1.18
@@ -405,7 +405,7 @@ importers:
         version: link:../../packages/riot
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 2.1.0(express@5.2.1)
+        version: 2.1.1(express@5.2.1)
       arctic:
         specifier: 'catalog:'
         version: 2.3.4
@@ -520,7 +520,7 @@ importers:
         version: link:../riot
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 2.1.0(express@5.2.1)
+        version: 2.1.1(express@5.2.1)
       zod:
         specifier: 'catalog:'
         version: 4.2.1
@@ -639,7 +639,7 @@ importers:
         version: link:../api
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 2.1.0(express@5.2.1)
+        version: 2.1.1(express@5.2.1)
       zod:
         specifier: 'catalog:'
         version: 4.2.1
@@ -722,7 +722,7 @@ importers:
         version: link:../api
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 2.1.0(express@5.2.1)
+        version: 2.1.1(express@5.2.1)
       prom-client:
         specifier: 'catalog:'
         version: 15.1.3
@@ -1745,8 +1745,8 @@ packages:
   '@tabler/icons@3.31.0':
     resolution: {integrity: sha512-dblAdeKY3+GA1U+Q9eziZ0ooVlZMHsE8dqP0RkwvRtEsAULoKOYaCUOcJ4oW1DjWegdxk++UAt2SlQVnmeHv+g==}
 
-  '@tahminator/sapling@2.1.0':
-    resolution: {integrity: sha512-BZ2lXiBqvbJpwuCxx8PnCETd0wLh8+FDKP25nZbTeM6FreWumWiZWjAYokW976NoSuS/jg3ogsf9xJNIkjzd7Q==}
+  '@tahminator/sapling@2.1.1':
+    resolution: {integrity: sha512-uFHs4rzZWnrt7WIdeCqrkXd1dSpBidxjesdNfA1VdrE6wv9XHjR4iX5tYqZZR3YAWxgIOhmFfo3o8682iMybdw==}
     peerDependencies:
       express: ^5
 
@@ -4623,7 +4623,7 @@ snapshots:
 
   '@tabler/icons@3.31.0': {}
 
-  '@tahminator/sapling@2.1.0(express@5.2.1)':
+  '@tahminator/sapling@2.1.1(express@5.2.1)':
     dependencies:
       express: 5.2.1
       swagger-ui-express: 5.0.1(express@5.2.1)

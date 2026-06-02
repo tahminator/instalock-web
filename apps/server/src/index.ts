@@ -3,7 +3,7 @@ import "@instalock/log";
 
 import type { Class } from "@tahminator/sapling";
 
-import { Sapling } from "@tahminator/sapling";
+import { DefaultHealthMiddleware, Sapling } from "@tahminator/sapling";
 import express from "express";
 import SJ from "superjson";
 
@@ -23,18 +23,17 @@ import { SpaMiddleware } from "@/middleware/spa";
 
 const port = 3050;
 
-export const app = express();
-
-app.set("trust proxy", 1 /* number of proxies between user and server */);
-
 Sapling.setSerializeFn(SJ.stringify);
 Sapling.setDeserializeFn(SJ.parse);
-Sapling.registerApp(app);
+export const app = Sapling.registerApp(express());
+
+app.set("trust proxy", 1 /* number of proxies between user and server */);
 
 const middlewares: Class<unknown>[] = [
   CookieParserMiddleware,
   CorsMiddleware,
   CsrfMiddleware,
+  DefaultHealthMiddleware,
   PrometheusAuthMiddleware,
   PrometheusMiddleware,
   MetricsRegistrarMiddleware,
