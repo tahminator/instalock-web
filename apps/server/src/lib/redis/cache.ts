@@ -8,22 +8,24 @@ export class CachingRedisClient {
 
   constructor(healthRegistrar: HealthRegistrar) {
     this.launchInstance();
-    healthRegistrar.add(async () => {
-      try {
-        const client = this.get;
-        const res = await client.ping();
+    healthRegistrar.add(this.getHealthCheck.bind(this));
+  }
 
-        if (res !== "PONG") {
-          console.error(`redis returned ${res as string} during health check`);
-          return false;
-        }
+  private async getHealthCheck() {
+    try {
+      const client = this.get;
+      const res = await client.ping();
 
-        return true;
-      } catch (e) {
-        console.error("redis health check failed\n", e);
+      if (res !== "PONG") {
+        console.error(`redis returned ${res as string} during health check`);
         return false;
       }
-    });
+
+      return true;
+    } catch (e) {
+      console.error("redis health check failed\n", e);
+      return false;
+    }
   }
 
   private launchInstance(): void {

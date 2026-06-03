@@ -9,16 +9,18 @@ export class DbClient {
 
   constructor(healthRegistrar: HealthRegistrar) {
     this.launchInstance();
-    healthRegistrar.add(async () => {
-      try {
-        const db = this.get;
-        await db`SELECT 1`;
-        return true;
-      } catch (e) {
-        console.error("db health check failed\n", e);
-        return false;
-      }
-    });
+    healthRegistrar.add(this.getHealthCheck.bind(this));
+  }
+
+  private async getHealthCheck() {
+    try {
+      const db = this.get;
+      await db`SELECT 1`;
+      return true;
+    } catch (e) {
+      console.error("db health check failed\n", e);
+      return false;
+    }
   }
 
   private launchInstance(): void {
