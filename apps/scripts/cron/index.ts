@@ -66,17 +66,7 @@ const tasks = async () => {
   await traverse();
 };
 
-const username = process.env.PROMETHEUS_USERNAME;
-const password = process.env.PROMETHEUS_PASSWORD;
-
-if (!username || !password) {
-  throw new Error("PROMETHEUS_USERNAME and/or PROMETHEUS_PASSWORD is not set");
-}
-
-SSM.createStandaloneMetricServer({
-  username,
-  password,
-}).listen(METRIC_PORT, () => {
+SSM.createStandaloneMetricServer({}).listen(METRIC_PORT, () => {
   console.log("Metric server is ready.");
   void tasks();
 });

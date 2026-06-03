@@ -18,10 +18,15 @@ export class SSM {
   static createStandaloneMetricServer({
     username,
     password,
-  }: {
-    username: string;
-    password: string;
-  }) {
+  }:
+    | {
+        username: string;
+        password: string;
+      }
+    | {
+        username?: undefined;
+        password?: undefined;
+      }) {
     collectDefaultMetrics();
 
     return createServer((req, res) => {
@@ -39,38 +44,36 @@ export class SSM {
 
       void (async () => {
         try {
-          const authHeader = req.headers.authorization;
-          res.setHeader("WWW-Authenticate", 'Basic realm="Prometheus"');
+          if (username && password) {
+            const authHeader = req.headers.authorization;
+            res.setHeader("WWW-Authenticate", 'Basic realm="Prometheus"');
 
-          if (!authHeader || !authHeader.startsWith("Basic ")) {
-            res.writeHead(401);
-            res.end("authentication required");
-            return;
-          }
+            if (!authHeader || !authHeader.startsWith("Basic ")) {
+              res.writeHead(401);
+              res.end("authentication required");
+              return;
+            }
 
-          const base64Credentials = authHeader.split(" ")[1];
-          if (!base64Credentials) {
-            res.writeHead(401);
-            res.end("invalid credentials");
-            return;
-          }
+            const base64Credentials = authHeader.split(" ")[1];
+            if (!base64Credentials) {
+              res.writeHead(401);
+              res.end("invalid credentials");
+              return;
+            }
 
-          const credentials = Buffer.from(base64Credentials, "base64").toString(
-            "ascii",
-          );
-          const parts = credentials.split(":");
+            const credentials = Buffer.from(
+              base64Credentials,
+              "base64",
+            ).toString("ascii");
 
-          if (parts.length !== 2 || !parts[0] || !parts[1]) {
-            res.writeHead(401);
-            res.end("invalid credentials");
-            return;
-          }
-
-          const [u, p] = parts;
-          if (u !== username || p !== password) {
-            res.writeHead(401);
-            res.end("invalid credentials");
-            return;
+            const colonIndex = credentials.indexOf(":");
+            const u = credentials.substring(0, colonIndex);
+            const p = credentials.substring(colonIndex + 1);
+            if (u !== username || p !== password) {
+              res.writeHead(401);
+              res.end("invalid credentials");
+              return;
+            }
           }
 
           res.setHeader("Content-Type", register.contentType);
