@@ -17,7 +17,6 @@ import { ParserErrorMiddleware } from "@/middleware/error/parser";
 import { ResponseStatusErrorMiddleware } from "@/middleware/error/responsestatus";
 import { RateLimiterMiddleware } from "@/middleware/limit";
 import { PrometheusMiddleware } from "@/middleware/prom";
-import { PrometheusAuthMiddleware } from "@/middleware/prom/auth";
 import { MetricsRegistrarMiddleware } from "@/middleware/prom/metric";
 import { SpaMiddleware } from "@/middleware/spa";
 
@@ -34,7 +33,6 @@ const middlewares: Class<unknown>[] = [
   CorsMiddleware,
   CsrfMiddleware,
   DefaultHealthMiddleware,
-  PrometheusAuthMiddleware,
   PrometheusMiddleware,
   MetricsRegistrarMiddleware,
   RateLimiterMiddleware,
