@@ -95,6 +95,7 @@ export default class RiotQueryController implements IRiotQueryController {
       puuid,
       startIndex: 0,
       endIndex: 1,
+      reqPuuid: puuid,
     });
 
     if (!riotMatchInfoRes.ok) {
@@ -361,6 +362,7 @@ export default class RiotQueryController implements IRiotQueryController {
       puuid,
       riotAuth,
       riotEntitlement,
+      authenticatedUser.puuid,
     );
 
     return ResponseEntity.ok().body({

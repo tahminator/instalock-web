@@ -43,7 +43,17 @@ export class RiotClientImpl {
       },
     });
 
-    const json: () => Promise<RiotUserInfoType> = response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<RiotUserInfoType> = async () => {
+      const res = (await ogJson()) as RiotUserInfoType;
+
+      console.log({
+        method: "getUserInfo",
+        data: res,
+        reqPuuid: res.error === undefined ? res.sub : undefined,
+      });
+      return res;
+    };
 
     return Object.assign(response, { json }) as _Response<RiotUserInfoType>;
   }
@@ -55,7 +65,7 @@ export class RiotClientImpl {
    *
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/entitlement)
    */
-  static async getEntitlement(authToken: string) {
+  static async getEntitlement(authToken: string, reqPuuid?: string) {
     const response = await fetch(
       "https://entitlements.auth.riotgames.com/api/token/v1",
       {
@@ -66,8 +76,18 @@ export class RiotClientImpl {
         },
       },
     );
-    const json: () => Promise<EntitlementApiType> =
-      response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<EntitlementApiType> = async () => {
+      const res = (await ogJson()) as EntitlementApiType;
+
+      console.log({
+        method: "getEntitlement",
+        data: res,
+        reqPuuid,
+      });
+      return res;
+    };
+
     return Object.assign(response, {
       json,
     }) as _Response<EntitlementApiType>;
@@ -85,6 +105,7 @@ export class RiotClientImpl {
     entitlementToken,
     startIndex = 0,
     endIndex = 1,
+    reqPuuid,
   }: CompetitiveUpdatesRequest) {
     const response = await fetch(
       `https://pd.na.a.pvp.net/mmr/v1/players/${puuid}/competitiveupdates?startIndex=${startIndex}&endIndex=${endIndex}&queue=competitive`,
@@ -99,7 +120,17 @@ export class RiotClientImpl {
         },
       },
     );
-    const json: () => Promise<RiotMatchInfoType> = response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<RiotMatchInfoType> = async () => {
+      const res = (await ogJson()) as RiotMatchInfoType;
+
+      console.log({
+        method: "getCompetitiveUpdates",
+        data: res,
+        reqPuuid,
+      });
+      return res;
+    };
     return Object.assign(response, {
       json,
     }) as _Response<RiotMatchInfoType>;
@@ -115,6 +146,7 @@ export class RiotClientImpl {
     authToken,
     entitlementToken,
     playerPuuids,
+    reqPuuid,
   }: PlayerByPuuidRequest) {
     const response = await fetch(
       "https://pd.na.a.pvp.net/name-service/v2/players",
@@ -132,7 +164,17 @@ export class RiotClientImpl {
       },
     );
     // TODO - Extract this type.
-    const json: () => Promise<PlayerData[]> = response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<PlayerData[]> = async () => {
+      const res = (await ogJson()) as PlayerData[];
+
+      console.log({
+        method: "getPlayerByPuuid",
+        data: res,
+        reqPuuid,
+      });
+      return res;
+    };
     return Object.assign(response, { json }) as _Response<PlayerData[]>;
   }
 
@@ -159,8 +201,17 @@ export class RiotClientImpl {
         },
       },
     );
-    const json: () => Promise<RiotPreGameApiType> =
-      response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<RiotPreGameApiType> = async () => {
+      const res = (await ogJson()) as RiotPreGameApiType;
+
+      // console.log({
+      //   method: "getPreGameMatchId",
+      //   data: res,
+      //   reqPuuid,
+      // });
+      return res;
+    };
     return Object.assign(response, {
       json,
     }) as _Response<RiotPreGameApiType>;
@@ -190,8 +241,17 @@ export class RiotClientImpl {
       },
     );
 
-    const json: () => Promise<RiotPreGameDataType> =
-      response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<RiotPreGameDataType> = async () => {
+      const res = (await ogJson()) as RiotPreGameDataType;
+
+      // console.log({
+      //   method: "getPreGameMatchDetails",
+      //   data: res,
+      //   reqPuuid,
+      // });
+      return res;
+    };
 
     return Object.assign(response, { json }) as _Response<RiotPreGameDataType>;
   }
@@ -220,8 +280,17 @@ export class RiotClientImpl {
       },
     );
 
-    const json: () => Promise<RiotCurrentGameApiType> =
-      response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<RiotCurrentGameApiType> = async () => {
+      const res = (await ogJson()) as RiotCurrentGameApiType;
+
+      // console.log({
+      //   method: "getCurrentGameMatchId",
+      //   data: res,
+      //   reqPuuid,
+      // });
+      return res;
+    };
 
     return Object.assign(response, {
       json,
@@ -252,8 +321,17 @@ export class RiotClientImpl {
       },
     );
 
-    const json: () => Promise<RiotCurrentGameDataType> =
-      response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<RiotCurrentGameDataType> = async () => {
+      const res = (await ogJson()) as RiotCurrentGameDataType;
+
+      // console.log({
+      //   method: "getCurrentGameMatchDetails",
+      //   data: res,
+      //   reqPuuid,
+      // });
+      return res;
+    };
 
     return Object.assign(response, {
       json,
@@ -301,6 +379,7 @@ export class RiotClientImpl {
     authToken,
     entitlementToken,
     matchId,
+    reqPuuid,
   }: MatchDetailsRequest) {
     const response = await fetch(
       `https://pd.na.a.pvp.net/match-details/v1/matches/${matchId}`,
@@ -316,7 +395,17 @@ export class RiotClientImpl {
       },
     );
 
-    const json: () => Promise<AutoGenMatchMeta> = response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<AutoGenMatchMeta> = async () => {
+      const res = (await ogJson()) as AutoGenMatchMeta;
+
+      console.log({
+        method: "getMatchDetails",
+        data: res,
+        reqPuuid,
+      });
+      return res;
+    };
 
     return Object.assign(response, { json }) as _Response<AutoGenMatchMeta>;
   }
@@ -333,6 +422,7 @@ export class RiotClientImpl {
     authToken,
     entitlementToken,
     puuid,
+    reqPuuid,
   }: PuuidAuthRequest) {
     const response = await fetch(
       `https://glz-na-1.na.a.pvp.net/parties/v1/players/${puuid}`,
@@ -348,8 +438,17 @@ export class RiotClientImpl {
       },
     );
 
-    const json: () => Promise<PartyDetailsApiType> =
-      response.json.bind(response);
+    const ogJson = response.json.bind(response);
+    const json: () => Promise<PartyDetailsApiType> = async () => {
+      const res = (await ogJson()) as PartyDetailsApiType;
+
+      console.log({
+        method: "getPartyDetailsByPuuid",
+        data: res,
+        reqPuuid,
+      });
+      return res;
+    };
 
     return Object.assign(response, { json }) as _Response<PartyDetailsApiType>;
   }

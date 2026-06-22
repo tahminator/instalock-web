@@ -27,6 +27,7 @@ export type Impl = "real" | "mock" | "mock_match_found";
 export interface BaseAuth {
   authToken: string;
   entitlementToken: string;
+  reqPuuid?: string;
 }
 
 export interface PuuidAuthRequest extends BaseAuth {
@@ -74,7 +75,10 @@ export interface IRiotClient {
    *
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/entitlement)
    */
-  getEntitlement(authToken: string): Promise<_Response<EntitlementApiType>>;
+  getEntitlement(
+    authToken: string,
+    reqPuuid?: string,
+  ): Promise<_Response<EntitlementApiType>>;
 
   /**
    * Get an array of matches (requires player UUID, authentication token, and entitlement token).
