@@ -89,6 +89,7 @@ export class MatchRefresher {
         authToken: riotAuth,
         entitlementToken: riotEntitlement,
         matchId: matchIds[j],
+        reqPuuid: riotPuuid,
       });
 
       // Use the file to generate types, if needed.

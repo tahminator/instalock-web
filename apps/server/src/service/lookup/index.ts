@@ -23,6 +23,7 @@ export class CachingLookupService {
     puuid: string,
     authToken: string,
     entitlementToken: string,
+    reqPuuid: string,
   ): Promise<RiotPlayerData> {
     const buffer = await this.redis.get(puuid);
 
@@ -38,6 +39,7 @@ export class CachingLookupService {
       puuid,
       authToken,
       entitlementToken,
+      reqPuuid,
     );
     await this.redis.set(
       puuid,
@@ -71,11 +73,13 @@ export class CachingLookupService {
     puuid: string,
     authToken: string,
     entitlementToken: string,
+    reqPuuid: string,
   ): Promise<RiotPlayerData> {
     const riotUserInfoRes = await RiotClient.getPlayerByPuuid({
       authToken,
       entitlementToken,
       playerPuuids: [puuid],
+      reqPuuid,
     });
 
     let riotTag: string | null = null;
