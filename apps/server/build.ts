@@ -11,6 +11,7 @@ async function main() {
     outfile: "src/index.js",
     logLevel: "info",
     format: "cjs",
+    tsconfig: "./tsconfig.default.json",
     plugins: [importPatternPlugin()],
   });
 

@@ -20,7 +20,9 @@
     "lint:fix": "pnpm -r --parallel run lint:fix",
     "fmt:fix": "pnpm -r --parallel run fmt:fix",
     "dev": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:dev\" \"pnpm run cron:dev\"",
-    "devd": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:devd\" \"pnpm run cron:dev\""
+    "dev-mock": "RIOT_API=mock pnpm run dev",
+    "devd": "concurrently \"pnpm run frontend:dev\" \"pnpm run server:devd\" \"pnpm run cron:dev\"",
+    "devd-mock": "RIOT_API=mcok pnpm run devd"
   },
   "keywords": [],
   "license": "ISC",

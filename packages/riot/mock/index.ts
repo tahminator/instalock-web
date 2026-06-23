@@ -1,4 +1,11 @@
-import type { RiotPreGameApiType, RiotPreGameDataType } from "..";
+/* eslint-disable @typescript-eslint/require-await */
+import type {
+  EntitlementApiType,
+  PlayerData,
+  RiotPreGameApiType,
+  RiotPreGameDataType,
+  RiotUserInfoType,
+} from "..";
 import type { _Response } from "../types";
 import type {
   CompetitiveUpdatesRequest,
@@ -13,9 +20,13 @@ import type {
 } from "../types";
 
 import { RiotClientImpl } from "../impl";
+import { GET_COMPETITIVE_UPDATES_DATA } from "./json/getCompetitiveUpdates/FOUND";
+import { GET_ENTITLEMENT_FOUND } from "./json/getEntitlement/FOUND";
+import { GET_PLAYER_BY_PUUID_DATA } from "./json/getPlayerByPuuid/FOUND";
 import { GET_PRE_GAME_MATCH_DETAILS_FOUND } from "./json/getPreGameMatchDetails/FOUND";
 import { GET_PRE_GAME_MATCH_ID_FOUND } from "./json/getPreGameMatchId/FOUND";
 import { GET_PRE_GAME_MATCH_ID_NOT_FOUND } from "./json/getPreGameMatchId/NOT_FOUND";
+import { GET_USER_INFO_FOUND } from "./json/getUserInfo/FOUND";
 
 export class MockRiotClient extends RiotClientImpl {
   constructor(private readonly impl: Impl) {
@@ -27,8 +38,12 @@ export class MockRiotClient extends RiotClientImpl {
    *
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/player-info)
    */
-  async getUserInfo(authToken: string) {
-    return RiotClientImpl.getUserInfo(authToken);
+  async getUserInfo(_authToken: string) {
+    const json = GET_USER_INFO_FOUND satisfies RiotUserInfoType;
+
+    return new Response(JSON.stringify(json), {
+      status: 200,
+    }) satisfies _Response<RiotUserInfoType>;
   }
 
   /**
@@ -38,8 +53,12 @@ export class MockRiotClient extends RiotClientImpl {
    *
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/entitlement)
    */
-  async getEntitlement(authToken: string) {
-    return RiotClientImpl.getEntitlement(authToken);
+  async getEntitlement(_authToken: string, _reqPuuid?: string) {
+    const json = (await GET_ENTITLEMENT_FOUND) satisfies EntitlementApiType;
+
+    return new Response(JSON.stringify(json), {
+      status: 200,
+    }) satisfies _Response<EntitlementApiType>;
   }
 
   /**
@@ -49,7 +68,17 @@ export class MockRiotClient extends RiotClientImpl {
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/competitive-updates)
    */
   async getCompetitiveUpdates(props: CompetitiveUpdatesRequest) {
-    return RiotClientImpl.getCompetitiveUpdates(props);
+    const { puuid } = props;
+
+    const json = GET_COMPETITIVE_UPDATES_DATA[puuid];
+
+    if (json === undefined) {
+      throw new Error();
+    }
+
+    return new Response(JSON.stringify(json), {
+      status: 200,
+    }) satisfies _Response<PlayerData[]>;
   }
 
   /**
@@ -59,7 +88,15 @@ export class MockRiotClient extends RiotClientImpl {
    * @see [valapidocs unofficial documentation](https://valapidocs.techchrism.me/endpoint/name-service)
    */
   async getPlayerByPuuid(props: PlayerByPuuidRequest) {
-    return RiotClientImpl.getPlayerByPuuid(props);
+    const { playerPuuids } = props;
+
+    const json = playerPuuids
+      .map((puuid) => GET_PLAYER_BY_PUUID_DATA[puuid])
+      .filter((v) => v !== undefined);
+
+    return new Response(JSON.stringify(json), {
+      status: 200,
+    }) satisfies _Response<PlayerData[]>;
   }
 
   /**

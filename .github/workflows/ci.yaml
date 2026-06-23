@@ -48,6 +48,20 @@ jobs:
         if: steps.test-parallel.outcome == 'failure'
         run: pnpm run test:then:fail
 
+  acceptanceTest:
+    name: Run Acceptance Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup pipeline
+        uses: ./.github/composite/setup
+
+      - name: Run acceptance tests
+        uses: ./.github/composite/test/acceptance
+
   buildCronImage:
     name: Build Cron Docker image and deploy to Docker Hub
     runs-on: ubuntu-latest

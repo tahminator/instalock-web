@@ -1,8 +1,9 @@
 import {
   DockerClient,
   GitHubClient,
-  Utils,
   type Environment,
+  EnvClient,
+  EnvClientStrategy,
 } from "@tahminator/pipeline";
 import { $ } from "bun";
 import yargs from "yargs";
@@ -54,7 +55,9 @@ const {
   .parse();
 
 async function main() {
-  const ciEnv = await Utils.getEnvVariables(["ci"]);
+  const envClient = EnvClient.create(EnvClientStrategy.GIT_CRYPT);
+
+  const ciEnv = await envClient.readFromEnv(".env.ci");
   const { dockerHubPat } = parseCiEnv(ciEnv);
 
   const ghClient = await GitHubClient.createWithDefaultCiToken();
@@ -82,7 +85,6 @@ async function main() {
   const gitSha = (await $`git rev-parse --short HEAD`.text()).trim();
 
   await dockerClient.buildImage({
-    dockerUsername: "tahminator",
     dockerRepository: `instalock-${type}`,
     dockerFileLocation: `infra/${dockerFileName}`,
     tags: [`${tagPrefix}${timestamp}`, `${tagPrefix}${gitSha}`],

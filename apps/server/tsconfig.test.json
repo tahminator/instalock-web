@@ -1,0 +1,28 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "baseUrl": "./",
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    // TODO: remove and fix code
+    "noUncheckedIndexedAccess": false
+  },
+  "include": [
+    "src/**/*",
+    "src/lib/types/*.d.ts",
+    "vite.config.ts",
+    ".prettierrc.ts",
+    "eslint.config.ts",
+    "build.ts",
+    "../../.prettierrc.base.ts",
+    "../../eslint.config.base.ts"
+  ],
+  "exclude": ["node_modules"]
+}

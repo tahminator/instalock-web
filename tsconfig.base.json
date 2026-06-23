@@ -2,7 +2,7 @@
   "compilerOptions": {
     // Environment setup & latest features
     "lib": ["ES6", "DOM", "DOM.Iterable"],
-    "target": "ES6",
+    "target": "es2017",
     "module": "Preserve",
     "moduleDetection": "force",
     "allowJs": false,

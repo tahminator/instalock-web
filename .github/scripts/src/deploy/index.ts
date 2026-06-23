@@ -1,4 +1,10 @@
-import { GitHubClient, Utils, type Environment } from "@tahminator/pipeline";
+import {
+  GitHubClient,
+  Utils,
+  type Environment,
+  EnvClient,
+  EnvClientStrategy,
+} from "@tahminator/pipeline";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
@@ -25,8 +31,9 @@ const { environment, newTagVersion, type } = await yargs(hideBin(process.argv))
   .parse();
 
 async function main() {
+  const envClient = EnvClient.create(EnvClientStrategy.GIT_CRYPT);
   const { githubAppAppId, githubAppInstallationId, githubAppPrivateKeyB64 } =
-    parseCiEnv(await Utils.getEnvVariables(["ci"]));
+    parseCiEnv(await envClient.readFromEnv(".env.ci"));
 
   const ghClient = await GitHubClient.createWithGithubAppToken({
     appId: githubAppAppId,
@@ -35,7 +42,7 @@ async function main() {
   });
 
   const { dbHost, dbPassword, dbPort, dbUsername } = parseMigratorEnv(
-    await Utils.getEnvVariables(["migrator"]),
+    await envClient.readFromEnv(".env.migrator"),
   );
 
   if (environment === "production") {
