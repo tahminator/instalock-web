@@ -16,7 +16,9 @@
     "prettier": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --check .",
     "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write .",
     "migrate:dev": "dotenvx run -f ../../.env -- pnpm run migrate",
-    "migrate": "migrate -source file://migrations -database \"pgx5://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" -verbose"
+    "migrate:ac:dev": "dotenvx run -f ../../.env -- pnpm run migrate:ac",
+    "migrate": "migrate -source file://migrations -database \"pgx5://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" -verbose",
+    "migrate:ac": "pnpm run migrate -- up && migrate -source file://migrations/acceptance -database \"pgx5://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?x-migrations-table=schema_migrations_acceptance\" -verbose"
   },
   "keywords": [],
   "license": "ISC",

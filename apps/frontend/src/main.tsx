@@ -5,10 +5,12 @@ import { Location } from "@instalock/fetcher/types";
 import { App } from "@instalock/ui";
 import SJ from "superjson";
 
+import type { Impl } from "../../../packages/riot/types";
+
 import { changeRiotClientImpl } from "../../../packages/riot";
 
 if (import.meta.env.DEV) {
-  changeRiotClientImpl("mock");
+  changeRiotClientImpl((import.meta.env.RIOT_API ?? "real") as Impl);
 }
 
 const fetcher: Fetcher = {

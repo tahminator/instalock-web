@@ -7,3 +7,5 @@
 # Built at deploy time
 index.js
 index.js.map
+
+*.tsbuildinfo

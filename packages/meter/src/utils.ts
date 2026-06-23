@@ -24,7 +24,7 @@ export function executionWrapper(
   if (!prom) {
     console.debug("No timer, skipping registration");
     return function (this: unknown, ...args: unknown[]) {
-      const result = (fn as unknown as F).apply(this, args) as unknown;
+      const result = fn.apply(this, args) as unknown;
       if (result instanceof Promise) {
         return result
           .then((v) => {
@@ -56,7 +56,7 @@ export function executionWrapper(
     const end = histogram.startTimer({ className, functionName: fnName });
 
     try {
-      const result = (fn as unknown as F).apply(this, args) as unknown;
+      const result = fn.apply(this, args) as unknown;
       if (result instanceof Promise) {
         return result
           .then((v) => {

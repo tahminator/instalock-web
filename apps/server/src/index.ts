@@ -1,8 +1,12 @@
 // this must be first
 import "@instalock/log";
 
+import type { Impl } from "@instalock/riot/types";
 import type { Class } from "@tahminator/sapling";
 
+import { changeRiotClientImpl } from "@instalock/riot";
+
+export { changeRiotClientImpl };
 import { DefaultHealthMiddleware, Sapling } from "@tahminator/sapling";
 import express from "express";
 import SJ from "superjson";
@@ -25,6 +29,10 @@ const port = 3050;
 Sapling.setSerializeFn(SJ.stringify);
 Sapling.setDeserializeFn(SJ.parse);
 export const app = Sapling.registerApp(express());
+
+if (process.env.NODE_ENV === "development") {
+  changeRiotClientImpl((process.env.RIOT_API ?? "real") as Impl);
+}
 
 app.set("trust proxy", 1 /* number of proxies between user and server */);
 
@@ -52,6 +60,8 @@ const errorMiddlewares: Class<unknown>[] = [
 ];
 errorMiddlewares.map(Sapling.resolve).forEach((r) => app.use(r));
 
-app.listen(port, "0.0.0.0", () => {
-  console.log("Server is ready.");
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, "0.0.0.0", () => {
+    console.log("Server is ready.");
+  });
+}

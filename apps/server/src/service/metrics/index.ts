@@ -16,9 +16,9 @@ export class MetricsService {
 
   async getMetrics(): Promise<MetricsDto> {
     const [totalUsers, registeredUsers, totalMatches] = await Promise.all([
-      await this.userRepository.getUsersCount(),
-      await this.userRepository.getRegisteredUsersCount(),
-      await this.riotMatchRepository.getMatchesCount(),
+      this.userRepository.getUsersCount(),
+      this.userRepository.getRegisteredUsersCount(),
+      this.riotMatchRepository.getMatchesCount(),
     ]);
 
     return {

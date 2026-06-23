@@ -1,0 +1,25 @@
+name: "Run Acceptance Tests"
+description: "Run acceptance tests"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+
+    - name: Setup migration tooling
+      uses: ./.github/composite/setup/migrate
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+        cache: "pnpm"
+
+    - name: Install Dependencies
+      shell: bash
+      run: pnpm install -r --frozen-lockfile
+
+    - name: Run script
+      shell: bash
+      run: bun run .github/scripts/src/test/acceptance
