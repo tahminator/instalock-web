@@ -8,11 +8,19 @@ import {
   _Route,
   Controller,
   HttpStatus,
+  RequestBody,
+  ResponseBody,
   ResponseEntity,
   ResponseStatusError,
 } from "@tahminator/sapling";
 
-import { ZodParserError } from "@/error/parser";
+import {
+  AuthenticateResponseBodySchema,
+  AuthModalSchema,
+  GetMeResponseBodySchema,
+  LogoutResponseBodySchema,
+  type AuthModalDto,
+} from "@/controller/api/riot/auth/schema";
 import { unwrap } from "@/lib/result";
 import { SessionRepository } from "@/repository/session";
 import { UserNotifier } from "@/repository/user/notify";
@@ -34,6 +42,7 @@ export default class RiotAuthController implements IRiotAuthController {
   @_Route({
     ...RiotAuthRouteObject.getMe,
   })
+  @ResponseBody(GetMeResponseBodySchema)
   async getMe(
     _request: Request,
     response: Response,
@@ -94,20 +103,13 @@ export default class RiotAuthController implements IRiotAuthController {
   @_Route({
     ...RiotAuthRouteObject.authenticate,
   })
+  @RequestBody(AuthModalSchema)
+  @ResponseBody(AuthenticateResponseBodySchema)
   async authenticate(
     request: Request,
     response: Response,
   ): Promise<Awaited<ReturnType<IRiotAuthController["authenticate"]>>> {
-    const parser =
-      await RiotAuthRouteObject.authenticate.schema.requestBody.safeParseAsync(
-        request.body,
-      );
-
-    if (!parser.success) {
-      throw new ZodParserError(parser.error);
-    }
-
-    const { url } = parser.data;
+    const { url } = request.body as AuthModalDto;
 
     const authToken = (() => {
       try {
@@ -202,6 +204,7 @@ export default class RiotAuthController implements IRiotAuthController {
   @_Route({
     ...RiotAuthRouteObject.logout,
   })
+  @ResponseBody(LogoutResponseBodySchema)
   async logout(
     _request: Request,
     response: Response,

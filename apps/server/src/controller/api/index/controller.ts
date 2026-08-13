@@ -1,11 +1,15 @@
-import { Controller, GET, ResponseEntity } from "@tahminator/sapling";
+import {
+  Controller,
+  GET,
+  ResponseBody,
+  ResponseEntity,
+} from "@tahminator/sapling";
 
+import {
+  ApiResponseSchema,
+  type ApiResponse,
+} from "@/controller/api/index/schema";
 import { VersionService } from "@/service/version";
-
-type ApiResponse = {
-  author: string;
-  version: string;
-};
 
 @Controller({
   prefix: "/api",
@@ -19,6 +23,7 @@ export default class ApiController {
   }
 
   @GET()
+  @ResponseBody(ApiResponseSchema)
   getApiIndex(): ResponseEntity<ApiResponse> {
     return ResponseEntity.ok().body(
       this.createBody(this.versionService.getVersion()),

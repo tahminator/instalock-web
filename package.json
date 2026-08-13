@@ -27,17 +27,22 @@
   "keywords": [],
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "catalog:",
     "@eslint/js": "catalog:",
+    "concurrently": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-perfectionist": "catalog:",
     "eslint-plugin-react": "catalog:",
     "eslint-plugin-react-hooks": "catalog:",
     "eslint-plugin-react-refresh": "catalog:",
     "globals": "catalog:",
+    "prettier": "catalog:",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:",
-    "prettier": "catalog:"
+    "typescript-eslint": "catalog:"
   },
-  "packageManager": "pnpm@10.5.2"
+  "packageManager": "pnpm@10.5.2",
+  "pnpm": {
+    "patchedDependencies": {
+      "openapi-typescript": "patches/openapi-typescript.patch"
+    }
+  }
 }

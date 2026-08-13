@@ -14,11 +14,25 @@ import {
   _Route,
   Controller,
   HttpStatus,
+  RequestParam,
+  RequestQuery,
+  ResponseBody,
   ResponseEntity,
   ResponseStatusError,
 } from "@tahminator/sapling";
 
-import { ZodParserError } from "@/error/parser";
+import {
+  RiotPlayerLookupRequestParamSchema,
+  toIsoDateOrNull,
+  type RiotPlayerLookupRequestParam,
+} from "@/controller/api/riot/query/schema";
+import {
+  GetMetricsResponseBodySchema,
+  GetRiotPlayerDataDetailedByPuuidResponseBodySchema,
+  GetUsersShallowResponseBodySchema,
+  QueryByRiotNameRequestQuerySchema,
+  type QueryByRiotNameRequestQuery,
+} from "@/controller/api/riot/unauthenticated/schema";
 import { unwrap } from "@/lib/result";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
@@ -45,6 +59,7 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
   @_Route({
     ...RiotUnauthenticatedRouteObject.getMetrics,
   })
+  @ResponseBody(GetMetricsResponseBodySchema)
   async getMetrics(
     _request: Request,
     _response: Response,
@@ -67,22 +82,15 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
   @_Route({
     ...RiotUnauthenticatedRouteObject.getUsersShallow,
   })
+  @RequestQuery(QueryByRiotNameRequestQuerySchema)
+  @ResponseBody(GetUsersShallowResponseBodySchema)
   async getUsersShallow(
     request: Request,
     _response: Response,
   ): Promise<
     Awaited<ReturnType<IRiotUnauthenticatedController["getUsersShallow"]>>
   > {
-    const parser =
-      await RiotUnauthenticatedRouteObject.getUsersShallow.schema.queryParams.safeParseAsync(
-        request.query,
-      );
-
-    if (!parser.success) {
-      throw new ZodParserError(parser.error);
-    }
-
-    const { query } = parser.data;
+    const { query } = request.query as QueryByRiotNameRequestQuery;
 
     const users = unwrap(
       await this.userRepository.getUsersWithRiotTagWithQuery(query),
@@ -110,6 +118,8 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
       ":puuid",
     ),
   })
+  @RequestParam(RiotPlayerLookupRequestParamSchema)
+  @ResponseBody(GetRiotPlayerDataDetailedByPuuidResponseBodySchema)
   async getRiotPlayerDataDetailedByPuuid(
     request: Request,
     _response: Response,
@@ -120,16 +130,7 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
       >
     >
   > {
-    const parser =
-      await RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid.schema.pathParams.safeParseAsync(
-        request.params["puuid"],
-      );
-
-    if (!parser.success) {
-      throw new ZodParserError(parser.error);
-    }
-
-    const puuid = parser.data;
+    const { puuid } = request.params as RiotPlayerLookupRequestParam;
 
     const user = unwrap(await this.userRepository.getUserByPuuid(puuid));
     if (!user) {
@@ -145,6 +146,8 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
     const matchesWithoutRawField = matches.map((m) => ({
       ...m,
       raw: undefined,
+      gameStart: toIsoDateOrNull(m.gameStart),
+      gameEnd: toIsoDateOrNull(m.gameEnd),
     }));
 
     const mostRecentPlayerMatch = unwrap(

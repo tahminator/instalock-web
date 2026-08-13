@@ -7,7 +7,12 @@ import type { Class } from "@tahminator/sapling";
 import { changeRiotClientImpl } from "@instalock/riot";
 
 export { changeRiotClientImpl };
-import { DefaultHealthMiddleware, Sapling } from "@tahminator/sapling";
+import {
+  DefaultHealthMiddleware,
+  DefaultOpenApiMiddleware,
+  DefaultSwaggerMiddleware,
+  Sapling,
+} from "@tahminator/sapling";
 import express from "express";
 import SJ from "superjson";
 
@@ -20,6 +25,8 @@ import { BaseErrorMiddleware } from "@/middleware/error/base";
 import { ParserErrorMiddleware } from "@/middleware/error/parser";
 import { ResponseStatusErrorMiddleware } from "@/middleware/error/responsestatus";
 import { RateLimiterMiddleware } from "@/middleware/limit";
+import { LoggerMiddleware } from "@/middleware/log";
+import { OpenAPIVersionMiddleware } from "@/middleware/openapi";
 import { PrometheusMiddleware } from "@/middleware/prom";
 import { MetricsRegistrarMiddleware } from "@/middleware/prom/metric";
 import { SpaMiddleware } from "@/middleware/spa";
@@ -28,6 +35,7 @@ const port = 3050;
 
 Sapling.setSerializeFn(SJ.stringify);
 Sapling.setDeserializeFn(SJ.parse);
+
 export const app = Sapling.registerApp(express());
 
 if (process.env.NODE_ENV === "development") {
@@ -37,9 +45,14 @@ if (process.env.NODE_ENV === "development") {
 app.set("trust proxy", 1 /* number of proxies between user and server */);
 
 const middlewares: Class<unknown>[] = [
+  LoggerMiddleware,
+  OpenAPIVersionMiddleware,
   CookieParserMiddleware,
   CorsMiddleware,
   CsrfMiddleware,
+  DefaultOpenApiMiddleware,
+  DefaultSwaggerMiddleware.Serve,
+  DefaultSwaggerMiddleware.Setup,
   DefaultHealthMiddleware,
   PrometheusMiddleware,
   MetricsRegistrarMiddleware,

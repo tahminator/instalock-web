@@ -61,7 +61,7 @@ export default function MatchCard({
         >
           {isCompleted ?
             match.matchData.gameEnd ?
-              `COMPLETED ${getTimeStr(match.matchData.gameEnd)} AGO`
+              `COMPLETED ${getTimeStr(new Date(match.matchData.gameEnd))} AGO`
             : "COMPLETED"
           : "LIVE"}
         </Badge>
