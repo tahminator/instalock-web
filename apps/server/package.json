@@ -37,6 +37,7 @@
     "@instalock/meter": "workspace:^",
     "@instalock/riot": "workspace:^",
     "@tahminator/sapling": "catalog:",
+    "openapi-typescript": "catalog:",
     "arctic": "catalog:",
     "cookie-parser": "catalog:",
     "cors": "catalog:",
@@ -52,6 +53,7 @@
     "prom-client": "catalog:",
     "rate-limit-redis": "catalog:",
     "superjson": "catalog:",
+    "swagger-ui-express": "catalog:",
     "tsx": "catalog:",
     "zod": "catalog:"
   },

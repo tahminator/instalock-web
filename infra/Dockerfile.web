@@ -5,8 +5,9 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
-COPY pnpm-workspace.yaml ./ 
+COPY pnpm-workspace.yaml ./
 COPY tsconfig.base.json ./
+COPY patches ./patches
 
 # Copy all files for apps
 COPY apps/server/package.json apps/server/tsconfig.json ./apps/server/
@@ -49,6 +50,7 @@ WORKDIR /app
 COPY --from=deps ./app ./
 COPY apps/server ./apps/server
 COPY packages ./packages
+COPY patches ./patches
 
 WORKDIR /app/apps/server
 COPY --from=builder ./app/apps/frontend/dist ./dist

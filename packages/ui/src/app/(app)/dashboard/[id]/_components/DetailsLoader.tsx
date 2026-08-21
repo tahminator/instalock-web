@@ -68,7 +68,8 @@ export default function DetailsLoader({ uuid }: { uuid: string }) {
         </div>
         <Text>
           {formatGameDuration(
-            (gameEnd?.getTime() ?? 0) - (gameStart?.getTime() ?? 0),
+            (gameEnd ? new Date(gameEnd).getTime() : 0) -
+              (gameStart ? new Date(gameStart).getTime() : 0),
           )}
         </Text>
       </div>

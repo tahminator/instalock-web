@@ -13,11 +13,23 @@ import {
   _Route,
   Controller,
   HttpStatus,
+  RequestParam,
+  ResponseBody,
   ResponseEntity,
   ResponseStatusError,
 } from "@tahminator/sapling";
 
-import { ZodParserError } from "@/error/parser";
+import {
+  GetMyRiotMatchesEnrichedResponseBodySchema,
+  GetMyRiotPlayerDataResponseBodySchema,
+  GetRiotMatchEnrichedByMatchIdResponseBodySchema,
+  GetRiotPlayerDataByPuuidResponseBodySchema,
+  MatchEnrichLookupRequestParamSchema,
+  RiotPlayerLookupRequestParamSchema,
+  toIsoDateOrNull,
+  type MatchEnrichLookupRequestParam,
+  type RiotPlayerLookupRequestParam,
+} from "@/controller/api/riot/query/schema";
 import { unwrap } from "@/lib/result";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
@@ -44,6 +56,7 @@ export default class RiotQueryController implements IRiotQueryController {
   @_Route({
     ...RiotQueryRouteObject.getMyRiotPlayerData,
   })
+  @ResponseBody(GetMyRiotPlayerDataResponseBodySchema)
   async getMyRiotPlayerData(
     _request: Request,
     response: Response,
@@ -153,6 +166,7 @@ export default class RiotQueryController implements IRiotQueryController {
   @_Route({
     ...RiotQueryRouteObject.getMyRiotMatchesEnriched,
   })
+  @ResponseBody(GetMyRiotMatchesEnrichedResponseBodySchema)
   async getMyRiotMatchesEnriched(
     _request: Request,
     response: Response,
@@ -183,6 +197,8 @@ export default class RiotQueryController implements IRiotQueryController {
     const matchesWithoutRawField = matches.map((m) => ({
       ...m,
       raw: undefined,
+      gameStart: toIsoDateOrNull(m.gameStart),
+      gameEnd: toIsoDateOrNull(m.gameEnd),
     }));
 
     const mostRecentPlayerMatch = unwrap(
@@ -239,6 +255,8 @@ export default class RiotQueryController implements IRiotQueryController {
     method: RiotQueryRouteObject.getRiotMatchEnrichedByMatchId.method,
     path: RiotQueryRouteObject.getRiotMatchEnrichedByMatchId.path(":matchId"),
   })
+  @RequestParam(MatchEnrichLookupRequestParamSchema)
+  @ResponseBody(GetRiotMatchEnrichedByMatchIdResponseBodySchema)
   async getRiotMatchEnrichedByMatchId(
     request: Request,
     response: Response,
@@ -252,16 +270,8 @@ export default class RiotQueryController implements IRiotQueryController {
       );
     }
 
-    const parser =
-      await RiotQueryRouteObject.getRiotMatchEnrichedByMatchId.schema.pathParams.safeParseAsync(
-        request.params["matchId"],
-      );
+    const { matchId } = request.params as MatchEnrichLookupRequestParam;
 
-    if (!parser.success) {
-      throw new ZodParserError(parser.error);
-    }
-
-    const matchId = parser.data;
     const puuid = response.locals.user.id;
 
     const user = unwrap(await this.userRepository.getUserByPuuid(puuid));
@@ -299,6 +309,8 @@ export default class RiotQueryController implements IRiotQueryController {
     const riotMatchWithoutRaw = {
       ...riotMatch,
       raw: undefined,
+      gameStart: toIsoDateOrNull(riotMatch.gameStart),
+      gameEnd: toIsoDateOrNull(riotMatch.gameEnd),
     };
 
     const allPlayers = unwrap(
@@ -325,6 +337,8 @@ export default class RiotQueryController implements IRiotQueryController {
     method: RiotQueryRouteObject.getRiotPlayerDataByPuuid.method,
     path: RiotQueryRouteObject.getRiotPlayerDataByPuuid.path(":puuid"),
   })
+  @RequestParam(RiotPlayerLookupRequestParamSchema)
+  @ResponseBody(GetRiotPlayerDataByPuuidResponseBodySchema)
   async getRiotPlayerDataByPuuid(
     request: Request,
     response: Response,
@@ -338,16 +352,7 @@ export default class RiotQueryController implements IRiotQueryController {
       );
     }
 
-    const parser =
-      await RiotQueryRouteObject.getRiotPlayerDataByPuuid.schema.pathParams.safeParseAsync(
-        request.params["puuid"],
-      );
-
-    if (!parser.success) {
-      throw new ZodParserError(parser.error);
-    }
-
-    const puuid = parser.data;
+    const { puuid } = request.params as RiotPlayerLookupRequestParam;
 
     const authenticatedUser = unwrap(
       await this.userRepository.getUserByPuuid(response.locals.user.id),

@@ -12,6 +12,7 @@ async function main() {
     logLevel: "info",
     format: "cjs",
     tsconfig: "./tsconfig.default.json",
+    external: ["swagger-ui-express"],
     plugins: [importPatternPlugin()],
   });
 

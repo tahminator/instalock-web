@@ -1,12 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 
 import { TimedAll } from "@instalock/meter";
-import {
-  GET,
-  HttpStatus,
-  Middleware,
-  MiddlewareClass,
-} from "@tahminator/sapling";
+import { HttpStatus, Middleware, MiddlewareClass } from "@tahminator/sapling";
 import express from "express";
 import fs from "fs/promises";
 import path from "path";
@@ -30,7 +25,7 @@ export class SpaMiddleware {
     return this.plugin(request, response, next);
   }
 
-  @GET(/^(?!\/api(?:\/|$))(?!.*\.[a-zA-Z0-9]+$).*$/)
+  @Middleware(/^(?!\/api(?:\/|$))(?!.*\.[a-zA-Z0-9]+$).*$/)
   async loadSpa(_req: Request, res: Response) {
     const html = await fs.readFile(
       path.join(process.cwd(), "dist", "index.html"),
