@@ -19,6 +19,7 @@ import {
 } from "@tahminator/sapling";
 
 import { ZodParserError } from "@/error/parser";
+import { unwrap } from "@/lib/result";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user/repo";
@@ -83,7 +84,9 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
 
     const { query } = parser.data;
 
-    const users = await this.userRepository.getUsersWithRiotTagWithQuery(query);
+    const users = unwrap(
+      await this.userRepository.getUsersWithRiotTagWithQuery(query),
+    );
     const playerData: RiotPlayerDataShallow[] = users.map(
       ({ riotTag, puuid }) => ({
         riotTag,
@@ -128,7 +131,7 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
 
     const puuid = parser.data;
 
-    const user = await this.userRepository.getUserByPuuid(puuid);
+    const user = unwrap(await this.userRepository.getUserByPuuid(puuid));
     if (!user) {
       throw new ResponseStatusError(
         HttpStatus.NOT_FOUND,
@@ -136,26 +139,29 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
       );
     }
 
-    const matches =
-      await this.riotMatchRepository.getMatchesByPlayerPuuid(puuid);
+    const matches = unwrap(
+      await this.riotMatchRepository.getMatchesByPlayerPuuid(puuid),
+    );
     const matchesWithoutRawField = matches.map((m) => ({
       ...m,
       raw: undefined,
     }));
 
-    const mostRecentPlayerMatch =
+    const mostRecentPlayerMatch = unwrap(
       await this.playerMatchRepository.getMostRecentPlayerMatchByUserPuuid(
         puuid,
-      );
+      ),
+    );
 
     if (!mostRecentPlayerMatch) {
       throw new Error("Player match is missing but it should not be.");
     }
 
-    const playerMatches =
+    const playerMatches = unwrap(
       await this.playerMatchRepository.getBulkPlayerMatchesByPlayerAndMatches(
         matchesWithoutRawField.map((m) => ({ playerId: puuid, matchId: m.id })),
-      );
+      ),
+    );
 
     const joinIdsToPlayerMatchMap = new Map(
       playerMatches.map((pm) => [`${pm.playerId}:${pm.matchId}`, pm]),

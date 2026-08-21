@@ -2,6 +2,7 @@ import type { RiotMatch } from "@instalock/db";
 import type { TraverseResult } from "cron/helpers/types";
 
 import { TeamID, type AutoGenMatchMeta } from "@instalock/riot";
+import { unwrap } from "cron/helpers/result";
 import { randomUUID } from "crypto";
 import { playerMatchRepository, riotMatchRepository } from "repository";
 
@@ -16,9 +17,8 @@ export class MatchTraverser {
 
     let offset = 0;
     while (true) {
-      const matches = await riotMatchRepository.getMatches(
-        this.BATCH_SIZE,
-        offset,
+      const matches = unwrap(
+        await riotMatchRepository.getMatches(this.BATCH_SIZE, offset),
       );
 
       for (let i = 0; i < matches.length; i++) {
@@ -67,9 +67,11 @@ export class MatchTraverser {
           return 0;
         }
 
-        const pm = await playerMatchRepository.getPlayerMatchByPlayerAndMatch(
-          p.subject,
-          match.id,
+        const pm = unwrap(
+          await playerMatchRepository.getPlayerMatchByPlayerAndMatch(
+            p.subject,
+            match.id,
+          ),
         );
 
         if (!pm) {

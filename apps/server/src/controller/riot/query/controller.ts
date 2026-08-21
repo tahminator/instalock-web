@@ -18,6 +18,7 @@ import {
 } from "@tahminator/sapling";
 
 import { ZodParserError } from "@/error/parser";
+import { unwrap } from "@/lib/result";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user/repo";
@@ -54,8 +55,8 @@ export default class RiotQueryController implements IRiotQueryController {
       );
     }
 
-    const user = await this.userRepository.getUserByPuuid(
-      response.locals.user.id,
+    const user = unwrap(
+      await this.userRepository.getUserByPuuid(response.locals.user.id),
     );
 
     if (!user) {
@@ -72,19 +73,21 @@ export default class RiotQueryController implements IRiotQueryController {
     }
 
     const myRank = await (async () => {
-      const mostRecentMatch = (
-        await this.riotMatchRepository.getMatchesByPlayerPuuid(user.puuid, 1)
-      )[0];
+      const matches = unwrap(
+        await this.riotMatchRepository.getMatchesByPlayerPuuid(user.puuid, 1),
+      );
+      const mostRecentMatch = matches[0];
 
       if (!mostRecentMatch) {
         return null;
       }
 
-      const pm =
+      const pm = unwrap(
         await this.playerMatchRepository.getPlayerMatchByPlayerAndMatch(
           user.puuid,
           mostRecentMatch.id,
-        );
+        ),
+      );
 
       return pm ? pm.tier : null;
     })();
@@ -165,7 +168,7 @@ export default class RiotQueryController implements IRiotQueryController {
 
     const puuid = response.locals.user.id;
 
-    const user = await this.userRepository.getUserByPuuid(puuid);
+    const user = unwrap(await this.userRepository.getUserByPuuid(puuid));
     if (!user) {
       throw new ResponseStatusError(
         HttpStatus.NOT_FOUND,
@@ -174,17 +177,19 @@ export default class RiotQueryController implements IRiotQueryController {
     }
 
     // TODO: Refactor this legacy fetching logic, causing lots of performance issues.
-    const matches =
-      await this.riotMatchRepository.getMatchesByPlayerPuuid(puuid);
+    const matches = unwrap(
+      await this.riotMatchRepository.getMatchesByPlayerPuuid(puuid),
+    );
     const matchesWithoutRawField = matches.map((m) => ({
       ...m,
       raw: undefined,
     }));
 
-    const mostRecentPlayerMatch =
+    const mostRecentPlayerMatch = unwrap(
       await this.playerMatchRepository.getMostRecentPlayerMatchByUserPuuid(
         puuid,
-      );
+      ),
+    );
 
     if (!mostRecentPlayerMatch) {
       return ResponseEntity.ok().body({
@@ -196,10 +201,11 @@ export default class RiotQueryController implements IRiotQueryController {
       >;
     }
 
-    const playerMatches =
+    const playerMatches = unwrap(
       await this.playerMatchRepository.getBulkPlayerMatchesByPlayerAndMatches(
         matchesWithoutRawField.map((m) => ({ playerId: puuid, matchId: m.id })),
-      );
+      ),
+    );
 
     const joinIdsToPlayerMatchMap = new Map(
       playerMatches.map((pm) => [`${pm.playerId}:${pm.matchId}`, pm]),
@@ -258,7 +264,7 @@ export default class RiotQueryController implements IRiotQueryController {
     const matchId = parser.data;
     const puuid = response.locals.user.id;
 
-    const user = await this.userRepository.getUserByPuuid(puuid);
+    const user = unwrap(await this.userRepository.getUserByPuuid(puuid));
     if (!user) {
       throw new ResponseStatusError(
         HttpStatus.NOT_FOUND,
@@ -266,11 +272,12 @@ export default class RiotQueryController implements IRiotQueryController {
       );
     }
 
-    const playerMatch =
+    const playerMatch = unwrap(
       await this.playerMatchRepository.getPlayerMatchByPlayerAndMatch(
         puuid,
         matchId,
-      );
+      ),
+    );
 
     if (!playerMatch) {
       throw new ResponseStatusError(
@@ -279,8 +286,8 @@ export default class RiotQueryController implements IRiotQueryController {
       );
     }
 
-    const riotMatch = await this.riotMatchRepository.getMatchById(
-      playerMatch.matchId,
+    const riotMatch = unwrap(
+      await this.riotMatchRepository.getMatchById(playerMatch.matchId),
     );
 
     if (!riotMatch) {
@@ -294,10 +301,11 @@ export default class RiotQueryController implements IRiotQueryController {
       raw: undefined,
     };
 
-    const allPlayers =
+    const allPlayers = unwrap(
       await this.playerMatchRepository.getPlayerMatchesByMatchId(
         playerMatch.matchId,
-      );
+      ),
+    );
 
     return ResponseEntity.ok().body({
       success: true,
@@ -341,8 +349,8 @@ export default class RiotQueryController implements IRiotQueryController {
 
     const puuid = parser.data;
 
-    const authenticatedUser = await this.userRepository.getUserByPuuid(
-      response.locals.user.id,
+    const authenticatedUser = unwrap(
+      await this.userRepository.getUserByPuuid(response.locals.user.id),
     );
 
     if (!authenticatedUser) {
