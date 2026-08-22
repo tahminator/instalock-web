@@ -1,4 +1,3 @@
-import type { ApiDefault, Empty } from "@instalock/api";
 import type { NextFunction, Request, Response } from "express";
 
 import {
@@ -7,6 +6,8 @@ import {
   ParserError,
   ResponseEntity,
 } from "@tahminator/sapling";
+
+import type { ApiDefault, Empty } from "@/lib/api";
 
 import { ZodParserError } from "@/error/parser";
 

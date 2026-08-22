@@ -1,12 +1,12 @@
-import type {
-  ApiDefault,
-  RiotMatchEnriched,
-  RiotPlayerData,
-} from "@instalock/api";
 import type TestAgent from "supertest/lib/agent";
 
-import SJ from "superjson";
 import supertest from "supertest";
+
+import type {
+  RiotMatchEnrichedDto as RiotMatchEnriched,
+  RiotPlayerDataDto as RiotPlayerData,
+} from "@/controller/api/riot/query/schema";
+import type { ApiDefault } from "@/lib/api";
 
 import { primeApp, waitUntilAppReady } from "@/__acceptance__/utils";
 
@@ -52,7 +52,7 @@ describe("query controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<RiotPlayerData> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<RiotPlayerData>;
 
       expect(body.success).toBe(true);
 
@@ -80,7 +80,7 @@ describe("query controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<RiotMatchEnriched[]> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<RiotMatchEnriched[]>;
 
       expect(body.success).toBe(true);
 
@@ -103,7 +103,7 @@ describe("query controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<RiotMatchEnriched[]> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<RiotMatchEnriched[]>;
 
       expect(body.success).toBe(true);
 
@@ -146,7 +146,7 @@ describe("query controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<RiotMatchEnriched> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<RiotMatchEnriched>;
 
       expect(body.success).toBe(true);
 
@@ -183,7 +183,7 @@ describe("query controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<RiotPlayerData> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<RiotPlayerData>;
 
       expect(body.success).toBe(true);
 

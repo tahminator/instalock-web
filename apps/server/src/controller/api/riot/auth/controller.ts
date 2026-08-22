@@ -1,13 +1,14 @@
-import type { IRiotAuthController } from "@instalock/api";
 import type { Request, Response } from "express";
+import type { z } from "zod";
 
-import { RiotAuthRouteObject } from "@instalock/api";
 import { TimedAll } from "@instalock/meter";
 import { RiotClient } from "@instalock/riot";
 import {
-  _Route,
   Controller,
+  DELETE,
+  GET,
   HttpStatus,
+  POST,
   RequestBody,
   ResponseBody,
   ResponseEntity,
@@ -28,10 +29,11 @@ import { UserRepository } from "@/repository/user/repo";
 import { AuthService } from "@/service/auth";
 
 @Controller({
+  prefix: "/api/riot/auth",
   deps: [UserRepository, SessionRepository, AuthService, UserNotifier],
 })
 @TimedAll()
-export default class RiotAuthController implements IRiotAuthController {
+export default class RiotAuthController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly sessionRepository: SessionRepository,
@@ -39,14 +41,12 @@ export default class RiotAuthController implements IRiotAuthController {
     private readonly userNotifier: UserNotifier,
   ) {}
 
-  @_Route({
-    ...RiotAuthRouteObject.getMe,
-  })
+  @GET()
   @ResponseBody(GetMeResponseBodySchema)
   async getMe(
     _request: Request,
     response: Response,
-  ): Promise<Awaited<ReturnType<IRiotAuthController["getMe"]>>> {
+  ): Promise<ResponseEntity<z.infer<typeof GetMeResponseBodySchema>>> {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -97,18 +97,16 @@ export default class RiotAuthController implements IRiotAuthController {
         user,
         session,
       },
-    }) satisfies Awaited<ReturnType<IRiotAuthController["getMe"]>>;
+    }) satisfies ResponseEntity<z.infer<typeof GetMeResponseBodySchema>>;
   }
 
-  @_Route({
-    ...RiotAuthRouteObject.authenticate,
-  })
+  @POST()
   @RequestBody(AuthModalSchema)
   @ResponseBody(AuthenticateResponseBodySchema)
   async authenticate(
     request: Request,
     response: Response,
-  ): Promise<Awaited<ReturnType<IRiotAuthController["authenticate"]>>> {
+  ): Promise<ResponseEntity<z.infer<typeof AuthenticateResponseBodySchema>>> {
     const { url } = request.body as AuthModalDto;
 
     const authToken = (() => {
@@ -198,17 +196,15 @@ export default class RiotAuthController implements IRiotAuthController {
       success: true,
       message: "Riot authentication succeeded!",
       payload: {},
-    }) satisfies Awaited<ReturnType<IRiotAuthController["authenticate"]>>;
+    }) satisfies ResponseEntity<z.infer<typeof AuthenticateResponseBodySchema>>;
   }
 
-  @_Route({
-    ...RiotAuthRouteObject.logout,
-  })
+  @DELETE()
   @ResponseBody(LogoutResponseBodySchema)
   async logout(
     _request: Request,
     response: Response,
-  ): Promise<Awaited<ReturnType<IRiotAuthController["logout"]>>> {
+  ): Promise<ResponseEntity<z.infer<typeof LogoutResponseBodySchema>>> {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -243,6 +239,6 @@ export default class RiotAuthController implements IRiotAuthController {
       success: true,
       message: "Your credentials have been successfully removed!",
       payload: {},
-    }) satisfies Awaited<ReturnType<IRiotAuthController["logout"]>>;
+    }) satisfies ResponseEntity<z.infer<typeof LogoutResponseBodySchema>>;
   }
 }

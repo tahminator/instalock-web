@@ -1,76 +1,74 @@
 import type {
-  IRiotAuthController,
-  IRiotQueryController,
-  IRiotUnauthenticatedController,
-  RiotAuthRouteObject,
-  RiotQueryRouteObject,
-  RiotUnauthenticatedRouteObject,
-} from "@instalock/api";
-import type {
-  InferSchemaTypes,
-  UnwrapResponseEntity,
-} from "@instalock/api/utils/unwrap";
+  ApiURLPathParams,
+  ApiURLQueryParams,
+  ApiURLRequestBody,
+  ApiURLResponseBody,
+  PathsKey,
+  PathsMethodKey,
+} from "./ApiURL";
 
 export enum Location {
   WEB,
   DESKTOP,
 }
 
+type EndpointSchema<
+  TPath extends PathsKey,
+  TMethod extends PathsMethodKey<TPath>,
+> = {
+  queryParams: ApiURLQueryParams<TPath, TMethod>;
+  pathParams: ApiURLPathParams<TPath, TMethod>;
+  requestBody: ApiURLRequestBody<TPath, TMethod>;
+};
+
+/** Marks a key optional when its value can only ever be `undefined`, so callers don't have to spell out `key: undefined` for params an endpoint doesn't take. */
+type OptionalizeUndefinedKeys<T> = {
+  [K in keyof T as [T[K]] extends [undefined] ? K : never]?: T[K];
+} & {
+  [K in keyof T as [T[K]] extends [undefined] ? never : K]: T[K];
+};
+
+type EndpointFetcher<
+  TPath extends PathsKey,
+  TMethod extends PathsMethodKey<TPath>,
+  TSchema = OptionalizeUndefinedKeys<EndpointSchema<TPath, TMethod>>,
+> = {
+  // The schema arg itself drops out entirely when every field on it is optional.
+  fetcher: (
+    ...args: {} extends TSchema ? [schema?: TSchema] : [schema: TSchema]
+  ) => Promise<ApiURLResponseBody<TPath, TMethod>>;
+};
+
 export type Fetcher = {
   api: {
     riot: {
       auth: {
-        [K in keyof typeof RiotAuthRouteObject]: K extends (
-          keyof IRiotAuthController
-        ) ?
-          {
-            fetcher: (
-              route: (typeof RiotAuthRouteObject)[K],
-            ) => (
-              schema: InferSchemaTypes<
-                (typeof RiotAuthRouteObject)[K]["schema"]
-              >,
-            ) => Promise<
-              UnwrapResponseEntity<ReturnType<IRiotAuthController[K]>>
-            >;
-          }
-        : never;
+        getMe: EndpointFetcher<"/api/riot/auth", "get">;
+        authenticate: EndpointFetcher<"/api/riot/auth", "post">;
+        logout: EndpointFetcher<"/api/riot/auth", "delete">;
       };
       query: {
-        [K in keyof typeof RiotQueryRouteObject]: K extends (
-          keyof IRiotQueryController
-        ) ?
-          {
-            fetcher: (
-              route: (typeof RiotQueryRouteObject)[K],
-            ) => (
-              schema: InferSchemaTypes<
-                (typeof RiotQueryRouteObject)[K]["schema"]
-              >,
-            ) => Promise<
-              UnwrapResponseEntity<ReturnType<IRiotQueryController[K]>>
-            >;
-          }
-        : never;
+        getMyRiotPlayerData: EndpointFetcher<"/api/riot/query/me", "get">;
+        getMyRiotMatchesEnriched: EndpointFetcher<
+          "/api/riot/query/me/match",
+          "get"
+        >;
+        getRiotPlayerDataByPuuid: EndpointFetcher<
+          "/api/riot/query/{puuid}",
+          "get"
+        >;
+        getRiotMatchEnrichedByMatchId: EndpointFetcher<
+          "/api/riot/query/me/match/{matchId}",
+          "get"
+        >;
       };
       unauthenticated: {
-        [K in keyof typeof RiotUnauthenticatedRouteObject]: K extends (
-          keyof IRiotUnauthenticatedController
-        ) ?
-          {
-            fetcher: (
-              route: (typeof RiotUnauthenticatedRouteObject)[K],
-            ) => (
-              schema: InferSchemaTypes<
-                (typeof RiotUnauthenticatedRouteObject)[K]["schema"]
-              >,
-            ) => Promise<
-              UnwrapResponseEntity<
-                ReturnType<IRiotUnauthenticatedController[K]>
-              >
-            >;
-          }
-        : never;
+        getMetrics: EndpointFetcher<"/api/riot/public/metrics", "get">;
+        getUsersShallow: EndpointFetcher<"/api/riot/public/user", "get">;
+        getRiotPlayerDataDetailedByPuuid: EndpointFetcher<
+          "/api/riot/public/user/{puuid}/matches",
+          "get"
+        >;
       };
     };
   };

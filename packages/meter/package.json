@@ -17,7 +17,6 @@
     "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write ."
   },
   "dependencies": {
-    "@instalock/api": "workspace:^",
     "@tahminator/sapling": "catalog:",
     "prom-client": "catalog:",
     "zod": "catalog:"

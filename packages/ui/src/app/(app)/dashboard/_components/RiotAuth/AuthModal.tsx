@@ -1,7 +1,7 @@
-import type { z } from "zod";
+import type { AuthModalDto } from "@instalock/fetcher/validation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authModalSchema } from "@instalock/api";
+import { AuthModalSchema } from "@instalock/fetcher/validation";
 import {
   Box,
   Button,
@@ -34,13 +34,13 @@ export default function RiotAuthenticationModal() {
   const [highlighted, setHighlighted] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(authModalSchema),
+    resolver: zodResolver(AuthModalSchema),
     defaultValues: {
       url: "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof authModalSchema>) => {
+  const onSubmit = (data: AuthModalDto) => {
     notifications.show({
       message: "Please wait, attempting to resolve credentials from server...",
     });

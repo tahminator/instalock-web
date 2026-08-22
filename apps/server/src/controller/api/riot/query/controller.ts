@@ -1,8 +1,7 @@
-import type { IRiotQueryController, RiotMatchEnriched } from "@instalock/api";
 import type { TierNumber } from "@instalock/riot";
 import type { Request, Response } from "express";
+import type { z } from "zod";
 
-import { RiotQueryRouteObject } from "@instalock/api";
 import { TimedAll } from "@instalock/meter";
 import {
   getGameModeName,
@@ -10,8 +9,8 @@ import {
   tierNumberToNameObject,
 } from "@instalock/riot";
 import {
-  _Route,
   Controller,
+  GET,
   HttpStatus,
   RequestParam,
   ResponseBody,
@@ -28,6 +27,7 @@ import {
   RiotPlayerLookupRequestParamSchema,
   toIsoDateOrNull,
   type MatchEnrichLookupRequestParam,
+  type RiotMatchEnrichedDto,
   type RiotPlayerLookupRequestParam,
 } from "@/controller/api/riot/query/schema";
 import { unwrap } from "@/lib/result";
@@ -37,6 +37,7 @@ import { UserRepository } from "@/repository/user/repo";
 import { CachingLookupService } from "@/service/lookup";
 
 @Controller({
+  prefix: "/api/riot/query",
   deps: [
     UserRepository,
     RiotMatchRepository,
@@ -45,7 +46,7 @@ import { CachingLookupService } from "@/service/lookup";
   ],
 })
 @TimedAll()
-export default class RiotQueryController implements IRiotQueryController {
+export default class RiotQueryController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,
@@ -53,14 +54,14 @@ export default class RiotQueryController implements IRiotQueryController {
     private readonly cachingLookupService: CachingLookupService,
   ) {}
 
-  @_Route({
-    ...RiotQueryRouteObject.getMyRiotPlayerData,
-  })
+  @GET("/me")
   @ResponseBody(GetMyRiotPlayerDataResponseBodySchema)
   async getMyRiotPlayerData(
     _request: Request,
     response: Response,
-  ): Promise<Awaited<ReturnType<IRiotQueryController["getMyRiotPlayerData"]>>> {
+  ): Promise<
+    ResponseEntity<z.infer<typeof GetMyRiotPlayerDataResponseBodySchema>>
+  > {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -158,20 +159,18 @@ export default class RiotQueryController implements IRiotQueryController {
         rr: latestMatch.RankedRatingAfterUpdate,
         rankName: tierName,
       },
-    }) satisfies Awaited<
-      ReturnType<IRiotQueryController["getMyRiotPlayerData"]>
+    }) satisfies ResponseEntity<
+      z.infer<typeof GetMyRiotPlayerDataResponseBodySchema>
     >;
   }
 
-  @_Route({
-    ...RiotQueryRouteObject.getMyRiotMatchesEnriched,
-  })
+  @GET("/me/match")
   @ResponseBody(GetMyRiotMatchesEnrichedResponseBodySchema)
   async getMyRiotMatchesEnriched(
     _request: Request,
     response: Response,
   ): Promise<
-    Awaited<ReturnType<IRiotQueryController["getMyRiotMatchesEnriched"]>>
+    ResponseEntity<z.infer<typeof GetMyRiotMatchesEnrichedResponseBodySchema>>
   > {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
@@ -212,8 +211,8 @@ export default class RiotQueryController implements IRiotQueryController {
         success: true,
         message: "No matches found",
         payload: [],
-      }) satisfies Awaited<
-        ReturnType<IRiotQueryController["getMyRiotMatchesEnriched"]>
+      }) satisfies ResponseEntity<
+        z.infer<typeof GetMyRiotMatchesEnrichedResponseBodySchema>
       >;
     }
 
@@ -227,7 +226,7 @@ export default class RiotQueryController implements IRiotQueryController {
       playerMatches.map((pm) => [`${pm.playerId}:${pm.matchId}`, pm]),
     );
 
-    const finalMatches: RiotMatchEnriched[] = matchesWithoutRawField.map(
+    const finalMatches: RiotMatchEnrichedDto[] = matchesWithoutRawField.map(
       (m) => {
         const playerMatch =
           joinIdsToPlayerMatchMap.get(`${puuid}:${m.id}`) ?? null;
@@ -246,22 +245,21 @@ export default class RiotQueryController implements IRiotQueryController {
       success: true,
       message: "User matches received!",
       payload: finalMatches,
-    }) satisfies Awaited<
-      ReturnType<IRiotQueryController["getMyRiotMatchesEnriched"]>
+    }) satisfies ResponseEntity<
+      z.infer<typeof GetMyRiotMatchesEnrichedResponseBodySchema>
     >;
   }
 
-  @_Route({
-    method: RiotQueryRouteObject.getRiotMatchEnrichedByMatchId.method,
-    path: RiotQueryRouteObject.getRiotMatchEnrichedByMatchId.path(":matchId"),
-  })
+  @GET("/me/match/:matchId")
   @RequestParam(MatchEnrichLookupRequestParamSchema)
   @ResponseBody(GetRiotMatchEnrichedByMatchIdResponseBodySchema)
   async getRiotMatchEnrichedByMatchId(
     request: Request,
     response: Response,
   ): Promise<
-    Awaited<ReturnType<IRiotQueryController["getRiotMatchEnrichedByMatchId"]>>
+    ResponseEntity<
+      z.infer<typeof GetRiotMatchEnrichedByMatchIdResponseBodySchema>
+    >
   > {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
@@ -328,22 +326,19 @@ export default class RiotQueryController implements IRiotQueryController {
         gameModeName: getGameModeName(riotMatchWithoutRaw.queueId ?? "Unknown"),
         players: allPlayers,
       },
-    }) satisfies Awaited<
-      ReturnType<IRiotQueryController["getRiotMatchEnrichedByMatchId"]>
+    }) satisfies ResponseEntity<
+      z.infer<typeof GetRiotMatchEnrichedByMatchIdResponseBodySchema>
     >;
   }
 
-  @_Route({
-    method: RiotQueryRouteObject.getRiotPlayerDataByPuuid.method,
-    path: RiotQueryRouteObject.getRiotPlayerDataByPuuid.path(":puuid"),
-  })
+  @GET("/:puuid")
   @RequestParam(RiotPlayerLookupRequestParamSchema)
   @ResponseBody(GetRiotPlayerDataByPuuidResponseBodySchema)
   async getRiotPlayerDataByPuuid(
     request: Request,
     response: Response,
   ): Promise<
-    Awaited<ReturnType<IRiotQueryController["getRiotPlayerDataByPuuid"]>>
+    ResponseEntity<z.infer<typeof GetRiotPlayerDataByPuuidResponseBodySchema>>
   > {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
@@ -382,8 +377,8 @@ export default class RiotQueryController implements IRiotQueryController {
       success: true,
       message: "Your riot data has been successfully retrieved!",
       payload: playerData,
-    }) satisfies Awaited<
-      ReturnType<IRiotQueryController["getRiotPlayerDataByPuuid"]>
+    }) satisfies ResponseEntity<
+      z.infer<typeof GetRiotPlayerDataByPuuidResponseBodySchema>
     >;
   }
 }

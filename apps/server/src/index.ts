@@ -5,6 +5,7 @@ import type { Impl } from "@instalock/riot/types";
 import type { Class } from "@tahminator/sapling";
 
 import { changeRiotClientImpl } from "@instalock/riot";
+import { spawn } from "node:child_process";
 
 export { changeRiotClientImpl };
 import {
@@ -14,7 +15,6 @@ import {
   Sapling,
 } from "@tahminator/sapling";
 import express from "express";
-import SJ from "superjson";
 
 import { getControllers } from "@/bootstrap";
 import { AuthMiddleware } from "@/middleware/auth";
@@ -32,9 +32,6 @@ import { MetricsRegistrarMiddleware } from "@/middleware/prom/metric";
 import { SpaMiddleware } from "@/middleware/spa";
 
 const port = 3050;
-
-Sapling.setSerializeFn(SJ.stringify);
-Sapling.setDeserializeFn(SJ.parse);
 
 export const app = Sapling.registerApp(express());
 
@@ -76,5 +73,11 @@ errorMiddlewares.map(Sapling.resolve).forEach((r) => app.use(r));
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, "0.0.0.0", () => {
     console.log("Server is ready.");
+
+    if (process.env.NODE_ENV === "development") {
+      spawn("pnpm", ["--filter", "@instalock/fetcher", "run", "codegen"], {
+        stdio: "inherit",
+      });
+    }
   });
 }

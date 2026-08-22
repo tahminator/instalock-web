@@ -1,18 +1,12 @@
-import type {
-  IRiotUnauthenticatedController,
-  RiotMatchEnriched,
-  RiotPlayerDataShallow,
-} from "@instalock/api";
-import type { RiotPlayerDataDetailed } from "@instalock/api/dto/RiotPlayerDataDetailed";
 import type { TierNumber } from "@instalock/riot";
 import type { Request, Response } from "express";
+import type { z } from "zod";
 
-import { RiotUnauthenticatedRouteObject } from "@instalock/api";
 import { TimedAll } from "@instalock/meter";
 import { getGameModeName, tierNumberToNameObject } from "@instalock/riot";
 import {
-  _Route,
   Controller,
+  GET,
   HttpStatus,
   RequestParam,
   RequestQuery,
@@ -24,6 +18,7 @@ import {
 import {
   RiotPlayerLookupRequestParamSchema,
   toIsoDateOrNull,
+  type RiotMatchEnrichedDto,
   type RiotPlayerLookupRequestParam,
 } from "@/controller/api/riot/query/schema";
 import {
@@ -32,6 +27,8 @@ import {
   GetUsersShallowResponseBodySchema,
   QueryByRiotNameRequestQuerySchema,
   type QueryByRiotNameRequestQuery,
+  type RiotPlayerDataDetailedDto,
+  type RiotPlayerDataShallowDto,
 } from "@/controller/api/riot/unauthenticated/schema";
 import { unwrap } from "@/lib/result";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
@@ -40,6 +37,7 @@ import { UserRepository } from "@/repository/user/repo";
 import { MetricsService } from "@/service/metrics";
 
 @Controller({
+  prefix: "/api/riot/public",
   deps: [
     UserRepository,
     RiotMatchRepository,
@@ -48,7 +46,7 @@ import { MetricsService } from "@/service/metrics";
   ],
 })
 @TimedAll()
-export default class RiotUnauthenticatedController implements IRiotUnauthenticatedController {
+export default class RiotUnauthenticatedController {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,
@@ -56,16 +54,12 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
     private readonly metricsService: MetricsService,
   ) {}
 
-  @_Route({
-    ...RiotUnauthenticatedRouteObject.getMetrics,
-  })
+  @GET("/metrics")
   @ResponseBody(GetMetricsResponseBodySchema)
   async getMetrics(
     _request: Request,
     _response: Response,
-  ): Promise<
-    Awaited<ReturnType<IRiotUnauthenticatedController["getMetrics"]>>
-  > {
+  ): Promise<ResponseEntity<z.infer<typeof GetMetricsResponseBodySchema>>> {
     const metrics = await this.metricsService.getMetrics();
 
     return ResponseEntity.ok().body({
@@ -74,28 +68,24 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
       payload: {
         ...metrics,
       },
-    }) satisfies Awaited<
-      ReturnType<IRiotUnauthenticatedController["getMetrics"]>
-    >;
+    }) satisfies ResponseEntity<z.infer<typeof GetMetricsResponseBodySchema>>;
   }
 
-  @_Route({
-    ...RiotUnauthenticatedRouteObject.getUsersShallow,
-  })
+  @GET("/user")
   @RequestQuery(QueryByRiotNameRequestQuerySchema)
   @ResponseBody(GetUsersShallowResponseBodySchema)
   async getUsersShallow(
     request: Request,
     _response: Response,
   ): Promise<
-    Awaited<ReturnType<IRiotUnauthenticatedController["getUsersShallow"]>>
+    ResponseEntity<z.infer<typeof GetUsersShallowResponseBodySchema>>
   > {
     const { query } = request.query as QueryByRiotNameRequestQuery;
 
     const users = unwrap(
       await this.userRepository.getUsersWithRiotTagWithQuery(query),
     );
-    const playerData: RiotPlayerDataShallow[] = users.map(
+    const playerData: RiotPlayerDataShallowDto[] = users.map(
       ({ riotTag, puuid }) => ({
         riotTag,
         puuid,
@@ -106,28 +96,20 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
       success: true,
       message: "List of users retrieved!",
       payload: playerData,
-    }) satisfies Awaited<
-      ReturnType<IRiotUnauthenticatedController["getUsersShallow"]>
+    }) satisfies ResponseEntity<
+      z.infer<typeof GetUsersShallowResponseBodySchema>
     >;
   }
 
-  @_Route({
-    method:
-      RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid.method,
-    path: RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid.path(
-      ":puuid",
-    ),
-  })
+  @GET("/user/:puuid/matches")
   @RequestParam(RiotPlayerLookupRequestParamSchema)
   @ResponseBody(GetRiotPlayerDataDetailedByPuuidResponseBodySchema)
   async getRiotPlayerDataDetailedByPuuid(
     request: Request,
     _response: Response,
   ): Promise<
-    Awaited<
-      ReturnType<
-        IRiotUnauthenticatedController["getRiotPlayerDataDetailedByPuuid"]
-      >
+    ResponseEntity<
+      z.infer<typeof GetRiotPlayerDataDetailedByPuuidResponseBodySchema>
     >
   > {
     const { puuid } = request.params as RiotPlayerLookupRequestParam;
@@ -170,7 +152,7 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
       playerMatches.map((pm) => [`${pm.playerId}:${pm.matchId}`, pm]),
     );
 
-    const finalMatches: RiotMatchEnriched[] = matchesWithoutRawField.map(
+    const finalMatches: RiotMatchEnrichedDto[] = matchesWithoutRawField.map(
       (m) => {
         const playerMatch =
           joinIdsToPlayerMatchMap.get(`${puuid}:${m.id}`) ?? null;
@@ -185,7 +167,7 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
       },
     );
 
-    const payload: RiotPlayerDataDetailed = {
+    const payload: RiotPlayerDataDetailedDto = {
       riotTag: user.riotTag,
       puuid: user.puuid,
       name: user.riotTag,
@@ -201,10 +183,8 @@ export default class RiotUnauthenticatedController implements IRiotUnauthenticat
       success: true,
       message: "User matches received!",
       payload,
-    }) satisfies Awaited<
-      ReturnType<
-        IRiotUnauthenticatedController["getRiotPlayerDataDetailedByPuuid"]
-      >
+    }) satisfies ResponseEntity<
+      z.infer<typeof GetRiotPlayerDataDetailedByPuuidResponseBodySchema>
     >;
   }
 }

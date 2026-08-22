@@ -1,13 +1,13 @@
-import type {
-  ApiDefault,
-  MetricsDto,
-  RiotPlayerDataShallow,
-} from "@instalock/api";
-import type { RiotPlayerDataDetailed } from "@instalock/api/dto/RiotPlayerDataDetailed";
 import type TestAgent from "supertest/lib/agent";
 
-import SJ from "superjson";
 import supertest from "supertest";
+
+import type {
+  RiotPlayerDataDetailedDto as RiotPlayerDataDetailed,
+  RiotPlayerDataShallowDto as RiotPlayerDataShallow,
+} from "@/controller/api/riot/unauthenticated/schema";
+import type { ApiDefault } from "@/lib/api";
+import type { MetricsDto } from "@/service/metrics";
 
 import { primeApp, waitUntilAppReady } from "@/__acceptance__/utils";
 
@@ -29,7 +29,7 @@ describe("unauthenticated controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<RiotPlayerDataShallow[]> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<RiotPlayerDataShallow[]>;
 
       expect(body.success).toBe(true);
 
@@ -47,7 +47,7 @@ describe("unauthenticated controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<RiotPlayerDataShallow[]> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<RiotPlayerDataShallow[]>;
 
       expect(body.success).toBe(true);
 
@@ -77,7 +77,7 @@ describe("unauthenticated controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<MetricsDto> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<MetricsDto>;
 
       expect(body.success).toBe(true);
 
@@ -98,7 +98,7 @@ describe("unauthenticated controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<RiotPlayerDataDetailed> = SJ.parse(res.text);
+      const body = JSON.parse(res.text) as ApiDefault<RiotPlayerDataDetailed>;
 
       expect(body.success).toBe(true);
 

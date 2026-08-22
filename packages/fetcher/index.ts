@@ -1,11 +1,13 @@
 import type { Fetcher, Location } from "./types";
 
+export { ApiURL } from "./ApiURL";
+
 let f: Fetcher | null;
 let l: Location | null;
 
-export function init(fetcher: Fetcher, location: Location): void {
-  f = fetcher;
-  l = location;
+export function init(fetcherImpl: Fetcher, loc: Location): void {
+  f = fetcherImpl;
+  l = loc;
 }
 
 export function fetcher(): Fetcher {

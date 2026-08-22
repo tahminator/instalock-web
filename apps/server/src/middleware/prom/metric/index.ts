@@ -30,7 +30,11 @@ export class MetricsRegistrarMiddleware {
       1,
     );
 
-    await this.populateGaugesWithMetrics();
+    try {
+      await this.populateGaugesWithMetrics();
+    } catch (e) {
+      console.error("failed to populate metrics on startup", e);
+    }
   }
 
   private registerDummyTrigger() {

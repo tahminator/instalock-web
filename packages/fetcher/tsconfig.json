@@ -6,6 +6,9 @@
   "include": [
     "./index.ts",
     "./types.ts",
+    "./ApiURL.ts",
+    "./validation.ts",
+    "../../generated.ts",
     ".prettierrc.ts",
     "eslint.config.ts",
     "../../.prettierrc.base.ts",

@@ -24,10 +24,10 @@
     "@instalock/ui": "workspace:^",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "superjson": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",

@@ -1,10 +1,10 @@
-import type { RiotPlayerData } from "@instalock/api";
 import type { TierNumber } from "@instalock/riot";
 
 import { TimedAll } from "@instalock/meter";
 import { RiotClient, tierNumberToNameObject } from "@instalock/riot";
 import { Injectable, Sapling } from "@tahminator/sapling";
 
+import type { RiotPlayerDataDto as RiotPlayerData } from "@/controller/api/riot/query/schema";
 import type { Redis } from "@/lib/redis/types";
 
 import { CachingRedisClient } from "@/lib/redis/cache";

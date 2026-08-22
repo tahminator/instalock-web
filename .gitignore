@@ -39,3 +39,5 @@ test*.json
 tsconfig.tsbuildinfo
 
 venv/
+
+generated.ts
