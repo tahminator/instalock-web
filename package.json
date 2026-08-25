@@ -7,7 +7,7 @@
     "pnpm": "10.5.2"
   },
   "scripts": {
-    "generate": "cd scripts/manual && tsx generateMapImages.ts && tsx generateTierImages.ts",
+    "generate": "cd apps/scripts/manual && tsx generateMapImages.ts && tsx generateTierImages.ts",
     "codegen": "pnpm --filter @instalock/fetcher run codegen",
     "frontend:dev": "cd apps/frontend && pnpm run dev",
     "cron:dev": "cd apps/scripts && pnpm run dev",
