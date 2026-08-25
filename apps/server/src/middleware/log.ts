@@ -15,7 +15,13 @@ export class LoggerMiddleware {
 
   constructor() {
     this.plugin =
-      process.env.NODE_ENV !== "test" ? morgan("tiny") : passthrough();
+      process.env.NODE_ENV !== "test" ?
+        morgan("tiny", {
+          stream: {
+            write: (message) => console.log(message.trim()),
+          },
+        })
+      : passthrough();
   }
 
   @Middleware()
