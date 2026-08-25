@@ -59,12 +59,23 @@ export default function CurrentMatchInfo({
     return mapUuidToNameObject[mapId as MapUuid];
   })();
 
+  const mapSrc = `/maps/${mapName}.webp`;
+
   return (
     <div className="flex flex-col items-center p-4">
       <Card>
         <div className="flex flex-col space-y-2 items-center">
           <Text className="text-5xl!">Live Match</Text>
-          <Text className="text-3xl!">{mapName}</Text>
+          <div className="relative w-48! h-20! rounded-md! overflow-hidden">
+            <Image
+              src={mapSrc}
+              alt={mapName}
+              className="w-full! h-full! object-cover brightness-50"
+            />
+            <Text className="absolute! inset-0 flex! items-center justify-center text-3xl! text-white!">
+              {mapName}
+            </Text>
+          </div>
           <div className="flex flex-row">
             {bluePlayers.map((player, idx) => {
               const agentName =

@@ -9,7 +9,7 @@ import type { Impl } from "../../../packages/riot/types";
 import { changeRiotClientImpl } from "../../../packages/riot";
 
 if (import.meta.env.DEV) {
-  changeRiotClientImpl((import.meta.env.RIOT_API ?? "real") as Impl);
+  changeRiotClientImpl((import.meta.env.VITE_RIOT_API ?? "real") as Impl);
 }
 
 const fetcher: Fetcher = {

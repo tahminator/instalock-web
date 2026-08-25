@@ -158,7 +158,8 @@ export default class RiotAuthController {
         const urlObject = new URL(url);
         const params = new URLSearchParams(urlObject.hash.substring(1));
         return params.get("access_token");
-      } catch {
+      } catch (e) {
+        console.error(e);
         return null;
       }
     })();
