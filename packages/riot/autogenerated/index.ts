@@ -641,6 +641,8 @@ export const mapUuidToNameObject = {
   "a9009649-421f-d5d5-f80c-0cbe02c125bb": "Skirmish A",
   "a38a3f9a-4042-844c-8970-a3ac2f7ce93d": "Skirmish B",
   "a264de0f-4a04-9c78-c97a-a6b192ce6e86": "Skirmish C",
+  "4490f1d6-4818-bf5f-9b3a-9c9a8dbb52ed": "Skirmish E",
+  "1c7555fc-4bc6-3b98-9674-789d47ef6c50": "Skirmish D",
   "2fb9a4fd-47b8-4e7d-a969-74b4046ebd53": "Breeze",
   "690b3ed2-4dff-945b-8223-6da834e30d24": "District",
   "12452a9d-48c3-0b02-e7eb-0381c3520404": "Kasbah",
@@ -652,6 +654,7 @@ export const mapUuidToNameObject = {
   "92584fbe-486a-b1b2-9faa-39b0f486b498": "Sunset",
   "1f10dab3-4294-3827-fa35-c2aa00213cf3": "Basic Training",
   "fd267378-4d1d-484f-ff52-77821ed10dc2": "Pearl",
+  "756da597-416b-c0f2-f47b-afbdf28670bc": "Summit",
   "e2ad5c54-4114-a870-9641-8ea21279579a": "Icebox",
   "ee613ee9-28b7-4beb-9666-08db13bb2244": "The Range",
   "5914d1e0-40c4-cfdd-6b88-eba06347686c": "The Range",
@@ -668,6 +671,10 @@ export const mapUrlToUuidObject = {
   "/Game/Maps/Duel/Duel_1/Skirmish_A": "a9009649-421f-d5d5-f80c-0cbe02c125bb",
   "/Game/Maps/Duel/Duel_2/Skirmish_B": "a38a3f9a-4042-844c-8970-a3ac2f7ce93d",
   "/Game/Maps/Duel/Duel_3/Skirmish_C": "a264de0f-4a04-9c78-c97a-a6b192ce6e86",
+  "/Game/Maps/Duel/Duel_Heady/Skirmish_E":
+    "4490f1d6-4818-bf5f-9b3a-9c9a8dbb52ed",
+  "/Game/Maps/Duel/Duel_Platform/Skirmish_D":
+    "1c7555fc-4bc6-3b98-9674-789d47ef6c50",
   "/Game/Maps/Foxtrot/Foxtrot": "2fb9a4fd-47b8-4e7d-a969-74b4046ebd53",
   "/Game/Maps/HURM/HURM_Alley/HURM_Alley":
     "690b3ed2-4dff-945b-8223-6da834e30d24",
@@ -682,6 +689,7 @@ export const mapUrlToUuidObject = {
   "/Game/Maps/Juliett/Juliett": "92584fbe-486a-b1b2-9faa-39b0f486b498",
   "/Game/Maps/NPEV2/NPEV2": "1f10dab3-4294-3827-fa35-c2aa00213cf3",
   "/Game/Maps/Pitt/Pitt": "fd267378-4d1d-484f-ff52-77821ed10dc2",
+  "/Game/Maps/Plummet/Plummet": "756da597-416b-c0f2-f47b-afbdf28670bc",
   "/Game/Maps/Port/Port": "e2ad5c54-4114-a870-9641-8ea21279579a",
   "/Game/Maps/Poveglia/Range": "ee613ee9-28b7-4beb-9666-08db13bb2244",
   "/Game/Maps/PovegliaV2/RangeV2": "5914d1e0-40c4-cfdd-6b88-eba06347686c",
