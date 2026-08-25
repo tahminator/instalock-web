@@ -58,6 +58,14 @@ export class MatchRefresher {
     const { riotAuth, riotEntitlement, puuid: riotPuuid, riotTag } = user;
 
     if (!riotAuth || !riotEntitlement || !riotPuuid || !riotTag) {
+      console.error({
+        userId: user.puuid,
+        reason: "missing riotAuth, riotEntitlement, puuid, or riotTag",
+        riotAuth: !!riotAuth,
+        riotEntitlement: !!riotEntitlement,
+        riotPuuid: !!riotPuuid,
+        riotTag: !!riotTag,
+      });
       return 0;
     }
 
@@ -70,12 +78,24 @@ export class MatchRefresher {
     });
 
     if (!riotRes.ok) {
+      console.error({
+        userId: user.puuid,
+        reason: "getCompetitiveUpdates request failed",
+        status: riotRes.status,
+        statusText: riotRes.statusText,
+      });
       return 0;
     }
 
     const riotMatchInfoJson = await riotRes.json();
 
     if (riotMatchInfoJson.errorCode !== undefined) {
+      console.error({
+        userId: user.puuid,
+        reason: "getCompetitiveUpdates returned an errorCode",
+        errorCode: riotMatchInfoJson.errorCode,
+        message: riotMatchInfoJson.message,
+      });
       return 0;
     }
 
@@ -102,6 +122,13 @@ export class MatchRefresher {
       // }
 
       if (!riotMatchRes.ok) {
+        console.error({
+          userId: user.puuid,
+          reason: "getMatchDetails request failed",
+          matchId: matchIds[j],
+          status: riotMatchRes.status,
+          statusText: riotMatchRes.statusText,
+        });
         continue;
       }
 
