@@ -14,7 +14,6 @@ COPY apps/server/package.json apps/server/tsconfig.json ./apps/server/
 COPY apps/frontend/package.json apps/frontend/tsconfig.json ./apps/frontend/
 
 # Copy all files for workspace packages
-COPY packages/api/package.json packages/api/tsconfig.json ./packages/api/
 COPY packages/attempt/package.json packages/attempt/tsconfig.json ./packages/attempt/
 COPY packages/db/package.json packages/db/tsconfig.json ./packages/db/
 COPY packages/fetcher/package.json packages/fetcher/tsconfig.json ./packages/fetcher/
@@ -36,6 +35,7 @@ WORKDIR /app
 COPY --from=deps ./app .
 COPY apps/frontend ./apps/frontend
 COPY packages ./packages
+COPY generated.ts ./generated.ts
 
 WORKDIR /app/apps/frontend
 

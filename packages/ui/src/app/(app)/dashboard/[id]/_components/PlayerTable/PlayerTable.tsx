@@ -1,10 +1,11 @@
-import type { PlayerMatch } from "@instalock/api";
 import type { AgentUuid, TierNumber } from "@instalock/riot";
 
 import { agentUuidToNameObject, tierNumberToNameObject } from "@instalock/riot";
 import { Avatar, Table, Tooltip } from "@mantine/core";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+
+import type { PlayerMatch } from "@/lib/api/types";
 
 export default function PlayerTable({
   players,

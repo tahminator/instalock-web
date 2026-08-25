@@ -11,6 +11,7 @@
   "include": [
     "src",
     "index.ts",
+    "../../generated.ts",
     ".prettierrc.ts",
     "eslint.config.ts",
     "../../.prettierrc.base.ts",

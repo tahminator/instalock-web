@@ -1,22 +1,15 @@
-import { RiotUnauthenticatedRouteObject } from "@instalock/api";
 import { fetcher } from "@instalock/fetcher";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 
 export const useFetchPossibleUsersByQuery = (q?: string) => {
-  const queryFn = fetcher().api.riot.unauthenticated.getUsersShallow.fetcher(
-    RiotUnauthenticatedRouteObject.getUsersShallow,
-  );
-
   const query = useQuery({
     queryKey: ["search", "query", q],
-    queryFn: async () => {
-      return await queryFn({
+    queryFn: () => {
+      return fetcher().api.riot.unauthenticated.getUsersShallow.fetcher({
         queryParams: {
           query: q ?? "",
         },
-        pathParams: undefined,
-        requestBody: undefined,
       });
     },
   });
@@ -37,34 +30,18 @@ export const useFetchPossibleUsersByQuery = (q?: string) => {
 };
 
 export const useFetchTotalUserCount = () => {
-  const queryFn = fetcher().api.riot.unauthenticated.getMetrics.fetcher(
-    RiotUnauthenticatedRouteObject.getMetrics,
-  );
-
   return useQuery({
     queryKey: ["search", "user", "count"],
-    queryFn: async () =>
-      await queryFn({
-        queryParams: undefined,
-        pathParams: undefined,
-        requestBody: undefined,
-      }),
+    queryFn: () => fetcher().api.riot.unauthenticated.getMetrics.fetcher(),
   });
 };
 
 export const useGetProfileByPuuid = (puuid: string) => {
-  const queryFn =
-    fetcher().api.riot.unauthenticated.getRiotPlayerDataDetailedByPuuid.fetcher(
-      RiotUnauthenticatedRouteObject.getRiotPlayerDataDetailedByPuuid,
-    );
-
   return useQuery({
     queryKey: ["search", puuid],
-    queryFn: async () =>
-      await queryFn({
-        queryParams: undefined,
-        pathParams: puuid,
-        requestBody: undefined,
-      }),
+    queryFn: () =>
+      fetcher().api.riot.unauthenticated.getRiotPlayerDataDetailedByPuuid.fetcher(
+        { pathParams: { puuid } },
+      ),
   });
 };

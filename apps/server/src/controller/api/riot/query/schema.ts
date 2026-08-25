@@ -1,5 +1,7 @@
 import z from "zod";
 
+import { successResponseBody } from "@/lib/api";
+
 export const MatchEnrichLookupRequestParamSchema = z.object({
   matchId: z.string().trim().uuid({
     message: "This match ID is not valid, please try selecting another match.",
@@ -19,14 +21,6 @@ export const RiotPlayerLookupRequestParamSchema = z.object({
 export type RiotPlayerLookupRequestParam = z.infer<
   typeof RiotPlayerLookupRequestParamSchema
 >;
-
-function successResponseBody<TPayload extends z.ZodTypeAny>(payload: TPayload) {
-  return z.object({
-    success: z.literal(true),
-    message: z.string(),
-    payload,
-  });
-}
 
 export function toIsoDateOrNull(date: Date | null): string | null {
   return date ? date.toISOString() : null;

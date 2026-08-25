@@ -14,11 +14,10 @@
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
     "prettier": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --check .",
-    "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write ."
+    "prettier:fix": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write .",
+    "codegen": "wait-on http://localhost:3050/openapi.json && openapi-typescript http://localhost:3050/openapi.json -o ../../generated.ts --properties-required-by-default && prettier --write ../../generated.ts"
   },
   "dependencies": {
-    "@instalock/api": "workspace:^",
-    "@tahminator/sapling": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
@@ -31,7 +30,9 @@
     "globals": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
-    "prettier": "catalog:"
+    "prettier": "catalog:",
+    "openapi-typescript": "catalog:",
+    "wait-on": "catalog:"
   },
   "packageManager": "pnpm@10.5.2"
 }

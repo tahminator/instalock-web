@@ -1,9 +1,9 @@
-import type { ApiDefault } from "@instalock/api";
 import type { Session, User } from "@instalock/db";
 import type TestAgent from "supertest/lib/agent";
 
-import SJ from "superjson";
 import supertest from "supertest";
+
+import type { ApiDefault } from "@/lib/api";
 
 import {
   primeApp,
@@ -55,9 +55,10 @@ describe("auth controller", () => {
 
       expect(res.status).toBe(200);
 
-      const body: ApiDefault<{ user: User; session: Session }> = SJ.parse(
-        res.text,
-      );
+      const body = JSON.parse(res.text) as ApiDefault<{
+        user: User;
+        session: Session;
+      }>;
 
       expect(body.success).toBe(true);
 
@@ -77,7 +78,7 @@ describe("auth controller", () => {
       const res = await testApp
         .post(`/api/riot/auth`)
         .set("Content-Type", "application/json")
-        .send(SJ.stringify({ url: "https://example.com/redirect" }));
+        .send({ url: "https://example.com/redirect" });
 
       expect(res.status).toBe(400);
     });
@@ -86,7 +87,7 @@ describe("auth controller", () => {
       const res = await testApp
         .post(`/api/riot/auth`)
         .set("Content-Type", "application/json")
-        .send(SJ.stringify({ url: "https://playvalorant.com/opt_in#" }));
+        .send({ url: "https://playvalorant.com/opt_in#" });
 
       expect(res.status).toBe(400);
     });

@@ -1,4 +1,3 @@
-import type { RiotMatchEnriched } from "@instalock/api";
 import type { MapUuid, AgentUuid } from "@instalock/riot";
 
 import { mapUuidToNameObject, agentUuidToNameObject } from "@instalock/riot";
@@ -13,6 +12,8 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
+
+import type { RiotMatchEnriched } from "@/lib/api/types";
 
 import { getTimeStr } from "@/lib/utils/timeStr";
 

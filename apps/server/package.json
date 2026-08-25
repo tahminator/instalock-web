@@ -30,14 +30,13 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
-    "@instalock/api": "workspace:^",
     "@instalock/attempt": "workspace:^",
     "@instalock/db": "workspace:^",
+    "@instalock/fetcher": "workspace:^",
     "@instalock/log": "workspace:^",
     "@instalock/meter": "workspace:^",
     "@instalock/riot": "workspace:^",
     "@tahminator/sapling": "catalog:",
-    "openapi-typescript": "catalog:",
     "arctic": "catalog:",
     "cookie-parser": "catalog:",
     "cors": "catalog:",
@@ -52,7 +51,6 @@
     "postgres": "catalog:",
     "prom-client": "catalog:",
     "rate-limit-redis": "catalog:",
-    "superjson": "catalog:",
     "swagger-ui-express": "catalog:",
     "tsx": "catalog:",
     "zod": "catalog:"

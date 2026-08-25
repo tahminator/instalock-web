@@ -1,9 +1,8 @@
 import type { Fetcher } from "@instalock/fetcher/types";
 
-import { init } from "@instalock/fetcher";
+import { ApiURL, init } from "@instalock/fetcher";
 import { Location } from "@instalock/fetcher/types";
 import { App } from "@instalock/ui";
-import SJ from "superjson";
 
 import type { Impl } from "../../../packages/riot/types";
 
@@ -18,154 +17,107 @@ const fetcher: Fetcher = {
     riot: {
       auth: {
         getMe: {
-          fetcher: (route) => {
-            return async (_) => {
-              const response = await fetch(route.path, {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
+          fetcher: async (_schema) => {
+            const { url, method, res } = ApiURL.create("/api/riot/auth", {
+              method: "GET",
+            });
+            const response = await fetch(url, { method });
+            return res(await response.json());
           },
         },
         authenticate: {
-          fetcher: (route) => {
-            return async (params) => {
-              const response = await fetch(route.path, {
-                method: route.method,
-                body: SJ.stringify(params.requestBody),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
+          fetcher: async (schema) => {
+            const { url, method, req, res } = ApiURL.create("/api/riot/auth", {
+              method: "POST",
+            });
+            const response = await fetch(url, {
+              method,
+              headers: { "Content-Type": "application/json" },
+              body: req(schema.requestBody),
+            });
+            return res(await response.json());
           },
         },
         logout: {
-          fetcher: (route) => {
-            return async (_) => {
-              const response = await fetch(route.path, {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
+          fetcher: async (_schema) => {
+            const { url, method, res } = ApiURL.create("/api/riot/auth", {
+              method: "DELETE",
+            });
+            const response = await fetch(url, { method });
+            return res(await response.json());
           },
         },
       },
       query: {
-        getRiotMatchEnrichedByMatchId: {
-          fetcher: (route) => {
-            return async (params) => {
-              const response = await fetch(route.path(params.pathParams), {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
+        getMyRiotPlayerData: {
+          fetcher: async (_schema) => {
+            const { url, method, res } = ApiURL.create("/api/riot/query/me", {
+              method: "GET",
+            });
+            const response = await fetch(url, { method });
+            return res(await response.json());
           },
         },
         getMyRiotMatchesEnriched: {
-          fetcher: (route) => {
-            return async (_) => {
-              const response = await fetch(route.path, {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
-          },
-        },
-        getMyRiotPlayerData: {
-          fetcher: (route) => {
-            return async (_) => {
-              const response = await fetch(route.path, {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
+          fetcher: async (_schema) => {
+            const { url, method, res } = ApiURL.create(
+              "/api/riot/query/me/match",
+              { method: "GET" },
+            );
+            const response = await fetch(url, { method });
+            return res(await response.json());
           },
         },
         getRiotPlayerDataByPuuid: {
-          fetcher: (route) => {
-            return async (params) => {
-              const response = await fetch(route.path(params.pathParams), {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
+          fetcher: async (schema) => {
+            const { url, method, res } = ApiURL.create(
+              "/api/riot/query/{puuid}",
+              { method: "GET", params: schema.pathParams },
+            );
+            const response = await fetch(url, { method });
+            return res(await response.json());
+          },
+        },
+        getRiotMatchEnrichedByMatchId: {
+          fetcher: async (schema) => {
+            const { url, method, res } = ApiURL.create(
+              "/api/riot/query/me/match/{matchId}",
+              { method: "GET", params: schema.pathParams },
+            );
+            const response = await fetch(url, { method });
+            return res(await response.json());
           },
         },
       },
       unauthenticated: {
         getMetrics: {
-          fetcher: (route) => {
-            return async (_) => {
-              const response = await fetch(route.path, {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
-          },
-        },
-        getRiotPlayerDataDetailedByPuuid: {
-          fetcher: (route) => {
-            return async (params) => {
-              const response = await fetch(route.path(params.pathParams), {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
+          fetcher: async (_schema) => {
+            const { url, method, res } = ApiURL.create(
+              "/api/riot/public/metrics",
+              { method: "GET" },
+            );
+            const response = await fetch(url, { method });
+            return res(await response.json());
           },
         },
         getUsersShallow: {
-          fetcher: (route) => {
-            return async (params) => {
-              const url = new URL(route.path, window.location.origin);
-
-              Object.entries(params.queryParams).forEach(([k, v]) => {
-                url.searchParams.append(k, v);
-              });
-
-              const response = await fetch(url, {
-                method: route.method,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              return route.fe(SJ.parse(await response.text()));
-            };
+          fetcher: async (schema) => {
+            const { url, method, res } = ApiURL.create(
+              "/api/riot/public/user",
+              { method: "GET", queries: schema.queryParams },
+            );
+            const response = await fetch(url, { method });
+            return res(await response.json());
+          },
+        },
+        getRiotPlayerDataDetailedByPuuid: {
+          fetcher: async (schema) => {
+            const { url, method, res } = ApiURL.create(
+              "/api/riot/public/user/{puuid}/matches",
+              { method: "GET", params: schema.pathParams },
+            );
+            const response = await fetch(url, { method });
+            return res(await response.json());
           },
         },
       },

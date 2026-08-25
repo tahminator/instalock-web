@@ -1,11 +1,17 @@
-import type { MetricsDto } from "@instalock/api";
+import type { z } from "zod";
 
 import { TimedAll } from "@instalock/meter";
 import { Injectable } from "@tahminator/sapling";
 
+import type { GetMetricsResponseBodySchema } from "@/controller/api/riot/unauthenticated/schema";
+
 import { unwrap } from "@/lib/result";
 import { RiotMatchRepository } from "@/repository/riotMatch";
 import { UserRepository } from "@/repository/user/repo";
+
+export type MetricsDto = z.infer<
+  typeof GetMetricsResponseBodySchema
+>["payload"];
 
 @Injectable([UserRepository, RiotMatchRepository])
 @TimedAll()

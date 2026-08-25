@@ -28,8 +28,8 @@ catalogs:
       specifier: ^3.24.0
       version: 3.31.0
     '@tahminator/sapling':
-      specifier: 2.1.6
-      version: 2.1.6
+      specifier: 2.2.0
+      version: 2.2.0
     '@tailwindcss/postcss':
       specifier: ^4.1.18
       version: 4.1.18
@@ -192,9 +192,6 @@ catalogs:
     sharp:
       specifier: ^0.33.5
       version: 0.33.5
-    superjson:
-      specifier: 2.2.6
-      version: 2.2.6
     supertest:
       specifier: 7.2.2
       version: 7.2.2
@@ -222,6 +219,9 @@ catalogs:
     vitest:
       specifier: ^4
       version: 4.1.9
+    wait-on:
+      specifier: ^9.1.0
+      version: 9.1.0
     zod:
       specifier: ^4.2.1
       version: 4.4.3
@@ -286,9 +286,6 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 18.3.1(react@18.3.1)
-      superjson:
-        specifier: 'catalog:'
-        version: 2.2.6
       zod:
         specifier: 'catalog:'
         version: 4.4.3
@@ -296,6 +293,9 @@ importers:
       '@eslint/js':
         specifier: 'catalog:'
         version: 9.39.2
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.13.9
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.18
@@ -414,15 +414,15 @@ importers:
 
   apps/server:
     dependencies:
-      '@instalock/api':
-        specifier: workspace:^
-        version: link:../../packages/api
       '@instalock/attempt':
         specifier: workspace:^
         version: link:../../packages/attempt
       '@instalock/db':
         specifier: workspace:^
         version: link:../../packages/db
+      '@instalock/fetcher':
+        specifier: workspace:^
+        version: link:../../packages/fetcher
       '@instalock/log':
         specifier: workspace:^
         version: link:../../packages/log
@@ -434,7 +434,7 @@ importers:
         version: link:../../packages/riot
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 2.1.6(express@5.2.1)
+        version: 2.2.0(express@5.2.1)
       arctic:
         specifier: 'catalog:'
         version: 2.3.4
@@ -465,9 +465,6 @@ importers:
       neverthrow:
         specifier: 'catalog:'
         version: 8.2.0
-      openapi-typescript:
-        specifier: 'catalog:'
-        version: 7.8.0(patch_hash=8fb589ca27581d0db2d63bb099e7ce3bf5f628cd1882c6f26e40cadb49821247)(typescript@5.6.3)
       oslo:
         specifier: 'catalog:'
         version: 1.2.1
@@ -480,9 +477,6 @@ importers:
       rate-limit-redis:
         specifier: 'catalog:'
         version: 4.2.3(express-rate-limit@7.5.1(express@5.2.1))
-      superjson:
-        specifier: 'catalog:'
-        version: 2.2.6
       swagger-ui-express:
         specifier: 'catalog:'
         version: 5.0.1(express@5.2.1)
@@ -557,55 +551,6 @@ importers:
         specifier: 'catalog:'
         version: 4.1.9(@opentelemetry/api@1.9.0)(@types/node@22.13.9)(vite@6.2.0(@types/node@22.13.9)(jiti@2.6.1)(lightningcss@1.30.2)(sugarss@4.0.1(postcss@8.5.6))(tsx@4.19.3)(yaml@2.9.0))
 
-  packages/api:
-    dependencies:
-      '@instalock/db':
-        specifier: workspace:^
-        version: link:../db
-      '@instalock/riot':
-        specifier: workspace:^
-        version: link:../riot
-      '@tahminator/sapling':
-        specifier: 'catalog:'
-        version: 2.1.6(express@5.2.1)
-      zod:
-        specifier: 'catalog:'
-        version: 4.4.3
-    devDependencies:
-      '@eslint/js':
-        specifier: 'catalog:'
-        version: 9.39.2
-      '@types/express':
-        specifier: 'catalog:'
-        version: 5.0.6
-      eslint:
-        specifier: 'catalog:'
-        version: 9.39.2(jiti@2.6.1)
-      eslint-plugin-perfectionist:
-        specifier: 'catalog:'
-        version: 5.9.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.6.3)
-      eslint-plugin-react:
-        specifier: 'catalog:'
-        version: 7.37.5(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-react-hooks:
-        specifier: 'catalog:'
-        version: 5.2.0(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-react-refresh:
-        specifier: 'catalog:'
-        version: 0.4.19(eslint@9.39.2(jiti@2.6.1))
-      globals:
-        specifier: 'catalog:'
-        version: 15.15.0
-      prettier:
-        specifier: 'catalog:'
-        version: 3.8.1
-      typescript:
-        specifier: 'catalog:'
-        version: 5.6.3
-      typescript-eslint:
-        specifier: 'catalog:'
-        version: 8.62.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.6.3)
-
   packages/attempt:
     devDependencies:
       '@eslint/js':
@@ -641,9 +586,6 @@ importers:
 
   packages/db:
     dependencies:
-      '@instalock/api':
-        specifier: workspace:^
-        version: link:../api
       neverthrow:
         specifier: 'catalog:'
         version: 8.2.0
@@ -684,12 +626,6 @@ importers:
 
   packages/fetcher:
     dependencies:
-      '@instalock/api':
-        specifier: workspace:^
-        version: link:../api
-      '@tahminator/sapling':
-        specifier: 'catalog:'
-        version: 2.1.6(express@5.2.1)
       zod:
         specifier: 'catalog:'
         version: 4.4.3
@@ -715,6 +651,9 @@ importers:
       globals:
         specifier: 'catalog:'
         version: 15.15.0
+      openapi-typescript:
+        specifier: 'catalog:'
+        version: 7.8.0(patch_hash=8fb589ca27581d0db2d63bb099e7ce3bf5f628cd1882c6f26e40cadb49821247)(typescript@5.6.3)
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
@@ -724,6 +663,9 @@ importers:
       typescript-eslint:
         specifier: 'catalog:'
         version: 8.62.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.6.3)
+      wait-on:
+        specifier: 'catalog:'
+        version: 9.1.0
 
   packages/log:
     dependencies:
@@ -767,12 +709,9 @@ importers:
 
   packages/meter:
     dependencies:
-      '@instalock/api':
-        specifier: workspace:^
-        version: link:../api
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 2.1.6(express@5.2.1)
+        version: 2.2.0(express@5.2.1)
       prom-client:
         specifier: 'catalog:'
         version: 15.1.3
@@ -865,9 +804,6 @@ importers:
       '@hookform/resolvers':
         specifier: 'catalog:'
         version: 5.2.2(react-hook-form@7.69.0(react@18.3.1))
-      '@instalock/api':
-        specifier: workspace:^
-        version: link:../api
       '@instalock/fetcher':
         specifier: workspace:^
         version: link:../fetcher
@@ -950,6 +886,9 @@ importers:
       '@eslint/js':
         specifier: 'catalog:'
         version: 9.39.2
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.13.9
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.18
@@ -1294,6 +1233,26 @@ packages:
 
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
+
+  '@hapi/address@5.1.1':
+    resolution: {integrity: sha512-A+po2d/dVoY7cYajycYI43ZbYMXukuopIsqCjh5QzsBCipDtdofHntljDlpccMjIfTy6UOkg+5KPriwYch2bXA==}
+    engines: {node: '>=14.0.0'}
+
+  '@hapi/formula@3.0.2':
+    resolution: {integrity: sha512-hY5YPNXzw1He7s0iqkRQi+uMGh383CGdyyIGYtB+W5N3KHPXoqychklvHhKCC9M3Xtv0OCs/IHw+r4dcHtBYWw==}
+
+  '@hapi/hoek@11.0.7':
+    resolution: {integrity: sha512-HV5undWkKzcB4RZUusqOpcgxOaq6VOAH7zhhIr2g3G8NF/MlFO75SjOr2NfuSx0Mh40+1FqCkagKLJRykUWoFQ==}
+
+  '@hapi/pinpoint@2.0.1':
+    resolution: {integrity: sha512-EKQmr16tM8s16vTT3cA5L0kZZcTMU5DUOZTuvpnY738m+jyP3JIUj+Mm1xc1rsLkGBQ/gVnfKYPwOmPg1tUR4Q==}
+
+  '@hapi/tlds@1.1.7':
+    resolution: {integrity: sha512-MgNjRwy9Ti92yVAixLmDc8dd1bJIKwO9qlWCfFQRwRmUEDPQHYn4G6hwPFvFGUTzAa0FsS+inMjLin7GnyBRhA==}
+    engines: {node: '>=14.0.0'}
+
+  '@hapi/topo@6.0.2':
+    resolution: {integrity: sha512-KR3rD5inZbGMrHmgPxsJ9dbi6zEK+C3ZwUwTa+eMwWLz7oijWUTWD2pMSNNYJAU6Qq+65NkxXjqHr/7LM2Xkqg==}
 
   '@hookform/resolvers@5.2.2':
     resolution: {integrity: sha512-A/IxlMLShx3KjV/HeTcTfaMxdwy690+L/ZADoeaTltLx+CVuzkeVIPuybK3jrRfw7YZnmdKsVVHAlEPIAEUNlA==}
@@ -1818,8 +1777,8 @@ packages:
   '@tabler/icons@3.31.0':
     resolution: {integrity: sha512-dblAdeKY3+GA1U+Q9eziZ0ooVlZMHsE8dqP0RkwvRtEsAULoKOYaCUOcJ4oW1DjWegdxk++UAt2SlQVnmeHv+g==}
 
-  '@tahminator/sapling@2.1.6':
-    resolution: {integrity: sha512-yUC51RljewQgfgbovCYGFzK5IjMH/h0zfKnw6w+X48kvX0toITCTDsCkEMpVnMa0ClcvYyCEBKBSYxw4HPgLtw==}
+  '@tahminator/sapling@2.2.0':
+    resolution: {integrity: sha512-+BVoRGlUNGO10PBqZCHD1ik9IoNLmZEnwCyZl8ivIc/jwmPLU++4MdJW75j8wjpv4Pl5TUD1B2//uUANKJa2Hg==}
     peerDependencies:
       express: ^5
 
@@ -2127,6 +2086,10 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  agent-base@6.0.2:
+    resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
+    engines: {node: '>= 6.0.0'}
+
   agent-base@7.1.4:
     resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
     engines: {node: '>= 14'}
@@ -2213,6 +2176,9 @@ packages:
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
+
+  axios@1.19.0:
+    resolution: {integrity: sha512-ht/iuYZXEjFxLH/Hkezgd7m6JKlHHXEUSneaDz8uZe1Gj5QZtCnpyDsckvAiEnT89OEbCLmnte4R4sn7P0EKFw==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -2372,10 +2338,6 @@ packages:
 
   cookiejar@2.1.4:
     resolution: {integrity: sha512-LDx6oHrK+PhzLKJU9j5S7/Y3jM/mUHvD/DeI1WQmJn652iPC5Y4TBzC9l+5OMOXlyTTA+SmVUPm0HQUwpD5Jqw==}
-
-  copy-anything@4.0.5:
-    resolution: {integrity: sha512-7Vv6asjS4gMOuILabD3l739tsaxFQmC+a7pLZm02zyvs8p977bL3zEgq3yDk5rn9B0PbYgIv++jmHcuUab4RhA==}
-    engines: {node: '>=18'}
 
   cors@2.8.5:
     resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
@@ -2694,6 +2656,15 @@ packages:
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
 
+  follow-redirects@1.16.0:
+    resolution: {integrity: sha512-y5rN/uOsadFT/JfYwhxRS5R7Qce+g3zG97+JrtFZlC9klX/W5hD7iiLzScI4nZqUS7DNUdhPgw4xI8W2LuXlUw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
   for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
     engines: {node: '>= 0.4'}
@@ -2851,6 +2822,10 @@ packages:
   http-errors@2.0.1:
     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
     engines: {node: '>= 0.8'}
+
+  https-proxy-agent@5.0.1:
+    resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
+    engines: {node: '>= 6'}
 
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
@@ -3012,10 +2987,6 @@ packages:
     resolution: {integrity: sha512-mfcwb6IzQyOKTs84CQMrOwW4gQcaTOAWJ0zzJCl2WSPDrWk/OzDaImWFH3djXhb24g4eudZfLRozAvPGw4d9hQ==}
     engines: {node: '>= 0.4'}
 
-  is-what@5.5.0:
-    resolution: {integrity: sha512-oG7cgbmg5kLYae2N5IVd3jm2s+vldjxJzK1pcu9LfpGuQ93MQSzo0okvRna+7y5ifrD+20FE8FvjusyGaz14fw==}
-    engines: {node: '>=18'}
-
   isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
 
@@ -3029,6 +3000,10 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
+
+  joi@18.2.5:
+    resolution: {integrity: sha512-+gEA7rLfaNWx9JzawWPrPetSZwT16NUqHtECDgjyAJreXcs4TM7tx2Pa+VVJJK0YHM83ybrVdaT6UekHH50FJQ==}
+    engines: {node: '>= 20'}
 
   jose@6.2.3:
     resolution: {integrity: sha512-YYVDInQKFJfR/xa3ojUTl8c2KoTwiL1R5Wg9YCydwH0x0B9grbzlg5HC7mMjCtUJjbQ/YnGEZIhI5tCgfTb4Hw==}
@@ -3167,6 +3142,9 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -3505,6 +3483,10 @@ packages:
   proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
+
+  proxy-from-env@2.1.0:
+    resolution: {integrity: sha512-cJ+oHTW1VAEa8cJslgmUZrc+sjRKgAKl3Zyse6+PV38hZe/V6Z14TbCuXcan9F9ghlz4QrFr2c92TNF82UkYHA==}
+    engines: {node: '>=10'}
 
   pstree.remy@1.1.8:
     resolution: {integrity: sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==}
@@ -3868,10 +3850,6 @@ packages:
     resolution: {integrity: sha512-B+4Ik7ROgVKrQsXTV0Jwp2u+PXYLSlqtDAhYnkkD+zn3yg8s/zjA2MeGayPoY/KICrbitwneDHrjSotxKL+0XQ==}
     engines: {node: '>=14.18.0'}
 
-  superjson@2.2.6:
-    resolution: {integrity: sha512-H+ue8Zo4vJmV2nRjpx86P35lzwDT3nItnIsocgumgr0hHMQ+ZGq5vrERg9kJBo5AWGmxZDhzDo+WVIJqkB0cGA==}
-    engines: {node: '>=16'}
-
   supertest@7.2.2:
     resolution: {integrity: sha512-oK8WG9diS3DlhdUkcFn4tkNIiIbBx9lI2ClF8K+b2/m8Eyv47LSawxUzZQSNKUrVb2KsqeTDCcjAAVPYaSLVTA==}
     engines: {node: '>=14.18.0'}
@@ -4194,6 +4172,11 @@ packages:
         optional: true
       jsdom:
         optional: true
+
+  wait-on@9.1.0:
+    resolution: {integrity: sha512-PymrLXHLBM1Ju/Xspb2ADUhbPSMvbnuNvy/mN2hWtpbJ3da0h3Ky1LqwKPG5QSVR57liyO0iUpfipYl/s5qNvA==}
+    engines: {node: '>=20.0.0'}
+    hasBin: true
 
   which-boxed-primitive@1.1.1:
     resolution: {integrity: sha512-TbX3mj8n0odCBFVlY8AxkqcHASw3L60jIuF8jFP78az3C2YhmGvqbHBpAjTRH2/xqYunrJ9g1jSyjCjpoWzIAA==}
@@ -4563,6 +4546,22 @@ snapshots:
       tabbable: 6.2.0
 
   '@floating-ui/utils@0.2.9': {}
+
+  '@hapi/address@5.1.1':
+    dependencies:
+      '@hapi/hoek': 11.0.7
+
+  '@hapi/formula@3.0.2': {}
+
+  '@hapi/hoek@11.0.7': {}
+
+  '@hapi/pinpoint@2.0.1': {}
+
+  '@hapi/tlds@1.1.7': {}
+
+  '@hapi/topo@6.0.2':
+    dependencies:
+      '@hapi/hoek': 11.0.7
 
   '@hookform/resolvers@5.2.2(react-hook-form@7.69.0(react@18.3.1))':
     dependencies:
@@ -4976,7 +4975,7 @@ snapshots:
 
   '@tabler/icons@3.31.0': {}
 
-  '@tahminator/sapling@2.1.6(express@5.2.1)':
+  '@tahminator/sapling@2.2.0(express@5.2.1)':
     dependencies:
       express: 5.2.1
       swagger-ui-express: 5.0.1(express@5.2.1)
@@ -5336,6 +5335,12 @@ snapshots:
 
   acorn@8.15.0: {}
 
+  agent-base@6.0.2:
+    dependencies:
+      debug: 4.4.3
+    transitivePeerDependencies:
+      - supports-color
+
   agent-base@7.1.4: {}
 
   ajv@6.12.6:
@@ -5446,6 +5451,16 @@ snapshots:
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.1.0
+
+  axios@1.19.0:
+    dependencies:
+      follow-redirects: 1.16.0
+      form-data: 4.0.6
+      https-proxy-agent: 5.0.1
+      proxy-from-env: 2.1.0
+    transitivePeerDependencies:
+      - debug
+      - supports-color
 
   balanced-match@1.0.2: {}
 
@@ -5608,10 +5623,6 @@ snapshots:
   cookie@0.7.2: {}
 
   cookiejar@2.1.4: {}
-
-  copy-anything@4.0.5:
-    dependencies:
-      is-what: 5.5.0
 
   cors@2.8.5:
     dependencies:
@@ -6088,6 +6099,8 @@ snapshots:
 
   flatted@3.3.3: {}
 
+  follow-redirects@1.16.0: {}
+
   for-each@0.3.5:
     dependencies:
       is-callable: 1.2.7
@@ -6234,6 +6247,13 @@ snapshots:
       setprototypeof: 1.2.0
       statuses: 2.0.2
       toidentifier: 1.0.1
+
+  https-proxy-agent@5.0.1:
+    dependencies:
+      agent-base: 6.0.2
+      debug: 4.4.3
+    transitivePeerDependencies:
+      - supports-color
 
   https-proxy-agent@7.0.6(supports-color@10.2.2):
     dependencies:
@@ -6403,8 +6423,6 @@ snapshots:
       call-bound: 1.0.4
       get-intrinsic: 1.3.0
 
-  is-what@5.5.0: {}
-
   isarray@2.0.5: {}
 
   isexe@2.0.0: {}
@@ -6419,6 +6437,16 @@ snapshots:
       set-function-name: 2.0.2
 
   jiti@2.6.1: {}
+
+  joi@18.2.5:
+    dependencies:
+      '@hapi/address': 5.1.1
+      '@hapi/formula': 3.0.2
+      '@hapi/hoek': 11.0.7
+      '@hapi/pinpoint': 2.0.1
+      '@hapi/tlds': 1.1.7
+      '@hapi/topo': 6.0.2
+      '@standard-schema/spec': 1.1.0
 
   jose@6.2.3: {}
 
@@ -6522,6 +6550,8 @@ snapshots:
   lodash.isarguments@3.1.0: {}
 
   lodash.merge@4.6.2: {}
+
+  lodash@4.18.1: {}
 
   loose-envify@1.4.0:
     dependencies:
@@ -6868,6 +6898,8 @@ snapshots:
     dependencies:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
+
+  proxy-from-env@2.1.0: {}
 
   pstree.remy@1.1.8: {}
 
@@ -7329,10 +7361,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  superjson@2.2.6:
-    dependencies:
-      copy-anything: 4.0.5
-
   supertest@7.2.2:
     dependencies:
       cookie-signature: 1.2.2
@@ -7595,6 +7623,17 @@ snapshots:
       '@types/node': 22.13.9
     transitivePeerDependencies:
       - msw
+
+  wait-on@9.1.0:
+    dependencies:
+      axios: 1.19.0
+      joi: 18.2.5
+      lodash: 4.18.1
+      minimist: 1.2.8
+      rxjs: 7.8.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
 
   which-boxed-primitive@1.1.1:
     dependencies:

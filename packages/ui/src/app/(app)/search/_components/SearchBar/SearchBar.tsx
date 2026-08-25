@@ -1,7 +1,7 @@
-import type { z } from "zod";
+import type { QueryByRiotNameRequestQuery } from "@instalock/fetcher/validation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { queryByRiotNameSchema } from "@instalock/api";
+import { QueryByRiotNameRequestQuerySchema } from "@instalock/fetcher/validation";
 import { Autocomplete, Button, Center, Loader, rem } from "@mantine/core";
 import { IconSend2 } from "@tabler/icons-react";
 import { Controller, useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ import { useFetchPossibleUsersByQuery } from "@/lib/api/queries/api/unauthentica
 export default function SearchBar() {
   const navigate = useNavigate();
   const form = useForm({
-    resolver: zodResolver(queryByRiotNameSchema),
+    resolver: zodResolver(QueryByRiotNameRequestQuerySchema),
     defaultValues: {
       query: "",
     },
@@ -22,7 +22,7 @@ export default function SearchBar() {
 
   const tags = data.map((user) => user.riotTag).filter((tag) => tag != null);
 
-  const onSubmit = ({ query }: z.infer<typeof queryByRiotNameSchema>) => {
+  const onSubmit = ({ query }: QueryByRiotNameRequestQuery) => {
     const puuid = data
       .filter((user) => user.riotTag === query)
       .map((user) => user.puuid);

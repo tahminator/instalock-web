@@ -1,26 +1,13 @@
 import z from "zod";
 
-import { RiotMatchEnrichedSchema } from "@/controller/api/riot/query/schema";
+import { successResponseBody } from "@/lib/api";
 
-export const QueryByRiotNameRequestQuerySchema = z.object({
-  query: z
-    .string({ message: "You must pass in a query." })
-    .trim()
-    .min(1, "You must pass in a query.")
-    .max(24, "This query is longer than possible according to the Riot API."),
-});
+import { RiotMatchEnrichedSchema } from "../query/schema";
 
-export type QueryByRiotNameRequestQuery = z.infer<
-  typeof QueryByRiotNameRequestQuerySchema
->;
-
-function successResponseBody<TPayload extends z.ZodTypeAny>(payload: TPayload) {
-  return z.object({
-    success: z.literal(true),
-    message: z.string(),
-    payload,
-  });
-}
+export {
+  QueryByRiotNameRequestQuerySchema,
+  type QueryByRiotNameRequestQuery,
+} from "@instalock/fetcher/validation";
 
 export const GetMetricsResponseBodySchema = successResponseBody(
   z.object({
@@ -35,6 +22,10 @@ export const RiotPlayerDataShallowSchema = z.object({
   riotTag: z.string().nullable(),
 });
 
+export type RiotPlayerDataShallowDto = z.infer<
+  typeof RiotPlayerDataShallowSchema
+>;
+
 export const GetUsersShallowResponseBodySchema = successResponseBody(
   z.array(RiotPlayerDataShallowSchema),
 );
@@ -47,6 +38,10 @@ export const RiotPlayerDataDetailedSchema = z.object({
   rankName: z.string().nullable(),
   matches: z.array(RiotMatchEnrichedSchema),
 });
+
+export type RiotPlayerDataDetailedDto = z.infer<
+  typeof RiotPlayerDataDetailedSchema
+>;
 
 export const GetRiotPlayerDataDetailedByPuuidResponseBodySchema =
   successResponseBody(RiotPlayerDataDetailedSchema);

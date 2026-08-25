@@ -23,7 +23,6 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
-    "@instalock/api": "workspace:^",
     "neverthrow": "catalog:",
     "postgres": "catalog:"
   },
