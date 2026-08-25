@@ -1,8 +1,11 @@
 import {
   Controller,
+  ControllerSchema,
   GET,
+  HttpStatus,
   ResponseBody,
   ResponseEntity,
+  RouteSchema,
 } from "@tahminator/sapling";
 
 import {
@@ -15,6 +18,10 @@ import { VersionService } from "@/service/version";
   prefix: "/api",
   deps: [VersionService],
 })
+@ControllerSchema({
+  title: "Base",
+  description: "Basic metadata about the running API instance.",
+})
 export default class ApiController {
   constructor(private readonly versionService: VersionService) {}
 
@@ -24,6 +31,17 @@ export default class ApiController {
 
   @GET()
   @ResponseBody(ApiResponseSchema)
+  @RouteSchema({
+    summary: "Get API index information",
+    description: "Returns the API author and the currently deployed version.",
+    responses: [
+      {
+        statusCode: HttpStatus.OK,
+        description: "API metadata retrieved successfully",
+        schema: ApiResponseSchema,
+      },
+    ],
+  })
   getApiIndex(): ResponseEntity<ApiResponse> {
     return ResponseEntity.ok().body(
       this.createBody(this.versionService.getVersion()),

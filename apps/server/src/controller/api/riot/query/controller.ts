@@ -10,12 +10,14 @@ import {
 } from "@instalock/riot";
 import {
   Controller,
+  ControllerSchema,
   GET,
   HttpStatus,
   RequestParam,
   ResponseBody,
   ResponseEntity,
   ResponseStatusError,
+  RouteSchema,
 } from "@tahminator/sapling";
 
 import {
@@ -30,6 +32,7 @@ import {
   type RiotMatchEnrichedDto,
   type RiotPlayerLookupRequestParam,
 } from "@/controller/api/riot/query/schema";
+import { errorResponseBody } from "@/lib/api";
 import { unwrap } from "@/lib/result";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
@@ -45,6 +48,11 @@ import { CachingLookupService } from "@/service/lookup";
     CachingLookupService,
   ],
 })
+@ControllerSchema({
+  title: "Riot Querying Routes (auth'd)",
+  description:
+    "Routes for looking up Riot player and match data on behalf of the currently authenticated user.",
+})
 @TimedAll()
 export default class RiotQueryController {
   constructor(
@@ -56,6 +64,29 @@ export default class RiotQueryController {
 
   @GET("/me")
   @ResponseBody(GetMyRiotPlayerDataResponseBodySchema)
+  @RouteSchema({
+    summary: "Get the current user's Riot player data",
+    description:
+      "Returns the authenticated user's Riot tag, rank, and RR, combining locally stored match history with a live lookup against Riot's competitive updates endpoint.",
+    responses: [
+      {
+        statusCode: HttpStatus.OK,
+        description: "The current user's Riot data was retrieved successfully",
+        schema: GetMyRiotPlayerDataResponseBodySchema,
+      },
+      {
+        statusCode: HttpStatus.UNAUTHORIZED,
+        description: "There is no active session",
+        schema: errorResponseBody,
+      },
+      {
+        statusCode: HttpStatus.BAD_REQUEST,
+        description:
+          "The user's stored Riot credentials are incomplete; they must logout and re-authenticate",
+        schema: errorResponseBody,
+      },
+    ],
+  })
   async getMyRiotPlayerData(
     _request: Request,
     response: Response,
@@ -166,6 +197,28 @@ export default class RiotQueryController {
 
   @GET("/me/match")
   @ResponseBody(GetMyRiotMatchesEnrichedResponseBodySchema)
+  @RouteSchema({
+    summary: "Get the current user's enriched match history",
+    description:
+      "Returns the authenticated user's full match history, enriched with per-player match data and human-readable game mode names.",
+    responses: [
+      {
+        statusCode: HttpStatus.OK,
+        description: "The current user's matches were retrieved successfully",
+        schema: GetMyRiotMatchesEnrichedResponseBodySchema,
+      },
+      {
+        statusCode: HttpStatus.UNAUTHORIZED,
+        description: "There is no active session",
+        schema: errorResponseBody,
+      },
+      {
+        statusCode: HttpStatus.NOT_FOUND,
+        description: "The authenticated user could not be found",
+        schema: errorResponseBody,
+      },
+    ],
+  })
   async getMyRiotMatchesEnriched(
     _request: Request,
     response: Response,
@@ -253,6 +306,29 @@ export default class RiotQueryController {
   @GET("/me/match/:matchId")
   @RequestParam(MatchEnrichLookupRequestParamSchema)
   @ResponseBody(GetRiotMatchEnrichedByMatchIdResponseBodySchema)
+  @RouteSchema({
+    summary: "Get one of the current user's matches by ID",
+    description:
+      "Returns a single enriched match the authenticated user played in, including every player's per-match data.",
+    responses: [
+      {
+        statusCode: HttpStatus.OK,
+        description: "The match was retrieved successfully",
+        schema: GetRiotMatchEnrichedByMatchIdResponseBodySchema,
+      },
+      {
+        statusCode: HttpStatus.UNAUTHORIZED,
+        description: "There is no active session",
+        schema: errorResponseBody,
+      },
+      {
+        statusCode: HttpStatus.NOT_FOUND,
+        description:
+          "The authenticated user could not be found, or they have no match with the given ID",
+        schema: errorResponseBody,
+      },
+    ],
+  })
   async getRiotMatchEnrichedByMatchId(
     request: Request,
     response: Response,
@@ -334,6 +410,29 @@ export default class RiotQueryController {
   @GET("/:puuid")
   @RequestParam(RiotPlayerLookupRequestParamSchema)
   @ResponseBody(GetRiotPlayerDataByPuuidResponseBodySchema)
+  @RouteSchema({
+    summary: "Get another player's Riot data by PUUID",
+    description:
+      "Looks up a player's Riot tag and rank by PUUID using the authenticated user's Riot credentials, backed by a caching lookup service.",
+    responses: [
+      {
+        statusCode: HttpStatus.OK,
+        description: "The player's Riot data was retrieved successfully",
+        schema: GetRiotPlayerDataByPuuidResponseBodySchema,
+      },
+      {
+        statusCode: HttpStatus.UNAUTHORIZED,
+        description: "There is no active session",
+        schema: errorResponseBody,
+      },
+      {
+        statusCode: HttpStatus.BAD_REQUEST,
+        description:
+          "The authenticated user's stored Riot credentials are incomplete; they must logout and re-authenticate",
+        schema: errorResponseBody,
+      },
+    ],
+  })
   async getRiotPlayerDataByPuuid(
     request: Request,
     response: Response,

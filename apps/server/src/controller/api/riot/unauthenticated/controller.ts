@@ -6,6 +6,7 @@ import { TimedAll } from "@instalock/meter";
 import { getGameModeName, tierNumberToNameObject } from "@instalock/riot";
 import {
   Controller,
+  ControllerSchema,
   GET,
   HttpStatus,
   RequestParam,
@@ -13,6 +14,7 @@ import {
   ResponseBody,
   ResponseEntity,
   ResponseStatusError,
+  RouteSchema,
 } from "@tahminator/sapling";
 
 import {
@@ -30,6 +32,7 @@ import {
   type RiotPlayerDataDetailedDto,
   type RiotPlayerDataShallowDto,
 } from "@/controller/api/riot/unauthenticated/schema";
+import { errorResponseBody } from "@/lib/api";
 import { unwrap } from "@/lib/result";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
@@ -45,6 +48,11 @@ import { MetricsService } from "@/service/metrics";
     MetricsService,
   ],
 })
+@ControllerSchema({
+  title: "Riot Querying Routes (non-auth'd)",
+  description:
+    "Public routes for looking up player and match data that do not require an authenticated session.",
+})
 @TimedAll()
 export default class RiotUnauthenticatedController {
   constructor(
@@ -56,6 +64,18 @@ export default class RiotUnauthenticatedController {
 
   @GET("/metrics")
   @ResponseBody(GetMetricsResponseBodySchema)
+  @RouteSchema({
+    summary: "Get platform-wide metrics",
+    description:
+      "Returns aggregate counters for total users, registered users, and total matches tracked by the platform.",
+    responses: [
+      {
+        statusCode: HttpStatus.OK,
+        description: "Metrics retrieved successfully",
+        schema: GetMetricsResponseBodySchema,
+      },
+    ],
+  })
   async getMetrics(
     _request: Request,
     _response: Response,
@@ -74,6 +94,18 @@ export default class RiotUnauthenticatedController {
   @GET("/user")
   @RequestQuery(QueryByRiotNameRequestQuerySchema)
   @ResponseBody(GetUsersShallowResponseBodySchema)
+  @RouteSchema({
+    summary: "Search users by Riot name",
+    description:
+      "Returns a shallow list of users (Riot tag and PUUID only) whose Riot tag matches the given query string.",
+    responses: [
+      {
+        statusCode: HttpStatus.OK,
+        description: "List of matching users retrieved successfully",
+        schema: GetUsersShallowResponseBodySchema,
+      },
+    ],
+  })
   async getUsersShallow(
     request: Request,
     _response: Response,
@@ -104,6 +136,23 @@ export default class RiotUnauthenticatedController {
   @GET("/user/:puuid/matches")
   @RequestParam(RiotPlayerLookupRequestParamSchema)
   @ResponseBody(GetRiotPlayerDataDetailedByPuuidResponseBodySchema)
+  @RouteSchema({
+    summary: "Get a player's detailed data and match history",
+    description:
+      "Looks up a user by PUUID and returns their rank alongside their full, enriched match history.",
+    responses: [
+      {
+        statusCode: HttpStatus.OK,
+        description: "Player data and matches retrieved successfully",
+        schema: GetRiotPlayerDataDetailedByPuuidResponseBodySchema,
+      },
+      {
+        statusCode: HttpStatus.NOT_FOUND,
+        description: "No user exists with the given PUUID",
+        schema: errorResponseBody,
+      },
+    ],
+  })
   async getRiotPlayerDataDetailedByPuuid(
     request: Request,
     _response: Response,
