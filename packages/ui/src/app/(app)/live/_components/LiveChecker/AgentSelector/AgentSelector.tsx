@@ -92,12 +92,23 @@ export default function AgentSelector({
     );
   };
 
+  const mapSrc = `/maps/${mapName}.webp`;
+
   return (
     <div className="flex flex-col items-center p-4!">
       <Card>
         <div className="flex flex-col space-y-2! items-center">
           <Text className="text-5xl!">Pregame</Text>
-          <Text className="text-3xl!">{mapName}</Text>
+          <div className="relative w-48! h-20! rounded-md! overflow-hidden">
+            <Image
+              src={mapSrc}
+              alt={mapName}
+              className="w-full! h-full! object-cover brightness-50"
+            />
+            <Text className="absolute! inset-0 flex! items-center justify-center text-3xl! text-white!">
+              {mapName}
+            </Text>
+          </div>
           <Countdown start={remainingTime} />
         </div>
         <div className="flex mt-2! md:space-x-8 space-x-2 justify-center w-full">
