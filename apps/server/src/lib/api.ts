@@ -25,3 +25,9 @@ export function successResponseBody<TPayload extends z.ZodTypeAny>(
     payload,
   });
 }
+
+/** The zod counterpart to {@link ErrorType} -- the `{ success, message }` envelope error middleware responds with. */
+export const errorResponseBody = z.object({
+  success: z.literal(false),
+  message: z.string(),
+});
