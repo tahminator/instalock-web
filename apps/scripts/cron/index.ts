@@ -61,9 +61,23 @@ const traverse = async () => {
   console.log("Match traverser complete.\n");
 };
 
+let isRunning = false;
+
 const tasks = async () => {
-  await refresh();
-  await traverse();
+  if (isRunning) {
+    console.log(
+      "Previous cron cycle is still running (likely waiting out a Riot/Cloudflare rate limit), skipping this interval.",
+    );
+    return;
+  }
+
+  isRunning = true;
+  try {
+    await refresh();
+    await traverse();
+  } finally {
+    isRunning = false;
+  }
 };
 
 SSM.createStandaloneMetricServer({}).listen(METRIC_PORT, () => {
