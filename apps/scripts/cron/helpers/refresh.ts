@@ -69,9 +69,7 @@ export class MatchRefresher {
       `Waiting ${remainingMs}ms for the Riot/Cloudflare rate limit to clear`,
     );
 
-    const { promise, resolve } = Promise.withResolvers<void>();
-    setTimeout(resolve, remainingMs);
-    await promise;
+    await new Promise<void>((resolve) => setTimeout(resolve, remainingMs));
   }
 
   private static applyRetryAfter(retryAfterHeader: string | null): number {
