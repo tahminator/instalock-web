@@ -11,7 +11,8 @@ const _oldWarn = console.warn;
 const _oldError = console.error;
 const _oldDebug = console.debug;
 
-const logger = wrap(pino());
+// Structured fields (including err) live under data; Pino metadata and msg stay at the root.
+const logger = wrap(pino({ nestedKey: "data" }));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 console.log = function (...args: any[]) {

@@ -152,6 +152,7 @@ export class MatchRefresher {
         status: riotRes.status,
         statusText: riotRes.statusText,
         headers: Object.fromEntries(riotRes.headers.entries()),
+        responseBody: await riotRes.text(),
       });
       return 0;
     }
