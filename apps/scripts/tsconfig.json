@@ -6,6 +6,8 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
 
+    "lib": ["ES6", "ES2017", "DOM", "DOM.Iterable", "esnext.promise"],
+
     // TODO: fix and remove
     "noUncheckedIndexedAccess": false
   },
