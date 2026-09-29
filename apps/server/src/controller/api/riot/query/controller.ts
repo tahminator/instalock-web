@@ -18,6 +18,7 @@ import {
   ResponseEntity,
   ResponseStatusError,
   RouteSchema,
+  Sapling,
 } from "@tahminator/sapling";
 
 import {
@@ -30,9 +31,11 @@ import {
   toIsoDateOrNull,
   type MatchEnrichLookupRequestParam,
   type RiotMatchEnrichedDto,
+  type RiotPlayerDataDto,
   type RiotPlayerLookupRequestParam,
 } from "@/controller/api/riot/query/schema";
 import { errorResponseBody } from "@/lib/api";
+import { CachingRedisClient } from "@/lib/redis/cache";
 import { unwrap } from "@/lib/result";
 import { PlayerMatchRepository } from "@/repository/playerMatch";
 import { RiotMatchRepository } from "@/repository/riotMatch";
@@ -46,6 +49,7 @@ import { CachingLookupService } from "@/service/lookup";
     RiotMatchRepository,
     PlayerMatchRepository,
     CachingLookupService,
+    CachingRedisClient,
   ],
 })
 @ControllerSchema({
@@ -55,11 +59,14 @@ import { CachingLookupService } from "@/service/lookup";
 })
 @TimedAll()
 export default class RiotQueryController {
+  private readonly RANK_CACHE_TTL_SECONDS = 10 * 60;
+
   constructor(
     private readonly userRepository: UserRepository,
     private readonly riotMatchRepository: RiotMatchRepository,
     private readonly playerMatchRepository: PlayerMatchRepository,
     private readonly cachingLookupService: CachingLookupService,
+    private readonly cachingRedisClient: CachingRedisClient,
   ) {}
 
   @GET("/me")
@@ -67,7 +74,7 @@ export default class RiotQueryController {
   @RouteSchema({
     summary: "Get the current user's Riot player data",
     description:
-      "Returns the authenticated user's Riot tag, rank, and RR, combining locally stored match history with a live lookup against Riot's competitive updates endpoint.",
+      "Returns the authenticated user's Riot tag, rank, and RR. Successful lookups are cached per player for 10 minutes. Cache misses combine locally stored match history with Riot's competitive updates endpoint. If Riot rate limits the lookup, returns the last locally recorded rank with RR unavailable (null); this fallback is not cached.",
     responses: [
       {
         statusCode: HttpStatus.OK,
@@ -117,6 +124,21 @@ export default class RiotQueryController {
       );
     }
 
+    const cacheKey = `riot:query:me:${puuid}`;
+    const cached = await this.cachingRedisClient.get.get(cacheKey);
+
+    if (cached) {
+      return ResponseEntity.ok().body({
+        success: true,
+        message: "Your riot data has been successfully retrieved!",
+        payload: {
+          ...Sapling.deserialize<RiotPlayerDataDto>(cached),
+          puuid,
+          riotTag,
+        },
+      });
+    }
+
     const myRank = await (async () => {
       const matches = unwrap(
         await this.riotMatchRepository.getMatchesByPlayerPuuid(user.puuid, 1),
@@ -146,6 +168,24 @@ export default class RiotQueryController {
       reqPuuid: puuid,
     });
 
+    if (riotMatchInfoRes.status === HttpStatus.TOO_MANY_REQUESTS.valueOf()) {
+      return ResponseEntity.ok().body({
+        success: true,
+        message:
+          "Riot is rate limiting rank updates. Showing your last recorded rank; RR is unavailable.",
+        payload: {
+          puuid,
+          riotTag,
+          rank: myRank,
+          rr: null,
+          rankName:
+            myRank === null ? null : (
+              tierNumberToNameObject[myRank.toString() as TierNumber]
+            ),
+        },
+      });
+    }
+
     if (!riotMatchInfoRes.ok) {
       throw new Error(
         `Failed to fetch riot match information with status of ${riotMatchInfoRes.status}`,
@@ -160,39 +200,36 @@ export default class RiotQueryController {
 
     const latestMatch = riotMatchInfoJson.Matches[0];
 
-    if (!latestMatch) {
-      return ResponseEntity.ok().body({
-        success: true,
-        message: "Your riot data has been successfully retrieved!",
-        payload: {
-          puuid,
-          riotTag,
-          rank: null,
-          rr: null,
-          rankName: null,
-        },
-      });
-    }
+    const payload: RiotPlayerDataDto = {
+      puuid,
+      riotTag,
+      rank:
+        latestMatch ?
+          myRank && !(myRank == null || myRank == 0) ?
+            myRank
+          : latestMatch.TierAfterUpdate
+        : null,
+      rr: latestMatch ? latestMatch.RankedRatingAfterUpdate : null,
+      rankName:
+        latestMatch ?
+          tierNumberToNameObject[
+            latestMatch.TierAfterUpdate.toString() as TierNumber
+          ]
+        : null,
+    };
 
-    const tierKey = latestMatch.TierAfterUpdate.toString() as TierNumber;
-    const tierName = tierNumberToNameObject[tierKey];
+    await this.cachingRedisClient.get.set(
+      cacheKey,
+      Sapling.serialize(payload),
+      "EX",
+      this.RANK_CACHE_TTL_SECONDS,
+    );
 
     return ResponseEntity.ok().body({
       success: true,
       message: "Your riot data has been successfully retrieved!",
-      payload: {
-        puuid,
-        riotTag,
-        rank:
-          myRank && !(myRank == null || myRank == 0) ?
-            myRank
-          : latestMatch.TierAfterUpdate,
-        rr: latestMatch.RankedRatingAfterUpdate,
-        rankName: tierName,
-      },
-    }) satisfies ResponseEntity<
-      z.infer<typeof GetMyRiotPlayerDataResponseBodySchema>
-    >;
+      payload,
+    });
   }
 
   @GET("/me/match")
