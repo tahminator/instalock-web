@@ -9,7 +9,6 @@ import {
   Drawer,
   Group,
   Image,
-  Loader,
   Menu,
   rem,
   ScrollArea,
@@ -24,7 +23,10 @@ import cx from "clsx";
 import { useEffect, useState } from "react";
 
 import classes from "@/app/(app)/dashboard/_components/UserNavbar/UserNavbar.module.css";
-import { useDisconnectRiotPlayerMutation } from "@/lib/api/queries/api/auth";
+import {
+  useDisconnectRiotPlayerMutation,
+  useRiotAuthQuery,
+} from "@/lib/api/queries/api/auth";
 import { useRiotPlayerInfoQuery } from "@/lib/api/queries/api/query";
 
 export default function UserNavbar() {
@@ -34,28 +36,17 @@ export default function UserNavbar() {
   const [opened, setOpened] = useState(false);
 
   const { data, status } = useRiotPlayerInfoQuery();
+  const { data: authData } = useRiotAuthQuery();
   const { mutate } = useDisconnectRiotPlayerMutation();
 
-  if (status === "pending") {
-    return (
-      <UserNavbarWrapper>
-        <Center h={58}>
-          <Loader color="red.7" />
-        </Center>
-      </UserNavbarWrapper>
-    );
-  }
-
-  if (status === "error") {
-    return <UserNavbarWrapper />;
-  }
-
-  if (!data.success) {
-    return <UserNavbarWrapper />;
-  }
-
-  const { riotTag, rr, rank, rankName } = data.payload;
-  const rankImage = `/tiers/${rank}.webp`;
+  const player = data?.success ? data.payload : null;
+  const riotTag =
+    player?.riotTag ??
+    (authData?.success ? authData.payload.user.riotTag : null) ??
+    "Riot account";
+  const rank = player?.rank;
+  const rr = player?.rr;
+  const rankName = player?.rankName;
 
   const handleRefresh = () => {
     void queryClient.resetQueries({ queryKey: ["riot"] });
@@ -81,16 +72,22 @@ export default function UserNavbar() {
     <UserNavbarWrapper opened={drawerOpened}>
       <div className="flex flex-row justify-between">
         <Group>
-          <Image
-            src={rankImage}
-            alt={`${rank} ${rr}`}
-            width={10}
-            height={10}
-            className="h-12"
-          />
+          {rank != null && (
+            <Image
+              src={`/tiers/${rank}.webp`}
+              alt={rankName ?? "Rank"}
+              width={10}
+              height={10}
+              className="h-12"
+            />
+          )}
           <Text>
-            {rankName}
-            {/* <Progress value={Number(rr)} color="red" /> {rr}/100 */}
+            {player ?
+              (rankName ?? "Rank unavailable")
+            : status === "pending" ?
+              "Loading rank..."
+            : "Rank unavailable"}
+            {rank != null && rr == null && " (last recorded; RR unavailable)"}
           </Text>
         </Group>
         <Group>
@@ -98,6 +95,7 @@ export default function UserNavbar() {
             opened={drawerOpened}
             onClick={toggleDrawer}
             hiddenFrom="xs"
+            aria-label="Open account menu"
             size="sm"
           />
         </Group>
@@ -191,6 +189,7 @@ export default function UserNavbar() {
           <UnstyledButton
             className={cx(classes.user, "bg-inherit p-3")}
             onClick={handleRefresh}
+            aria-label="Refresh Riot data"
           >
             <Center>
               <IconRefresh />
