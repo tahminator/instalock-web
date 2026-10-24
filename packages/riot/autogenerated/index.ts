@@ -634,6 +634,7 @@ export type TierNumber = keyof typeof tierNumberToNameObject;
 // type TierName = (typeof tierNumberToNameObject)[TierNumber];
 
 export const mapUuidToNameObject = {
+  "dd3a1cd9-41b1-50ea-3bd6-a7bb3c5978bd": "Gauntlet",
   "7eaecc1b-4337-bbf6-6ab9-04b8f06b3319": "Ascent",
   "d960549e-485c-e861-8d71-aa9d1aed12a2": "Split",
   "b529448b-4d60-346e-e89e-00a4c527a405": "Fracture",
@@ -664,6 +665,8 @@ export const mapUuidToNameObject = {
 export type MapUuid = keyof typeof mapUuidToNameObject;
 
 export const mapUrlToUuidObject = {
+  "/Game/Maps/AbilityDraft/AbilityDraft":
+    "dd3a1cd9-41b1-50ea-3bd6-a7bb3c5978bd",
   "/Game/Maps/Ascent/Ascent": "7eaecc1b-4337-bbf6-6ab9-04b8f06b3319",
   "/Game/Maps/Bonsai/Bonsai": "d960549e-485c-e861-8d71-aa9d1aed12a2",
   "/Game/Maps/Canyon/Canyon": "b529448b-4d60-346e-e89e-00a4c527a405",
