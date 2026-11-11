@@ -15,6 +15,7 @@ import {
   ResponseEntity,
   ResponseStatusError,
   RouteSchema,
+  type TypedRequest,
 } from "@tahminator/sapling";
 
 import {
@@ -88,7 +89,7 @@ export default class RiotUnauthenticatedController {
       payload: {
         ...metrics,
       },
-    }) satisfies ResponseEntity<z.infer<typeof GetMetricsResponseBodySchema>>;
+    });
   }
 
   @GET("/user")
@@ -107,12 +108,12 @@ export default class RiotUnauthenticatedController {
     ],
   })
   async getUsersShallow(
-    request: Request,
+    request: TypedRequest<{ query: QueryByRiotNameRequestQuery }>,
     _response: Response,
   ): Promise<
     ResponseEntity<z.infer<typeof GetUsersShallowResponseBodySchema>>
   > {
-    const { query } = request.query as QueryByRiotNameRequestQuery;
+    const { query } = request.query;
 
     const users = unwrap(
       await this.userRepository.getUsersWithRiotTagWithQuery(query),
@@ -128,9 +129,7 @@ export default class RiotUnauthenticatedController {
       success: true,
       message: "List of users retrieved!",
       payload: playerData,
-    }) satisfies ResponseEntity<
-      z.infer<typeof GetUsersShallowResponseBodySchema>
-    >;
+    });
   }
 
   @GET("/user/:puuid/matches")
@@ -154,14 +153,14 @@ export default class RiotUnauthenticatedController {
     ],
   })
   async getRiotPlayerDataDetailedByPuuid(
-    request: Request,
+    request: TypedRequest<{ params: RiotPlayerLookupRequestParam }>,
     _response: Response,
   ): Promise<
     ResponseEntity<
       z.infer<typeof GetRiotPlayerDataDetailedByPuuidResponseBodySchema>
     >
   > {
-    const { puuid } = request.params as RiotPlayerLookupRequestParam;
+    const { puuid } = request.params;
 
     const user = unwrap(await this.userRepository.getUserByPuuid(puuid));
     if (!user) {
@@ -232,8 +231,6 @@ export default class RiotUnauthenticatedController {
       success: true,
       message: "User matches received!",
       payload,
-    }) satisfies ResponseEntity<
-      z.infer<typeof GetRiotPlayerDataDetailedByPuuidResponseBodySchema>
-    >;
+    });
   }
 }

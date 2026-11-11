@@ -27,7 +27,7 @@ catalog:
   "tailwindcss": "^4.1.18"
   express: "^5.2.1"
   "@types/express": "^5.0.0"
-  "@tahminator/sapling": "2.2.0"
+  "@tahminator/sapling": "2.2.2"
   "openapi-typescript": "7.8.0"
   "wait-on": "^9.1.0"
   "swagger-ui-express": "^5.0.1"

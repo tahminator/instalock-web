@@ -28,8 +28,8 @@ catalogs:
       specifier: ^3.24.0
       version: 3.31.0
     '@tahminator/sapling':
-      specifier: 2.2.0
-      version: 2.2.0
+      specifier: 2.2.2
+      version: 2.2.2
     '@tailwindcss/postcss':
       specifier: ^4.1.18
       version: 4.1.18
@@ -434,7 +434,7 @@ importers:
         version: link:../../packages/riot
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 2.2.0(express@5.2.1)
+        version: 2.2.2(express@5.2.1)
       arctic:
         specifier: 'catalog:'
         version: 2.3.4
@@ -711,7 +711,7 @@ importers:
     dependencies:
       '@tahminator/sapling':
         specifier: 'catalog:'
-        version: 2.2.0(express@5.2.1)
+        version: 2.2.2(express@5.2.1)
       prom-client:
         specifier: 'catalog:'
         version: 15.1.3
@@ -1629,12 +1629,15 @@ packages:
 
   '@oslojs/asn1@1.0.0':
     resolution: {integrity: sha512-zw/wn0sj0j0QKbIXfIlnEcTviaCzYOY3V5rAyjR6YtOByFtJiT574+8p9Wlach0lZH9fddD4yb9laEAIl4vXQA==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@oslojs/binary@1.0.0':
     resolution: {integrity: sha512-9RCU6OwXU6p67H4NODbuxv2S3eenuQ4/WFLrsq+K/k682xrznH5EVWA7N4VFk9VYVcbFtKqur5YQQZc0ySGhsQ==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@oslojs/crypto@1.0.1':
     resolution: {integrity: sha512-7n08G8nWjAr/Yu3vu9zzrd0L9XnrJfpMioQcvCMxBIiF5orECHe5/3J0jmXRVvgfqMm/+4oxlQ+Sq39COYLcNQ==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@oslojs/encoding@0.4.1':
     resolution: {integrity: sha512-hkjo6MuIK/kQR5CrGNdAPZhS01ZCXuWDRJ187zh6qqF2+yMHZpD9fAYpX8q2bOO6Ryhl3XpCT6kUX76N8hhm4Q==}
@@ -1644,6 +1647,7 @@ packages:
 
   '@oslojs/jwt@0.2.0':
     resolution: {integrity: sha512-bLE7BtHrURedCn4Mco3ma9L4Y1GR2SMBuIvjWr7rmQ4/W/4Jy70TIAgZ+0nIlk0xHz1vNP8x8DCns45Sb2XRbg==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@paralleldrive/cuid2@2.3.1':
     resolution: {integrity: sha512-XO7cAxhnTZl0Yggq6jOgjiOHhbgcO4NqFqwSmQpjK3b6TEE6Uj/jfSk6wzYyemh3+I0sHirKSetjQwn5cZktFw==}
@@ -1777,8 +1781,8 @@ packages:
   '@tabler/icons@3.31.0':
     resolution: {integrity: sha512-dblAdeKY3+GA1U+Q9eziZ0ooVlZMHsE8dqP0RkwvRtEsAULoKOYaCUOcJ4oW1DjWegdxk++UAt2SlQVnmeHv+g==}
 
-  '@tahminator/sapling@2.2.0':
-    resolution: {integrity: sha512-+BVoRGlUNGO10PBqZCHD1ik9IoNLmZEnwCyZl8ivIc/jwmPLU++4MdJW75j8wjpv4Pl5TUD1B2//uUANKJa2Hg==}
+  '@tahminator/sapling@2.2.2':
+    resolution: {integrity: sha512-AHM2aObgJRaPXPTJZse3H03KC4hFN2+pL6zHQ0gph1sZG2ObvZlVWKkL87fLdMqdXLrhQ4T1EmBPi0WcM5RcNw==}
     peerDependencies:
       express: ^5
 
@@ -3476,6 +3480,7 @@ packages:
   prom-client@15.1.3:
     resolution: {integrity: sha512-6ZiOBfCywsD4k1BN9IX0uZhF+tJkV8q8llP64G5Hajs4JOeVLPCwpPVcpXy3BwYiUGgyJzsJJQeOIv7+hDSq8g==}
     engines: {node: ^16 || ^18 || >=20}
+    deprecated: prom-client has been replaced by @prometheus-io/client
 
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
@@ -4975,7 +4980,7 @@ snapshots:
 
   '@tabler/icons@3.31.0': {}
 
-  '@tahminator/sapling@2.2.0(express@5.2.1)':
+  '@tahminator/sapling@2.2.2(express@5.2.1)':
     dependencies:
       express: 5.2.1
       swagger-ui-express: 5.0.1(express@5.2.1)

@@ -19,6 +19,7 @@ import {
   ResponseStatusError,
   RouteSchema,
   Sapling,
+  type TypedRequest,
 } from "@tahminator/sapling";
 
 import {
@@ -301,9 +302,7 @@ export default class RiotQueryController {
         success: true,
         message: "No matches found",
         payload: [],
-      }) satisfies ResponseEntity<
-        z.infer<typeof GetMyRiotMatchesEnrichedResponseBodySchema>
-      >;
+      });
     }
 
     const playerMatches = unwrap(
@@ -335,9 +334,7 @@ export default class RiotQueryController {
       success: true,
       message: "User matches received!",
       payload: finalMatches,
-    }) satisfies ResponseEntity<
-      z.infer<typeof GetMyRiotMatchesEnrichedResponseBodySchema>
-    >;
+    });
   }
 
   @GET("/me/match/:matchId")
@@ -367,7 +364,7 @@ export default class RiotQueryController {
     ],
   })
   async getRiotMatchEnrichedByMatchId(
-    request: Request,
+    request: TypedRequest<{ params: MatchEnrichLookupRequestParam }>,
     response: Response,
   ): Promise<
     ResponseEntity<
@@ -381,7 +378,7 @@ export default class RiotQueryController {
       );
     }
 
-    const { matchId } = request.params as MatchEnrichLookupRequestParam;
+    const { matchId } = request.params;
 
     const puuid = response.locals.user.id;
 
@@ -439,9 +436,7 @@ export default class RiotQueryController {
         gameModeName: getGameModeName(riotMatchWithoutRaw.queueId ?? "Unknown"),
         players: allPlayers,
       },
-    }) satisfies ResponseEntity<
-      z.infer<typeof GetRiotMatchEnrichedByMatchIdResponseBodySchema>
-    >;
+    });
   }
 
   @GET("/:puuid")
@@ -471,7 +466,7 @@ export default class RiotQueryController {
     ],
   })
   async getRiotPlayerDataByPuuid(
-    request: Request,
+    request: TypedRequest<{ params: RiotPlayerLookupRequestParam }>,
     response: Response,
   ): Promise<
     ResponseEntity<z.infer<typeof GetRiotPlayerDataByPuuidResponseBodySchema>>
@@ -483,7 +478,7 @@ export default class RiotQueryController {
       );
     }
 
-    const { puuid } = request.params as RiotPlayerLookupRequestParam;
+    const { puuid } = request.params;
 
     const authenticatedUser = unwrap(
       await this.userRepository.getUserByPuuid(response.locals.user.id),
@@ -513,8 +508,6 @@ export default class RiotQueryController {
       success: true,
       message: "Your riot data has been successfully retrieved!",
       payload: playerData,
-    }) satisfies ResponseEntity<
-      z.infer<typeof GetRiotPlayerDataByPuuidResponseBodySchema>
-    >;
+    });
   }
 }
