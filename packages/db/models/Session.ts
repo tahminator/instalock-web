@@ -4,6 +4,6 @@ export interface Session {
    * join to User.puuid
    */
   userId: string;
-  expiresAt: string;
+  expiresAt: Date;
   tainted: boolean;
 }

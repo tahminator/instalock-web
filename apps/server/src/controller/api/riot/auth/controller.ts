@@ -15,6 +15,7 @@ import {
   ResponseEntity,
   ResponseStatusError,
   RouteSchema,
+  type TypedRequest,
 } from "@tahminator/sapling";
 
 import {
@@ -72,7 +73,7 @@ export default class RiotAuthController {
   async getMe(
     _request: Request,
     response: Response,
-  ): Promise<ResponseEntity<z.infer<typeof GetMeResponseBodySchema>>> {
+  ): Promise<ResponseEntity<z.input<typeof GetMeResponseBodySchema>>> {
     if (!response.locals.user || !response.locals.session) {
       throw new ResponseStatusError(
         HttpStatus.UNAUTHORIZED,
@@ -123,7 +124,7 @@ export default class RiotAuthController {
         user,
         session,
       },
-    }) satisfies ResponseEntity<z.infer<typeof GetMeResponseBodySchema>>;
+    });
   }
 
   @POST()
@@ -148,10 +149,10 @@ export default class RiotAuthController {
     ],
   })
   async authenticate(
-    request: Request,
+    request: TypedRequest<{ body: AuthModalDto }>,
     response: Response,
   ): Promise<ResponseEntity<z.infer<typeof AuthenticateResponseBodySchema>>> {
-    const { url } = request.body as AuthModalDto;
+    const { url } = request.body;
 
     const authToken = (() => {
       try {
@@ -241,7 +242,7 @@ export default class RiotAuthController {
       success: true,
       message: "Riot authentication succeeded!",
       payload: {},
-    }) satisfies ResponseEntity<z.infer<typeof AuthenticateResponseBodySchema>>;
+    });
   }
 
   @DELETE()
@@ -301,6 +302,6 @@ export default class RiotAuthController {
       success: true,
       message: "Your credentials have been successfully removed!",
       payload: {},
-    }) satisfies ResponseEntity<z.infer<typeof LogoutResponseBodySchema>>;
+    });
   }
 }
